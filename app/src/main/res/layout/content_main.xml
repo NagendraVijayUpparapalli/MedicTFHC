@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation"
+        tools:ignore="DuplicateIds" >
+
+    <TextView
+        android:drawableLeft="@drawable/ic_add_location_black_24dp"
+        android:id="@+id/select_city"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="12dp"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:layout_height="wrap_content"
+        android:text="Vishakapatnam"/>
+    </android.support.design.widget.BottomNavigationView>
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="60dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/imageback"
+
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="com.example.cool.patient.MainActivity"
+
+            tools:showIn="@layout/app_bar_main">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+
+                android:id="@+id/SliderDots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewPager"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/l2_animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/doc_cardView"
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+
+                    android:clickable="true"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/Doctor_Image"
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+
+                            android:padding="10dp"
+                            android:src="@drawable/doctorappointment" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/doctor_appointment"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:src="@drawable/doctorcircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/Diagnostic_Image"
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+
+                            android:padding="10dp"
+                            android:src="@drawable/diagnosticcenter" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/diagnostic_center"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+
+                            android:src="@drawable/diagnosticcircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/CardViewMedical"
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+
+                            android:padding="10dp"
+                            android:src="@drawable/medicalstore" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/medical_store"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+
+                            android:src="@drawable/medicalcircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+                            android:padding="10dp"
+                            android:src="@drawable/findhospital" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/find_hospital"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:src="@drawable/hospitalcircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l4_animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bloodbank"
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+                            android:padding="10dp"
+
+                            android:src="@drawable/bloodbank" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/blood_bank"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+
+                            android:src="@drawable/bloodbankcircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="205dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:foreground="#1C00ffff"
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="160dp"
+                            android:layout_height="135dp"
+                            android:padding="10dp"
+
+                            android:src="@drawable/ambulance" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ambulance"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/lightgray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+
+                            android:src="@drawable/ambulancecircular"
+                            android:textColor="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:id = "@+id/l4_animations"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:elevation="2dp"
+
+                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="copyright@2018"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="contact us on 8341495888"
+                            android:textColor="#FFFFFF"
+
+                            />
+
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.CardView
+
+                        android:layout_margin="10dp"
+                        android:clickable="true"
+                        android:elevation="2dp"
+                        android:foreground="#1C00ffff"
+                        card_view:cardBackgroundColor="@android:color/transparent"
+                        card_view:cardElevation="0dp"
+                        android:layout_height="1dp"
+                        android:layout_width="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
+

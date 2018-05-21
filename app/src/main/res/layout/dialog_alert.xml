@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cool.patient.ContactUs"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#252F39"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:text="Contact Us"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#74BE73"
+        android:id="@+id/textt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Name:"
+        android:textSize="20dp"
+        android:layout_below="@id/text1" />
+    <EditText
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#74BE73"
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textt2"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textColor="#74BE73"
+        android:id="@+id/textt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Email:"
+        android:textSize="20dp"
+        android:layout_below="@id/text2"
+        android:layout_marginTop="5dp"/>
+
+    <EditText
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#74BE73"
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textt3"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textColor="#74BE73"
+        android:id="@+id/textt4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Mobile Number:"
+        android:textSize="20dp"
+        android:layout_below="@id/text3"
+        android:layout_marginTop="5dp"/>
+    <EditText
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#74BE73"
+        android:id="@+id/text4"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textt4"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textColor="#74BE73"
+        android:id="@+id/textt5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject:"
+        android:textSize="20dp"
+        android:layout_below="@id/text4"
+        android:layout_marginTop="5dp"/>
+    <EditText
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#74BE73"
+        android:id="@+id/text5"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textt5"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textColor="#74BE73"
+        android:id="@+id/textt6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Message:"
+        android:textSize="20dp"
+        android:layout_below="@id/text5"
+        android:layout_marginTop="5dp"/>
+    <EditText
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/text6"
+        android:backgroundTint="#74BE73"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textt6"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"/>
+    <Button
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_marginTop="10dp"
+        android:id="@+id/button"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_bg"
+        android:text="Submit"
+
+        android:layout_below="@id/text6"/>
+9</RelativeLayout>

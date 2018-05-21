@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*">
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_column="0"
+            android:layout_span="1"
+            android:background="@android:color/holo_green_dark"
+
+            android:padding="5dp"
+            android:text="E_Morning"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:background="@android:color/holo_green_dark"
+            android:textAlignment="center"
+            android:padding="5dp"
+            android:paddingRight="30dp"
+            android:text="Morning"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_column="0"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:layout_span="1"
+            android:paddingRight="3dp"
+            android:text="AfterNoon"
+            android:textStyle="bold"
+            android:background="@android:color/holo_green_dark"/>
+
+        <TextView
+            android:layout_column="0"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:layout_span="1"
+            android:paddingRight="3dp"
+            android:text="Evening"
+            android:textStyle="bold"
+            android:background="@android:color/holo_green_dark"/>
+
+        <TextView
+            android:layout_column="0"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:layout_span="1"
+            android:text="Night"
+            android:textStyle="bold"
+            android:background="@android:color/holo_green_dark"/>
+
+    </TableRow>
+
+</TableLayout>
+</LinearLayout>

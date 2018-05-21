@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<ScrollView xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:src="@drawable/varma"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_width="3dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="75dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="22dp"
+            android:text="Doctor Name             :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView6"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/Doctor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="49dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="22dp"
+            android:text="Varma"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/appointment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:text="23/23/444"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/Doctor_name"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="5dp"
+            android:text="Appointment Date   :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="5dp"
+            android:paddingTop="2dp"
+            android:text="Patient Name            :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView12"
+            app:layout_constraintEnd_toStartOf="@+id/Patient_name"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/Patient_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="49dp"
+            android:layout_marginTop="2dp"
+            android:text="Varma"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/Time_slot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appointment_date"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginBottom="2dp"
+
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:text="Time Slot                    :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView14"
+            app:layout_constraintEnd_toStartOf="@+id/Time_slot"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/Time_slot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginTop="8dp"
+            android:text="23/23/444"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Patient_name"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginBottom="23dp"
+
+
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="5dp"
+            android:text="status                          :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView15"
+            app:layout_constraintEnd_toStartOf="@+id/status"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="58dp"
+            android:text="Good"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/hr1"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
+
+
+        <TableRow
+            android:id="@+id/hr1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#444"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="200dp"
+            tools:ignore="MissingConstraints">
+
+        </TableRow>
+
+        <android.support.design.widget.CoordinatorLayout
+
+            android:id="@+id/main1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/hr2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingPrefix">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar1"
+                android:layout_width="130dp"
+                android:layout_height="166dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="220dp"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:text="Presciption"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_add_black_24dp" />
+            </android.support.design.widget.AppBarLayout>
+
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="22dp"
+            android:text="Reschedule App         :"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView16"
+            app:layout_constraintEnd_toStartOf="@+id/Resudlue_app"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            app:layout_constraintTop_toBottomOf="@+id/hr1"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/Resudlue_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resudule app"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="284dp"
+            tools:layout_editor_absoluteY="223dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/Reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="21dp"
+            android:layout_marginEnd="57dp"
+            android:layout_marginTop="8dp"
+            android:text="Feaver"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/Doctor_commants"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Resudlue_app"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:text="Reason for  App         :"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView17"
+            app:layout_constraintEnd_toStartOf="@+id/Reason"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            app:layout_constraintTop_toBottomOf="@+id/textView15"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="103dp"
+
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="4dp"
+            android:text="Doctor Comments     :"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/Doctor_commants"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            app:layout_constraintTop_toBottomOf="@+id/textView16"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/Doctor_commants"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="59dp"
+
+            android:layout_marginEnd="42dp"
+            android:layout_marginStart="7dp"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@+id/hr2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main1"
+            tools:ignore="MissingConstraints" />
+        <TableRow
+            android:id="@+id/hr2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#444"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="395dp"
+            tools:ignore="MissingConstraints">
+
+        </TableRow>
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+
+            android:layout_marginEnd="266dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:text="payment Mode :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/cashonHand"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hr2"
+            tools:ignore="MissingConstraints" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cashonHand"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="16dp"
+            android:drawableLeft="@drawable/cashonhand_icon"
+            app:buttonTint="@color/green"
+            app:layout_constraintEnd_toStartOf="@+id/textView18"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="436dp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="9dp"
+            android:text="cash on hand"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintEnd_toStartOf="@+id/creditcard"
+            app:layout_constraintTop_toBottomOf="@+id/textView19"
+            tools:ignore="MissingConstraints" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/creditcard"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="18dp"
+            android:drawableLeft="@drawable/creditcard_icon"
+            app:buttonTint="@color/green"
+            app:layout_constraintBottom_toTopOf="@+id/Paytam"
+            app:layout_constraintEnd_toStartOf="@+id/textView21"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="41dp"
+            android:text="creditcard"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hr2"
+            tools:ignore="MissingConstraints" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/Netbanking"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:drawableLeft="@drawable/custom_netbanking_icon"
+            app:buttonTint="@color/green"
+            app:layout_constraintEnd_toStartOf="@+id/textView20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cashonHand"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="34dp"
+            android:layout_marginEnd="43dp"
+            android:text="Net Banking"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView23"
+            app:layout_constraintEnd_toStartOf="@+id/Paytam"
+            tools:ignore="MissingConstraints" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/Paytam"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
+            android:layout_marginEnd="18dp"
+            android:drawableLeft="@drawable/custom_icon"
+            app:buttonTint="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView22"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="19dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginTop="13dp"
+            android:text="Paytam"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="9dp"
+            android:text="Ammount          :"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView24"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="525dp" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="29dp"
+            android:layout_marginEnd="123dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="33dp"
+            android:text="100"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintStart_toEndOf="@+id/textView23"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="114dp"
+            android:background="@drawable/round_button"
+            android:text="Pay"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView24"
+            tools:ignore="MissingConstraints" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+<!--</ScrollView>-->

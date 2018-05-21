@@ -1,0 +1,259 @@
+<resources>
+    <string name="app_name">MEDIC TFHC</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_main4">Main4Activity</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="main_activity_to_tr_button">Telugu</string>
+    <string name="main_activity_to_en_button">English</string>
+    <string name="app_name_edit_profile">Edit Profile</string>
+    <string name="app_name_Patient">Patient Services</string>
+    <string name="My_doctor"> Doctor Appointment</string>
+    <string name="my_diagnostic">Diagnostic Appointment</string>
+    <string name="my_mediacal">Medical Store</string>
+    <string name="Blood_Bank">Blood Bank</string>
+    <string name="Dashboard">Dashboard</string>
+    <string name="change_Password">change Password</string>
+    <string name="Edit_profile">Edit profile</string>
+    <string name="change_mobile_number">change mobile number</string>
+    <string name="Logout">Logout</string>
+    <string name="Language_optionals">Language Options</string>
+    <string name="Ok">ok</string>
+    <string name="app_name_Select_language">Select Language</string>
+    <string name="title_activity_diagnostic">Diagnostic</string>
+    <string name="Patient_services">Patient Services</string>
+    <string name="doctor_appointment">Doctor Appointment</string>
+    <string name="diagnostic_center">Diagnostic center</string>
+    <string name="medical_store">Medical Store</string>
+    <string name="find_hospital">Find Hospital</string>
+    <string name="blood_bank">Blood Bank</string>
+    <string name="ambulance">Ambulance Services</string>
+    <string name="title_activity_doctornavigation">Doctornavigation</string>
+    <string name="share">.</string>
+    <string name="Subscription">Subscription Plain</string>
+    <string name="Crowd_Funding_Contributor">Crowd Funding Contributor</string>
+    <string name="media">media</string>
+    <string name="Recognition">Recognition</string>
+    <string name="video">video</string>
+    <string name="Contactus">Contact us</string>
+    <string name="Aboutus">About us</string>
+    <string name="Reachus">Reach us</string>
+    <string name="History">History</string>
+    <string name="home">Home</string>
+    <string name="d_Image">3D Image</string>
+
+    <string name="content">
+        Our Prime Objective and Goal is focused towards making Andhra Pradesh, as the Worlds Happiest State to achieve this.And it is
+        one of the key independent variable\n
+    </string>
+    <string name="content2">
+        of World Happiness Index report 2016 is healthy life expectancy at birth  Out of
+        the 6 Independent Variables , HealthCare parameter contributes to one of the highest happiness index.While couple of
+        private service providers are working on digitalisation of healthcare services in Urban areas, theres immense necessity
+        of developing a tool which caters to Rural people in native language.( Rural population contributes to 63% (approx.) of
+        your current population). Our Goal is to provide Healthcare solution to Rural population where a FARMER sitting at his
+        hometown should be able to book appoints (for doctor, diagnostic) at a single click along with Hospital information ,
+        Blood bank information, Medical shops delivering medicines at your door step, AMBULANCE services 24/7 from any where in
+        the state of Andhra Pradesh.As Andhra Pradesh is the first state heading towards  FIBER GRID-CONNECTING TO THE LAST MILE
+        this tool should  every single User ( patient ,doctor, diagnostics , medical stores, hospitals,ambulance services and so on )
+        to easily connect with each other THROUGH OUR WEB SITE, MOBILE APP and SAVE LIFES.\n
+</string>
+    <string name="our_vision">
+    Connecting a common man from Rural Area to get the BEST
+    Health Care Services at their DOOR STEP and ON THE GO at a CLICK.\n
+</string>
+    <string name="our_mission">
+    Create a revolutionary solution which will transform HEALTH CARE.\n
+</string>
+
+    <string name="address1">
+        Medic TFHC Private Ltd.\n
+        IT Incubation Towers,\n IT SEZ,
+        Near Autonagar,\n Sarpavaram (V),\n
+        Kakinada Rural,\n East Godavari District,\n
+        Andhra Pradesh - 533005
+         phn:+91 9332559999
+         email:\n info@medictfhc.com
+    </string>
+    <string name="address2">
+        Medic TFHC Private Ltd
+        Regus, Level 4 Naga Chambers Ramnagar,
+        Opp.HDFC Bank, Visakhapatnam,\n
+        Andhra Pradesh - 530002\n
+        phn:0891-6604879
+        phn:7013077599\n
+        email:\n info@medictfhc.com
+    </string>
+    <string name="address3">
+        Medic TFHC Private Limited
+        Flat No #104, Varma Nilayam,
+        Jayanagar Colony, Opp. KPHB Colony,
+        Kukatpalli, Hyderabad,\n
+        Telangana - 500072\n
+        phn:+919000588800\n
+        email:\ninfo@medictfhc.com
+    </string>
+    <string name="navigate">Cick here to navigate <u>underline</u>.</string>
+    <string name="title_activity_location1">Map</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_location2">Map</string>
+    <string name="title_activity_location3">Map</string>
+
+
+    <string-array name="cities">
+        <item icon="@color/darkblue"></item>
+        <item>Kakinada</item>
+        <item>RajaMandry</item>
+        <item>Visakhapatnam</item>
+        <item>Anakapalli</item>
+        <item>Hyderabad</item>
+        <item>srikakulum</item>
+        <item>Vijaynagaram</item>
+        <item>kadapa</item>
+        <item>chitoor</item>
+        <item>Guntoor</item>
+    </string-array>
+
+    <string-array name="list">
+        <item>00.00_06.00_12.00_16.00_19.00</item>
+        <item>00.30_06.30_12.30_16.30_19.30</item>
+        <item>01.00_07.00_13.00_17.00_20.00</item>
+        <item>01.30_07.30_13.30_17.30_20.30</item>
+        <item>02.00_08.00_14.00_18.00_21.00</item>
+        <item>02.30_08.30_14.30_18.30_21.30</item>
+        <item>03.00_09.00_15.00_0_22.00</item>
+        <item>03.30_09.30_15.30_0_22.30</item>
+        <item>04.00_10.00_0_0_23.00</item>
+        <item>04.30_10.30_0_0_23.30</item>
+        <item>05.00_11.00_0_0_0</item>
+        <item>05.30_11.30_0_0_0</item>
+
+    </string-array>
+    <string name="DoctorCalendar">Doctor Calendar</string>
+    <string name="title_activity_blood_bank">Blood Bank</string>
+    <string name="mobile">Mobile   :</string>
+    <string name="click_for_more_deatils">Click for more deatils?</string>
+    <string name="availability">Availability :</string>
+    <string name="location">Location  :</string>
+    <string name="title_activity_patient_history">PatientHistory</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_main5">Main5Activity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_main6">Main6Activity</string>
+    <string name="title_activity_my_nav">MyNav</string>
+    <string name="title_activity_doctor_dashboard">DoctorDashboard</string>
+
+    <string-array name="appointment_timings">
+        <item>00.00</item>
+        <item> cool </item>
+        <item>00.30</item>
+        <item>01.00</item>
+        <item>01.30</item>
+        <item>02.00</item>
+        <item>02.30</item>
+        <item>03.00</item>
+        <item>03.30</item>
+        <item>04.00</item>
+        <item>04.30</item>
+        <item>05.00</item>
+        <item>05.30</item>
+        <item>06.00</item>
+        <item>06.30</item>
+        <item>07.00</item>
+        <item>08.30</item>
+        <item>09.00</item>
+        <item>09.30</item>
+        <item>10.00</item>
+        <item>10.30</item>
+        <item>11.00</item>
+        <item>12.30</item>
+
+        <item>13.00 PM</item>
+        <item>13.30 PM</item>
+        <item>14.00 PM</item>
+        <item>14.30 PM</item>
+        <item>15.00 PM</item>
+        <item>15.30 PM</item>
+        <item>16.00</item>
+        <item>16.30</item>
+        <item>17.00</item>
+        <item>17.30</item>
+        <item>18.00</item>
+        <item>18.30</item>
+        <item>19.00</item>
+        <item>19.30</item>
+        <item>20.00</item>
+        <item>20.30</item>
+        <item>21.00</item>
+        <item>21.30</item>
+        <item>22.00</item>
+        <item>22.30</item>
+        <item>23.00</item>
+        <item>23.30</item>
+        <item>24.00</item>
+
+
+    </string-array>
+
+    <string-array name="diagnostic_specialities">
+        <item>Blood Test</item>
+        <item>Sugar Test</item>
+        <item>Urine Test</item>
+        <item>BP Test</item>
+        <item>Lipid Profile</item>
+        <item>X-Ray</item>
+        <item>MRI Scan</item>
+        <item>Pregnancy</item>
+        <item>Prenatal</item>
+        <item>CT Scan</item>
+        <item>Hepatitis Test</item>
+        <item>MRI Scan</item>
+        <item>Ultrasound</item>
+        <item>TSH</item>
+        <item>T3 and T4</item>
+        <item>TSI</item>
+        <item>Antithyroid</item>
+        <item>Fetal Ultrasound</item>
+        <item>Hip Ultrasound</item>
+        <item>Bone Scan</item>
+        <item>HIDA Scan</item>
+        <item>INR</item>
+        <item>CBC</item>
+        <item>MRI SCAN</item>
+        <item>ECG</item>
+
+    </string-array>
+
+
+    <string name="make_an_order">Make an order</string>
+    <string name="dialog_title">Items available in a shop</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
+    <string name="title_activity_diagnostic_dashboard">DiagnosticDashboard</string>
+    <string name="gender">Gender :</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="speciality">Speciality :</string>
+    <string name="choose_convenient_payment_mode_for_patient">Choose convenient Payment mode for patient</string>
+    <string name="title_activity_get_lat_lng_on_touch_map">Map</string>
+    <string name="title_activity_touch_maps">Map</string>
+    <string name="title_activity_dummy">Dummy</string>
+
+    <string name="fa_chevron_right">&#xf054;</string>
+    <string name="fa_chevron_down">&#xf078;</string>
+
+</resources>

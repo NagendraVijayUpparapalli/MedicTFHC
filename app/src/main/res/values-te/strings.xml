@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string name="main_activity_to_tr_button">తెలుగు</string>
+        <string name="main_activity_to_en_button">ఇంగ్లీష్</string>
+        <string name="My_doctor"> డాక్టర్ నియామకం</string>
+        <string name="my_diagnostic">విశ్లేషణ నియామకం</string>
+        <string name ="my_mediacal">మెడికల్ స్టోర్</string>
+        <string name="Blood_Bank">రక్తం బ్యాంకు</string>
+        <string name="Dashboard">డాష్బోర్డ్</string>
+        <string name ="change_Password">పాస్ వర్డ్ ను మార్చండి</string>
+        <string name="Edit_profile">ప్రొఫైల్ని సవరించండి</string>
+        <string name="change_mobile_number">మొబైల్ నంబర్ని మార్చండి</string>
+        <string name="Logout">లాగౌట్</string>
+        <string name="app_name_edit_profile">ప్రొఫైల్ని సవరించండి</string>
+        <string name="app_name_Patient">రోగి సేవలు</string>
+        <string name="Language_optionals">భాషా ఎంపికలు</string>
+        <string name="Ok"> ఓకే</string>
+        <string name="app_name_Select_language">భాషను ఎంచుకోండి</string>
+
+        <string name="doctor_appointment">డాక్టర్ నియామకం</string>
+        <string name="diagnostic_center">విశ్లేషణ కేంద్రం</string>
+        <string name="medical_store">వైద్య దుకాణం</string>
+        <string name="find_hospital">హాస్పిటల్ కనుగొను</string>
+        <string name="blood_bank">రక్తం బ్యాంకు</string>
+        <string name="ambulance">అంబులెన్స్ సేవలు</string>
+        <string name="Patient_services">రోగి సేవలు</string>
+        <string name="Subscription">సభ్యత్వ</string>
+        <string name="Crowd_Funding_Contributor">గుంపు నిధుల సహకారం</string>
+        <string name="media">మీడియా</string>
+        <string name="Recognition">గుర్తింపు</string>
+        <string name="video">వీడియో</string>
+        <string name="Contactus">మమ్మల్ని సంప్రదించండి</string>
+        <string name="Aboutus">మా గురించి</string>
+        <string name="Reachus">మాకు చేరండి</string>
+        <string name="History">చరిత్ర</string>
+        <string name="home">హోమ్</string>
+        <string name="DoctorCalendar">డాక్టర్ క్యాలెండర్</string>
+        <string name="d_Image">3D చిత్రాలు</string>
+
+        <string name="title_activity_blood_bank">రక్త నిధి</string>
+        <string name="name">పేరు :</string>
+        <string name="Location">చిరునామా :</string>
+        <string name="mobile">మొబైల్ :</string>
+        <string name="availability">అందుబాటు :</string>
+        <string name="click_for_more_deatils">మరిన్ని వివరాల కోసం క్లిక్ చేయండి?</string>
+
+
+        <string name="address">చిరునామా :</string>
+        <string name="contact_details">సంప్రదింపు వివరాలు :</string>
+        <string name="phone_no">చరవాణి సంఖ్య :</string>
+        <string name="email_id">ఇమెయిల్ ID :</string>
+        <string name="pin_code">
+పిన్ కోడ్ :</string>
+        <string name="click_to_navigation">నావిగేషన్కు క్లిక్ చేయండి :</string>
+        <string name="i_want_this_information_through">నేను ఈ సమాచారం ద్వారా కోరుకుంటున్నాను</string>
+        <string name="sms">SMS</string>
+
+
+        <string name="male">పురుషుడు</string>
+        <string name="female">మహిళ</string>
+        <string name="speciality">ప్రత్యేక :</string>
+        <string name="upload_aadharimage">Upload AadharImage:</string>
+        <string name="choose_convenient_payment_mode_for_patient">రోగికి అనుకూలమైన చెల్లింపు మోడ్ను ఎంచుకోండి</string>
+
+
+
+</resources>

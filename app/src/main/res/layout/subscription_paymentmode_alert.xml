@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:text="Payment Mode"
+            android:textColor="#2C5E83"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+
+
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/cash_on_hand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:text=" Cash on Hand"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/cashonhand_icon"
+                android:textSize="15dp"
+                android:textColor="@color/green" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+
+            tools:ignore="Orientation">
+
+            <CheckBox
+                android:id="@+id/debit_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+
+                />
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" Credi/Debit"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/creditcard_icon"
+                android:layout_marginTop="2dp"
+                android:textSize="15dp"
+                android:textColor="@color/green" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_marginStart="70dp"
+
+            android:layout_height="wrap_content"
+            tools:ignore="Orientation">
+
+            <CheckBox
+                android:id="@+id/paytm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+
+                />
+
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" Paytm"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/custom_icon"
+                android:textSize="15dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/green" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+
+
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/net_banking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+
+                />
+
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:text=" Net Banking"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/custom_netbanking_icon"
+                android:textColor="@color/green"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent">
+            <Button
+
+                android:text="Pay"
+
+                android:id="@+id/Pay"
+
+                android:layout_width="wrap_content"
+
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+
+                android:text="Cancel"
+                android:id="@+id/Cancel"
+
+                android:layout_width="wrap_content"
+                android:layout_marginStart="60dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_height="wrap_content">
+
+            </Button>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

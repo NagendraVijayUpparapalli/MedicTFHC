@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item-->
+    <!--android:id="@+id/action_change_password"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/change_Password"-->
+    <!--app:showAsAction="never" />-->
+    <!--<item-->
+    <!--android:id="@+id/action_EditProfile"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/Edit_profile"-->
+    <!--app:showAsAction="never" />-->
+    <!--<item-->
+    <!--android:id="@+id/action_ChangeMobile"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/change_mobile_number"-->
+    <!--app:showAsAction="never" />-->
+
+    <!--<item-->
+    <!--android:id="@+id/Language_options"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/Language_optionals"-->
+    <!--app:showAsAction="never" />-->
+
+
+    <!--<item-->
+    <!--android:id="@+id/Location"-->
+    <!--android:icon="@drawable/location_icon"-->
+    <!--android:orderInCategory="100"-->
+    <!--app:showAsAction="always"-->
+    <!--tools:ignore="MenuTitle" />-->
+
+    <item
+        android:id="@+id/qricon"
+        android:icon="@drawable/qrcodeicon"
+        android:orderInCategory="300"
+        app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+
+
+</menu>

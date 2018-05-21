@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="25dp"-->
+
+
+        <!--android:orientation="horizontal">-->
+        <!--<TextView-->
+        <!--android:id="@+id/Speciality"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Choose Speciality :"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textColor="#2C5E83"-->
+
+
+        <!--/>-->
+
+
+        <!--<android.support.v4.widget.Space-->
+        <!--android:layout_width="5dp"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <!--<Spinner-->
+        <!--android:id="@+id/specialities"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+
+
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textColor="@color/green" />-->
+
+
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="103dp"
+
+
+            android:orientation="horizontal">
+            <TextView
+
+                android:id="@+id/Rangenote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Note: Range(0km - 100km)"
+                android:textSize="10dp"
+                android:textColor="#ff00"
+
+
+                />
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+
+
+
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/Range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Range :"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="#2C5E83"
+
+
+                />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+
+
+
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/Distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Distance :"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="#2C5E83"
+
+
+                />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/DistanceRange"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20km"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent">
+            <Button
+
+                android:text="ok"
+
+                android:id="@+id/ok_btn"
+
+                android:layout_width="wrap_content"
+
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+
+                android:text="Cancel"
+                android:id="@+id/cancel_btn"
+
+                android:layout_width="wrap_content"
+                android:layout_marginStart="60dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_height="wrap_content">
+
+            </Button>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

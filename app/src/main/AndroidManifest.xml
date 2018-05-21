@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.cool.patient">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/symb"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme">
+        <activity
+            android:name=".SplashScreen"
+            android:label="MEDIC TFHC"
+            android:theme="@style/MyMaterialTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EditProfile"
+            android:label="@string/Edit_profile"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Language_Optional"
+            android:label="@string/app_name_Select_language"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity android:name=".location" />
+        <activity
+            android:name=".ListView"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".crowd"
+            android:label="@string/Crowd_Funding_Contributor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="Achievements"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".certificate"
+            android:label="@string/Recognition"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Subscription"
+            android:label="@string/Subscription"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".crowdFunding"
+            android:label="@string/Crowd_Funding_Contributor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity android:name=".tvvideomedic" />
+        <activity
+            android:name=".Recongination"
+            android:label="@string/Recognition"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".sliderparts"
+            android:label="Recongination"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".Login"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".Registration"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".ForgotPassword"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".PatientEditProfile"
+            android:label="@string/Edit_profile"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ContactUs"
+            android:label="@string/Contactus"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReachUs"
+            android:label="@string/Reachus"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DoctorCalendar"
+            android:label="@string/DoctorCalendar"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AppointmentTimings"
+            android:label="@string/doctor_appointment"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DoctorsActvity"
+            android:label="3D Image"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".maleactivity"
+            android:label="Male"
+            android:parentActivityName=".DoctorsActvity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity android:name=".Headparts" />
+        <activity android:name=".Hands" />
+        <activity android:name=".Lungs" />
+        <activity android:name=".Heart" />
+        <activity android:name=".Legs" />
+        <activity android:name=".Stomach" />
+        <activity
+            android:name=".Female"
+            android:label="Female"
+            android:parentActivityName=".DoctorsActvity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity android:name=".HeadSpecials" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".BloodBank"
+            android:label="@string/title_activity_blood_bank"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewBloodBank"
+            android:label="View BloodBank"
+            android:parentActivityName=".BloodBank">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.BloodBank" />
+        </activity>
+        <activity
+            android:name=".AboutUs"
+            android:label="About Us"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity android:name=".BloodBanksList" />
+        <activity android:name=".Blood" />
+        <activity android:name=".SelectCity" />
+        <activity
+            android:name=".BloodBank1"
+            android:label="@string/title_activity_blood_bank"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.BloodBank1" />
+        </activity>
+        <activity
+            android:name=".PatientDoctor"
+            android:label="Doctor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.PatientDoctor" />
+        </activity>
+        <activity
+            android:name=".ViewDoctor"
+            android:label="View Doctor">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.ViewDoctor" />
+        </activity>
+        <activity android:name=".DashboardSelectCity" />
+        <activity android:name=".MainActivity1" />
+        <activity
+            android:name=".DoctorSplashScreen"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BloodBankSplashScreen"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".HomeDashboard" />
+        <activity android:name=".ChangePassword" />
+        <activity android:name=".ConvertImageBase64" />
+        <activity
+            android:name=".DoctorEditProfile"
+            android:label="@string/Edit_profile"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cool.patient.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DoctorDashboard"
+            android:label="@string/title_activity_doctor_dashboard"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".DoctorAddAddress"
+            android:label="Add Address"/>
+        <activity android:name=".DiagnosticAddAddress" />
+        <activity android:name=".TestConstraintScrollview" />
+        <activity android:name=".DiagnosticEditProfile" />
+        <activity
+            android:name=".DiagnosticDashboard"
+            android:label="@string/title_activity_diagnostic_dashboard"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".DiagnosticManageAddress" />
+        <activity android:name=".DoctorManageAddress" />
+        <activity android:name=".DiagAddAddress" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".doctor_appointment_calender" />
+        <activity android:name=".ViewPatientHistory" />
+        <activity android:name=".ViewDetailsForPatient" />
+        <activity android:name=".DoctorUpdateAddress" />
+        <activity android:name=".GetDoctorsList" />
+        <activity android:name=".PatientBookAppointmentToDoctor" />
+        <activity android:name=".DocAddAddress" />
+        <activity android:name=".DocUpdateAddress" />
+        <activity android:name=".GetCurrentDoctorsList" />
+        <activity android:name=".DoctorDeleteAddress" />
+        <activity
+            android:name=".GetPatientDetailsList"
+            android:label="Patient List" />
+        <activity android:name=".GetPatientDetailsTotalData" />
+        <activity android:name=".PatientMyDoctorAppointments" />
+        <activity android:name=".ViewPatientMyDoctorAppointment" />
+        <activity android:name=".DoctorTodaysAppointmentsForPatient" />
+        <activity android:name=".PatientHistoryInDoctor" />
+        <activity android:name=".ViewPatientHistoryInDoctor" />
+        <activity android:name=".DoctorTodaysAppointment" />
+        <activity android:name=".Subscription_for_Rural" />
+        <activity android:name=".SubscriptionPlanAlertDialog" />
+        <activity android:name=".DoctorDashBoardSelectCity" />
+        <activity android:name=".DoctorDashBoard11" />
+        <activity android:name=".PatientDoctorListSelectCity" />
+        <activity android:name=".GetCurrentDoctorsList11"></activity>
+    </application>
+
+</manifest>
