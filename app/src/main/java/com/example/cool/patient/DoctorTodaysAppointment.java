@@ -146,6 +146,8 @@ public class DoctorTodaysAppointment extends AppCompatActivity {
     }
 
     // alert to show suucessfull
+
+    //this is alert for refer diagnostic
     public void showMessage(){
 
         AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
