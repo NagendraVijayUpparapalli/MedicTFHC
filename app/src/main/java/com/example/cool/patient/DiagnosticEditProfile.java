@@ -3,11 +3,13 @@ package com.example.cool.patient;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,10 +66,10 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
 //    http://www.meditfhc.com/mapi/DiagnosticByID
 
+    ProgressDialog progressDialog;
     final Activity activity = this;
 
     EditText name,email,licenceNumber,mobileNumber,aadhar_num;
-    Spinner Speciality;
     Bitmap mIcon11;
     ImageView adharimage, licenceImage;
     List<String> Spaliaty;
@@ -76,7 +80,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
     List<String> myDistrictsList = new ArrayList<String>();
     ArrayAdapter<String> adapter1,adapter4;
     String Aadhar_num,Emergency_mobile;
-
+    String checkNewUser=null;
 
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,myQualification, myAddress1, myAddress2, myGender,
             myLicenceNumber,myuploadLicence,myadharimage,myAadhar_num;
@@ -96,8 +100,8 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
     static String smsUrl = null;
 
-    static int getUserId;
-    static String uploadServerUrl = null;
+    static String getUserId,mobile_number;
+//    static String uploadServerUrl = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +109,12 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostic_edit_profile);
 
         baseUrl = new ApiBaseUrl();
-        uploadServerUrl = baseUrl.getUrl()+"DiagnosticByID";
 
-        getUserId = getIntent().getIntExtra("id",getUserId);
-        System.out.print("diag id in profile....."+getUserId);
+        mobile_number = getIntent().getStringExtra("mobile");
+        getUserId = getIntent().getStringExtra("id");
+        System.out.print("diag id in profile....."+getUserId+"...mobile.."+mobile_number);
 
-        new GetDiagnosticDetails().execute(uploadServerUrl+"?id="+getUserId);
+        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
 
         name = (EditText) findViewById(R.id.name);
         email = (EditText) findViewById(R.id.email);
@@ -135,8 +139,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         gen_btn.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String js = formatDataAsJson();
-                new sendEditProfileDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateProfile",js.toString());
+
+                validateEditProfile();
+
             }
         });
 
@@ -167,7 +172,6 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 });
 
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -181,6 +185,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DiagnosticEditProfile.this,DiagnosticDashboard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
                     }
@@ -188,6 +193,79 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
         );
 
+    }
+
+    public void validateEditProfile()
+    {
+        intialization();
+        if(!validate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            new sendEditProfileDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateProfile",js.toString());
+        }
+    }
+
+    public void intialization()
+    {
+//        name,email,licenceNumber,mobileNumber,aadhar_num;
+//        myName = name.getText().toString().trim();
+        myEmail = email.getText().toString().trim();
+        myLicenceNumber = licenceNumber.getText().toString();
+        myMobile = mobileNumber.getText().toString().trim();
+        myAadhar_num = aadhar_num.getText().toString();
+
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+        if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
+        {
+            mobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(myMobile.length()<10 || myMobile.length()>10)
+        {
+            mobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(myEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(myEmail).matches())
+        {
+            email.setError("please enter valid email id");
+            validate=false;
+        }
+
+        if(myLicenceNumber.isEmpty() )
+        {
+            licenceNumber.setError("please enter licence number");
+            validate=false;
+        }
+
+        if(myAadhar_num.isEmpty())
+        {
+            aadhar_num.setError("please enter aadhaar number");
+            validate=false;
+        }
+
+        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !debit_card.isChecked() && !pay_paym.isChecked())
+        {
+//            Toast.makeText(getApplicationContext(),"Please select one option",Toast.LENGTH_SHORT).show();
+
+            cash_on_hand.setError("please checked");
+            net_banking.setError("plwase checked");
+            debit_card.setError("please checked");
+            pay_paym.setError("please checked");
+            validate=false;
+        }
+
+        return validate;
     }
 
     @Override
@@ -232,6 +310,21 @@ public class DiagnosticEditProfile extends AppCompatActivity {
     private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticEditProfile.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -271,6 +364,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getProfileDetails(result);
         }
 
@@ -283,6 +377,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
             if(js.has("LicenceCertificate")) {
 //            DiagnosticsID
+//                checkNewUser = "No";
                 myMobile = (String) js.get("MobileNumber");
                 myEmail = (String) js.get("EmailID");
                 myName = (String) js.get("FirstName");
@@ -299,10 +394,25 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 mydebit_card       =  (boolean) js.get("CreditDebit");
                 mynet_banking      =  (boolean) js.get("Netbanking");
                 mypay_paym         =   (boolean) js.get("Paytm");
+
+                if(myGender.equals("Male"))
+                {
+                    newName = "Mr.";
+                }
+                else if(myGender.equals("Female"))
+                {
+                    newName = "Ms.";
+                }
+                else if(myGender.equals("Female"))
+                {
+                    newName = "Mrs.";
+                }
+                name.setText(newName+mySurname+" "+myName);
             }
             else {
 
 //            DiagnosticsID
+//                checkNewUser = "Yes";
                 myMobile = (String) js.get("MobileNumber");
                 myEmail = (String) js.get("EmailID");
                 myName = (String) js.get("FirstName");
@@ -319,6 +429,32 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 mydebit_card       =  (boolean) js.get("CreditDebit");
                 mynet_banking      =  (boolean) js.get("Netbanking");
                 mypay_paym         =   (boolean) js.get("Paytm");
+
+                if(myGender.equals(""))
+                {
+//                    checkNewUser = "Yes";
+                    name.setText(mySurname+" "+myName);
+                }
+
+                else
+                {
+//                    checkNewUser = "No";
+                    name.setText(newName + mySurname + " " + myName);
+                }
+
+            }
+
+
+            if(myAadhar_num.equals(""))
+            {
+                checkNewUser = "Yes";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
+            }
+
+            else
+            {
+                checkNewUser = "No";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
             System.out.println("hand.."+mycash_on_hand);
@@ -341,26 +477,13 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 female.setChecked(false);
             }
 
-            if(myGender.equals("Male"))
-            {
-                newName = "Mr.";
-            }
-            else if(myGender.equals("Female"))
-            {
-                newName = "Ms.";
-            }
-            else if(myGender.equals("Female"))
-            {
-                newName = "Mrs.";
-            }
-
             cash_on_hand.setChecked(mycash_on_hand);
             debit_card.setChecked(mydebit_card);
             net_banking.setChecked(mynet_banking);
             pay_paym.setChecked(mypay_paym);
 
-            name.setText(mySalutation+". "+mySurname+" "+myName);
-            name.setEnabled(false);
+
+//            name.setEnabled(false);
 
 //            salutation.setTextColor(this.getResources().getColor(R.color.colorPrimary));
 //            surname.setText(mySurname);
@@ -371,6 +494,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             aadhar_num.setText(myAadhar_num);
 
             System.out.println("image url.."+ myadharimage);
+
 
             new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
 
@@ -383,6 +507,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         }
 
     }
+
 
     private class GetAadharImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -516,14 +641,14 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 try {
                     selectedLicenceImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedLicenceImageUri);
 
-//                    //certificate base64
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    byte[] b = baos.toByteArray();
-//                    encodedLicenceCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedLicenceCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -548,15 +673,13 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 try {
                     selectedAadharImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedAadharImageUri);
 
-//                    //aadhar base64
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedAadharImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-////            encodedImage = myEncodeImage(selectedImage);
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    byte[] b = baos.toByteArray();
-//                    encodedAadharImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    //aadhar base64
+                    final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
+                    final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
+                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                    selectedImage1.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                    byte[] b1 = baos1.toByteArray();
+                    encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
                 }
                 catch (IOException e)
@@ -626,46 +749,78 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             System.out.println("mypay_paym if..."+ mypay_paym);
         }
 
-        try{
-//            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedLicenceCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
-
-            //aadhar base64
-            final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
-            final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
-//            encodedImage = myEncodeImage(selectedImage);
+        if(encodedLicenceCertificateImage == null)
+        {
+            licenceImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) licenceImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
 
             ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            selectedImage1.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedLicenceCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
+        }
+
+        if(encodedAadharImage == null)
+        {
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
             byte[] b1 = baos1.toByteArray();
             encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
+        }
 
-            data.put("DiagnosticsID",getUserId);
-            data.put("FirstName",mySurname);
-            data.put("LastName",myName);
-            data.put("MobileNumber",myMobile);
-            data.put("EmailID",myEmail);
-            data.put("LicenceNumber",myLicenceNumber);
-            data.put("AadharNumber",Aadhar_num);
-            data.put("Gender",myGender);
-            data.put("CashOnHand", mycash_on_hand);
-            data.put("Netbanking", mynet_banking);
-            data.put("Paytm", mypay_paym);
-            data.put("CreditDebit", mydebit_card);
-            data.put("Suffix", newName);
-            data.put("AadharImage",encodedAadharImage);
-            data.put("LicenceCertificate",encodedLicenceCertificateImage);
+        try{
 
-            return data.toString();
+            if(checkNewUser.equals("Yes"))
+            {
+                data.put("DiagnosticsID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("LicenceNumber",myLicenceNumber);
+                data.put("AadharNumber",Aadhar_num);
+                data.put("Gender",myGender);
+                data.put("CashOnHand", mycash_on_hand);
+                data.put("Netbanking", mynet_banking);
+                data.put("Paytm", mypay_paym);
+                data.put("CreditDebit", mydebit_card);
+                data.put("Suffix", newName);
+                data.put("AadharImage",encodedAadharImage);
+                data.put("LicenceCertificate",encodedLicenceCertificateImage);
 
+                return data.toString();
+
+            }
+            else if(checkNewUser.equals("No"))
+            {
+                data.put("DiagnosticsID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("LicenceNumber",myLicenceNumber);
+//            data.put("AadharNumber",Aadhar_num);
+                data.put("Gender",myGender);
+                data.put("CashOnHand", mycash_on_hand);
+                data.put("Netbanking", mynet_banking);
+                data.put("Paytm", mypay_paym);
+                data.put("CreditDebit", mydebit_card);
+                data.put("Suffix", newName);
+                data.put("AadharImage",encodedAadharImage);
+                data.put("LicenceCertificate",encodedLicenceCertificateImage);
+
+                return data.toString();
+
+            }
         }
         catch (Exception e)
         {
@@ -675,8 +830,24 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         return null;
     }
 
+
     //send diagnostic edit profile details to api
     private class sendEditProfileDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticEditProfile.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -768,16 +939,21 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 //
-            Log.e("TAG result profile   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            Log.e("TAG result diag profile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            progressDialog.dismiss();
+
             JSONObject js;
 
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 1017)
+
+                if(s == 200)
                 {
                     showSuccessMessage(js.getString("Message"));
                 }
+
                 else
                 {
                     showErrorMessage(js.getString("Message"));
@@ -786,7 +962,6 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
         }
     }

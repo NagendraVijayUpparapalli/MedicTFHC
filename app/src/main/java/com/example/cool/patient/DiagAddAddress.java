@@ -3,6 +3,7 @@ package com.example.cool.patient;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,6 +37,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +56,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -64,23 +69,26 @@ import br.com.bloder.magic.view.MagicButton;
 
 public class DiagAddAddress extends AppCompatActivity {
 
-    EditText diagnosticName,address,pincode,contactPerson,mobile,landlineMobileNumber,comments,lat,lng;
-    Spinner city,state,district;
+    EditText diagnosticName,address,pincode,contactPerson,mobile,landlineMobileNumber,comments,lat,lng,emergencyContactNumber;
+    SearchableSpinner city,state,district;
     CheckBox availableService;
     ImageView centerImage;
     FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
+    LinearLayout emergencyContactLayout;
+
+    ProgressDialog progressDialog;
 
 
     static String uploadServerUrl = null,addressId ;
 
-    static int getUserId;
+    static String getUserId,regMobile;
     TextView speciality;
 
     String[] ListItems;
 
     boolean[] checkedItems;
-    List<String> getmUserItems = new ArrayList<>();
+    List<String> seletedSpecialityItems = null;
     List<String> getmUserItems_Value = new ArrayList<String>();
     Map<String, List<String>> map = new HashMap<String, List<String>>();
 
@@ -145,9 +153,9 @@ public class DiagAddAddress extends AppCompatActivity {
 
         diagnosticName = (EditText) findViewById(R.id.Diagnostic_Name);
         address = (EditText) findViewById(R.id.Address);
-        city = (Spinner) findViewById(R.id.cityId);
-        state = (Spinner) findViewById(R.id.stateId);
-        district = (Spinner) findViewById(R.id.districtId);
+        city = (SearchableSpinner) findViewById(R.id.cityId);
+        state = (SearchableSpinner) findViewById(R.id.stateId);
+        district = (SearchableSpinner) findViewById(R.id.districtId);
         mobile = (EditText) findViewById(R.id.Mobile_Number);
         pincode = (EditText) findViewById(R.id.pincode);
         contactPerson = (EditText) findViewById(R.id.Frontoffice);
@@ -165,7 +173,8 @@ public class DiagAddAddress extends AppCompatActivity {
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
         btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
 
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        regMobile = getIntent().getStringExtra("regMobile");
+        getUserId = getIntent().getStringExtra("id");
         myLatitude = getIntent().getStringExtra("lat");
         myLongitude = getIntent().getStringExtra("lng");
 
@@ -195,26 +204,31 @@ public class DiagAddAddress extends AppCompatActivity {
         lat.setText(myLatitude);
         lng.setText(myLongitude);
 
+        emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
+        emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewEmergencyContactField();
+            }
+        });
 
 
-//        getLatLong.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DiagAddAddress.this,GetLatLngOnTouchMap.class);
-////                intent.putExtra("id",getUserId);
-//                startActivity(intent);
-//            }
-//        });
+        getLatLong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+//                validateAddAddress();
+
+            }
+        });
 
 
         btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String js = formatDataAsJson();
-//                new sendEditProfileDetails().execute(baseUrl.getUrl()+"DiagnosticAddAddress",js.toString());
+                validateFullAddress();
             }
-
         });
 
         addCenterIcon.setOnClickListener(
@@ -287,6 +301,9 @@ public class DiagAddAddress extends AppCompatActivity {
         speciality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                seletedSpecialityItems = new ArrayList<>();
+
                 Toast.makeText(DiagAddAddress.this,
                         "Speciality", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(DiagAddAddress.this);
@@ -294,13 +311,7 @@ public class DiagAddAddress extends AppCompatActivity {
                 mBuilder2.setMultiChoiceItems(ListItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-//                        if (isChecked) {
-//                            if (!mUserItems.contains(position)) {
-//                                mUserItems.add(position);
-//                            }
-//                        } else if (mUserItems.contains(position)) {
-//                            mUserItems.remove(position);
-//                        }
+
                         if(isChecked){
                             String i = Integer.toString(position);
                             getmUserItems_Value.add(i);
@@ -319,14 +330,14 @@ public class DiagAddAddress extends AppCompatActivity {
                         for (int i = 0; i <  getmUserItems_Value.size(); i++) {
                             item = item + ListItems[Integer.parseInt(getmUserItems_Value.get(i))];
                             if (i != getmUserItems_Value.size() - 1) {
-                                item = item + ", ";
+                                item = item + ",";
 
                             }
                         }
 
 
-                        getmUserItems.add(item);
-                        map.put("Speciaity",getmUserItems);
+                        seletedSpecialityItems.add(item);
+                        map.put("0",seletedSpecialityItems);
 
 
                         // mItemSelectedFriday.setText("Friday=>"+item);
@@ -363,8 +374,6 @@ public class DiagAddAddress extends AppCompatActivity {
         });
 
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -377,6 +386,7 @@ public class DiagAddAddress extends AppCompatActivity {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DiagAddAddress.this,DiagnosticDashboard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
                         startActivity(intent);
 
                     }
@@ -386,8 +396,167 @@ public class DiagAddAddress extends AppCompatActivity {
 
     }
 
-    //image permissions
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+        }
+    }
 
+
+    public boolean validate()
+    {
+        boolean validate = true;
+        if(diagnosticName.getText().toString().trim().isEmpty())
+        {
+            diagnosticName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the address");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the pincode");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+        if(mobile.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobile.getText().toString().trim()).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(mobile.getText().toString().trim().length()<10 || mobile.getText().toString().trim().length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+        return validate;
+    }
+
+    public void validateFullAddress()
+    {
+        if(!addressValidate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            System.out.println("js diag address.."+js);
+            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DiagnosticAddAddress",js.toString());
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean addressValidate()
+    {
+        boolean validate = true;
+        if(diagnosticName.getText().toString().trim().isEmpty())
+        {
+            diagnosticName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the address");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the pincode");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+
+        if( comments.getText().toString().trim().isEmpty())
+        {
+            comments.setError("please enter comments");
+            validate  = false;
+
+        }
+        if( lat.getText().toString().isEmpty())
+        {
+            lat.setError("please select location");
+            validate  = false;
+
+        }
+        if( lng.getText().toString().isEmpty())
+        {
+            lng.setError("please select location");
+            validate  = false;
+
+        }
+
+        if(mobile.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobile.getText().toString().trim()).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(mobile.getText().toString().trim().length()<10 || mobile.getText().toString().trim().length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
+        {
+            emergencyContactNumber.setError("please enter emergency contact");
+            validate=false;
+        }
+        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+        {
+            emergencyContactNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        return validate;
+    }
+
+    //image permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -473,6 +642,40 @@ public class DiagAddAddress extends AppCompatActivity {
 
         try{
 
+            org.json.simple.JSONArray allDataArray = new org.json.simple.JSONArray();
+
+
+            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+
+                String key = entry.getKey();
+                List<String> values = entry.getValue();
+
+                String a[] = new String[seletedSpecialityItems.size()];
+
+                System.out.println("spec seleted items.."+seletedSpecialityItems);
+
+                System.out.println("spec seleted items sizezzz.."+seletedSpecialityItems.size());
+
+                int i = 0;
+
+                //Loop index size()
+                for(int index = 0; index < a.length; index++) {
+
+                    String lis = values.get(i);
+                    a = lis.split(",");
+                    List mylist = new ArrayList<>();
+                    mylist.addAll(Arrays.asList(a));
+
+                    JSONObject eachData = new JSONObject();
+                    eachData.put("SpecialityID", getSpecialityKeyFromValue(mySpecialityList,mylist.get(index)));
+                    allDataArray.add(eachData);
+
+                }
+
+            }
+
+            System.out.println("js diag Array.."+allDataArray.toJSONString());
+
             //certificate base64
             final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
@@ -483,28 +686,41 @@ public class DiagAddAddress extends AppCompatActivity {
             byte[] b = baos.toByteArray();
             encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-
             data.put("DiagnosticsID",getUserId);
             data.put("CenterName",myDiagnosticName);
             data.put("Address1",myAddress);
             data.put("StateID",getStateKeyFromValue(myStatesList,myState));
             data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
-            data.put("District",myDistrict);
-            data.put("ZipCode",myPincode);
+
+            data.put("PinCode",myPincode);
             data.put("LandlineNo",myLandlineMobileNumber);
             data.put("ContactPerson",myContactPerson);
+            data.put("MobileNumber",myMobile);
+            data.put("EmergencyContact", myMobile);
             data.put("Comment", myComments);
             data.put("EmergencyService", true);
-
-//            data.put("Speciality",mySpeciality);////////
-
             data.put("Latitude",myLati);
             data.put("Longitude", myLngi);
             data.put("FromTime", myFromTime);
             data.put("ToTime", myToTime);
             data.put("CenterImage", encodedCenterImage);
             data.put("District",myDistrict);
+            data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
 
+            System.out.println("js obj..."+data);
+
+//            for(int j =0;j<allDataArray.size();j++)
+//            {
+//                JSONObject js = (JSONObject) allDataArray.get(j);
+//                String a = js.toString();
+//                a.replaceAll("\\\\","");
+//                System.out.println("js replace.."+a);
+//            }
+
+//            String s = allDataArray.toString();
+//
+//            s.replaceAll("\\\\","");
+//            System.out.println("js string.."+s);
 
             return data.toString();
 
@@ -514,6 +730,15 @@ public class DiagAddAddress extends AppCompatActivity {
             Log.d("JSON","Can't format JSON");
         }
 
+        return null;
+    }
+
+    public static Object getSpecialityKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
         return null;
     }
 
@@ -536,8 +761,24 @@ public class DiagAddAddress extends AppCompatActivity {
         return null;
     }
 
-    //send diagnostic edit profile details
-    private class sendEditProfileDetails extends AsyncTask<String, Void, String> {
+    //send diagnostic add address details
+    private class sendAddAddressDetails extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagAddAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -625,27 +866,68 @@ public class DiagAddAddress extends AppCompatActivity {
             super.onPostExecute(result);
 //
             Log.e("TAG result diag add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             JSONObject js;
 
-//            try {
-//                js= new JSONObject(result);
-//                int s = js.getInt("Code");
-//                if(s == 200)
-//                {
-//                    addressId = js.getString("DataValue");
-////                    showSuccessMessage(js.getString("Message"));
-//                }
-////                else
-////                {
-////                    showErrorMessage(js.getString("Message"));
-////                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                js= new JSONObject(result);
+                int s = js.getInt("Code");
+                if(s == 200)
+                {
+                    addressId = js.getString("DataValue");
+                    showSuccessMessage(js.getString("Message"));
+                }
+                else
+                {
+                    showErrorMessage(js.getString("Message"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
         }
+    }
+
+    public void showSuccessMessage(String message){
+
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+                        Intent intent = new Intent(DiagAddAddress.this,DiagnosticDashboard.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Add Address");
+        alert.show();
+
+    }
+
+    public void showErrorMessage(String message){
+
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Add Address");
+        alert.show();
+
     }
 
     public void showalert() {
@@ -885,6 +1167,7 @@ public class DiagAddAddress extends AppCompatActivity {
         catch (JSONException e)
         {}
     }
+
 
     //Get districts list from api call
     private class GetAllDistricts extends AsyncTask<String, Void, String> {

@@ -25,4 +25,9 @@ public class ApiBaseUrl {
         return "https://www.mgage.solutions/SendSMS/sendmsg.php?";
     }
 
+    public String getEmailUrl() {
+        return "https://ejson.mgage.solutions/sendEmail";
+    }
+
+
 }

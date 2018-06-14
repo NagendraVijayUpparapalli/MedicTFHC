@@ -36,7 +36,7 @@ public class DoctorManageAddress extends AppCompatActivity {
     DoctorManageAddressAdapter adapter;
 
     //api url
-    static int getUserId;
+    static String getUserId,regMobile;
     static String uploadServerUrl = null,myProfileImage;
     ApiBaseUrl baseUrl;
 
@@ -51,7 +51,8 @@ public class DoctorManageAddress extends AppCompatActivity {
 
         baseUrl = new ApiBaseUrl();
 
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        regMobile = getIntent().getStringExtra("mobile");
+        getUserId = getIntent().getStringExtra("id");
         System.out.print("doctorid in manage address....."+getUserId);
 
         uploadServerUrl = baseUrl.getUrl()+"DoctorGetAllAddress?ID="+getUserId;
@@ -59,14 +60,6 @@ public class DoctorManageAddress extends AppCompatActivity {
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
 
         new GetDoctorAllAddressDetails().execute(uploadServerUrl);
-
-//        arrayList = new ArrayList<DoctorManageAddressClass>();
-//        listview = (android.widget.ListView)findViewById(R.id.mylist);
-
-//        reason_Todelete = (MultiAutoCompleteTextView)findViewById(R.id.reason_delete);
-//        reasonToDelete = reason_Todelete.getText().toString().trim();
-//
-//        System.out.println("comm.."+reasonToDelete);
 
         myList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -77,9 +70,6 @@ public class DoctorManageAddress extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-//        adapter.notifyDataSetChanged();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //  setSupportActionBar(toolbar);
@@ -92,6 +82,8 @@ public class DoctorManageAddress extends AppCompatActivity {
                     public void onClick(View v) {
 //                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DoctorManageAddress.this,DoctorDashboard.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
                         startActivity(intent);
 
                     }
@@ -211,7 +203,7 @@ public class DoctorManageAddress extends AppCompatActivity {
             {
                 JSONObject jsono = new JSONObject(result);
                 String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+                if(jsono.has("Code"))
                 {
                     showMessage();
                     Log.e("Api response if.....", result);
@@ -250,7 +242,7 @@ public class DoctorManageAddress extends AppCompatActivity {
                 bb.setConsultationFee(object.getString("ConsultationPrice"));
                 bb.setEmergencyContactNumber(object.getString("EmergencyContact"));
                 bb.setProfileImage(myProfileImage);
-                String cityy = object.getString("CityName");
+                bb.setRegisteredMobileNumber(regMobile);
 
                 bb.setCityName(object.getString("CityName"));
 
@@ -259,7 +251,7 @@ public class DoctorManageAddress extends AppCompatActivity {
                 bb.setContactPerson(object.getString("FrontofficeContactPerson"));
                 bb.setLatitude((object.getString("Latitude")));
                 bb.setLongitude((object.getString("Longitude")));
-                bb.setEmergencyservice(true);
+                bb.setEmergencyservice(object.getBoolean("EmergencyService"));///
                 bb.setComment(object.getString("Comment"));
 //                bb.setDeleteReason();
                 bb.setDistrict(object.getString("District"));

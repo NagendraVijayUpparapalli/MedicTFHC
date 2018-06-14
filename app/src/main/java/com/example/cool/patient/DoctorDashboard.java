@@ -2,10 +2,13 @@ package com.example.cool.patient;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -17,10 +20,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +47,7 @@ import com.twinkle94.monthyearpicker.picker.YearMonthPickerDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,8 +63,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DoctorDashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,9 +70,8 @@ public class DoctorDashboard extends AppCompatActivity
 
     //get list of bloodbank based on current position
     //lat,long
-    static String uploadServerUrl = null;
     static String str ="";
-    static int getUserId;
+    static String getUserId;
     //    Criteria criteria;
     LocationManager locationManager;
     String lattitude,longitude;
@@ -100,7 +98,9 @@ public class DoctorDashboard extends AppCompatActivity
     String  date2,geturl,todaydate;
 
 
-    ImageView imageView;
+    ImageView imageView,profileImage;
+    TextView name,email;
+    Bitmap mIcon11;
 
     TextView pending_count, Accept_count, Reschedule_count, Reject_count;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
@@ -108,10 +108,14 @@ public class DoctorDashboard extends AppCompatActivity
 
     ApiBaseUrl baseUrl;
 
+    // expandable list view
+
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    ProgressDialog progressDialog;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -129,9 +133,9 @@ public class DoctorDashboard extends AppCompatActivity
 //                    overridePendingTransition(R.anim.goup, R.anim.godown);
 //                    return true;
                 case R.id.Languages_options:
-                    Intent language = new Intent (DoctorDashboard.this,SelectCity.class);
-                    startActivity(language);
-                    overridePendingTransition(R.anim.goup, R.anim.godown);
+//                    Intent language = new Intent (DoctorDashboard.this,SelectCity.class);
+//                    startActivity(language);
+//                    overridePendingTransition(R.anim.goup, R.anim.godown);
                     return true;
             }
             return false;
@@ -151,8 +155,10 @@ public class DoctorDashboard extends AppCompatActivity
         Criteria criteria = new Criteria();
 
         mobile_number = getIntent().getStringExtra("mobile");
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        getUserId = getIntent().getStringExtra("id");
         System.out.print("userid in mainactivity....."+getUserId);
+
+        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
 
         current_city = (TextView) findViewById(R.id.select_city);
 
@@ -166,13 +172,13 @@ public class DoctorDashboard extends AppCompatActivity
             getLocation();
         }
 
-        current_city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(DoctorDashboard.this,DoctorDashBoardSelectCity.class);
-                startActivity(i);
-            }
-        });
+//        current_city.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(DoctorDashboard.this,DoctorDashBoardSelectCity.class);
+//                startActivity(i);
+//            }
+//        });
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -188,6 +194,16 @@ public class DoctorDashboard extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+
+        name = (TextView) headerLayout.findViewById(R.id.name);
+        email = (TextView) headerLayout.findViewById(R.id.emailId);
+        profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+
+
+//        name = (TextView) navigationView. findViewById(R.id.name);
+//        email = (TextView) navigationView.findViewById(R.id.emailId);
+//        profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         //calendar item variables
         imageView = (ImageView) findViewById(R.id.img1);
@@ -254,9 +270,10 @@ public class DoctorDashboard extends AppCompatActivity
 
                 System.out.println("date2" + date2);
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsList.class);
-                intent.putExtra("userId",getUserId);
+                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",getUserId);
                 intent.putExtra("date",date2);
+                intent.putExtra("mobile",mobile_number);
                 startActivity(intent);
 
             }
@@ -303,14 +320,17 @@ public class DoctorDashboard extends AppCompatActivity
                     // call some activity here
                     Intent contact = new Intent(DoctorDashboard.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent about = new Intent(DoctorDashboard.this,SubscriptionPlanAlertDialog.class);
-                    startActivity(about);
+                    Intent i = new Intent(DoctorDashboard.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",getUserId);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -373,6 +393,8 @@ public class DoctorDashboard extends AppCompatActivity
                     if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_1) {
 
                         Intent i = new Intent(DoctorDashboard.this,DoctorDashboard.class);
+                        i.putExtra("id",getUserId);
+                        i.putExtra("mobile",mobile_number);
                         startActivity(i);
 
 
@@ -382,7 +404,8 @@ public class DoctorDashboard extends AppCompatActivity
                         // call activity here
 
                         Intent i = new Intent(DoctorDashboard.this,DoctorTodaysAppointmentsForPatient.class);
-                        i.putExtra("userId",getUserId);
+                        i.putExtra("id",getUserId);
+                        i.putExtra("mobile",mobile_number);
                         startActivity(i);
 
                     }
@@ -416,12 +439,14 @@ public class DoctorDashboard extends AppCompatActivity
 
                         Intent about = new Intent(DoctorDashboard.this,DoctorAddAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
                     else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM2_2) {
                         Intent about = new Intent(DoctorDashboard.this,DoctorManageAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
@@ -431,10 +456,6 @@ public class DoctorDashboard extends AppCompatActivity
 
             }
         });
-
-
-
-
 
     }
 
@@ -590,9 +611,7 @@ public class DoctorDashboard extends AppCompatActivity
 
 
             }else{
-
                 Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
-
             }
         }
     }
@@ -631,6 +650,21 @@ public class DoctorDashboard extends AppCompatActivity
 
     //Get Appointment count based on doctor id and appointment date
     private class GetAppointmentCount extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DoctorDashboard.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -672,8 +706,8 @@ public class DoctorDashboard extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result);
+            progressDialog.dismiss();
             getcount(result);
-
         }
     }
 
@@ -726,6 +760,107 @@ public class DoctorDashboard extends AppCompatActivity
         }
     }
 
+
+    //get doctor details based on id from api call
+    private class GetDoctorDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...." + params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+                String myEmail = (String) js.get("EmailID");
+                String myFirstName = (String) js.get("FirstName");
+                String myLastName = (String) js.get("LastName");
+                String mydoctorImage = (String) js.get("DoctorImage");
+
+                System.out.println("name.."+myFirstName+".."+myLastName+".."+myEmail+".."+mydoctorImage);
+
+                name.setText(myFirstName+" "+myLastName);
+                email.setText(myEmail);
+
+            new GetProfileImageTask(profileImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            profileImage.setImageBitmap(result);
+        }
+
+    }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -769,7 +904,8 @@ public class DoctorDashboard extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
             Intent intent = new Intent (DoctorDashboard.this,DoctorTodaysAppointmentsForPatient.class);
-            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            intent.putExtra("userId",getUserId);
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {

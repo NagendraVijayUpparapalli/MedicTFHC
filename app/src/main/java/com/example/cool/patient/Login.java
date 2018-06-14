@@ -18,12 +18,16 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +62,7 @@ public class Login extends Activity {
     RadioButton radioButton;
     int radiobuttonid;
     EditText mobile_num,password1,aadhar_num;
+    CheckBox showPasswordCheckBox;
     TextView new_user,forgot,present_location;
     private TextView mTextMessage;
 
@@ -76,7 +81,7 @@ public class Login extends Activity {
 
     static String uploadServerUrl = null;
     static String module_name="";
-    static int userId;
+    static String userId;
     static int logintype;
     static String str ="",city;
     ApiBaseUrl baseUrl;
@@ -112,60 +117,56 @@ public class Login extends Activity {
         cardViewId.setAnimation(Cardviewdowntoup);
         fonts.setAnimation(Textviewdowntoup);
 
-        radioGroup = (RadioGroup) findViewById(R.id.logintype_radio);
         mobile_num = (EditText) findViewById(R.id.mobileNumber);
 
-        password1 = (EditText) findViewById(R.id.password);
+
+
+        // find the radioButton by returned id
+        radioGroup = (RadioGroup) findViewById(R.id.logintype_radio);
+
         radiobuttonid = radioGroup.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(R.id.aadharRadio);
+
+        System.out.println("radio...."+radiobuttonid);
+
+        radioButton = (RadioButton) findViewById(radiobuttonid);
+
+        password1 = (EditText) findViewById(R.id.password);
         aadhar_num = (EditText) findViewById(R.id.aadharNumber);
 
+        showPasswordCheckBox = (CheckBox) findViewById(R.id.cbShowPwd);
 
+        // add onCheckedListener on checkbox
+        // when user clicks on this checkbox, this is the handler.
+        showPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // checkbox status is changed from uncheck to checked.
+                if (!isChecked) {
+                    // show password
+                    password1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    password1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
 
-//        login = (Button)findViewById(R.id.btn_login);
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                register();
-//
-//                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                    buildAlertMessageNoGps();
-//
-//                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                    getLocation();
-//                }
-//            }
-//        });
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            getLocation();
+        }
 
         button = (MagicButton) findViewById(R.id.btn_login);
         button.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                Intent i2 = new Intent(Login.this, MainActivity.class);
-//                startActivity(i2);
-//                Toast.makeText(Login.this,"Button Clicked",Toast.LENGTH_SHORT).show();
-//                Toast.makeText(Login.this,"Button Clicked",Toast.LENGTH_SHORT).show();
+                validateLogin();
 
-//                register();
 
-                password=password1.getText().toString().trim();
-                phone = mobile_num.getText().toString().trim();
-                aadhar = aadhar_num.getText().toString().trim();
-
-                uploadServerUrl = baseUrl.getUrl()+"UserLogin";
-                String js = formatDataAsJson();
-                new SendDetails().execute(uploadServerUrl,js.toString());
-
-//                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                    buildAlertMessageNoGps();
-//
-//                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                    getLocation();
-//                }
             }
         });
 
@@ -233,23 +234,6 @@ public class Login extends Activity {
         // find the radioButton by returned id
         radioButton = (RadioButton) findViewById(radiobuttonid);
 
-//        mobile_num.setVisibility(View.GONE);
-//        aadhar_num.setVisibility(View.VISIBLE);
-//        Intent i2 = new Intent(Login.this, MainActivity.class);
-//        startActivity(i2);
-//        if(radioButton.getText().equals("AadharNumber"))
-//        {
-//            mobile_num.setVisibility(View.GONE);
-//            aadhar_num.setVisibility(View.VISIBLE);
-//
-//
-//        }
-//        else
-//        {
-//            mobile_num.setVisibility(View.VISIBLE);
-//        }
-//        Toast.makeText(getBaseContext(),radioButton.getText(),Toast.LENGTH_LONG).show();
-
     }
 
 
@@ -281,8 +265,11 @@ public class Login extends Activity {
     private String formatDataAsJson()
     {
         JSONObject data = new JSONObject();
+
+        System.out.println("radio text.."+radioButton.getText());
+
         try{
-            if(radioButton.getText().equals("MobileNumber"))
+            if(radioButton.getText().equals("Mobile Number"))
             {
                 data.put("MobileNumber",mobile_num.getText().toString());
                 data.put("UPassword",password1.getText().toString());
@@ -304,21 +291,24 @@ public class Login extends Activity {
         return null;
     }
 
-
-    public void register()
+    public void validateLogin()
     {
         intialization();
         if(!validate())
         {
-            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
         }
         else
         {
-//            Toast.makeText(this,"Login Success" , Toast.LENGTH_SHORT).show();
-//            uploadServerUrl = "http://meditfhc.com/mapi/UserLogin";
+
+            password=password1.getText().toString().trim();
+            phone = mobile_num.getText().toString().trim();
+            aadhar = aadhar_num.getText().toString().trim();
+
+            uploadServerUrl = baseUrl.getUrl()+"UserLogin";
             String js = formatDataAsJson();
+            System.out.println("btn clickable text...");
             new SendDetails().execute(uploadServerUrl,js.toString());
-//            onSignSuceesful();
         }
     }
 
@@ -337,6 +327,8 @@ public class Login extends Activity {
             progressDialog.setIndeterminate(false);
             // Show progressdialog
             progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
         }
 
         @Override
@@ -428,7 +420,7 @@ public class Login extends Activity {
                 {
                     module_name = js.getString("ModuleName");
 
-                    userId =  js.getInt("UserID");
+                    userId =  js.getString("UserID");
                     System.out.println("module...."+module_name);
                     if(phone.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
                     {
@@ -445,6 +437,7 @@ public class Login extends Activity {
                         {
                             Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
                             i2.putExtra("mobile",phone);
+                            i2.putExtra("module","doc");
                             i2.putExtra("id",userId);
 //                        Log.e("city in login result...", city);
                             startActivity(i2);
@@ -452,6 +445,14 @@ public class Login extends Activity {
                         else if(module_name.equalsIgnoreCase("Diagnostics"))
                         {
                             Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
+                            i2.putExtra("mobile",phone);
+                            i2.putExtra("module","diag");
+                            i2.putExtra("id",userId);
+                            startActivity(i2);
+                        }
+                        else if(module_name.equalsIgnoreCase("Medicalshop"))
+                        {
+                            Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
                             i2.putExtra("mobile",phone);
                             i2.putExtra("id",userId);
                             startActivity(i2);
@@ -470,7 +471,7 @@ public class Login extends Activity {
 //                        System.out.print("city in loginactivity....."+city);
                             startActivity(i2);
                         }
-                        else if(module_name.equalsIgnoreCase("DoctorClass"))
+                        else if(module_name.equalsIgnoreCase("Doctor"))
                         {
                             Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
                             i2.putExtra("id",userId);
@@ -484,22 +485,13 @@ public class Login extends Activity {
                             i2.putExtra("id",userId);
                             startActivity(i2);
                         }
-                        //                else if(module_name.equalsIgnoreCase("MedicalShop") || module_name.equalsIgnoreCase("MedicalStore"))
-                        //                {
-                        //                    Intent i2 = new Intent(Login.this, MedicalStore.class);
-                        //                    startActivity(i2);
-                        //                }
-                        //                else if(module_name.equalsIgnoreCase("Hospital"))
-                        //                {
-                        //                    Intent i2 = new Intent(Login.this, Hospital.class);
-                        //                    startActivity(i2);
-                        //                }
-//                    else
-//                    {
-//                        Toast.makeText(getApplicationContext(),"Your credentials are not correct",Toast.LENGTH_SHORT).show();
-////                        Intent i2 = new Intent(Login.this, MainActivity.class);
-////                        startActivity(i2);
-//                    }
+                        else if(module_name.equalsIgnoreCase("Medicalshop"))
+                        {
+                            Intent i2 = new Intent(Login.this, MedicalShopDashboard.class);
+                            i2.putExtra("mobile",phone);
+                            i2.putExtra("id",userId);
+                            startActivity(i2);
+                        }
                     }
                 }
 
@@ -572,14 +564,14 @@ public class Login extends Activity {
                     if (addresses.isEmpty())
                     {
 //                        cityname.setTitle("waiting");
-                        present_location.setText("Waiting");
+//                        present_location.setText("Waiting");
                     }
                     else
                     {
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            present_location.setText(city);
+//                            present_location.setText(city);
 ////                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -609,14 +601,14 @@ public class Login extends Activity {
                     if (addresses.isEmpty())
                     {
 //                        cityname.setTitle("waiting");
-                        present_location.setText("Waiting");
+//                        present_location.setText("Waiting");
                     }
                     else
                     {
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            present_location.setText(city);
+//                            present_location.setText(city);
 ////                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -646,14 +638,14 @@ public class Login extends Activity {
                     if (addresses.isEmpty())
                     {
 //                        cityname.setTitle("waiting");
-                        present_location.setText("Waiting");
+//                        present_location.setText("Waiting");
                     }
                     else
                     {
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            present_location.setText(city);
+//                            present_location.setText(city);
 //                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -695,24 +687,24 @@ public class Login extends Activity {
 
     public void intialization()
     {
-        password=password1.getText().toString().trim();
+        password = password1.getText().toString().trim();
         phone = mobile_num.getText().toString().trim();
         aadhar = aadhar_num.getText().toString().trim();
     }
+
     public boolean validate()
     {
         boolean validate = true;
 
         if(password.isEmpty())
         {
-            password1.setError("plese enter the password");
+            password1.setError("please enter the password");
             validate=false;
         }
         else if(password.length()<8)
         {
             password1.setError("password should be 8 charactors or more than 8 charactors ");
             validate = false;
-
 
         }
         if(phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches())
@@ -726,17 +718,16 @@ public class Login extends Activity {
             validate=false;
         }
 
-        if(aadhar.isEmpty())
-        {
-            aadhar_num.setError("please enter the number");
-            validate=false;
-        }
-        else if(aadhar.length()!=12)
-        {
-            aadhar_num.setError(" Invalid aadhar number ");
-            validate=false;
-        }
-
+//        if(aadhar.isEmpty())
+//        {
+//            aadhar_num.setError("please enter the number");
+//            validate=false;
+//        }
+//        else if(aadhar.length()!=12)
+//        {
+//            aadhar_num.setError(" Invalid aadhar number ");
+//            validate=false;
+//        }
 
         return validate;
     }

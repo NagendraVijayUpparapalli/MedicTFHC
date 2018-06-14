@@ -61,14 +61,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="20"
-                    android:hint="Diagnostic Name"
+                    android:hint="@string/diagnostic_name"
                     android:textSize="15dp"
                     android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_account_balance_black_24dp"
                     android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
-
-
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/address"
@@ -106,7 +104,7 @@
                     android:textSize="16dp"
                     android:text="City :" />
 
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/cityId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -151,7 +149,7 @@
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:text="District :" />
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/districtId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +171,7 @@
                     android:textSize="16dp"
                     android:text="State :" />
 
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/stateId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -300,27 +298,6 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:elevation="5dp"-->
-            <!--android:gravity="center"-->
-            <!--android:background="@drawable/edittext_button"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="#00801F"-->
-            <!--android:textSize="16dp"-->
-            <!--android:text="Click Here for Google Map View" />-->
-
-
-            <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="270dp"
                 android:layout_marginStart="50dp"
@@ -559,6 +536,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:scaleType="centerCrop"
+                        android:src="@drawable/noimage11"
                         />
 
                 </android.support.design.widget.AppBarLayout>
@@ -594,6 +572,33 @@
                     android:textColor="#ff0000"
                     android:textSize="16dp"
                     android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/emergencyContactLayout"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:layout_height="match_parent">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/emergencyContactText"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#8c8080"
+                    android:editable="false"
+                    android:layout_gravity="center">
+                    <EditText
+                        android:id="@+id/emergencyContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="20"
+                        android:textSize="15dp"
+                        android:drawablePadding="5dp"
+                        android:drawableLeft="@drawable/phone"
+                        android:hint="Emergency Contact Number"
+                        android:inputType="phone" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout

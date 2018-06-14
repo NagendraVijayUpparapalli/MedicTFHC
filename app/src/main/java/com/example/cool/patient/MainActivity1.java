@@ -1,24 +1,17 @@
 package com.example.cool.patient;
 
-import android.Manifest;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -32,18 +25,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import android.widget.ListView;
 
-import com.rom4ek.arcnavigationview.ArcNavigationView;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -143,7 +130,10 @@ public class MainActivity1 extends AppCompatActivity
         current_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity1.this,DashboardSelectCity.class);
+                Intent i = new Intent(MainActivity1.this,SelectCity.class);
+                i.putExtra("module","patientDashB");
+                i.putExtra("userId",getUserId);
+                i.putExtra("mobile",mobile_number);
                 startActivity(i);
             }
         });
@@ -152,7 +142,6 @@ public class MainActivity1 extends AppCompatActivity
 //        final SearchableSpinner toolbarTextView1 = (SearchableSpinner) findViewById(R.id.toolbarTextView);
 
         listview = (android.widget.ListView)findViewById(R.id.mylist);
-
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = SideNavigationExpandableSubList.getData();
@@ -163,9 +152,9 @@ public class MainActivity1 extends AppCompatActivity
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -182,8 +171,9 @@ public class MainActivity1 extends AppCompatActivity
 
                 } else if (groupPosition == SideNavigationExpandableListAdapter.ITEM4) {
                     // call some activity here
-                    Intent about = new Intent(MainActivity1.this,PatientEditProfile.class);
-                    startActivity(about);
+                    Intent editProfile = new Intent(MainActivity1.this,PatientEditProfile.class);
+                    editProfile.putExtra("id",getUserId);
+                    startActivity(editProfile);
 
                 } else if (groupPosition == SideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
@@ -210,50 +200,26 @@ public class MainActivity1 extends AppCompatActivity
             }
         });
 
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
-//
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                boolean retVal = true;
-//
-//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
-//
-//                    // call some activity here
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
-//                    // call some activity here
-//
-//                }
-//                return retVal;
-//            }
-//        });
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
-
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        expandableListTitle.get(groupPosition)
-//                                + " -> "
-//                                + expandableListDetail.get(
-//                                expandableListTitle.get(groupPosition)).get(
-//                                childPosition), Toast.LENGTH_SHORT
-//                ).show();
                 if (groupPosition == SideNavigationExpandableListAdapter.ITEM1) {
                     if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_1) {
 
                         Intent i = new Intent(MainActivity1.this,GetCurrentDoctorsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
                         startActivity(i);
 
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_2) {
-
-                        // call activity here
+                        Intent i = new Intent(MainActivity1.this,GetCurrentDiagnosticsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
+                        startActivity(i);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_3) {
@@ -284,6 +250,10 @@ public class MainActivity1 extends AppCompatActivity
                     if (childPosition == SideNavigationExpandableListAdapter.SUBITEM3_1) {
 
                         // call activity here
+                        Intent intent = new Intent(MainActivity1.this,ChangePassword.class);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
+
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM3_2) {
@@ -292,7 +262,9 @@ public class MainActivity1 extends AppCompatActivity
 
                     }
 
-                } else if(groupPosition == SideNavigationExpandableListAdapter.ITEM2) {
+                }
+
+                else if(groupPosition == SideNavigationExpandableListAdapter.ITEM2) {
                     if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_1) {
 
                         // call activity here
@@ -303,8 +275,9 @@ public class MainActivity1 extends AppCompatActivity
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_2) {
-
-                        // call activity here
+                        Intent intent = new Intent(MainActivity1.this,PatientMyDiagnosticAppointments.class);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_3) {
@@ -788,72 +761,74 @@ public class MainActivity1 extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-//            Intent in = new Intent(MainActivity1.this,Main4Activity.class);
-//            startActivity(in);
-            //Set the fragment initially
-//            Dashboard_Fragment fragment = new Dashboard_Fragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.MainLayout,fragment)
-//                                       .commit();
-
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-//            Doctor_Fragment fragment1 = new Doctor_Fragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.MainLayout,fragment1)
-//                    .commit();
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.crowd)  {
-            Intent crowd = new Intent(MainActivity1.this,crowdFunding.class);
-            startActivity(crowd);
-        } else if(id== R.id.Achieve) {
-            Intent aciveive = new Intent(MainActivity1.this,WelcomeActivity.class);
-            startActivity(aciveive);
-        } else if(id == R.id.certificate){
-            Intent certificate = new Intent(MainActivity1.this, sliderparts.class);
-            startActivity(certificate);
-        }else if(id == R.id.subscription) {
-            Intent subscription = new Intent(MainActivity1.this,Subscription.class);
-            startActivity(subscription);
-        }else if (id == R.id.video) {
-            Intent video = new Intent(MainActivity1.this,tvvideomedic.class);
-            startActivity(video);
-        } else if (id == R.id.contactus) {
-            Intent contact = new Intent(MainActivity1.this , ContactUs.class);
-            startActivity(contact);
-        } else if (id == R.id.about)  {
-            Intent abouts = new Intent(MainActivity1.this , AboutUs.class);
-            startActivity(abouts);
-        } else if (id == R.id.reach)  {
-            Intent reachs = new Intent(MainActivity1.this,ReachUs.class);
-            startActivity(reachs);
-        } else if(id== R.id.doctor_appointment) {
-            Intent appointment = new Intent(MainActivity1.this,AppointmentTimings.class);
-            startActivity(appointment);
-        } else if (id == R.id.doctor_calendar) {
-            Intent calender = new Intent(MainActivity1.this,DoctorCalendar.class);
-            startActivity(calender);
-        } else if(id == R.id.dimages) {
-            Intent image =  new Intent(MainActivity1.this,DoctorsActvity.class);
-            startActivity(image);
-        } else if(id == R.id.Logout)  {
-            Intent logout =  new Intent(MainActivity1.this,Login.class);
-            startActivity(logout);
-        }
-        else if(id == R.id.change_password)  {
-            Intent change =  new Intent(MainActivity1.this,ChangePassword.class);
-            change.putExtra("mobile",mobile_number);
-            startActivity(change);
-        }
+//        if (id == R.id.nav_camera) {
+////            Intent in = new Intent(MainActivity1.this,Main4Activity.class);
+////            startActivity(in);
+//            //Set the fragment initially
+////            Dashboard_Fragment fragment = new Dashboard_Fragment();
+////            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+////            manager.beginTransaction().replace(R.id.MainLayout,fragment)
+////                                       .commit();
+//
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+////            Doctor_Fragment fragment1 = new Doctor_Fragment();
+////            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+////            manager.beginTransaction().replace(R.id.MainLayout,fragment1)
+////                    .commit();
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        } else if (id == R.id.crowd)  {
+//            Intent crowd = new Intent(MainActivity1.this,crowdFunding.class);
+//            startActivity(crowd);
+//        } else if(id== R.id.Achieve) {
+////            Intent aciveive = new Intent(MainActivity1.this,WelcomeActivity.class);
+////            startActivity(aciveive);
+//        } else if(id == R.id.certificate){
+//            Intent certificate = new Intent(MainActivity1.this, sliderparts.class);
+//            startActivity(certificate);
+//        }else if(id == R.id.subscription) {
+//            Intent subscription = new Intent(MainActivity1.this,Subscription_for_Urban.class);
+//            startActivity(subscription);
+//        }else if (id == R.id.video) {
+//            Intent video = new Intent(MainActivity1.this,tvvideomedic.class);
+//            startActivity(video);
+//        } else if (id == R.id.contactus) {
+//            Intent contact = new Intent(MainActivity1.this , ContactUs.class);
+//            startActivity(contact);
+//        } else if (id == R.id.about)  {
+//            Intent abouts = new Intent(MainActivity1.this , AboutUs.class);
+//            startActivity(abouts);
+//        } else if (id == R.id.reach)  {
+//            Intent reachs = new Intent(MainActivity1.this,ReachUs.class);
+//            startActivity(reachs);
+//        }
+////        else if(id== R.id.doctor_appointment) {
+////            Intent appointment = new Intent(MainActivity1.this,AppointmentTimings.class);
+////            startActivity(appointment);
+////        } else if (id == R.id.doctor_calendar) {
+////            Intent calender = new Intent(MainActivity1.this,DoctorCalendar.class);
+////            startActivity(calender);
+////        } else if(id == R.id.dimages) {
+////            Intent image =  new Intent(MainActivity1.this,DoctorsActvity.class);
+////            startActivity(image);
+////        }
+//        else if(id == R.id.Logout)  {
+//            Intent logout =  new Intent(MainActivity1.this,Login.class);
+//            startActivity(logout);
+//        }
+//        else if(id == R.id.change_password)  {
+//            Intent change =  new Intent(MainActivity1.this,ChangePassword.class);
+//            change.putExtra("mobile",mobile_number);
+//            startActivity(change);
+//        }
 
 
 

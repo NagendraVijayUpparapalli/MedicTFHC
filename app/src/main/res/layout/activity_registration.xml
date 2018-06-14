@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registerLayout"
     android:layout_width="match_parent"
-    android:visibility="gone"
+
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
     <android.support.v4.widget.Space
-        android:id="@+id/cool"
+        android:id="@+id/spaceId"
         android:layout_width="match_parent"
         android:layout_height="30dp" />
     <ImageView
@@ -27,7 +27,7 @@
         android:id="@+id/image1"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:layout_below="@+id/cool"
+        android:layout_below="@+id/spaceId"
         android:scaleType="fitCenter"
         android:src="@drawable/mtw" />
 
@@ -39,7 +39,7 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/image1"
         android:gravity="center"
-        android:text="Registration"
+        android:text="@string/registrationFont"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -80,11 +80,11 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="#fff"
-                        android:hint="First Name"
+                        android:hint="@string/firstName"
                         android:textColor="#fff"
                         android:textSize="15dp"
                         android:inputType="textPersonName"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:drawableLeft="@drawable/personicon"
                         android:drawablePadding="5dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp" />
@@ -103,9 +103,9 @@
                         android:layout_marginEnd="35dp"
                         android:layout_marginStart="8dp"
                         android:backgroundTint="#fff"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:drawableLeft="@drawable/personicon"
                         android:drawablePadding="5dp"
-                        android:hint="Last Name"
+                        android:hint="@string/lastName"
                         android:inputType="textPersonName"
                         android:textColor="#fff"
                         android:textSize="15dp" />
@@ -124,7 +124,7 @@
                     android:layout_width="250dp"
                     android:backgroundTint="#fff"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile Number"
+                    android:hint="@string/mobileNumber"
                     android:inputType="phone"
                     android:textColor="#fff"
                     android:drawableLeft="@drawable/phone1"
@@ -140,16 +140,17 @@
                 android:paddingTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <EditText
                     android:id="@+id/email"
                     android:textSize="15dp"
                     android:layout_width="322dp"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:backgroundTint="#fff"
                     android:textColor="#fff"
                     android:inputType="textEmailAddress"
-                    android:drawableLeft="@drawable/ic_mail_black_24dp"
+                    android:drawableLeft="@drawable/ic_email_white"
                     android:drawablePadding="5dp"
                     android:paddingStart="10dp"
                     android:layout_marginStart="15dp"/>
@@ -171,7 +172,7 @@
                         android:layout_width="150dp"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:backgroundTint="#fff"
                         android:textColor="#fff"
                         android:inputType="textPassword"
@@ -194,7 +195,7 @@
                         android:layout_width="150dp"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:hint="Re-Password"
+                        android:hint="@string/rePassword"
                         android:inputType="textPassword"
                         android:drawableLeft="@drawable/ic_star_black_24dp"
                         android:drawablePadding="5dp"
@@ -219,7 +220,7 @@
                 app:button_icon_height="25dp"
                 app:button_icon_width="23dp"
                 app:expandable_area_color="#4796C2"
-                app:hide_text="SIGN UP"
+                app:hide_text="@string/btnSignup"
                 app:hide_text_color="@android:color/white"
                 app:hide_text_size="8sp"
                 app:icon_button_color="#ace68a"

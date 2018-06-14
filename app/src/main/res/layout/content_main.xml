@@ -140,6 +140,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/diag_cardView"
                     android:layout_width="160dp"
                     android:layout_height="205dp"
                     android:layout_margin="10dp"
@@ -200,7 +201,7 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/CardViewMedical"
+                    android:id="@+id/medical_cardView"
                     android:layout_width="160dp"
                     android:layout_height="205dp"
                     android:layout_margin="10dp"
@@ -250,6 +251,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/hospital_cardView"
                     android:layout_width="160dp"
                     android:layout_height="205dp"
                     android:layout_margin="10dp"
@@ -445,7 +447,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="contact us on 8341495888"
+                            android:text="Contact us on 9676856122"
                             android:textColor="#FFFFFF"
 
                             />

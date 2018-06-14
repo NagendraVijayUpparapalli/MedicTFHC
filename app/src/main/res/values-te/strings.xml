@@ -62,7 +62,34 @@
         <string name="speciality">ప్రత్యేక :</string>
         <string name="upload_aadharimage">Upload AadharImage:</string>
         <string name="choose_convenient_payment_mode_for_patient">రోగికి అనుకూలమైన చెల్లింపు మోడ్ను ఎంచుకోండి</string>
-
+    <string name="door_building_no">Door/Building No</string>
+        <string name="street_location">Street/location</string>
+        <string name="select_city">Select City :</string>
+        <string name="zip_pincode">Zip/Pincode</string>
+        <string name="select_district">Select District :</string>
+        <string name="select_state">Select State :</string>
+        <string name="i_want_to_donate_my_blood_voluntary">I want to donate my blood voluntary</string>
+        <string name="do_you_want_promotional_offer_updates_from">Do You Want Promotional/Offer Updates from</string>
+        <string name="diagnostics">Diagnostics</string>
+        <string name="submit">SUBMIT</string>
+    <string name="loginFont">Login</string>
+    <string name="do_you_want_enable_this_appoinment_in_your_history">Do you want enable this appoinment in your history?</string>
+        <string name="cancel">Cancel</string>
+        <string name="ok">Ok</string>
+        <string name="about_us">About Us</string>
+        <string name="mr_p_ramkumar_varma">Mr.P.Ramkumar Varma</string>
+        <string name="managing_director_and_ceo">(Managing Director and CEO)</string>
+        <string name="change_password">Change Password</string>
+        <string name="current_password">Current Password</string>
+        <string name="new_password">New Password</string>
+        <string name="confirm_new_password">Confirm New Password</string>
+        <string name="current_location">Current Location</string>
+        <string name="all_cities">All Cities</string>
+    <string name="experience">Experience</string>
+    <string name="qualification">Qualification</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="marital_status">Marital Status :</string>
+    <string name="blood_group">Blood Group :</string>
 
 
 </resources>

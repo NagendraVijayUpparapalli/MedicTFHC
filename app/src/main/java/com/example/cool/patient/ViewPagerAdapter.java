@@ -48,7 +48,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
                 if(position == 0){
                     Toast.makeText(context, "app clicked", Toast.LENGTH_SHORT).show();
-                    view.getContext().startActivity(new Intent(view.getContext(),Recongination.class));
+//                    view.getContext().startActivity(new Intent(view.getContext(),Recongination.class));
 
                 } else if(position == 1){
                     Toast.makeText(context, "DoctorClass clicked", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.example.cool.patient;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -41,26 +42,41 @@ import java.util.Locale;
 public class PatientHistoryInDoctor extends AppCompatActivity {
 
     MaterialCalendarView calendarView;
-    ImageView img;
+    ImageView img,doctorImage;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
 
     String Aaadharnumber,Patientname,Mobilenumber,reason,doctorname,speciality,appoinmentdate,doctorcomment;
 
-    String url,date,d;
+    String date,d;
 
     TextView count;
+
+    String patientId, doctorImageUrl, doctorId,doctorMobile;
+    ApiBaseUrl baseUrl;
+
+    ProgressDialog progressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_history_in_doctor);
 
+        baseUrl = new ApiBaseUrl();
+
         calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
         img=(ImageView) findViewById(R.id.img1);
 
+        doctorMobile = getIntent().getStringExtra("doctorMobile");
+        doctorId = getIntent().getStringExtra("id");
+        patientId = getIntent().getStringExtra("patientId");
+        doctorImageUrl = getIntent().getStringExtra("doctorImageUrl");
+
         count=(TextView)findViewById(R.id.appointmentcount);
-        url="https://meditfhc.com/mapi/DocPatientHistory";
-        new GetPatientDetails().execute(url+"?PatientID="+1063);
+        new GetPatientDetails().execute(baseUrl.getUrl()+"DocPatientHistory"+"?PatientID="+patientId);
+
+
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,22 +91,23 @@ public class PatientHistoryInDoctor extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setTitle("Edit Profile");
+//        toolbar.setTitle("Todays Appointments");
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PatientHistoryInDoctor.this,DoctorTodaysAppointment.class);
-//                        intent.putExtra("id",getUserId);
+                        Intent intent = new Intent(PatientHistoryInDoctor.this,DoctorTodaysAppointmentsForPatient.class);
+                        intent.putExtra("mobile",doctorMobile);
+                        intent.putExtra("id",doctorId);
                         startActivity(intent);
 
                     }
                 }
 
         );
-
 
     }
 
@@ -130,6 +147,22 @@ public class PatientHistoryInDoctor extends AppCompatActivity {
     }
 
     private class GetPatientDetails extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(PatientHistoryInDoctor.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -171,7 +204,7 @@ public class PatientHistoryInDoctor extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            //getProfileDetails(result);
+            progressDialog.dismiss();
             getdetails(result);
 
         }
@@ -242,6 +275,10 @@ public class PatientHistoryInDoctor extends AppCompatActivity {
 
                         Intent i = new Intent(PatientHistoryInDoctor.this, ViewPatientHistoryInDoctor.class);
                         i.putExtra("date", d);
+                        i.putExtra("patientId",patientId);
+                        i.putExtra("doctorImageUrl",doctorImageUrl);
+                        i.putExtra("id",doctorId);
+                        i.putExtra("doctorMobile",doctorMobile);
                         i.putStringArrayListExtra("aadharnumber", (ArrayList<String>) aadhar);
                         i.putStringArrayListExtra("patientname", (ArrayList<String>) patientnames);
                         i.putStringArrayListExtra("mobilenumbers", (ArrayList<String>) mobilenumbers);

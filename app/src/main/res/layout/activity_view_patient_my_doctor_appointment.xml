@@ -34,16 +34,16 @@
 
         <TextView
             android:id="@+id/Doctor_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
+            android:textAlignment="center"
             android:text="Amudala Prabhakar Raju Udayasri"
             android:textColor="#ffffff"
             android:textSize="24sp" />
-
 
         <TextView
             android:id="@+id/speciality"
@@ -52,7 +52,7 @@
             android:layout_below="@+id/Doctor_name"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:text="new york, usa"
+            android:text="Test"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="14sp" />
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="phone No"
+                    android:text="@string/mobileNumber"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:textColor="@color/gradStart"
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="click to navigate"
+                    android:text="Click to Navigate"
                     android:textColor="#f50404"
                     android:textSize="22sp" />
 
@@ -282,12 +282,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:weightSum="2"
                         android:orientation="horizontal">
                         <TextView
                             android:id="@+id/cancel"
                             android:layout_marginStart="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="sans-serif-light"
                             android:text="Cancel Appointmnet"
                             android:textAllCaps="true"
@@ -295,13 +297,14 @@
                             android:textColor="#070bf4"
                             android:textSize="10sp" />
                         <TextView
-                            android:layout_marginStart="60dp"
+                            android:layout_marginStart="10dp"
                             android:id="@+id/Reschedule"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:text="Reschedule Appointment"
                             android:textAllCaps="true"
+                            android:layout_weight="1"
                             android:textColor="#070bf4"
                             android:textStyle="bold"
                             android:textSize="10sp" />
@@ -429,6 +432,7 @@
                             android:textStyle="bold"
                             />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -444,17 +448,16 @@
                             android:textColor="#3797CF"
                             android:textSize="13sp" />
 
-
                         <Button
                             android:id="@+id/pay_button"
                             android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/round_button"
-                            android:text="Not Paid"
+                            android:text="Pay"
                             android:textColor="#fff"
                             android:textSize="18dp"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold" />
+
                     </LinearLayout>
                     <!--<View-->
                         <!--android:layout_width="match_parent"-->
@@ -490,7 +493,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bloodbank"
+        android:src="@drawable/noimage11"
         app:zoomage_restrictBounds="false"
         app:zoomage_animateOnReset="true"
         app:zoomage_autoResetMode="UNDER"

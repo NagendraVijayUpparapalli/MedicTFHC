@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -63,6 +64,7 @@ public class Registration extends Activity {
     Animation downnup,Cardviewdowntoup,Textviewdowntoup;
 
     EditText surname,name,mobile,email,password,confirm_password,usertype;
+    String mySurname,myName,myMobile,myEmail,myPassword,myConfirm_password,myUsertype;;
     String selectedUserType;
     MagicButton register;
     static String uploadServerUrl = null;
@@ -79,7 +81,7 @@ public class Registration extends Activity {
     int utype;
 
     AlertDialog alertDialog1;
-    CharSequence[] values = {" Patient ", " DoctorClass ", " Diagnostic "," medical "," Blood Bank "," Ambulance "};
+    CharSequence[] values = {" Patient ", " Doctor ", " Diagnostic "," Medical Shop"," Blood Bank "," Ambulance "};
     static String userType;
     ApiBaseUrl baseUrl;
 
@@ -91,11 +93,12 @@ public class Registration extends Activity {
         setContentView(R.layout.activity_registration);
 
         baseUrl = new ApiBaseUrl();
-        baseUrl.getUrl();
+//        baseUrl.getUrl();
 
         uploadServerUrl = baseUrl.getUrl()+"UserRegistration";
 
         getUserType();
+
         //registration fields
         surname = (EditText) findViewById(R.id.surname);
         name = (EditText) findViewById(R.id.name);
@@ -110,9 +113,7 @@ public class Registration extends Activity {
         register.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String js = formatDataAsJson();
-                System.out.println("params...."+js.toString());
-                new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
+                register();
             }
         });
 
@@ -189,7 +190,9 @@ public class Registration extends Activity {
                 return view;
             }
         };
+
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -245,6 +248,10 @@ public class Registration extends Activity {
         if(userPosition==2)
         {
             utype = 3;
+        }
+        if(userPosition==3)
+        {
+            utype = 4;
         }
 
 
@@ -348,6 +355,18 @@ public class Registration extends Activity {
                     }
                 }
 
+                else if(statuscode == 406){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
             }
             catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -373,8 +392,19 @@ public class Registration extends Activity {
             try
             {
                 org.json.JSONObject jsono = new org.json.JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                showMessage(ss);
+
+                int s = jsono.getInt("Code");
+                if(s == 200)
+                {
+
+                    String ss = (String) jsono.get("Message");
+                    showMessage(ss);
+                }
+                else
+                {
+                    showErrorMessage(jsono.getString("Message"));
+                }
+
                 Log.e("Api response if.....", result);
 
             }
@@ -388,18 +418,42 @@ public class Registration extends Activity {
 
         AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage(responsemessage)
+        a_builder.setMessage("Successfully Completed")
                 .setCancelable(false)
                 .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new Mytask().execute();
+                        String js = emailFormatDataAsJson();
+
+                        System.out.println("registration email json data..."+js.toString());
+
+                        new sendEmailRegistrationDetails().execute(baseUrl.getEmailUrl(),js.toString());
+
                         Intent i2 = new Intent(Registration.this, Login.class);
                         startActivity(i2);
                     }
                 });
         AlertDialog alert = a_builder.create();
-//        alert.setTitle("Login Credentials");
+        alert.setTitle("Registration");
+        alert.show();
+
+    }
+
+    public void showErrorMessage(String message){
+
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Registration");
         alert.show();
 
     }
@@ -423,13 +477,86 @@ public class Registration extends Activity {
             public void onClick(DialogInterface dialog, int i) {
                 Intent i2 = new Intent(Registration.this, Registration.class);
                 startActivity(i2);
-                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog alert = a_builder.create();
         alert.setTitle("Type of Registration");
         alert.show();
 
+    }
+
+    public void register()
+    {
+        intialization();
+        if(!validate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            System.out.println("params...."+js.toString());
+            new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
+        }
+    }
+
+
+    public void intialization()
+    {
+//        surname,name,mobile,email,password,confirm_password,usertype;
+
+        mySurname = surname.getText().toString().trim();
+        myName = name.getText().toString().trim();
+        myMobile = mobile.getText().toString().trim();
+        myEmail = email.getText().toString().trim();
+        myPassword = password.getText().toString().trim();
+        myConfirm_password = confirm_password.getText().toString().trim();
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+        if(mySurname.isEmpty())
+        {
+            surname.setError("Please enter First Name");
+            validate=false;
+        }
+        if(myName.isEmpty())
+        {
+            name.setError("Please enter Last Name");
+            validate=false;
+        }
+        if(myPassword.length()<8)
+        {
+            password.setError("password should be 8 charactors or more than 8 charactors ");
+            validate = false;
+        }
+        if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(myMobile.length()<10 || myMobile.length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(myEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(myEmail).matches())
+        {
+            email.setError("please enter valid email id");
+            validate=false;
+        }
+
+        if(!myPassword.equals(myConfirm_password))
+        {
+            confirm_password.setError("password doesn't maatch");
+        }
+
+        return validate;
     }
 
     private void getLocation() {
@@ -585,27 +712,27 @@ public class Registration extends Activity {
                 switch (item) {
                     case 0:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "Patient", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "Patient", Toast.LENGTH_LONG).show();
                         break;
                     case 1:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "DoctorClass", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "DoctorClass", Toast.LENGTH_LONG).show();
                         break;
                     case 2:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "Diagnostic Item Clicked", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "Diagnostic Item Clicked", Toast.LENGTH_LONG).show();
                         break;
                     case 3:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "medical Item Clicked", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "medical Item Clicked", Toast.LENGTH_LONG).show();
                         break;
                     case 4:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "Blood Item Clicked", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "Blood Item Clicked", Toast.LENGTH_LONG).show();
                         break;
                     case 5:
                         userPosition = item;
-                        Toast.makeText(Registration.this, "Ambulance Item Clicked", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Registration.this, "Ambulance Item Clicked", Toast.LENGTH_LONG).show();
                         break;
                     default:
 //                        userPosition = 5;
@@ -640,7 +767,7 @@ public class Registration extends Activity {
                     showUserType();
 //                }
 
-                Toast.makeText(Registration.this, "OK", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Registration.this, "OK", Toast.LENGTH_SHORT).show();
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -648,14 +775,14 @@ public class Registration extends Activity {
             public void onClick(DialogInterface dialog, int i) {
                 Intent i2 = new Intent(Registration.this, Login.class);
                 startActivity(i2);
-                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
             }
         });
 
         alert.show();
     }
 
-    //////Registration/////////
+    //////Registration SMS/////////
     private class Mytask extends AsyncTask<Void, Void,Void>
     {
 
@@ -665,16 +792,31 @@ public class Registration extends Activity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
-                // HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
-                //HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
+            try
+            {
+                String usertype = null;
 
-                String usertype="patient";
+                if(utype == 1)
+                {
+                    usertype = "Patient";
+                }
+                if(utype == 2)
+                {
+                    usertype = "Doctor";
+                }
+                if(utype == 3)
+                {
+                    usertype = "Diagnostic";
+                }
+                if(utype == 4)
+                {
+                    usertype = "Medical Shop";
+                }
+
                 String phone = mobile.getText().toString();
                 String password1 = password.getText().toString();
 
-
-                String message="You have successfully registered as a "+usertype+", "+"and your User ID:"+phone+"and Password:"+password1+". Thank you."+"Click here to Login: "+baseUrl.getLink();
+                String message="You have successfully registered as a "+usertype+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
                 smsUrl = baseUrl.getSmsUrl();
                 String uname="MedicTr";
                 String password="X!g@c$R2";
@@ -713,8 +855,195 @@ public class Registration extends Activity {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
             super.onPreExecute();
+        }
+    }
+
+    private String emailFormatDataAsJson()
+    {
+        org.json.JSONObject data = new org.json.JSONObject();
+
+        String usertype = null;
+
+        if(utype == 1)
+        {
+            usertype = "Patient";
+        }
+        if(utype == 2)
+        {
+            usertype = "Doctor";
+        }
+        if(utype == 3)
+        {
+            usertype = "Diagnostic";
+        }
+        if(utype == 4)
+        {
+            usertype = "Medical Shop";
+        }
+
+        String phone = mobile.getText().toString();
+        String password1 = password.getText().toString();
+
+        String message="You have successfully registered as a "+usertype+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
+
+        try
+        {
+            data.put("includeFooter","Yes");
+            data.put("password","X!g@c$R2");
+            data.put("userName","MedicTr");
+
+            org.json.JSONObject messageJsonData = new org.json.JSONObject();
+            messageJsonData.put("custRef","423423423");
+            messageJsonData.put("fromEmail","services@medictfhc.com");
+            messageJsonData.put("html","The answer is Business");
+            messageJsonData.put("recipient",email.getText().toString());
+            messageJsonData.put("fromName","Medic");
+            messageJsonData.put("replyTo","services@medictfhc.com");
+            messageJsonData.put("subject","Registered Successfully");
+            messageJsonData.put("text","Hello");
+
+            org.json.JSONObject mTagJsonData = new org.json.JSONObject();
+            mTagJsonData.put("mtag1","testing");
+
+            messageJsonData.put("mtag",new org.json.JSONObject(mTagJsonData.toString()));
+
+            org.json.JSONObject templateJsonData = new org.json.JSONObject();
+            templateJsonData.put("templateId","MedicEmail2");
+
+            org.json.JSONObject templateValuesJsonData = new org.json.JSONObject();
+            templateValuesJsonData.put("UserNameParamater",surname.getText().toString()+" "+name.getText().toString());
+            templateValuesJsonData.put("MessageParamater",message);
+            templateJsonData.put("templateValues",new org.json.JSONObject(templateValuesJsonData.toString()));
+
+            messageJsonData.put("template",new org.json.JSONObject(templateJsonData.toString()));
+
+            data.put("message",new org.json.JSONObject(messageJsonData.toString()));
+
+            System.out.println("js obj..."+data);
+
+            return data.toString();
+
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
+    }
+
+    //send RegistrationDetails to user call
+    private class sendEmailRegistrationDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(Registration.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params....."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result email   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
+
+            org.json.JSONObject js;
+
+//            try {
+//                js= new JSONObject(result);
+//                int s = js.getInt("Code");
+//                if(s == 200)
+//                {
+//
+//                    showSuccessMessage(js.getString("Message"));
+//                }
+//                else
+//                {
+//                    showErrorMessage(js.getString("Message"));
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
         }
     }
 

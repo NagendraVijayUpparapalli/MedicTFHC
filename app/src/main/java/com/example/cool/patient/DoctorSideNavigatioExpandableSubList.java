@@ -20,7 +20,7 @@ public class DoctorSideNavigatioExpandableSubList {
         List<String> Aboutus = new ArrayList<String>();
         List<String> Contactus = new ArrayList<String>();
         List<String> list1 = new ArrayList<String>();
-        list1.add("Appointment Calender");
+        list1.add("Appointment Calendar");
 //        list1.add("My Patient");
         list1.add("Todays Appointments");
 //        list1.add("Find Hospital");

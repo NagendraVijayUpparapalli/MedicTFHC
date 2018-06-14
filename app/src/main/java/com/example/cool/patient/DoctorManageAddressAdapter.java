@@ -40,7 +40,7 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
 
     List<DoctorManageAddressClass> doctorManageAddressClassArrayList;
     Context context;
-    String lati,longi,consultationFee,comments,emergencyContact,addressId;
+    String lati,longi,consultationFee,comments,emergencyContact,addressId,district;
     boolean emergencyService;
 
     ProgressDialog progressDialog;
@@ -51,7 +51,9 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
     int index = 0;
 
     EditText reason_Todelete;
-    String reasonToDelete = null;
+    String reasonToDelete = null,phone;
+
+    ProgressDialog mProgressDialog;
 
 
 //    EditText reason_Todelete;
@@ -65,7 +67,7 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
 
         public int currentItem;
         public ImageView profileImage;
-        public TextView hospitalName,address,city,state,pincode,district,mobile,contactPerson;
+        public TextView hospitalName,address,city,state,pincode,district,mobile,contactPerson,regMobile;
 
 
         public Button edit,inactive;
@@ -85,8 +87,7 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
             profileImage = (ImageView) itemView.findViewById(R.id.profile_image);
 
             reason_Todelete = (EditText) itemView.findViewById(R.id.reason_delete);
-
-
+            regMobile = (TextView) itemView.findViewById(R.id.regMobile);
 
             edit = (Button) itemView.findViewById(R.id.Edit);
             inactive = (Button) itemView.findViewById(R.id.InActive);
@@ -108,10 +109,12 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
                     intent.putExtra("fee",consultationFee);
                     intent.putExtra("emergencyContact",emergencyContact);
 
+                    intent.putExtra("id",docId);
                     intent.putExtra("lati",lati);
                     intent.putExtra("longi",longi);
                     intent.putExtra("comments",comments);
                     intent.putExtra("emergencyService",emergencyService);
+                    intent.putExtra("regMobile",regMobile.getText().toString());
 
                     itemView.getContext().startActivity(intent);
                 }
@@ -151,11 +154,19 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         viewHolder.state.setText(doctorManageAddressClassArrayList.get(i).getStateName());
         viewHolder.contactPerson.setText(doctorManageAddressClassArrayList.get(i).getContactPerson());
         viewHolder.mobile.setText(doctorManageAddressClassArrayList.get(i).getLandLineNo());
+        viewHolder.regMobile.setText(doctorManageAddressClassArrayList.get(i).getRegisteredMobileNumber());
 
-
-        reasonToDelete = reason_Todelete.getText().toString();
 
         final int pos = i;
+
+        reasonToDelete = reason_Todelete.getText().toString();
+        phone = viewHolder.regMobile.getText().toString();
+        docId = doctorManageAddressClassArrayList.get(pos).getDoctorId();
+        addId = doctorManageAddressClassArrayList.get(pos).getAddressId();
+        comment = doctorManageAddressClassArrayList.get(pos).getDeleteReason();
+
+        System.out.println("doc id in manage adapter.."+docId);
+
 
         System.out.println("size.."+doctorManageAddressClassArrayList.size());
 
@@ -163,24 +174,19 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
             @Override
             public void onClick(View v) {
 
-                    docId = doctorManageAddressClassArrayList.get(pos).getDoctorId();
-                    addId = doctorManageAddressClassArrayList.get(pos).getAddressId();
-                    comment = doctorManageAddressClassArrayList.get(pos).getDeleteReason();
 
                 System.out.println("size.."+doctorManageAddressClassArrayList.size());
 
-//                    deleteItem(pos);
+                    deleteItem(pos);
                     Intent intent = new Intent(context,DoctorDeleteAddress.class);
                     intent.putExtra("DoctorID",docId);
                     intent.putExtra("AddressID",addId);
                     intent.putExtra("Comment",comment);
+                    intent.putExtra("mobile",phone);
 
                     context.startActivity(intent);
 
-
-//                    String js = formatDataAsJson();
-//                    new sendDetailsToDeleteDoctorAddress().execute(baseUrl.getUrl()+"DeleteDoctorAddress?DoctorID="+docId+"&AddressID="+addId+"&Comment="+comment);
-                    index = pos;
+                 index = pos;
             }
         });
 
@@ -190,6 +196,7 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorManageAddressClassArrayList.get(i).getProfileImage());
 
 
+        district = doctorManageAddressClassArrayList.get(i).getDistrict();
         addressId = doctorManageAddressClassArrayList.get(i).getAddressId();
 
         lati = doctorManageAddressClassArrayList.get(i).getLatitude();
@@ -220,6 +227,21 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
     private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            mProgressDialog = new ProgressDialog(context);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Image");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading.hello..");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
+//        }
+
         public GetProfileImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
@@ -238,6 +260,8 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         }
 
         protected void onPostExecute(Bitmap result) {
+
+//            mProgressDialog.dismiss();
             bmImage.setImageBitmap(result);
         }
 

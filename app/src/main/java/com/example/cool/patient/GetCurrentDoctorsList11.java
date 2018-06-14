@@ -53,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,6 +71,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import android.widget.ListView;
 
@@ -116,10 +118,15 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     ListView listview;
 
     ApiBaseUrl baseUrl;
-    int getUserId;
+    String getUserId;
     TextView userId;
 
     static String getcity=null;
+
+    List<String> specialityList;
+    HashMap<String, String> mySpecialitiesList = new HashMap<String, String>();
+    ArrayAdapter<String > specialityAdapter;
+    SearchableSpinner Speciality;
 
     String cur_addressId,mydoctorId,myaddressId,mydocName,myhospitalName,myaddress,mycity,mystate,myfee,mypaymentMode,myphone,myLati,myLongi,myImage;
 
@@ -132,51 +139,25 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
         current_city = (TextView) findViewById(R.id.select_city);
 
+        new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
         current_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(GetCurrentDoctorsList11.this,PatientDoctorListSelectCity.class);
+                Intent i = new Intent(GetCurrentDoctorsList11.this,SelectCity.class);
+                i.putExtra("module","docList");
+                i.putExtra("userId",getUserId);
+                i.putExtra("mobile",getIntent().getStringExtra("mobile"));
                 startActivity(i);
             }
         });
 
-        getUserId = getIntent().getIntExtra("userId",getUserId);
+        getUserId = getIntent().getStringExtra("userId");
         getcity = getIntent().getStringExtra("city");
         current_city.setText(getcity);
         System.out.print("userid in getdoctors list....."+getUserId);
 
-//        userId=(TextView)findViewById(R.id.userId);
-//        userId.setText(getUserId);
-
-
         myList = new ArrayList<DoctorClass>();
-
-//        String js = formatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//
-//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//
-//        adapter = new DoctorListAdapter(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
-
-
-
-//        current_city.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(GetCurrentDoctorsList.this,SelectCity.class);
-//                i.putExtra("docList","doclist");
-//                startActivity(i);
-//            }
-//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //  setSupportActionBar(toolbar);
@@ -189,6 +170,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                     public void onClick(View v) {
 //                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(GetCurrentDoctorsList11.this,MainActivity.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
                         startActivity(intent);
 
                     }
@@ -199,52 +182,119 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
-
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getLocation();
         }
 
+        getlatlng();
+
+        MyDialog =  new Dialog(GetCurrentDoctorsList11.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.speciality_based_layout);
+
+        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
 
 
+        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
+        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
+        okBtn.setEnabled(true);
+        cancelBtn.setEnabled(true);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+                anotheralert();
 
-//        CardView cardView = (CardView) findViewById(R.id.card_view);
-//        cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showalert();
-//            }
-//        });
+            }
+        });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anotheralert();
+            }
+        });
+        MyDialog.setCancelable(false);
+        MyDialog.setCanceledOnTouchOutside(false);
+        MyDialog.show();
+    }
 
-//        MyDialog =  new Dialog(GetCurrentDoctorsList.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.speciality_based_layout);
-//
-//        Spinner spinner1 = (Spinner)MyDialog.findViewById(R.id.speciality);
-//        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, states);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Specify the layout to use when the list of choices appears
-//        spinner1.setAdapter(adapter); // Apply the adapter to the spinner
-//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//                anotheralert();
-//
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                anotheralert();
-//            }
-//        });
-//        MyDialog.setCancelable(false);
-//        MyDialog.setCanceledOnTouchOutside(false);
-//        MyDialog.show();
+
+    //    get doctor specialities from api call
+    private class GetAllSpeciality extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            getSpecialities(result);
+
+        }
+    }
+
+
+    private void getSpecialities(String result) {
+        try
+        {
+            JSONArray jsonArr = new JSONArray(result);
+            specialityList = new ArrayList<>();
+
+            for (int i = 0; i < jsonArr.length(); i++) {
+                System.out.print("myspeciality for loop in..");
+
+                org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
+
+                String specialityKey = jsonObj.getString("SpecialityID");
+                String specialityValue = jsonObj.getString("Speciality");
+                mySpecialitiesList.put(specialityKey,specialityValue);
+                specialityList.add(jsonObj.getString("Speciality"));
+
+                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
+                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
+
+
+//                System.out.print("myspeciality list.."+mySpecialitiesList);
+//                System.out.print("speciality list in get method.."+specialityList);
+            }
+
+        }
+        catch (JSONException e)
+        {}
     }
 
 
@@ -266,7 +316,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         final android.app.AlertDialog alert = builder.create();
         alert.show();
     }
-
 
 
     private void getLocation() {
@@ -460,17 +509,12 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     {
         JSONObject data = new JSONObject();
 
-        try{
-
-//                data.put("Latitude","17.0010464");
-//                data.put("Longitude","82.2113167");
-//                data.put("Distance", dis);
-
-            data.put("Latitude",lattitude);
-            data.put("Longitude",longitude);
+        try
+        {
+            data.put("Latitude",selectedCitylat);
+            data.put("Longitude",selectedCitylong);
             data.put("Distance", dis);
             return data.toString();
-//            }
         }
         catch (Exception e)
         {
@@ -480,9 +524,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         return null;
     }
 
-
     //Get doctors list from api call
-
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
         @Override
@@ -735,12 +777,16 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
         okBtn.setEnabled(true);
         cancelBtn.setEnabled(true);
+
+
+        adapter = new DoctorListAdapter11(this, myList);
+        layoutManager = new LinearLayoutManager(this);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
 
-                String js = formatDataAsJson();
+                String js = specialityBasedFormatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
 
                 new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
@@ -750,9 +796,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
                 recyclerView.setHasFixedSize(true);
 
-
-//                adapter = new DoctorListAdapter(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
 
@@ -778,7 +821,10 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
         distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
 
-        seek_bar.setProgress(dis);
+        seek_bar.setProgress(20);
+
+        adapter = new DoctorListAdapter11(this, myList);
+        layoutManager = new LinearLayoutManager(this);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -801,28 +847,47 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 dis = progress_value;
                 System.out.println("dis.."+dis);
                 getlatlng();
-
             }
         });
 
         distance.setText("Distance :"+seek_bar.getProgress()+"Km");
 
-//        String js = formatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<DoctorClass>();
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//
-//        adapter = new DoctorListAdapter(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
+        String js = specialityBasedFormatDataAsJson();
+        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
 
+        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+        myList = new ArrayList<DoctorClass>();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+
+
+        adapter = new DoctorListAdapter11(this, myList);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private String specialityBasedFormatDataAsJson()
+    {
+        JSONObject data = new JSONObject();
+
+        try{
+            data.put("Latitude",selectedCitylat);
+            data.put("Longitude",selectedCitylong);
+            data.put("Distance", dis);
+            data.put("Speciality", Speciality.getSelectedItem().toString());
+            return data.toString();
+//            }
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
     }
 
 
@@ -831,7 +896,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         if(Geocoder.isPresent())
         {
             try {
-                selectedlocation = city;
+                selectedlocation = getcity;
                 System.out.println("getlatlong method city....."+selectedlocation);
                 Geocoder gc=new Geocoder(this);
                 List<Address> addresses1=gc.getFromLocationName(selectedlocation,5);
@@ -845,7 +910,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 selectedCitylat = l1.get(0).latitude;
                 selectedCitylong = l1.get(0).longitude;
 
-//                getaddress(selectedCitylat,selectedCitylong);
+                String js = formatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+
+                adapter = new DoctorListAdapter11(this, myList);
+                layoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
 
 
             } catch (IOException e) {

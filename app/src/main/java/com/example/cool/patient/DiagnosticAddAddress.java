@@ -3,16 +3,25 @@ package com.example.cool.patient;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -20,15 +29,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,6 +56,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -49,26 +66,27 @@ import br.com.bloder.magic.view.MagicButton;
 
 public class DiagnosticAddAddress extends AppCompatActivity {
 
-    EditText diagnosticName,address,pincode,contactPerson,mobile,landlineMobileNumber,comments,lat,lng;
-    Spinner city,state,district;
+    EditText diagnosticName,address,pincode,contactPerson,mobile,landlineMobileNumber,comments,lat,lng,emergencyContactNumber;
+    SearchableSpinner city,state,district;
     CheckBox availableService;
     ImageView centerImage;
     FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
+    LinearLayout emergencyContactLayout;
 
 
     static String uploadServerUrl = null,addressId ;
-    static String myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
+    static String myDiagnosticName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,
+            myLati,myLngi,myCity,myState,myDistrict,myFromTime,myToTime;
     boolean myAvailableService;
 
-    static int getUserId;
+    static String getUserId,regMobile;
     TextView speciality;
 
     String[] ListItems;
 
     boolean[] checkedItems;
     List<String> getmUserItems = new ArrayList<>();
-    List<String> getmUserItems_Value = new ArrayList<String>();
     Map<String, List<String>> map = new HashMap<String, List<String>>();
 
     //get specialities fields
@@ -85,8 +103,15 @@ public class DiagnosticAddAddress extends AppCompatActivity {
     HashMap<Long, String> myPmTimeSlotsList = new HashMap<Long, String>();
     List<String> myDistrictsList = new ArrayList<String>();
 
-    final int REQUEST_CODE_GALLERY1 = 999;
+    List<String> seletedSpecialityItems = null;
+    List<String> getmUserItems_Value = new ArrayList<String>();
 
+
+    // base64 image variables
+    final int REQUEST_CODE_GALLERY1 = 999;
+    Uri selectedCenterImageUri;
+    Bitmap selectedCenterImageBitmap = null;
+    String encodedCenterImage;
     ApiBaseUrl baseUrl;
 
     //timings variables
@@ -101,6 +126,8 @@ public class DiagnosticAddAddress extends AppCompatActivity {
     //get lat,lng on touch map
     String myLatitude,myLongitude;
     TextView getLatLong;
+
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -119,14 +146,15 @@ public class DiagnosticAddAddress extends AppCompatActivity {
 
         new GetAllDiagSpecialities().execute(baseUrl.getUrl()+"GetDiagSpeciality");
 
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        getUserId = getIntent().getStringExtra("id");
+        regMobile = getIntent().getStringExtra("regMobile");
         System.out.print("diagid in add address....."+getUserId);
 
         diagnosticName = (EditText) findViewById(R.id.Diagnostic_Name);
         address = (EditText) findViewById(R.id.Address);
-        city = (Spinner) findViewById(R.id.cityId);
-        state = (Spinner) findViewById(R.id.stateId);
-        district = (Spinner) findViewById(R.id.districtId);
+        city = (SearchableSpinner) findViewById(R.id.cityId);
+        state = (SearchableSpinner) findViewById(R.id.stateId);
+        district = (SearchableSpinner) findViewById(R.id.districtId);
         mobile = (EditText) findViewById(R.id.Mobile_Number);
         pincode = (EditText) findViewById(R.id.pincode);
         contactPerson = (EditText) findViewById(R.id.Frontoffice);
@@ -144,38 +172,33 @@ public class DiagnosticAddAddress extends AppCompatActivity {
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
         btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
 
-        getLatLong.setOnClickListener(new View.OnClickListener() {
+        emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
+        emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
+
+        availableService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DiagnosticAddAddress.this,MapsActivity.class);
-                intent.putExtra("diag","diagAdd");
-                intent.putExtra("id",getUserId);
-                intent.putExtra("diagName",diagnosticName.getText().toString());
-                intent.putExtra("address",address.getText().toString());
-                intent.putExtra("city",city.getSelectedItem().toString());
-                intent.putExtra("state",state.getSelectedItem().toString());
-                intent.putExtra("district",district.getSelectedItem().toString());
-                intent.putExtra("mobile",mobile.getText().toString());
-                intent.putExtra("pincode",pincode.getText().toString());
-                intent.putExtra("person",contactPerson.getText().toString());
-                intent.putExtra("landmobile",landlineMobileNumber.getText().toString());
-                intent.putExtra("comments",comments.getText().toString());
-                startActivity(intent);
+                viewEmergencyContactField();
             }
         });
 
-        System.out.print("diagnos in add address comments....."+comments.getText().toString());
-//        myLatitude = getIntent().getStringExtra("lat");
-//        myLongitude = getIntent().getStringExtra("lng");
+        getLatLong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validateAddAddress();
+            }
+        });
 
         btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String js = formatDataAsJson();
-//                new sendEditProfileDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
+
+                validateFullAddress();
             }
 
         });
+
+        System.out.print("diagnos in add address comments....."+comments.getText().toString());
 
         addCenterIcon.setOnClickListener(
                 new View.OnClickListener() {
@@ -275,15 +298,8 @@ public class DiagnosticAddAddress extends AppCompatActivity {
                             }
                         }
 
-
                         getmUserItems.add(item);
                         map.put("Speciaity",getmUserItems);
-
-
-                        // mItemSelectedFriday.setText("Friday=>"+item);
-
-
-
 
                     }
                 });
@@ -319,200 +335,256 @@ public class DiagnosticAddAddress extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.qrcode);
-
-//        toolbar.setNavigationIcon(R.drawable.qrcode);
-
-//        getSupportActionBar().setCustomView();
-
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setTitle("Add Address");
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DiagnosticAddAddress.this,DiagnosticDashboard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
                         startActivity(intent);
-
                     }
                 }
-
         );
-
     }
 
-//    private String formatDataAsJson()
-//    {
-//
-//        JSONObject data = new JSONObject();
-//
-////        System.out.println("emergency contact..."+Emergency_mobile);
-//
-//        myHospitalName = hospitalName.getText().toString().trim();
-//        myAddress = address.getText().toString().trim();
-//        myPincode = pincode.getText().toString().trim();
-//        myContactPerson = contactPerson.getText().toString();
-//        myFee = fee.getText().toString();
-//        myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
-//        myComments = comments.getText().toString().trim();
-//        myLati = lat.getText().toString().trim();
-//        myLngi = lng.getText().toString().trim();
-//        myCity= city.getSelectedItem().toString();
-//        myState= state.getSelectedItem().toString();
-//        myDistrict= district.getSelectedItem().toString();
-//
-//        if(availableService.isChecked()){
-//            myAvailableService = true;
-//        }
-//        else if(!availableService.isChecked())
-//        {
-//            myAvailableService = false;
-//        }
-//
-//        try{
-//            data.put("DoctorID",getUserId);
-//            data.put("Address1",myAddress);
-//            data.put("HospitalName",myHospitalName);
-//
-//            data.put("ZipCode",myPincode);
-//            data.put("LandlineNo",myLandlineMobileNumber);
-//
-////            data.put("EmergencyContact",myExperience);///
-//
-//            data.put("District",myDistrict);
-//            data.put("FrontofficeContactPerson",myContactPerson);
-//
-//            data.put("iConsultationFee",myFee);
-//            data.put("EmergencyService", myAvailableService);
-//            data.put("Latitude",myLati);
-//            data.put("Longitude", myLngi);
-//            data.put("PromotionalOffer", myComments);///
-//
-//            return data.toString();
-//
-//        }
-//        catch (Exception e)
-//        {
-//            Log.d("JSON","Can't format JSON");
-//        }
-//
-//        return null;
-//    }
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+        }
+    }
 
+    //image permissions
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-    //send diagnostic edit profile details
-    private class sendEditProfileDetails extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String data = "";
-
-//            HttpURLConnection connection=null;
-            HttpURLConnection httpURLConnection = null;
-            try {
-                System.out.println("dsfafssss....");
-
-                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                Log.d("Service","Started");
-                httpURLConnection.connect();
-
-                //write
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params diag add....."+params[1]);
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-
-                int statuscode = httpURLConnection.getResponseCode();
-
-                System.out.println("status code....."+statuscode);
-
-                InputStream in = null;
-                if (statuscode == 200) {
-
-                    in = httpURLConnection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                    int inputStreamData = inputStreamReader.read();
-                    while (inputStreamData != -1) {
-                        char current = (char) inputStreamData;
-                        inputStreamData = inputStreamReader.read();
-                        data += current;
-                    }
-
-                }
-                else if(statuscode == 404){
-                    in = httpURLConnection.getErrorStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                    int inputStreamData = inputStreamReader.read();
-                    while (inputStreamData != -1) {
-                        char current = (char) inputStreamData;
-                        inputStreamData = inputStreamReader.read();
-                        data += current;
-                    }
-                }
-                else if(statuscode == 500){
-                    in = httpURLConnection.getErrorStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                    int inputStreamData = inputStreamReader.read();
-                    while (inputStreamData != -1) {
-                        char current = (char) inputStreamData;
-                        inputStreamData = inputStreamReader.read();
-                        data += current;
-                    }
-                }
+        if (requestCode == REQUEST_CODE_GALLERY1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_CODE_GALLERY1);
+            } else {
+                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
             }
-            catch (UnsupportedEncodingException e)
-            {
-                e.printStackTrace();
-            }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-            }
-
-            return data;
+            return;
         }
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-//
-            Log.e("TAG result diag add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            JSONObject js;
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
-//            try {
-//                js= new JSONObject(result);
-//                int s = js.getInt("Code");
-//                if(s == 200)
-//                {
-//                    addressId = js.getString("DataValue");
-////                    showSuccessMessage(js.getString("Message"));
-//                }
-////                else
-////                {
-////                    showErrorMessage(js.getString("Message"));
-////                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_GALLERY1) {
+//            onSelectFromGalleryResult(data);
+//             Make sure the request was successful
+            Log.d("hello","I'm out.");
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+                selectedCenterImageUri = data.getData();
+                BufferedWriter out=null;
+                try {
+                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+
+                }
+                catch (IOException e)
+                {
+                    System.out.println("Exception ");
+
+                }
+                centerImage.setImageBitmap(selectedCenterImageBitmap);
+                Log.d("hello","I'm in.");
+
+            }
+        }
+
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void validateAddAddress()
+    {
+        if(!validate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent intent = new Intent(DiagnosticAddAddress.this,MapsActivity.class);
+            intent.putExtra("doc","diagAdd");
+            intent.putExtra("id",getUserId);
+            intent.putExtra("regMobile",regMobile);
+            intent.putExtra("diagName",diagnosticName.getText().toString());
+            intent.putExtra("address",address.getText().toString());
+            intent.putExtra("city",city.getSelectedItem().toString());
+            intent.putExtra("state",state.getSelectedItem().toString());
+            intent.putExtra("district",district.getSelectedItem().toString());
+            intent.putExtra("mobile",mobile.getText().toString());
+            intent.putExtra("pincode",pincode.getText().toString());
+            intent.putExtra("person",contactPerson.getText().toString());
+            intent.putExtra("landmobile",landlineMobileNumber.getText().toString());
+            intent.putExtra("comments",comments.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+        if(diagnosticName.getText().toString().trim().isEmpty())
+        {
+            diagnosticName.setError("please enter the name");
+            validate  = false;
 
         }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the address");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the pincode");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+        if(mobile.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobile.getText().toString().trim()).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(mobile.getText().toString().trim().length()<10 || mobile.getText().toString().trim().length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+
+        return validate;
+    }
+
+    public void validateFullAddress()
+    {
+        if(!addressValidate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean addressValidate()
+    {
+        boolean validate = true;
+        if(diagnosticName.getText().toString().trim().isEmpty())
+        {
+            diagnosticName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the address");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the pincode");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+
+        if( comments.getText().toString().trim().isEmpty())
+        {
+            comments.setError("please enter comments");
+            validate  = false;
+
+        }
+        if( lat.getText().toString().isEmpty())
+        {
+            lat.setError("please select location");
+            validate  = false;
+
+        }
+        if( lng.getText().toString().isEmpty())
+        {
+            lng.setError("please select location");
+            validate  = false;
+
+        }
+
+        if(mobile.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobile.getText().toString().trim()).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(mobile.getText().toString().trim().length()<10 || mobile.getText().toString().trim().length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
+        {
+            emergencyContactNumber.setError("please enter emergency contact");
+            validate=false;
+        }
+        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+        {
+            emergencyContactNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        return validate;
     }
 
     public void showalert() {
@@ -822,6 +894,339 @@ public class DiagnosticAddAddress extends AppCompatActivity {
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private String formatDataAsJson()
+    {
+
+        JSONObject data = new JSONObject();
+
+//        System.out.println("emergency contact..."+Emergency_mobile);
+
+        myDiagnosticName = diagnosticName.getText().toString().trim();
+        myAddress = address.getText().toString().trim();
+        myPincode = pincode.getText().toString().trim();
+        myContactPerson = contactPerson.getText().toString();
+        myMobile = mobile.getText().toString();
+        myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
+        myComments = comments.getText().toString().trim();
+        myLati = lat.getText().toString().trim();
+        myLngi = lng.getText().toString().trim();
+        myCity= city.getSelectedItem().toString();
+        myState= state.getSelectedItem().toString();
+//        mySpeciality = speciality.///////////
+        myDistrict= district.getSelectedItem().toString();
+        myFromTime = chooseTime.getText().toString();
+        myToTime = ToTime.getText().toString();
+
+        try{
+
+            org.json.simple.JSONArray allDataArray = new org.json.simple.JSONArray();
+
+
+            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+
+                String key = entry.getKey();
+                List<String> values = entry.getValue();
+
+                String a[] = new String[seletedSpecialityItems.size()];
+
+                System.out.println("spec seleted items.."+seletedSpecialityItems);
+
+                System.out.println("spec seleted items sizezzz.."+seletedSpecialityItems.size());
+
+                int i = 0;
+
+                //Loop index size()
+                for(int index = 0; index < a.length; index++) {
+
+                    String lis = values.get(i);
+                    a = lis.split(",");
+                    List mylist = new ArrayList<>();
+                    mylist.addAll(Arrays.asList(a));
+
+                    JSONObject eachData = new JSONObject();
+                    eachData.put("SpecialityID", getSpecialityKeyFromValue(mySpecialityList,mylist.get(index)));
+                    allDataArray.add(eachData);
+                }
+            }
+
+            //certificate base64
+            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            byte[] b = baos.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+            System.out.println("js diag Array.."+allDataArray.toJSONString());
+
+            if(availableService.isChecked()==true){
+                myAvailableService = true;
+
+                data.put("DiagnosticsID",getUserId);
+                data.put("CenterName",myDiagnosticName);
+                data.put("Address1",myAddress);
+                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+
+                data.put("PinCode",myPincode);
+                data.put("LandlineNo",myLandlineMobileNumber);
+                data.put("ContactPerson",myContactPerson);
+                data.put("MobileNumber",myMobile);
+                data.put("EmergencyContact", emergencyContactNumber.getText().toString());
+                data.put("Comment", myComments);
+                data.put("EmergencyService", myAvailableService);
+                data.put("Latitude",myLati);
+                data.put("Longitude", myLngi);
+                data.put("FromTime", myFromTime);
+                data.put("ToTime", myToTime);
+                data.put("CenterImage", encodedCenterImage);
+                data.put("District",myDistrict);
+                data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+
+                System.out.println("js obj..."+data);
+
+                return data.toString();
+            }
+            else if(availableService.isChecked()==false)
+            {
+                myAvailableService = false;
+                data.put("DiagnosticsID",getUserId);
+                data.put("CenterName",myDiagnosticName);
+                data.put("Address1",myAddress);
+                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+
+                data.put("PinCode",myPincode);
+                data.put("LandlineNo",myLandlineMobileNumber);
+                data.put("ContactPerson",myContactPerson);
+                data.put("MobileNumber",myMobile);
+                data.put("EmergencyContact", "");
+                data.put("Comment", myComments);
+                data.put("EmergencyService", false);
+                data.put("Latitude",myLati);
+                data.put("Longitude", myLngi);
+                data.put("FromTime", myFromTime);
+                data.put("ToTime", myToTime);
+                data.put("CenterImage", encodedCenterImage);
+                data.put("District",myDistrict);
+                data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+
+                System.out.println("js obj..."+data);
+
+                return data.toString();
+            }
+
+
+            System.out.println("js obj..."+data);
+
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
+    }
+
+    public static Object getSpecialityKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+
+    public static Object getCityKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+    public static Object getStateKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+
+    private class sendAddAddressDetails extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticAddAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+//            HttpURLConnection connection=null;
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.connect();
+
+                //write
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params diag add....."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+                else if(statuscode == 500){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//
+            Log.e("TAG result diag add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
+            JSONObject js;
+
+            try {
+                js= new JSONObject(result);
+                int s = js.getInt("Code");
+                if(s == 200)
+                {
+                    addressId = js.getString("DataValue");
+                    showSuccessMessage(js.getString("Message"));
+                }
+                else
+                {
+                    showErrorMessage(js.getString("Message"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    public void showSuccessMessage(String message){
+
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+                        Intent intent = new Intent(DiagnosticAddAddress.this,DiagnosticDashboard.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Add Address");
+        alert.show();
+
+    }
+
+    public void showErrorMessage(String message){
+
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Add Address");
+        alert.show();
+
     }
 
 }

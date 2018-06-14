@@ -107,7 +107,7 @@
                     android:textSize="16dp"
                     android:text="City :" />
 
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/cityId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:text="District :" />
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/districtId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                     android:textSize="16dp"
                     android:text="State :" />
 
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/stateId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
                         android:layout_width="170dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:drawableLeft="@drawable/personicon"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
                         android:drawablePadding="5dp"
                         android:hint="Contact person"
                         android:textSize="15dp"
@@ -468,7 +468,7 @@
                         android:drawablePadding="5dp"
                         android:drawableLeft="@drawable/phone"
                         android:hint="Emergency Contact Number"
-                        android:inputType="text" />
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>

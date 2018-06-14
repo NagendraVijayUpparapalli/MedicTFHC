@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.app.AlertDialog;
 import android.app.AlertDialog;
@@ -36,6 +39,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,46 +80,53 @@ public class DoctorEditProfile extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    EditText salutation,email,Experience,mobileNumber,Qulificationdoctor,emergencymobileNumber,name,aadhar_num;
-    Spinner Speciality;
+    EditText salutation,email,Experience,mobileNumber,qualificationdoctor,registrationNumber,name,aadhar_num;
+    SearchableSpinner Speciality;
     Bitmap mIcon11;
     ImageView uploadCertificate, adharimage, DoctorImage;
     List<String> Spaliaty;
     CheckBox cash_on_hand, debit_card, net_banking, pay_paym;
     MagicButton gen_btn;
+
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    int radiobuttonid;
     RadioButton female,male;
+
     List<String>districtsList;
     List<String> myDistrictsList = new ArrayList<String>();
     ArrayAdapter<String> adapter1,adapter4;
     String Aadhar_num,Emergency_mobile;
-    String encodedAadharImage,encodedCertificateImage,encodedProfileimage;
+
 
     List<String> specialityList;
     HashMap<String, String> mySpecialitiesList = new HashMap<String, String>();
 
-    ArrayAdapter<String > adapter3;
+    ArrayAdapter<String > specialityAdapter;
 //    static String mySpeciality,mySpecialityid;
 
-    static int getUserId;
+    static String getUserId,mobile_number;
     static String uploadServerUrl = null;
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,myQualification, myAddress1, myAddress2, myGender,myExperience,
-            registrationNumber,myuploadCertificate,myadharimage,mydoctorImage,myAadhar_num;
+            myregistrationNumber,myuploadCertificate,myadharimage,mydoctorImage,myAadhar_num;
+    boolean myEmergencyService;
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor ,mycash_on_hand,mydebit_card ,mynet_banking,mypay_paym;
     FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1;
+
 
     //qr code get data fields
     static String qrName,qrGender,qrDob,qrFullAddress,qrAddress[],qrAddress1,qrAddress2,qrPincode;
     String myQrArrayList;
 
+    String encodedAadharImage,encodedCertificateImage,encodedProfileimage;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1;
     Uri selectedCertificateImageUri,selectedAadharImageUri,selectedProfileImageUri;
     Bitmap selectedCertificateImageBitmap = null,selectedAadharImageBitmap = null,selectedProfileImageBitmap = null;
 
     ApiBaseUrl baseUrl;
 
     String smsUrl = null;
-
-
+    String checkNewUser = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,8 +136,9 @@ public class DoctorEditProfile extends AppCompatActivity {
         uploadServerUrl = baseUrl.getUrl()+"GetDoctorByID";
 
 
-        getUserId = getIntent().getIntExtra("id",getUserId);
-        System.out.print("doctorid in profile....."+getUserId);
+        mobile_number = getIntent().getStringExtra("mobile");
+        getUserId = getIntent().getStringExtra("id");
+        System.out.print("doctorid in profile....."+getUserId+"...mobile.."+mobile_number);
 
         new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
@@ -146,6 +158,7 @@ public class DoctorEditProfile extends AppCompatActivity {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
                     }
@@ -157,9 +170,9 @@ public class DoctorEditProfile extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         mobileNumber = (EditText) findViewById(R.id.mobileNumber);
         Experience = (EditText) findViewById(R.id.Experience);
-        Qulificationdoctor = (EditText) findViewById(R.id.Qulificationdoctor);
-        Speciality = (Spinner) findViewById(R.id.Speciality);
-        emergencymobileNumber = (EditText) findViewById(R.id.emergencymobileNumber);
+        qualificationdoctor = (EditText) findViewById(R.id.Qulificationdoctor);
+        Speciality = (SearchableSpinner) findViewById(R.id.Speciality);
+        registrationNumber = (EditText) findViewById(R.id.registrationNumber);
 
 
         uploadCertificate = (ImageView) findViewById(R.id.uploadCertificate);
@@ -169,8 +182,21 @@ public class DoctorEditProfile extends AppCompatActivity {
         debit_card = (CheckBox) findViewById(R.id.debit_card);
         net_banking = (CheckBox) findViewById(R.id.net_banking);
         pay_paym = (CheckBox) findViewById(R.id.pay_paym);
+
         female = (RadioButton) findViewById(R.id.femaleRadio);
         male = (RadioButton) findViewById(R.id.maleRadio);
+
+        // find the radioButton by returned id
+        radioGroup = (RadioGroup) findViewById(R.id.gendertype_radio);
+
+        radiobuttonid = radioGroup.getCheckedRadioButtonId();
+
+        System.out.println("radio id...."+radiobuttonid);
+
+        radioButton = (RadioButton) findViewById(radiobuttonid);
+
+//        System.out.println("gender text..."+radioButton.getText());
+
         aadhar_num = (EditText) findViewById(R.id.aadhaarNumber);
 
         addCertificateIcon = (FloatingActionButton) findViewById(R.id.addCertificateIcon);
@@ -181,9 +207,7 @@ public class DoctorEditProfile extends AppCompatActivity {
         gen_btn.setMagicButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String js = formatDataAsJson();
-                new sendEditProfileDetails().execute(baseUrl.getUrl()+"DoctorEditprofile",js.toString());
+                validateEditProfile();
             }
         });
 
@@ -269,6 +293,21 @@ public class DoctorEditProfile extends AppCompatActivity {
     private class GetDoctorDetails extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DoctorEditProfile.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -308,7 +347,197 @@ public class DoctorEditProfile extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+//            (String) js.get("DoctorID");
+            if(js.has("DoctorImage") && js.has("Speciality")) {
+//                checkNewUser = "No";
+                myMobile = (String) js.get("MobileNumber");
+                myEmail = (String) js.get("EmailID");
+                myregistrationNumber = (String) js.get("RegistationNumber");
+                myName = (String) js.get("FirstName");
+                mySurname = (String) js.get("LastName");
+
+                myQualification = (String) js.getString("Qualification");
+                mySpecialityid = (String) js.getString("Speciality");
+
+                System.out.println("Speciality id.." + mySpecialityid);
+
+                mySpeciality = js.getString("SpecialityName");
+                mydoctorImage = (String) js.get("DoctorImage");
+                myExperience = (String) js.get("Experience");
+                myGender = (String) js.get("Gender");
+
+                myEmergencyService =  js.getBoolean("EmergencyService");
+
+                myuploadCertificate = (String) js.get("CertificateImage");
+                myAadhar_num = (String) js.get("AadharNumber");
+                myadharimage = js.getString("AadharImage");
+
+                mycash_on_hand = (boolean) js.get("CashOnHand");
+                mydebit_card = (boolean) js.get("CreditDebit");
+                mynet_banking = (boolean) js.get("Netbanking");
+                mypay_paym = (boolean) js.get("Paytm");
+
+                if(myGender.equals("Male"))
+                {
+                    newName = "Mr.";
+                }
+                else if(myGender.equals("Female"))
+                {
+                    newName = "Ms.";
+                }
+                else if(myGender.equals("Female"))
+                {
+                    newName = "Mrs.";
+                }
+
+                salutation.setText(newName+mySurname+" "+myName);
+            }
+            else {
+//                checkNewUser = "Yes";
+                myMobile = (String) js.get("MobileNumber");
+                myEmail = (String) js.get("EmailID");
+                myregistrationNumber = (String) js.get("RegistationNumber");
+                myName = (String) js.get("FirstName");
+                mySurname = (String) js.get("LastName");
+                myQualification = (String) js.getString("Qualification");
+                mySpeciality = js.getString("SpecialityName");
+                mydoctorImage = (String) js.get("DoctorImage");
+                myExperience = (String) js.get("Experience");
+                myGender = (String) js.get("Gender");
+
+                myEmergencyService = js.getBoolean("EmergencyService");
+
+                myuploadCertificate =  (String) js.get("CertificateImage");
+                myAadhar_num = (String) js.get("AadharNumber");
+                myadharimage       =  (String) js.get("AadharImage");
+
+                mycash_on_hand     =  (boolean) js.get("CashOnHand");
+                mydebit_card       =  (boolean) js.get("CreditDebit");
+                mynet_banking      =  (boolean) js.get("Netbanking");
+                mypay_paym         =   (boolean) js.get("Paytm");
+
+                if(myGender.equals(""))
+                {
+                    newName = "";
+                }
+
+                newName ="";
+                salutation.setText(newName+mySurname+" "+myName);
+            }
+
+
+
+            System.out.println("hand.."+mycash_on_hand);
+            System.out.println("card.."+mydebit_card);
+            System.out.println("net.."+mynet_banking);
+            System.out.println("paytm.."+mypay_paym);
+
+            if(myGender.equals("Male"))
+            {
+                male.setChecked(true);
+            }
+            else if(myGender.equals("Female"))
+            {
+                female.setChecked(true);
+            }
+            else if(myGender.equals(""))
+            {
+                male.setChecked(false);
+                female.setChecked(false);
+            }
+
+            if(myAadhar_num.equals(""))
+            {
+                checkNewUser = "Yes";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
+            }
+
+            else
+            {
+                checkNewUser = "No";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
+            }
+
+//            if(myGender.equals("Male"))
+//            {
+//                newName = "Mr.";
+//            }
+//            else if(myGender.equals("Female"))
+//            {
+//                newName = "Ms.";
+//            }
+//            else if(myGender.equals("Female"))
+//            {
+//                newName = "Mrs.";
+//            }
+
+
+//            salutation.setText(newName+mySurname+" "+myName);
+//            salutation.setEnabled(false);
+
+//            salutation.setTextColor(this.getResources().getColor(R.color.colorPrimary));
+//            surname.setText(mySurname);
+
+            mobileNumber.setText(myMobile);
+            email.setText(myEmail);
+            Experience.setText(myExperience);
+
+            System.out.println("image a url.."+ myadharimage);
+            System.out.println("image d url.."+ mydoctorImage);
+            System.out.println("image c url.."+ myuploadCertificate);
+
+            new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
+
+            new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+
+            new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
+
+            if(mySpeciality.equals(""))
+            {
+                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
+                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
+            }
+            else
+            {
+                System.out.println("mySpeciality list.."+mySpecialitiesList);
+                System.out.println("Speciality list.."+specialityList);
+                System.out.println("Speciality key.."+mySpeciality);
+
+//                int i = Integer.parseInt(mySpecialityid);
+//                String getCityName = String.valueOf(mySpecialitiesList.get(i));
+//                System.out.println("get city name.."+getCityName);
+
+                specialityList.add(0,mySpeciality);
+                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
+                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
+            }
+
+
+
+            aadhar_num.setText(myAadhar_num);
+            qualificationdoctor.setText(myQualification);
+            registrationNumber.setText(myregistrationNumber);
+            cash_on_hand.setChecked(mycash_on_hand);
+            debit_card.setChecked(mydebit_card);
+            net_banking.setChecked(mynet_banking);
+            pay_paym.setChecked(mypay_paym);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
         }
 
     }
@@ -385,163 +614,6 @@ public class DoctorEditProfile extends AppCompatActivity {
         }
         catch (JSONException e)
         {}
-    }
-
-    private void getProfileDetails(String result) {
-        try
-        {
-            JSONObject js = new JSONObject(result);
-
-//            (String) js.get("DoctorID");
-            if(js.has("CertificateImage")) {
-                myMobile = (String) js.get("MobileNumber");
-                myEmail = (String) js.get("EmailID");
-                registrationNumber = (String) js.get("RegistationNumber");
-                myName = (String) js.get("FirstName");
-                mySurname = (String) js.get("LastName");
-
-                myQualification = (String) js.getString("Qualification");
-                mySpecialityid = (String) js.getString("Speciality");
-
-                System.out.println("Speciality id.." + mySpecialityid);
-
-                mySpeciality = js.getString("SpecialityName");
-                mydoctorImage = (String) js.get("DoctorImage");
-                myExperience = (String) js.get("Experience");
-                myGender = (String) js.get("Gender");
-
-//                (String) js.get("EmergencyService");
-
-                myuploadCertificate = (String) js.get("CertificateImage");
-                myAadhar_num = (String) js.get("AadharNumber");
-                myadharimage = js.getString("AadharImage");
-
-                mycash_on_hand = (boolean) js.get("CashOnHand");
-                mydebit_card = (boolean) js.get("CreditDebit");
-                mynet_banking = (boolean) js.get("Netbanking");
-                mypay_paym = (boolean) js.get("Paytm");
-            }
-            else {
-                myMobile = (String) js.get("MobileNumber");
-                myEmail = (String) js.get("EmailID");
-                registrationNumber = (String) js.get("RegistationNumber");
-                myName = (String) js.get("FirstName");
-                mySurname = (String) js.get("LastName");
-
-                myQualification = (String) js.getString("Qualification");
-                mySpecialityid = (String) js.getString("Speciality");
-
-                System.out.println("Speciality id.."+mySpecialityid);
-
-
-                mySpeciality = js.getString("SpecialityName");
-//                mydoctorImage = (String) js.get("DoctorImage");
-                myExperience = (String) js.get("Experience");
-                myGender = (String) js.get("Gender");
-
-//            (String) js.get("EmergencyService");
-
-//                myuploadCertificate =  (String) js.get("CertificateImage");
-                myAadhar_num = (String) js.get("AadharNumber");
-//                myadharimage       =  (String) js.get("AadharImage");
-
-                mycash_on_hand     =  (boolean) js.get("CashOnHand");
-                mydebit_card       =  (boolean) js.get("CreditDebit");
-                mynet_banking      =  (boolean) js.get("Netbanking");
-                mypay_paym         =   (boolean) js.get("Paytm");
-
-            }
-
-            System.out.println("hand.."+mycash_on_hand);
-            System.out.println("card.."+mydebit_card);
-            System.out.println("net.."+mynet_banking);
-            System.out.println("paytm.."+mypay_paym);
-
-
-            if(myGender.equals("Male"))
-            {
-                male.setChecked(true);
-            }
-            else if(myGender.equals("Female"))
-            {
-                female.setChecked(true);
-            }
-            else if(myGender.equals(""))
-            {
-                male.setChecked(false);
-                female.setChecked(false);
-            }
-
-            if(myGender.equals("Male"))
-            {
-                newName = "Mr.";
-            }
-            else if(myGender.equals("Female"))
-            {
-                newName = "Ms.";
-            }
-            else if(myGender.equals("Female"))
-            {
-                newName = "Mrs.";
-            }
-
-            salutation.setText(newName+mySurname+" "+myName);
-            salutation.setEnabled(false);
-
-//            salutation.setTextColor(this.getResources().getColor(R.color.colorPrimary));
-//            surname.setText(mySurname);
-
-            mobileNumber.setText(myMobile);
-            email.setText(myEmail);
-            Experience.setText(myExperience);
-
-            System.out.println("image a url.."+ myadharimage);
-            System.out.println("image d url.."+ mydoctorImage);
-            System.out.println("image c url.."+ myuploadCertificate);
-
-            new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
-
-            new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
-
-            new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
-
-            if(mySpeciality.equals(""))
-            {
-                adapter3 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-                Speciality.setAdapter(adapter3); // Apply the adapter to the spinner
-            }
-            else
-            {
-                System.out.println("mySpeciality list.."+mySpecialitiesList);
-                System.out.println("Speciality list.."+specialityList);
-                System.out.println("Speciality key.."+mySpeciality);
-
-//                int i = Integer.parseInt(mySpecialityid);
-//                String getCityName = String.valueOf(mySpecialitiesList.get(i));
-//                System.out.println("get city name.."+getCityName);
-
-                specialityList.add(0,mySpeciality);
-                adapter3 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-                Speciality.setAdapter(adapter3); // Apply the adapter to the spinner
-            }
-
-
-
-            aadhar_num.setText(myAadhar_num);
-            Qulificationdoctor.setText(myQualification);
-            emergencymobileNumber.setText(registrationNumber);
-            cash_on_hand.setChecked(mycash_on_hand);
-            debit_card.setChecked(mydebit_card);
-            net_banking.setChecked(mynet_banking);
-            pay_paym.setChecked(mypay_paym);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
 
@@ -639,7 +711,6 @@ public class DoctorEditProfile extends AppCompatActivity {
                     //certificate base64
                     final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
@@ -669,15 +740,14 @@ public class DoctorEditProfile extends AppCompatActivity {
                 try {
                     selectedAadharImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedAadharImageUri);
 
-//                    //aadhar base64
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedAadharImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-////            encodedImage = myEncodeImage(selectedImage);
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    byte[] b = baos.toByteArray();
-//                    encodedAadharImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    //aadhar base64
+                    final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
+                    final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
+
+                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                    selectedImage1.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                    byte[] b1 = baos1.toByteArray();
+                    encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
                 }
                 catch (IOException e)
@@ -703,13 +773,14 @@ public class DoctorEditProfile extends AppCompatActivity {
                 try {
                     selectedProfileImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedProfileImageUri);
 
-//                    //profile base64
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedProfileImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    byte[] b = baos.toByteArray();
-//                    encodedProfileimage = Base64.encodeToString(b, Base64.DEFAULT);
+                    //profile base64
+                    final InputStream imageStream3 = getContentResolver().openInputStream(selectedProfileImageUri);
+                    final Bitmap selectedImage3 = BitmapFactory.decodeStream(imageStream3);
+                    ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+                    selectedImage3.compress(Bitmap.CompressFormat.JPEG,100,baos3);
+                    byte[] b3 = baos3.toByteArray();
+                    encodedProfileimage = Base64.encodeToString(b3, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -1027,19 +1098,105 @@ public class DoctorEditProfile extends AppCompatActivity {
     }
 
 
+    public void validateEditProfile()
+    {
+        intialization();
+        if(!validate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            new sendEditProfileDetails().execute(baseUrl.getUrl()+"DoctorEditprofile",js.toString());
+        }
+    }
+
+    public void intialization()
+    {
+
+//        salutation,email,Experience,mobileNumber,qualificationdoctor,emergencymobileNumber,name,aadhar_num;
+
+        mySalutation = salutation.getText().toString().trim();
+        myEmail = email.getText().toString().trim();
+        myExperience = Experience.getText().toString();
+        myMobile = mobileNumber.getText().toString().trim();
+        myQualification = qualificationdoctor.getText().toString();
+        myregistrationNumber = registrationNumber.getText().toString();
+        myAadhar_num = aadhar_num.getText().toString();
+
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+        if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
+        {
+            mobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(myMobile.length()<10 || myMobile.length()>10)
+        {
+            mobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(myEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(myEmail).matches())
+        {
+            email.setError("please enter valid email id");
+            validate=false;
+        }
+
+        if(myExperience.isEmpty())
+        {
+            Experience.setError("please enter experience");
+            validate=false;
+        }
+
+        if(myregistrationNumber.isEmpty() || !Patterns.PHONE.matcher(myregistrationNumber).matches())
+        {
+            registrationNumber.setError("please enter reg.no");
+            validate=false;
+        }
+
+        if(myQualification.isEmpty() )
+        {
+            qualificationdoctor.setError("please enter qualification");
+            validate=false;
+        }
+
+        if(myAadhar_num.isEmpty())
+        {
+            aadhar_num.setError("please enter aadhaar number");
+            validate=false;
+        }
+
+        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !debit_card.isChecked() && !pay_paym.isChecked())
+        {
+//            Toast.makeText(getApplicationContext(),"Please select one option",Toast.LENGTH_SHORT).show();
+
+            cash_on_hand.setError("please checked");
+            net_banking.setError("plwase checked");
+            debit_card.setError("please checked");
+            pay_paym.setError("please checked");
+            validate=false;
+        }
+
+
+        return validate;
+    }
 
     private String formatDataAsJson()
     {
 
         JSONObject data = new JSONObject();
 
-//        Emergency_mobile =  emergencymobileNumber.getText().toString().trim();
-//        System.out.println("emergency contact..."+Emergency_mobile);
-
         myEmail = email.getText().toString().trim();
         myMobile = mobileNumber.getText().toString().trim();
         mySalutation = salutation.getText().toString().trim();
-        myQualification = Qulificationdoctor.getText().toString();
+        myQualification = qualificationdoctor.getText().toString();
         myExperience = Experience.getText().toString();
         Aadhar_num = aadhar_num.getText().toString().trim();
         mySpeciality = Speciality.getSelectedItem().toString();
@@ -1053,7 +1210,7 @@ public class DoctorEditProfile extends AppCompatActivity {
         }
         System.out.println("aadhar num..."+Aadhar_num);
 
-        registrationNumber = emergencymobileNumber.getText().toString();
+        myregistrationNumber = registrationNumber.getText().toString();
 
         if(cash_on_hand.isChecked())
         {
@@ -1083,79 +1240,103 @@ public class DoctorEditProfile extends AppCompatActivity {
             System.out.println("mypay_paym if..."+ mypay_paym);
         }
 
-
-//        else if(cash_on_hand.isChecked() && debit_card.isChecked() && net_banking.isChecked() && pay_paym.isChecked())
-//        {
-//            mycash_on_hand = true;
-//            mydebit_card = true;
-//            mynet_banking = true;
-//            mypay_paym = true;
-//            System.out.println("all modes..."+ mycash_on_hand);
-//            System.out.println("all modes..."+ mydebit_card);
-//            System.out.println("all modes..."+ mynet_banking);
-//            System.out.println("all modes..."+ mypay_paym);
-//
-//        }
-
-        try{
-//            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
-
-            //aadhar base64
-            final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
-            final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
-//            encodedImage = myEncodeImage(selectedImage);
+        if(encodedCertificateImage == null)
+        {
+            uploadCertificate.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
 
             ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            selectedImage1.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+        }
+
+        if(encodedAadharImage == null)
+        {
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
             byte[] b1 = baos1.toByteArray();
             encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
+        }
 
-            //profile base64
-            final InputStream imageStream3 = getContentResolver().openInputStream(selectedProfileImageUri);
-            final Bitmap selectedImage3 = BitmapFactory.decodeStream(imageStream3);
-            ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
-            selectedImage3.compress(Bitmap.CompressFormat.JPEG,100,baos3);
-            byte[] b3 = baos3.toByteArray();
-            encodedProfileimage = Base64.encodeToString(b3, Base64.DEFAULT);
+        if(encodedProfileimage == null)
+        {
+            DoctorImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
 
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
 
-            data.put("DoctorID",getUserId);
-            data.put("FirstName",mySurname);
-            data.put("LastName",myName);
-            data.put("Qualification",myQualification);
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
+        }
 
-            System.out.println("spec key.."+getKeyFromValue(mySpecialitiesList,mySpeciality));
+        try{
 
-            data.put("Speciality",getKeyFromValue(mySpecialitiesList,mySpeciality));
+            if(checkNewUser.equals("Yes"))
+            {
+                data.put("DoctorID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+                data.put("Qualification",myQualification);
 
-            data.put("MobileNumber",myMobile);
-            data.put("EmailID",myEmail);
-            data.put("Experience",myExperience);
-//            data.put("AadharNumber",Aadhar_num);
-            data.put("Gender",myGender);
+                System.out.println("spec key.."+getKeyFromValue(mySpecialitiesList,mySpeciality));
 
-            data.put("RegistationNumber",registrationNumber);
-            data.put("CashOnHand", mycash_on_hand);
-            data.put("Suffix", newName);
-            data.put("Netbanking", mynet_banking);
-            data.put("Paytm", mypay_paym);
-            data.put("CreditDebit", mydebit_card);
+                data.put("Speciality",getKeyFromValue(mySpecialitiesList,mySpeciality));
 
-            data.put("AadharImage",encodedAadharImage);
-            data.put("CertificateImage",encodedCertificateImage);
-            data.put("DoctorImage",encodedProfileimage);
+                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("Experience",myExperience);
+                data.put("AadharNumber",Aadhar_num);
+                data.put("Gender",myGender);
+                data.put("RegistationNumber",myregistrationNumber);
+                data.put("CashOnHand", mycash_on_hand);
+                data.put("Suffix", newName);
+                data.put("Netbanking", mynet_banking);
+                data.put("Paytm", mypay_paym);
+                data.put("CreditDebit", mydebit_card);
+                data.put("AadharImage",encodedAadharImage);
+                data.put("CertificateImage",encodedCertificateImage);
+                data.put("DoctorImage",encodedProfileimage);
 
-//            data.put("Age",age.getText().toString());
-            return data.toString();
+                return data.toString();
+            }
+            else if(checkNewUser.equals("No"))
+            {
+                data.put("DoctorID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+                data.put("Qualification",myQualification);
+
+                System.out.println("spec key.."+getKeyFromValue(mySpecialitiesList,mySpeciality));
+
+                data.put("Speciality",getKeyFromValue(mySpecialitiesList,mySpeciality));
+
+                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("Experience",myExperience);
+                data.put("Gender",myGender);
+                data.put("RegistationNumber",myregistrationNumber);
+                data.put("CashOnHand", mycash_on_hand);
+                data.put("Suffix", newName);
+                data.put("Netbanking", mynet_banking);
+                data.put("Paytm", mypay_paym);
+                data.put("CreditDebit", mydebit_card);
+                data.put("AadharImage",encodedAadharImage);
+                data.put("CertificateImage",encodedCertificateImage);
+                data.put("DoctorImage",encodedProfileimage);
+                return data.toString();
+            }
+
 
         }
         catch (Exception e)
@@ -1221,7 +1402,7 @@ public class DoctorEditProfile extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
     }

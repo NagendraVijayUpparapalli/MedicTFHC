@@ -25,13 +25,14 @@ public class DoctorDeleteAddress extends AppCompatActivity {
 
     ApiBaseUrl baseUrl = new ApiBaseUrl();
 
-    String docId, addId, comment;
+    String docId, addId, comment,mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_delete_address);
 
+        mobile = getIntent().getStringExtra("mobile");
         docId = getIntent().getStringExtra("DoctorID");
         addId = getIntent().getStringExtra("AddressID");
         comment = getIntent().getStringExtra("Comment");
@@ -40,7 +41,8 @@ public class DoctorDeleteAddress extends AppCompatActivity {
         System.out.println("intent addrid..."+getIntent().getStringExtra("AddressID"));
         System.out.println("intent comment..."+getIntent().getStringExtra("Comment"));
 
-//        new sendDetailsToDeleteDoctorAddress().execute(baseUrl.getUrl()+"DeleteDoctorAddress?DoctorID="+docId+"&AddressID="+addId+"&Comment="+comment);
+        new sendDetailsToDeleteDoctorAddress().execute(baseUrl.getUrl()+"DeleteDoctorAddress?DoctorID="+docId+
+                "&AddressID="+addId+"&Comment="+comment);
 
 
 
@@ -171,8 +173,9 @@ public class DoctorDeleteAddress extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
-                        Intent intent = new Intent(DoctorDeleteAddress.this,MainActivity.class);
-//                        intent.putExtra("id",getUserId);
+                        Intent intent = new Intent(DoctorDeleteAddress.this,DoctorDashboard.class);
+                        intent.putExtra("id",docId);
+                        intent.putExtra("mobile",mobile);
                         startActivity(intent);
                     }
                 });
@@ -200,23 +203,4 @@ public class DoctorDeleteAddress extends AppCompatActivity {
 
     }
 
-    private String formatDataAsJson()
-    {
-        JSONObject data = new JSONObject();
-
-        try{
-
-                data.put("DoctorID",getIntent().getStringExtra(""));
-                data.put("AddressID",getIntent().getStringExtra(""));
-                data.put("Comment",getIntent().getStringExtra(""));
-                return data.toString();
-
-        }
-        catch (Exception e)
-        {
-            Log.d("JSON","Can't format JSON");
-        }
-
-        return null;
-    }
 }

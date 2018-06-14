@@ -136,7 +136,7 @@ public class DoctorSideNavigationExpandableListAdapter extends BaseExpandableLis
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.doctr_side_navigation_subheading, null);
+            convertView = layoutInflater.inflate(R.layout.doctor_side_navigation_subheading, null);
         }
         TextView listTitleTextView = (TextView) convertView
                 .findViewById(R.id.listTitles);

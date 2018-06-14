@@ -139,7 +139,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload Prescription:"
+                android:text="Upload Prescription :"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:textSize="16dp"/>
@@ -164,9 +164,9 @@
                     <ImageView
                         android:id="@+id/prescription"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="180dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/noimage" />
+                        android:src="@drawable/noimage11" />
                 </android.support.design.widget.AppBarLayout>
 
 

@@ -1,20 +1,19 @@
 package com.example.cool.patient;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,15 +30,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,11 +44,10 @@ import java.util.Locale;
 
 
 public class PatientMyDoctorAppointments  extends AppCompatActivity {
-    static int getUserId;
-    String mobile_number,uploadServerUrl,date,date2,status1;
-//    PatientAppointmentDetails patient;
+    static String getUserId;
+    String mobile_number,date,date2,status1;
     String AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,DoctorComment,paymentmode,Amount;
-
+    String appointmentId,DoctorID;
     com.prolificinteractive.materialcalendarview.MaterialCalendarView calendarView;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/dd/yyyy", Locale.getDefault());
     private SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("EEEE", Locale.getDefault());
@@ -70,14 +65,34 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
     ImageView imageView;
 
     int acceptcnt,rejectcnt,cancelcnt,reschedulecnt;
-//    Patient_History_Adapter patient_history_adapter;
-//    ArrayList<PatientAppointmentDetails> arrayList;
+
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private YearMonthPickerDialog.OnDateSetListener onDateSetListener;
+    ProgressDialog progressDialog;
 
     int i=0;
 
     ApiBaseUrl baseUrl;
+
+
+    List<CalendarDay> events=null;
+    List<String> doctorname=null;
+    List<String> dates=null;
+    List<String> patientnames=null;
+    List<String> timeslot=null;
+    List<String> statuss=null;
+    List<String> reason=null;
+    List<String> comment=null;
+    List<String> amount=null;
+    List<String> prescription=null;
+    List<String> payment=null;
+    List<String> appointmentIdlist = null;
+    List<String> timings=null;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    private List<PatientMyDoctorAppointmentDetailsClass> data_list = null;
+    PatientMyDoctorAppointmentsHistoryAdapter patientMyDoctorAppointmentsHistoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +101,10 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
 
         baseUrl = new ApiBaseUrl();
 
-        calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
+        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+        layoutManager=new LinearLayoutManager(this);
 
-        accept=(TextView)findViewById(R.id.Accept_count);
-        reject=(TextView)findViewById(R.id.Reject_count);
-        cancel=(TextView)findViewById(R.id.Cancel_count);
-        reschedule=(TextView)findViewById(R.id.Reschedule_count);
-        total=(TextView)findViewById(R.id.Total_count);
+        calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
         Calendar cal=Calendar.getInstance();
         calendarView.setDateSelected(cal.getTime(),true);
@@ -101,11 +113,11 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
 //        patient_history_adapter=new Patient_History_Adapter(getApplicationContext(),R.layout.activity_view_full_patient_history,arrayList);
         //get user details based on id
         mobile_number = getIntent().getStringExtra("mobile");
-        getUserId = getIntent().getIntExtra("id",getUserId);
-        System.out.print("userid in patientactivity....."+getUserId);
+        getUserId = getIntent().getStringExtra("id");
+        System.out.print("userid in patientactivity....."+getUserId+".....phone..."+mobile_number);
 
 
-        new GetPatientDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
+        new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
 
         imageView=(ImageView) findViewById(R.id.img1);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -130,14 +142,13 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PatientMyDoctorAppointments.this,MainActivity.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
                     }
                 }
 
         );
-
-
 
     }
 
@@ -179,7 +190,23 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
 
 
     //Get patient list based on id from api call
-    private class GetPatientDetails extends AsyncTask<String, Void, String> {
+    private class GetPatientMyDocAppointmentDetails extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(PatientMyDoctorAppointments.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -221,7 +248,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            //getProfileDetails(result);
+            progressDialog.dismiss();
             getdetails(result);
 
         }
@@ -229,28 +256,26 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
 
     private void getdetails(String result) {
 
-        final List<CalendarDay> events = new ArrayList<>();
-        final List<String> doctorname=new ArrayList<String>();
-        final List<String> dates=new ArrayList<String>();
-        final List<String> patientnames=new ArrayList<>();
-        final List<String> timeslot=new ArrayList<>();
-        final List<String> statuss=new ArrayList<>();
-        final List<String> reason=new ArrayList<>();
-        final List<String> comment=new ArrayList<>();
-        final List<String> amount=new ArrayList<>();
-        final  List<String> prescription=new ArrayList<>();
-        final  List<String> payment=new ArrayList<>();
+        data_list=new ArrayList<>();
+
+        events = new ArrayList<>();
+        dates=new ArrayList<String>();
 
         try {
             JSONArray jsonArray=new JSONArray(result);
 
             for(int i=0;i<jsonArray.length();i++)
             {
-                System.out.println("hello");
+//                System.out.println("hello");
                 JSONObject  js= jsonArray.getJSONObject(i);
+                appointmentId = js.getString("AppointmentID");
+                DoctorID=js.getString("DoctorID");
                 AppointmentDate = (String) js.get("AppointmentDate");
                 DoctorName = (String) js.get("DoctorName");
                 Prescription = (String) js.get("Prescription");
+
+                System.out.println("my doctor id..."+DoctorID);
+
                 Timeslot = (String) js.get("TimeSlot");
                 PatientName = (String) js.get("PatientName");
                 AppointmentStatus = (String) js.get("AppointmentStatus");
@@ -261,85 +286,40 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity {
                 String arr[]=AppointmentDate.split(" ");
                 date=arr[0];
 
+                PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails=new PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,DoctorComment,paymentmode,Amount,date);
 
-                System.out.println("getdate"+date);
+                if(date.equals(d))
+                {
+                    data_list.add(patientAppointmentDetails);
+                }
+
+
+//                System.out.println("getdate.."+date);
                 Date date1 = simpleDateFormat.parse(date);
                 CalendarDay day = CalendarDay.from(date1);
                 events.add(day);
                 dates.add(date);
-                doctorname.add(DoctorName);
-                patientnames.add(PatientName);
-                timeslot.add(Timeslot);
-                statuss.add(AppointmentStatus);
-                reason.add(Reason);
-                comment.add(DoctorComment);
-                amount.add(Amount);
-                prescription.add(Prescription);
-                payment.add(paymentmode);
 
             }
 
-
-
-            for(int i=0;i<dates.size();i++)
-            {
-                date2=dates.get(i);
-                System.out.println("list of dates"+date2);
-
-            }
-            for(int i=0;i<statuss.size();i++)
-            {
-                status1=statuss.get(i);
-            }
-
-            if(statuss.contains("Accept"))
-            {
-                acceptcnt++;
-                accept.setText(":"+Integer.toString(acceptcnt));
-
-            }
-            else if(statuss.contains("Reject"))
-            {
-                rejectcnt++;
-                reject.setText(Integer.toString(rejectcnt));
-            }
-            else  if(statuss.contains("Reschedule"))
-            {
-                reschedulecnt++;
-                reschedule.setText(Integer.toString(reschedulecnt));
-
-            }
             calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
                 @Override
                 public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
-                    System.out.println("Selected Date"+date);
+                    System.out.println("Selected Date..."+date);
 
                     int m = date.getMonth()+1;
                     d = m+"/"+date.getDay()+"/"+date.getYear();
-                    System.out.println("dateeeee"+d);
+//                    System.out.println("length"+data_list.size());
 
-                    if (dates.contains(d)) {
+                    new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
+
+                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+
+                    recyclerView.setLayoutManager(layoutManager);
 
 
-                        Intent i = new Intent(PatientMyDoctorAppointments.this, ViewPatientMyDoctorAppointment.class);
-                        i.putExtra("date", d);
-                        i.putStringArrayListExtra("doctorname", (ArrayList<String>) doctorname);
-                        i.putStringArrayListExtra("dates", (ArrayList<String>) dates);
-                        i.putStringArrayListExtra("patientname", (ArrayList<String>) patientnames);
-                        i.putStringArrayListExtra("timeslot", (ArrayList<String>) timeslot);
-                        i.putStringArrayListExtra("status", (ArrayList<String>) statuss);
-                        i.putStringArrayListExtra("reason", (ArrayList<String>) reason);
-                        i.putStringArrayListExtra("comment", (ArrayList<String>) comment);
-                        i.putStringArrayListExtra("amount", (ArrayList<String>) amount);
-                        i.putStringArrayListExtra("prescription", (ArrayList<String>) prescription);
-                        i.putStringArrayListExtra("payment", (ArrayList<String>) payment);
-                        startActivity(i);
-                    }
-
-                    else {
-                        showalert();
-                    }
+                    recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
                 }
             });
 

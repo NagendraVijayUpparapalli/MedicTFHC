@@ -21,9 +21,7 @@
             android:textStyle="bold"
             android:background="@drawable/doctor_appointment_calendar_heading"
             android:text=" Doctor Appointment Calendar "
-            android:layout_marginStart="90dp"
-
-            />
+            android:layout_marginStart="90dp" />
 
 
     </LinearLayout>
@@ -96,10 +94,7 @@
                 android:layout_height="55dp"
                 android:layout_marginTop="20dp"
                 app:cardBackgroundColor="#008000"
-
-
                 android:layout_marginStart="18dp"
-
                 android:elevation="10dp"
                 card_view:cardCornerRadius="4dp">
 
@@ -109,7 +104,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="30dp"
                     android:layout_gravity="center"
-
                     android:text="0"
                     android:textStyle="bold" />
             </android.support.v7.widget.CardView>

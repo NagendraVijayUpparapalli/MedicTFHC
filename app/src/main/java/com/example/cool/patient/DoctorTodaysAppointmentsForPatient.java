@@ -29,35 +29,39 @@ import java.util.List;
 public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    String geturl;
-    String DStatus,Status1,PatientName,EmailID,MobileNo,ReasonAppointments,Comments,TimeSlots,AadharNumber,Prescription,age;
-    int Dstatus,PatientID,AppointmentID;
+    String PatientID,AppointmentID,Status1,PatientName,EmailID,MobileNo,ReasonAppointments,Comments,TimeSlots,AadharNumber,Prescription,age;
+    int Dstatus;
 
-    int getUserId;
+    String docId,docMobile;
     LinearLayoutManager layoutManager;
     private DoctorTodaysAppointmentAdapter adapter;
     private List<PatientData_DoctorTodaysAppointmentsClass> data_list;
 
     ProgressDialog progressDialog;
 
+    ApiBaseUrl baseUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_todays_appointments_for_patient);
 
-        getUserId = getIntent().getIntExtra("userId",getUserId);
+        baseUrl = new ApiBaseUrl();
+        docId = getIntent().getStringExtra("id");
+        docMobile = getIntent().getStringExtra("mobile");
 
         data_list=new ArrayList<>();
         recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        geturl="https://meditfhc.com/mapi/GetDoctorTodayAppointments";
-        new GetPatientDetails().execute(geturl + "?ID=" + getUserId);
+
+        System.out.println("doc mobile..."+docMobile+"...doc id..."+docId);
+
+        new GetPatientDetails().execute(baseUrl.getUrl()+"GetDoctorTodayAppointments" + "?ID=" + docId);
 
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new DoctorTodaysAppointmentAdapter(this,data_list);
         recyclerView.setAdapter(adapter);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,13 +75,13 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
                     public void onClick(View v) {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DoctorTodaysAppointmentsForPatient.this,DoctorDashboard.class);
-//                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",docMobile);
+                        intent.putExtra("id",docId);
                         startActivity(intent);
-
                     }
                 }
-
         );
+
 
     }
 
@@ -93,7 +97,7 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
             // Set progressdialog title
 //            progressDialog.setTitle("You are logging");
             // Set progressdialog message
-            progressDialog.setMessage("You are logged in few seconds...");
+            progressDialog.setMessage("Loading...");
 
             progressDialog.setIndeterminate(false);
             // Show progressdialog
@@ -145,7 +149,6 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             progressDialog.dismiss();
 
-
         }
     }
 
@@ -159,12 +162,12 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
 
                 Dstatus = js.getInt("DStatus");
                 Status1 = (String) js.get("Status");
-                AppointmentID=js.getInt("AppointmentID");
+                AppointmentID=js.getString("AppointmentID");
                 PatientName=(String)js.get("PatientName");
                 EmailID = (String) js.get("EmailID");
                 MobileNo=(String) js.get("MobileNo");
                 //Prescription=(String) js.get("Prescription");
-                PatientID= js.getInt("PatientID");
+                PatientID= js.getString("PatientID");
                 Comments=(String) js.get("Comments");
                 ReasonAppointments=(String) js.get("ReasonAppointments");
                 // AadharNumber=(String) js.get("Aadharnumber");
@@ -172,7 +175,7 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity {
                 age=(String)js.get("Age");
 
 
-                PatientData_DoctorTodaysAppointmentsClass myPatientData=new PatientData_DoctorTodaysAppointmentsClass(Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
+                PatientData_DoctorTodaysAppointmentsClass myPatientData=new PatientData_DoctorTodaysAppointmentsClass(docId,docMobile,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
 
                 data_list.add(myPatientData);
 

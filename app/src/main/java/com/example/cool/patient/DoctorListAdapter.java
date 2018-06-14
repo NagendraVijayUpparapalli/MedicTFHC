@@ -31,7 +31,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         Context context;
         AlertDialog alertDialog1;
         String address,lati,longi,consultationFee,comments,emergencyContact;
-        int patientId;
+        String patientId;
         boolean emergencyService;
 
     String doctorname,hospitalname,doornum,city,state,payment,mobile,navigaton;
@@ -77,6 +77,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                recyclerView.clearFocus();
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("Do you want to take Appointment for Register user?");
                 //  alert.show();
@@ -86,7 +87,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                         intent.putExtra("user","Yes");
-                        intent.putExtra("userId",patientId);
+                        intent.putExtra("userId",userId.getText().toString());
                         intent.putExtra("doctorName",doctorName.getText().toString());
                         intent.putExtra("addressId",addressId.getText().toString());
                         intent.putExtra("doctorId",doctorId.getText().toString());
@@ -120,55 +121,6 @@ class ViewHolder extends RecyclerView.ViewHolder{
             }
         });
 
-
-
-//        district = (TextView)itemView.findViewById(R.id.district);
-//        state = (TextView)itemView.findViewById(R.id.state);
-//        contactPerson = (TextView)itemView.findViewById(R.id.contact_person_name);
-//        mobile = (TextView)itemView.findViewById(R.id.phone_number);
-//        profileImage = (ImageView) itemView.findViewById(R.id.profile_image);
-
-
-//        edit = (Button) itemView.findViewById(R.id.Edit);
-
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(itemView.getContext(),DoctorUpdateAddress.class);
-//
-//                intent.putExtra("addressId",addressId);
-//                intent.putExtra("hospitalName",hospitalName.getText().toString());
-//                intent.putExtra("address",address.getText().toString());
-//                intent.putExtra("city",city.getText().toString());
-//                intent.putExtra("pincode",pincode.getText().toString());
-//                intent.putExtra("district",district.getText().toString());
-//                intent.putExtra("state",state.getText().toString());
-//                intent.putExtra("contactName",contactPerson.getText().toString());
-//                intent.putExtra("mobile",mobile.getText().toString());
-//
-//                intent.putExtra("fee",consultationFee);
-//                intent.putExtra("emergencyContact",emergencyContact);
-//
-//                intent.putExtra("lati",lati);
-//                intent.putExtra("longi",longi);
-//                intent.putExtra("comments",comments);
-//                intent.putExtra("emergencyService",emergencyService);
-//
-//                itemView.getContext().startActivity(intent);
-//            }
-//        });
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View v) {
-//
-//                    int position = getAdapterPosition();
-//                    itemView.getContext().startActivity(new Intent(v.getContext(),Registration.class));
-//
-////                    Snackbar.make(v, "Click detected on item " + position,
-////                            Snackbar.LENGTH_LONG)
-////                            .setAction("Action", null).show();
-//
-//                }
-//            });
     }
 }
 
@@ -191,7 +143,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         viewHolder.doctorphonenum.setText(doctorClassList.get(i).getMobile());
         viewHolder.addressId.setText(doctorClassList.get(i).getAddressId());
         viewHolder.doctorId.setText(doctorClassList.get(i).getDoctorId());
-//        viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
+        viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorClassList.get(i).getDoctorImage());
@@ -200,7 +152,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         lati = doctorClassList.get(i).getLatitude();
         longi= doctorClassList.get(i).getLongitude();
 
-        patientId = doctorClassList.get(i).getPatientId();
+//        patientId = doctorClassList.get(i).getPatientId();
 
     }
 

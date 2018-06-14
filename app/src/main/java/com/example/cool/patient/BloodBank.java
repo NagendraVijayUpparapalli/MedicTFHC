@@ -65,18 +65,11 @@ public class BloodBank extends Activity {
     public static final CharSequence[] cities  = {"---Select City ---", "Tirupati", "Kakinada","Tuni","Hyderabad",};
     public static final CharSequence[] BloodBankName  = {"---Select BloodBank Name ---", "Chittoor", "East Godavari ","West Godavari "};
     public static final CharSequence[] MobileNumber  = {"---Select MobileNumber ---", "9491232233", "8764758392"};
-    Spinner cityt,bloodbankname,mobilenumber,bloodgroup;
+    Spinner cityt,bloodbankname,bloodgroup;
     private static SeekBar seek_bar;
     private static TextView distance,bw_dist;
     static int progress_value,dis = 20,str;
     private static String label="";
-//    RecyclerView recyclerView;
-//    RecyclerView.LayoutManager layoutManager;
-//    RelativeLayout relativeLayout;
-//    RecyclerView.Adapter adapter;
-//    MyBloodBankAdapter myBloodBankAdapter;
-
-
 
     //lat,long
 
@@ -105,17 +98,14 @@ public class BloodBank extends Activity {
     private EditText etsearch;
     private android.widget.ListView list;
 
-    private ListViewAdapter adapter;
-    private String[] moviewList;
-    public static ArrayList<MovieNames> movieNamesArrayList = new ArrayList<MovieNames>();
-    public static ArrayList<MovieNames> array_sort = new ArrayList<MovieNames>();
+   
     int textlength = 0;
 
     static String selectedlocation=null;
     static String selectedItemText=null;
     SearchableSpinner cityname;
 
-    String addressline,mobile,email,pincode,city,state;
+    String getUserId,addressline,mobile,email,pincode,city,state;
     TextView current_city;
     ApiBaseUrl baseUrl;
 
@@ -126,8 +116,9 @@ public class BloodBank extends Activity {
 
         baseUrl = new ApiBaseUrl();
 
-
-//         SearchableSpinner toolbarTextView1 = (SearchableSpinner) findViewById(R.id.toolbarTextView);
+        mobile = getIntent().getStringExtra("mobile");
+        getUserId = getIntent().getStringExtra("userId");
+        System.out.print("userid in getdoctors list....."+getUserId);
 
         listview = (ListView)findViewById(R.id.mylist);
 //        cardView = (CardView)findViewById(R.id.mylist);
@@ -138,6 +129,9 @@ public class BloodBank extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(BloodBank.this,SelectCity.class);
+                i.putExtra("module","bloodbankList");
+                i.putExtra("userId",getUserId);
+                i.putExtra("mobile",mobile);
                 startActivity(i);
             }
         });
@@ -362,6 +356,8 @@ public class BloodBank extends Activity {
                     public void onClick(View v) {
 //                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(BloodBank.this,MainActivity.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
                     }
@@ -502,8 +498,8 @@ public class BloodBank extends Activity {
                         i.putExtra("phone",arrayList.get(position).getMobile());
                         i.putExtra("city",arrayList.get(position).getLocation());
                         i.putExtra("email","medic@gmail.com");
-////                i.putExtra("phone",10);
-////                i.putExtra("email","me");
+                        i.putExtra("mobile",mobile);
+                        i.putExtra("id",getUserId);
                         i.putExtra("addressline",addressline);
 //                        i.putExtras(bundle);
                         startActivity(i);
@@ -604,8 +600,8 @@ public class BloodBank extends Activity {
                         i.putExtra("phone",arrayList.get(position).getMobile());
                         i.putExtra("city",arrayList.get(position).getLocation());
                         i.putExtra("email","medic@gmail.com");
-////                i.putExtra("phone",10);
-////                i.putExtra("email","me");
+                        i.putExtra("mobile",mobile);
+                        i.putExtra("id",getUserId);
                         i.putExtra("addressline",addressline);
 //                        i.putExtras(bundle);
                         startActivity(i);
@@ -735,8 +731,8 @@ public class BloodBank extends Activity {
                         i.putExtra("phone",arrayList.get(position).getMobile());
                         i.putExtra("city",arrayList.get(position).getLocation());
                         i.putExtra("email","medic@gmail.com");
-////                i.putExtra("phone",10);
-////                i.putExtra("email","me");
+                        i.putExtra("mobile",mobile);
+                        i.putExtra("id",getUserId);
                         i.putExtra("addressline",addressline);
 //                        i.putExtras(bundle);
                         startActivity(i);
@@ -1032,6 +1028,8 @@ public class BloodBank extends Activity {
                 i.putExtra("phone",arrayList.get(position).getMobile());
                 i.putExtra("email","NA");
                 i.putExtra("addressline",addressline);
+                i.putExtra("mobile",mobile);
+                i.putExtra("id",getUserId);
                 startActivity(i);
 
             }

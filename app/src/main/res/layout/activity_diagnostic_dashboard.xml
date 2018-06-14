@@ -18,8 +18,30 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_diagnostic_dashboard"
-        app:menu="@menu/activity_diagnostic_dashboard_drawer" />
+        app:headerLayout="@layout/nav_header_doctor_dashboard"
+        android:fitsSystemWindows="true">
+
+        <ExpandableListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@+id/nav_view"
+            android:id="@+id/expandableListView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="179dp"
+            android:choiceMode="singleChoice"
+            android:divider="#000"
+            android:dividerHeight="0.2dp"
+
+            android:groupIndicator="@null"
+            android:alpha="255"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
+        </ExpandableListView>
+        <!--</RelativeLayout>-->
+
+    </android.support.design.widget.NavigationView>
+
+
 
 </android.support.v4.widget.DrawerLayout>

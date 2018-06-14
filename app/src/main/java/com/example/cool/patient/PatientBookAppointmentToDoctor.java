@@ -2,6 +2,9 @@ package com.example.cool.patient;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,11 +26,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jsibbold.zoomage.ZoomageView;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,14 +49,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class PatientBookAppointmentToDoctor extends AppCompatActivity {
-    TextView doctorname,hospitalname,doornum,city,state,fee,payment,doctorphonenum,navigaton;
+    TextView doctorname,hospitalname,doornum,city,state,fee,payment,doctorphonenum,navigation;
     EditText appointmentdate,patientname,age,patientmobileno,mail,aadharnum,reason;
     Button button;
     Spinner timings;
@@ -72,11 +82,18 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     List<String> allItemsList, prevSunTimeSlotsList,prevMonTimeSlotsList,prevTueTimeSlotsList,prevWedTimeSlotsList,prevThurTimeSlotsList,prevFriTimeSlotsList,prevSatTimeSlotsList;
     ArrayAdapter<String > sunAdapter,monAdapter,tueAdapter,wedAdapter,thurAdapter,friAdapter,satAdapter;
     String myDayName;
-    int getUserId,patientId;
+    String getUserId,patientId;
 
     HashMap<String, String> AllTimeSlotsList = new HashMap<String, String>();
 
     static String smsUrl = null;
+
+    ProgressDialog mProgressDialog;
+//    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
+    ZoomageView zoomageView;
+    String mydoctorImage,mydoctormobile,mydoctorspeciality,mydoctorEmail;
+
+    String bookAppointmentmessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,15 +102,18 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
         baseUrl = new ApiBaseUrl();
 
+
         mydocName = getIntent().getStringExtra("doctorName");
         user = getIntent().getStringExtra("user");
-        patientId = getIntent().getIntExtra("userId",patientId);
+        patientId = getIntent().getStringExtra("userId");
         cur_addressId = getIntent().getStringExtra("addressId");
         doctorId = getIntent().getStringExtra("doctorId");
         myLati = getIntent().getStringExtra("lat");
         myLongi = getIntent().getStringExtra("long");
         myfee = getIntent().getStringExtra("fee");
         myphone = getIntent().getStringExtra("mobile");
+
+        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+doctorId);
 
 //        InsertDocAppointment
 
@@ -109,7 +129,9 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         fee=(TextView) findViewById(R.id.fee);
         payment=(TextView) findViewById(R.id.payment);
         doctorphonenum=(TextView) findViewById(R.id.phonenum);
-        navigaton=(TextView) findViewById(R.id.navigation);
+
+        doctorimage = (ImageView) findViewById(R.id.doctor_image);
+        navigation=(TextView) findViewById(R.id.navigation);
 
         appointmentdate=(EditText)findViewById(R.id.bookDate);
         patientname=(EditText)findViewById(R.id.patient_name);
@@ -119,9 +141,20 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         aadharnum=(EditText)findViewById(R.id.aadhaarNumber);
         reason=(EditText)findViewById(R.id.reason_for_Appointment);
 
+        navigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Object latitude = myLati;
+                Object longitude = myLongi;
+                String uri = String.format(Locale.ENGLISH, "geo:0,0?q="+myLati+","+myLongi+"("+hospitalname.getText().toString()+")", latitude, longitude);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+
         if(user.equals("Yes"))
         {
-            getUserId = getIntent().getIntExtra("userId",getUserId);
+            getUserId = getIntent().getStringExtra("userId");
             System.out.print("userid in patient book doc....."+getUserId);
             new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
         }
@@ -137,15 +170,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 showalert();
             }
         });
-
-//        appointmentdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new GetAllTimingsBasedOnAddressId().execute(baseUrl.getUrl()+"GetAllTimeSlotbyAddressid?AddresID="+cur_addressId);
-//
-//
-//            }
-//        });
 
         doctorname.setText(mydocName);
         fee.setText(myfee);
@@ -173,35 +197,39 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 //                        monthOfYear = monthOfYear;
 
+                        String myselecteddate = null;
+                        if(monthOfYear+1<=9)
+                        {
+                            int mm = monthOfYear+1;
+                            myselecteddate =year+"/"+0+mm+"/"+dayOfMonth;
+                        }
+                        else if(monthOfYear+1>9)
+                        {
+                            int mm = monthOfYear+1;
+                            myselecteddate =year+"/"+mm+"/"+dayOfMonth;
+                        }
 
-                        String datte =dayOfMonth+"/"+monthOfYear+"/"+year;
+                        String datte =year+"/"+monthOfYear+"/"+dayOfMonth;
+
+                        System.out.println("myselecteddate value.."+myselecteddate);
+
+                        System.out.println("datte value.."+datte);
 //
                         new GetAllTimingsBasedOnAddressId().execute(baseUrl.getUrl()+"GetAllTimeSlotbyAddressid?AddresID="+cur_addressId);
 //
-                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("dd/mm/yyyy"); // the day of the week abbreviated
-                        try {
-                            Date mtdat = simpleDateformat.parse(datte);
-                            DateFormat dateFormat = new SimpleDateFormat("E");
+                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy/MM/dd",Locale.getDefault()); // the day of the week abbreviated
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+                        try
+                        {
+                            Date mtdat = simpleDateformat.parse(myselecteddate);
                             myDayName = dateFormat.format(mtdat);
                             System.out.println("day name value.."+myDayName);
-
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
 //                        System.out.println("day id cal.."+dayOfWeek);
 
-                        String myselecteddate = null;
-                        if(monthOfYear+1<=9)
-                        {
-                            int mm = monthOfYear+1;
-                            myselecteddate =year+"-"+0+mm+"-"+dayOfMonth;
-                        }
-                        else if(monthOfYear+1>9)
-                        {
-                            int mm = monthOfYear+1;
-                            myselecteddate =year+"-"+mm+"-"+dayOfMonth;
-                        }
 
                         appointmentdate.setText(myselecteddate);
 
@@ -212,6 +240,183 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    //Get all addresses for doctor list from api call
+//    private class GetDoctorAllAddressDetails extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            String data = "";
+//            HttpURLConnection httpURLConnection = null;
+//            try {
+//                System.out.println("dsfafssss....");
+//
+//                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+//                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+//                Log.d("Service", "Started");
+//                httpURLConnection.setRequestMethod("GET");
+//                System.out.println("u...."+params[0]);
+//                System.out.println("dsfafssss....");
+//                InputStream in = httpURLConnection.getInputStream();
+//                InputStreamReader inputStreamReader = new InputStreamReader(in);
+//
+//                int inputStreamData = inputStreamReader.read();
+//                while (inputStreamData != -1) {
+//                    char current = (char) inputStreamData;
+//                    inputStreamData = inputStreamReader.read();
+//                    data += current;
+//                }
+//            } catch (ProtocolException e) {
+//                e.printStackTrace();
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return data;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            Log.e("Api response.....", result);
+//            getData(result);
+//        }
+//    }
+//
+//    private void getData(String result) {
+//        try {
+//
+//            JSONArray jarray = new JSONArray(result);
+//
+//            for (int i = 0; i < jarray.length(); i++) {
+//                JSONObject object = jarray.getJSONObject(i);
+//
+//                doctorLatitude = object.getString("Latitude");
+//                doctorLongitude = object.getString("Longitude");
+//                doctorHospitalName = object.getString("HospitalName");
+////                doctorAddress = object.getString("Address1");
+//
+//
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
+
+    //get doctor details based on id from api call
+    private class GetDoctorDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...." + params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getDoctorDetails(result);
+        }
+
+    }
+
+    private void getDoctorDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            mydoctormobile = (String) js.get("MobileNumber");
+            mydoctorImage = (String) js.getString("DoctorImage");
+            mydoctorEmail = (String) js.get("EmailID");
+            System.out.println("image"+mydoctorImage);
+            new DownloadImage().execute(baseUrl.getImageUrl()+mydoctorImage);
+            doctorphonenum.setText(mydoctormobile);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            mProgressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            // Set progressdialog title
+//            mProgressDialog.setTitle("Image");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... URL) {
+
+            String imageURL = URL[0];
+
+            Bitmap bitmap = null;
+            try {
+                // Download Image from URL
+                InputStream input = new java.net.URL(imageURL).openStream();
+                // Decode Bitmap
+                bitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // Set the bitmap into ImageView
+            doctorimage.setImageBitmap(result);
+            // Close progressdialog
+            mProgressDialog.dismiss();
+        }
 
     }
 
@@ -294,7 +499,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
 
 
-    //send appointment details for booking doctor from api call
+    //send appointment details for booking doctor to api call
 
     private class sendAppointmentDetailsToDoctor extends AsyncTask<String, Void, String> {
 
@@ -404,8 +609,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
@@ -420,9 +623,17 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
 
-//                        new Mytask().execute();
+                        new Mytask().execute();
+
+                        String js = emailFormatDataAsJson();
+
+                        System.out.println("email json data..."+js.toString());
+
+                        new sendEmailAppointmentDetailsToDoctor().execute(baseUrl.getEmailUrl(),js.toString());
+
                         Intent intent = new Intent(PatientBookAppointmentToDoctor.this,MainActivity.class);
-//                        intent.putExtra("id",getUserId);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",myMobile);
                         startActivity(intent);
                     }
                 });
@@ -548,6 +759,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int id) {
                 enableHistory = true;
                 String js = formatDataAsJson();
+
+                System.out.println("json book doc..."+js.toString());
                 new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
                 dialogInterface.cancel();
             }
@@ -557,6 +770,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 enableHistory = false;
                 String js = formatDataAsJson();
+                System.out.println("json book doc..."+js.toString());
                 new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
                 dialogInterface.cancel();
             }
@@ -608,12 +822,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            getProfileDetails(result);
+            getPatientData(result);
 
         }
     }
 
-    private void getProfileDetails(String result) {
+    private void getPatientData(String result) {
 
         try
         {
@@ -633,16 +847,18 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             {
                 newName = "Mr.";
             }
+
             else if(myGender.equals("Female") && myMaritalStatus.equals("Single") )
             {
                 newName = "Ms.";
             }
+
             else if(myGender.equals("Female") && myMaritalStatus.equals("Married") )
             {
                 newName = "Mrs.";
             }
 
-            patientname.setText(myName+" "+mySurname);
+            patientname.setText(mySurname);
             patientmobileno.setText(myMobile);
             mail.setText(myEmail);
             age.setText(myAge.toString());
@@ -738,9 +954,19 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
 
+//                Long dayNameId = jsonObj.getLong("DayName");
+
                 Long dayNameId = jsonObj.getLong("DayName");
-                if(dayNameId==0 && myDayName.equals("Sat"))
+
+                System.out.println("day name.."+myDayName);
+                System.out.println("day id.."+dayNameId);
+
+                if(dayNameId==0 && myDayName.equals("Sunday"))
+//                if(dayNameId.equals("0") && myDayName.equals("Sunday") )
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevSunTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     sunAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevSunTimeSlotsList);
                     sunAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -748,8 +974,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==1 && myDayName.equals("Sun"))
+                if(dayNameId==1 && myDayName.equals("Monday"))
+//                if(dayNameId.equals("1") && myDayName.equals("Monday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevMonTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     monAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevMonTimeSlotsList);
                     monAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -757,8 +987,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==2 && myDayName.equals("Mon"))
+                if(dayNameId==2 && myDayName.equals("Tuesday"))
+//                if(dayNameId.equals("2") && myDayName.equals("Tuesday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevTueTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     tueAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevTueTimeSlotsList);
                     tueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -766,8 +1000,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==3 && myDayName.equals("Tue"))
+                if(dayNameId==3 && myDayName.equals("Wednesday"))
+//                if(dayNameId.equals("3") && myDayName.equals("Wednesday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevWedTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     wedAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevWedTimeSlotsList);
                     wedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -775,8 +1013,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==4 && myDayName.equals("Wed"))
+                if(dayNameId==4 && myDayName.equals("Thursday"))
+//                if(dayNameId.equals("4") && myDayName.equals("Thursday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevThurTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     thurAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevThurTimeSlotsList);
                     thurAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -784,8 +1026,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==5 && myDayName.equals("Thu"))
+                if(dayNameId==5 && myDayName.equals("Friday"))
+//                if(dayNameId.equals("5") && myDayName.equals("Friday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevFriTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     friAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevFriTimeSlotsList);
                     friAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -793,14 +1039,22 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                 }
 
-                if(dayNameId==6 && myDayName.equals("Fri"))
+                if(dayNameId==6 && myDayName.equals("Saturday"))
+//                if(dayNameId.equals("6") && myDayName.equals("Saturday"))
                 {
+                    System.out.println("day name.."+myDayName);
+                    System.out.println("day id.."+dayNameId);
+
                     prevSatTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     satAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevSatTimeSlotsList);
                     satAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
                     timings.setAdapter(satAdapter); // Apply the adapter to the spinner
 
                 }
+//                else
+//                {
+//                    prevWedTimeSlotsList.add("12:00");
+//                }
 
             }
 
@@ -899,6 +1153,11 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
                     mycity = object.getString("CityName");
 
+                    System.out.println("hospital name.."+myhospitalName);
+                    System.out.println("address.."+myaddress);
+                    System.out.println("city.."+mycity);
+                    System.out.println("state.."+mystate);
+
                     hospitalname.setText(myhospitalName);
                     doornum.setText(myaddress);
                     city.setText(mycity);
@@ -941,15 +1200,16 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 String address = myaddress+","+mycity;
                 String link="https://www.medictfhc.com/";
 
-                String message="Hi "+username+", You have successfully sent an appointment request to Dr."+doctorname+"on"+date+"at"+address+".Thank You."+"Click here to Login:"+baseUrl.getLink();
-                smsUrl = baseUrl.getSmsUrl();
-                String uname="MedicTr";
-                String password="X!g@c$R2";
-                String sender="MEDICC";
-                String destination=myMobile;
+                String message="Hi "+username+", You have successfully sent an appointment request to "+doctorname+"on"+date+"at"+address+".Thank You."+"Click here to Login:"+baseUrl.getLink();
 
-                String encode_message= URLEncoder.encode(message, "UTF-8");
-                StringBuilder stringBuilder=new StringBuilder(smsUrl);
+                smsUrl = baseUrl.getSmsUrl();
+                String uname = "MedicTr";
+                String password = "X!g@c$R2";
+                String sender = "MEDICC";
+                String destination = myMobile;
+
+                String encode_message = URLEncoder.encode(message, "UTF-8");
+                StringBuilder stringBuilder = new StringBuilder(smsUrl);
                 stringBuilder.append("uname="+URLEncoder.encode(uname, "UTF-8"));
                 stringBuilder.append("&pass="+URLEncoder.encode(password, "UTF-8"));
                 stringBuilder.append("&send="+URLEncoder.encode(sender, "UTF-8"));
@@ -980,8 +1240,183 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
             super.onPreExecute();
+        }
+    }
+
+
+    private String emailFormatDataAsJson()
+    {
+        JSONObject data = new JSONObject();
+
+        String patientappointmentTime = timings.getSelectedItem().toString();
+        String patientappointmentDate = appointmentdate.getText().toString();
+        String doctorAddress = myaddress+"-"+mycity;
+        String patientMobile = myMobile;
+
+        System.out.println("doctor email message fields..."+patientappointmentTime+"...."+patientappointmentDate+"....."+doctorAddress+"....."+patientMobile);
+
+        bookAppointmentmessage = patientname.getText().toString()+" wants your appointment at "+patientappointmentTime+" on "+patientappointmentDate+" at "+doctorAddress+". Please call "+patientMobile+" for any information required from patient. Thank You. Click here to Login:"+baseUrl.getLink();
+
+        try
+        {
+            data.put("includeFooter","Yes");
+            data.put("password","X!g@c$R2");
+            data.put("userName","MedicTr");
+
+            JSONObject messageJsonData = new JSONObject();
+            messageJsonData.put("custRef","423423423");
+            messageJsonData.put("fromEmail","services@medictfhc.com");
+            messageJsonData.put("html","The answer is Business");
+            messageJsonData.put("recipient",mydoctorEmail);
+            messageJsonData.put("fromName","Medic");
+            messageJsonData.put("replyTo","services@medictfhc.com");
+            messageJsonData.put("subject","Appointment Booked");
+            messageJsonData.put("text","Hello");
+
+            JSONObject mTagJsonData = new JSONObject();
+            mTagJsonData.put("mtag1","testing");
+
+            messageJsonData.put("mtag",new JSONObject(mTagJsonData.toString()));
+
+            JSONObject templateJsonData = new JSONObject();
+            templateJsonData.put("templateId","MedicEmail2");
+
+
+            JSONObject templateValuesJsonData = new JSONObject();
+            templateValuesJsonData.put("UserNameParamater",mydocName);
+            templateValuesJsonData.put("MessageParamater",bookAppointmentmessage);
+            templateJsonData.put("templateValues",new JSONObject(templateValuesJsonData.toString()));
+
+            messageJsonData.put("template",new JSONObject(templateJsonData.toString()));
+
+            data.put("message",new JSONObject(messageJsonData.toString()));
+
+
+            System.out.println("js obj..."+data);
+
+            return data.toString();
+
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
+    }
+
+    //send appointment details for booking doctor to api call
+    private class sendEmailAppointmentDetailsToDoctor extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params....."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result email   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
+
+            JSONObject js;
+
+//            try {
+//                js= new JSONObject(result);
+//                int s = js.getInt("Code");
+//                if(s == 200)
+//                {
+//
+//                    showSuccessMessage(js.getString("Message"));
+//                }
+//                else
+//                {
+//                    showErrorMessage(js.getString("Message"));
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
         }
     }
 

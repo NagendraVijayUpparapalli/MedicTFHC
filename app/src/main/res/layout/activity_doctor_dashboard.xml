@@ -13,26 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!--<include-->
+        <!--android:id="@+id/myTest"-->
+
+        <!--layout="@layout/nav_header_doctor_dashboard"/>-->
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_doctor_dashboard"
+
         android:fitsSystemWindows="true">
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<include layout="@layout/nav_header_main"-->
-        <!--android:id="@+id/header"/>-->
-        <!--<ExpandableListView-->
-        <!--android:id="@+id/expandableListView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="192dp"-->
-        <!--android:indicatorLeft="240dp"-->
-        <!--android:background="@android:color/white">-->
-        <!--</ExpandableListView>-->
+
         <ExpandableListView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_below="@+id/nav_view"

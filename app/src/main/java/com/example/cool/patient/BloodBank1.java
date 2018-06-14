@@ -60,7 +60,7 @@ public class BloodBank1 extends AppCompatActivity {
     ListView listview;
 
     static String selected_location=null;
-    static String getcity=null;
+    static String getUserId,getcity=null,mobile;
     String addressline;
 
     ArrayList<BloodBankClass> arrayList;
@@ -74,14 +74,14 @@ public class BloodBank1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blood_bank1);
 
-
         baseUrl = new ApiBaseUrl();
 
         selected_city = (TextView) findViewById(R.id.select_city);
         listview = (ListView)findViewById(R.id.mylist);
 
-
+        getUserId = getIntent().getStringExtra("userId");
         getcity = getIntent().getStringExtra("city");
+        mobile = getIntent().getStringExtra("mobile");
         System.out.print("city....."+getcity);
         selected_city.setText(getcity);
 
@@ -91,6 +91,9 @@ public class BloodBank1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(BloodBank1.this,SelectCity.class);
+                i.putExtra("module","bloodbankList");
+                i.putExtra("userId",getUserId);
+                i.putExtra("mobile",mobile);
                 startActivity(i);
             }
         });
@@ -157,6 +160,8 @@ public class BloodBank1 extends AppCompatActivity {
                 i.putExtra("phone",arrayList.get(position).getMobile());
                 i.putExtra("email","NA");
                 i.putExtra("addressline",addressline);
+                i.putExtra("mobile",mobile);
+                i.putExtra("id",getUserId);
                 startActivity(i);
 
             }
@@ -173,7 +178,6 @@ public class BloodBank1 extends AppCompatActivity {
 
         toolbar.setTitle("Blood Bank");
 
-
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -181,6 +185,8 @@ public class BloodBank1 extends AppCompatActivity {
                     public void onClick(View v) {
 //                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(BloodBank1.this,MainActivity.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
                     }
@@ -230,13 +236,14 @@ public class BloodBank1 extends AppCompatActivity {
                         addressline = fulladdress.get(0).getAddressLine(0);
 
                         System.out.println("address line..."+addressline);
-
                     }
             }
+        }
 
-        } catch (IOException e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
+
         catch (SecurityException e) {
             e.printStackTrace();
         }
@@ -266,7 +273,7 @@ public class BloodBank1 extends AppCompatActivity {
         if(Geocoder.isPresent())
         {
             try {
-                selected_location=getcity;
+                selected_location = getcity;
                 System.out.println("getlatlong method city....."+selected_location);
                 Geocoder gc=new Geocoder(this);
                 List<Address> addresses1=gc.getFromLocationName(selected_location,5);
@@ -336,8 +343,8 @@ public class BloodBank1 extends AppCompatActivity {
                         i.putExtra("phone",arrayList.get(position).getMobile());
                         i.putExtra("city",arrayList.get(position).getLocation());
                         i.putExtra("email","medic@gmail.com");
-////                i.putExtra("phone",10);
-////                i.putExtra("email","me");
+                        i.putExtra("mobile",mobile);
+                        i.putExtra("id",getUserId);
                         i.putExtra("addressline",addressline);
 //                        i.putExtras(bundle);
                         startActivity(i);
@@ -561,6 +568,8 @@ public class BloodBank1 extends AppCompatActivity {
                 i.putExtra("phone",arrayList.get(position).getMobile());
                 i.putExtra("email","NA");
                 i.putExtra("addressline",addressline);
+                i.putExtra("mobile",mobile);
+                i.putExtra("id",getUserId);
                 startActivity(i);
 
             }

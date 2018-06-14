@@ -214,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="click to navigate"
+                    android:text="Click to navigate"
                     android:textColor="#f50404"
                     android:textSize="18sp" />
 
@@ -291,8 +291,8 @@
                     <Spinner
                         android:id="@+id/timings"
                         android:layout_width="120dp"
-                        android:layout_height="wrap_content">
-                    </Spinner>
+                        android:layout_height="wrap_content"/>
+
 
                 </LinearLayout>
 
@@ -345,11 +345,11 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:ems="5"
                             android:hint="Age"
-
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
                             android:inputType="textPersonName" />
+
                     </android.support.design.widget.TextInputLayout>
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_mobile"
@@ -425,9 +425,9 @@
                             android:id="@+id/aadhaarNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_mail_black_24dp"
+                            android:drawableLeft="@drawable/aadhar_icon"
                             android:ems="15"
-                            android:hint="Aadhar Number"
+                            android:hint="Aadhaar Number"
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"

@@ -1,9 +1,7 @@
 package com.example.cool.patient;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,8 +17,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -35,18 +31,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import android.widget.ListView;
 
-import com.rom4ek.arcnavigationview.ArcNavigationView;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -59,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     //lat,long
     static String uploadServerUrl = null;
     static String str ="";
-    static int getUserId;
+    static String getUserId;
 //    Criteria criteria;
     LocationManager locationManager;
     String lattitude,longitude;
@@ -116,9 +107,9 @@ public class MainActivity extends AppCompatActivity
 //                    overridePendingTransition(R.anim.goup, R.anim.godown);
 //                    return true;
                 case R.id.Languages_options:
-                   Intent language = new Intent (MainActivity.this,DashboardSelectCity.class);
-                   startActivity(language);
-                    overridePendingTransition(R.anim.goup, R.anim.godown);
+//                   Intent language = new Intent (MainActivity.this,DashboardSelectCity.class);
+//                   startActivity(language);
+//                    overridePendingTransition(R.anim.goup, R.anim.godown);
                     return true;
             }
             return false;
@@ -134,9 +125,8 @@ public class MainActivity extends AppCompatActivity
 
         Criteria criteria = new Criteria();
 
-
         mobile_number = getIntent().getStringExtra("mobile");
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        getUserId = getIntent().getStringExtra("id");
         System.out.print("userid in mainactivity....."+getUserId);
 
 //        System.out.print("city....."+city);
@@ -153,7 +143,6 @@ public class MainActivity extends AppCompatActivity
             getLocation();
         }
 
-
         //change icon colors  in navigation
 //        ArcNavigationView anv=(ArcNavigationView) findViewById(R.id.nav_view);
 //        anv.setItemIconTintList(null);
@@ -162,13 +151,16 @@ public class MainActivity extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        current_city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,DashboardSelectCity.class);
-                startActivity(i);
-            }
-        });
+//        current_city.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this,SelectCity.class);
+//                i.putExtra("module","patientDashB");
+//                i.putExtra("userId",getUserId);
+//                i.putExtra("mobile",mobile_number);
+//                startActivity(i);
+//            }
+//        });
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -199,8 +191,9 @@ public class MainActivity extends AppCompatActivity
 
                 } else if (groupPosition == SideNavigationExpandableListAdapter.ITEM4) {
                     // call some activity here
-                    Intent about = new Intent(MainActivity.this,PatientEditProfile.class);
-                    startActivity(about);
+                    Intent editProfile = new Intent(MainActivity.this,PatientEditProfile.class);
+                    editProfile.putExtra("id",getUserId);
+                    startActivity(editProfile);
 
                 } else if (groupPosition == SideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
@@ -246,36 +239,37 @@ public class MainActivity extends AppCompatActivity
 //                return retVal;
 //            }
 //        });
+
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
 
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        expandableListTitle.get(groupPosition)
-//                                + " -> "
-//                                + expandableListDetail.get(
-//                                expandableListTitle.get(groupPosition)).get(
-//                                childPosition), Toast.LENGTH_SHORT
-//                ).show();
                 if (groupPosition == SideNavigationExpandableListAdapter.ITEM1) {
                     if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_1) {
 
                         Intent i = new Intent(MainActivity.this,GetCurrentDoctorsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
                         startActivity(i);
-
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_2) {
-
-                        // call activity here
+                        Intent i = new Intent(MainActivity.this,GetCurrentDiagnosticsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
+                        startActivity(i);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_3) {
 
                         // call activity here
+
+//                        Intent in = new Intent(MainActivity.this,GetCurrentMedicalShopsList.class);
+//                        in.putExtra("userId",getUserId);
+//                        in.putExtra("mobile",mobile_number);
+//                        startActivity(in);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_4) {
@@ -286,8 +280,8 @@ public class MainActivity extends AppCompatActivity
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_5) {
 
                         // call activity here
-                        Intent bloodbank = new Intent(MainActivity.this,BloodBank.class);
-                        startActivity(bloodbank);
+//                        Intent bloodbank = new Intent(MainActivity.this,BloodBank.class);
+//                        startActivity(bloodbank);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM1_6) {
@@ -313,19 +307,24 @@ public class MainActivity extends AppCompatActivity
 
                     }
 
-                } else if(groupPosition == SideNavigationExpandableListAdapter.ITEM2) {
+                }
+
+                else if(groupPosition == SideNavigationExpandableListAdapter.ITEM2) {
                     if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_1) {
 
                         // call activity here
 
                         Intent intent = new Intent(MainActivity.this,PatientMyDoctorAppointments.class);
+                        intent.putExtra("mobile",mobile_number);
                         intent.putExtra("id",getUserId);
                         startActivity(intent);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_2) {
-
-                        // call activity here
+                        Intent intent = new Intent(MainActivity.this,PatientMyDiagnosticAppointments.class);
+                        intent.putExtra("mobile",mobile_number);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
 
                     }
                     else if (childPosition == SideNavigationExpandableListAdapter.SUBITEM2_3) {
@@ -604,8 +603,7 @@ public class MainActivity extends AppCompatActivity
         line2.setAnimation(downtoup);
         line3.setAnimation(downtoup);
 
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.sound);
-
+//        final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.sound);
 
 
 
@@ -616,6 +614,31 @@ public class MainActivity extends AppCompatActivity
 //                mediaPlayer.start();
                 Intent in = new Intent(MainActivity.this,GetCurrentDoctorsList.class);
                 in.putExtra("userId",getUserId);
+                in.putExtra("mobile",mobile_number);
+                startActivity(in);
+            }
+        });
+
+        CardView diag = (CardView)findViewById(R.id.diag_cardView);
+        diag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mediaPlayer.start();
+                Intent in = new Intent(MainActivity.this,GetCurrentDiagnosticsList.class);
+                in.putExtra("userId",getUserId);
+                in.putExtra("mobile",mobile_number);
+                startActivity(in);
+            }
+        });
+
+        CardView medical = (CardView)findViewById(R.id.medical_cardView);
+        medical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mediaPlayer.start();
+                Intent in = new Intent(MainActivity.this,GetCurrentMedicalShopsList.class);
+                in.putExtra("userId",getUserId);
+                in.putExtra("mobile",mobile_number);
                 startActivity(in);
             }
         });
@@ -624,9 +647,10 @@ public class MainActivity extends AppCompatActivity
         bloodb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer.start();
-                Intent in = new Intent(MainActivity.this,BloodBankSplashScreen.class);
+//                mediaPlayer.start();
+                Intent in = new Intent(MainActivity.this,BloodBank.class);
                 in.putExtra("userId",getUserId);
+                in.putExtra("mobile",mobile_number);
                 startActivity(in);
             }
         });
@@ -904,80 +928,82 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-//            Intent in = new Intent(MainActivity.this,Main4Activity.class);
-//            startActivity(in);
-            //Set the fragment initially
-//            Dashboard_Fragment fragment = new Dashboard_Fragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.MainLayout,fragment)
-//                                       .commit();
-
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-//            Doctor_Fragment fragment1 = new Doctor_Fragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.MainLayout,fragment1)
-//                    .commit();
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.crowd)  {
-            Intent crowd = new Intent(MainActivity.this,crowdFunding.class);
-            startActivity(crowd);
-        }
-
-        else if (id == R.id.history)  {
-//            Intent history = new Intent(MainActivity.this,PatientHistory.class);
-//            startActivity(history);
-        }
-
-        else if(id== R.id.Achieve) {
-            Intent aciveive = new Intent(MainActivity.this,WelcomeActivity.class);
-            startActivity(aciveive);
-        } else if(id == R.id.certificate){
-            Intent certificate = new Intent(MainActivity.this, sliderparts.class);
-            startActivity(certificate);
-        }else if(id == R.id.subscription) {
-            Intent subscription = new Intent(MainActivity.this,Subscription.class);
-            startActivity(subscription);
-        }else if (id == R.id.video) {
-            Intent video = new Intent(MainActivity.this,tvvideomedic.class);
-            startActivity(video);
-        } else if (id == R.id.contactus) {
-            Intent contact = new Intent(MainActivity.this , ContactUs.class);
-            startActivity(contact);
-        } else if (id == R.id.about)  {
-            Intent abouts = new Intent(MainActivity.this , AboutUs.class);
-            startActivity(abouts);
-        } else if (id == R.id.reach)  {
-            Intent reachs = new Intent(MainActivity.this,ReachUs.class);
-            startActivity(reachs);
-        } else if(id== R.id.doctor_appointment) {
-            Intent appointment = new Intent(MainActivity.this,AppointmentTimings.class);
-            startActivity(appointment);
-        } else if (id == R.id.doctor_calendar) {
-            Intent calender = new Intent(MainActivity.this,DoctorCalendar.class);
-            startActivity(calender);
-        } else if(id == R.id.dimages) {
-            Intent image =  new Intent(MainActivity.this,DoctorsActvity.class);
-            startActivity(image);
-        } else if(id == R.id.Logout)  {
-            Intent logout =  new Intent(MainActivity.this,Login.class);
-            startActivity(logout);
-        }
-        else if(id == R.id.change_password)  {
-            Intent change =  new Intent(MainActivity.this,ChangePassword.class);
-            change.putExtra("mobile",mobile_number);
-            startActivity(change);
-
-        }
+//        if (id == R.id.nav_camera) {
+////            Intent in = new Intent(MainActivity.this,Main4Activity.class);
+////            startActivity(in);
+//            //Set the fragment initially
+////            Dashboard_Fragment fragment = new Dashboard_Fragment();
+////            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+////            manager.beginTransaction().replace(R.id.MainLayout,fragment)
+////                                       .commit();
+//
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+////            Doctor_Fragment fragment1 = new Doctor_Fragment();
+////            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+////            manager.beginTransaction().replace(R.id.MainLayout,fragment1)
+////                    .commit();
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        } else if (id == R.id.crowd)  {
+////            Intent crowd = new Intent(MainActivity.this,crowdFunding.class);
+////            startActivity(crowd);
+//        }
+//
+//        else if (id == R.id.history)  {
+////            Intent history = new Intent(MainActivity.this,PatientHistory.class);
+////            startActivity(history);
+//        }
+//
+//        else if(id== R.id.Achieve) {
+////            Intent aciveive = new Intent(MainActivity.this,WelcomeActivity.class);
+////            startActivity(aciveive);
+//        } else if(id == R.id.certificate){
+//            Intent certificate = new Intent(MainActivity.this, sliderparts.class);
+//            startActivity(certificate);
+//        }else if(id == R.id.subscription) {
+//            Intent subscription = new Intent(MainActivity.this,Subscription_for_Urban.class);
+//            startActivity(subscription);
+//        }else if (id == R.id.video) {
+//            Intent video = new Intent(MainActivity.this,tvvideomedic.class);
+//            startActivity(video);
+//        } else if (id == R.id.contactus) {
+//            Intent contact = new Intent(MainActivity.this , ContactUs.class);
+//            startActivity(contact);
+//        } else if (id == R.id.about)  {
+//            Intent abouts = new Intent(MainActivity.this , AboutUs.class);
+//            startActivity(abouts);
+//        } else if (id == R.id.reach)  {
+//            Intent reachs = new Intent(MainActivity.this,ReachUs.class);
+//            startActivity(reachs);
+//        }
+////        else if(id== R.id.doctor_appointment) {
+////            Intent appointment = new Intent(MainActivity.this,AppointmentTimings.class);
+////            startActivity(appointment);
+////        } else if (id == R.id.doctor_calendar) {
+////            Intent calender = new Intent(MainActivity.this,DoctorCalendar.class);
+////            startActivity(calender);
+////        } else if(id == R.id.dimages) {
+////            Intent image =  new Intent(MainActivity.this,DoctorsActvity.class);
+////            startActivity(image);
+////        }
+//        else if(id == R.id.Logout)  {
+//            Intent logout =  new Intent(MainActivity.this,Login.class);
+//            startActivity(logout);
+//        }
+//        else if(id == R.id.change_password)  {
+//            Intent change =  new Intent(MainActivity.this,ChangePassword.class);
+//            change.putExtra("mobile",mobile_number);
+//            startActivity(change);
+//
+//        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

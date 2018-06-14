@@ -2,12 +2,15 @@ package com.example.cool.patient;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -18,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +49,7 @@ import br.com.bloder.magic.view.MagicButton;
 public class DoctorUpdateAddress extends AppCompatActivity {
 
     EditText hospitalName,address,pincode,contactPerson,fee,landlineMobileNumber,comments,lat,lng,emergencyContactNumber;
-    Spinner city,state,district;
+    SearchableSpinner city,state,district;
     CheckBox availableService;
     MagicButton btn_AddAddress;
     TextView getLatLong;
@@ -62,7 +67,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     List<String> allItemsList, prevSunTimeSlotsList,prevMonTimeSlotsList,prevTueTimeSlotsList,prevWedTimeSlotsList,prevThurTimeSlotsList,prevFriTimeSlotsList,prevSatTimeSlotsList;
 
     Button sunday,monday,tuesday,wednesday,thursday,friday,saturday;
-    String allItems[],allSunPrevItems[],allMonPrevItems[],allTuePrevItems[],allWedPrevItems[],allThurPrevItems[],allFriPrevItems[],allSatPrevItems[];
+    String allItems[],allSunPrevItems[],allMonPrevItems[]=null,allTuePrevItems[],allWedPrevItems[],allThurPrevItems[],allFriPrevItems[],allSatPrevItems[];
 
     static Map<String, List<String>> map = new HashMap<String, List<String>>();
     HashMap<String, String> AllTimeSlotsList = new HashMap<String, String>();
@@ -114,7 +119,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     LinearLayout timingLayout,details_layout,emergencyContactLayout ;
 
 
-    static int getUserId;
+    static String getUserId,regMobile;
     static String uploadServerUrl = null,addressId,sunAppointmentsCount = "0",
             monAppointmentsCount = "0",tueAppointmentsCount = "0",wedApointmentsCount = "0",
             thuAppointmentsCount = "0",friAppointmentsCount = "0",satAppointmentsCount = "0";
@@ -129,6 +134,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     boolean myAvailableService;
 
     ApiBaseUrl baseUrl;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,16 +142,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_update_address);
 
         baseUrl = new ApiBaseUrl();
-
-        new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
-
-        new GetAllStates().execute(baseUrl.getUrl()+"GetAllState");
-
-        new GetAllDistricts().execute(baseUrl.getUrl()+"GetAllDistrict");
-
-//        new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
-
-//        new GetPreviousTimings().execute(baseUrl.getUrl()+"GetAllTimeSlotbyAddressid?AddresID=1332");
 
         hospitalName = (EditText) findViewById(R.id.Hospital_Name);
         address = (EditText) findViewById(R.id.Address);
@@ -161,9 +157,9 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         getLatLong = findViewById(R.id.getlatlng);
         lat = (EditText) findViewById(R.id.Latitude);
         lng = (EditText) findViewById(R.id.Longitude);
-        city = (Spinner) findViewById(R.id.cityId);
-        state = (Spinner) findViewById(R.id.stateId);
-        district = (Spinner) findViewById(R.id.districtId);
+        city = (SearchableSpinner) findViewById(R.id.cityId);
+        state = (SearchableSpinner) findViewById(R.id.stateId);
+        district = (SearchableSpinner) findViewById(R.id.districtId);
         availableService = (CheckBox) findViewById(R.id.serviceAvailable);
 
         nextView = (TextView) findViewById(R.id.next_link);
@@ -175,28 +171,13 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         getLatLong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorUpdateAddress.this,MapsActivity.class);
-                intent.putExtra("doc","docUpdate");
-                intent.putExtra("id",getUserId);
-                intent.putExtra("addressId",myAddressId);
-                intent.putExtra("hospitalName",hospitalName.getText().toString());
-                intent.putExtra("address",address.getText().toString());
-                intent.putExtra("city",city.getSelectedItem().toString());
-                intent.putExtra("state",state.getSelectedItem().toString());
-                intent.putExtra("district",district.getSelectedItem().toString());
-                intent.putExtra("mobile",landlineMobileNumber.getText().toString());
-                intent.putExtra("pincode",pincode.getText().toString());
-                intent.putExtra("person",contactPerson.getText().toString());
-                intent.putExtra("fee",fee.getText().toString());
+                validateUpdateAddress();
 
-                intent.putExtra("contactName",myContactPerson);
-                intent.putExtra("emergencyContact",myEmergencyContact);
-                intent.putExtra("emergencyService",myAvailableService);
-                intent.putExtra("comments",myComments);
-                startActivity(intent);
             }
         });
 
+        regMobile = getIntent().getStringExtra("regMobile");
+        getUserId = getIntent().getStringExtra("id");
         myAddressId = getIntent().getStringExtra("addressId");
         myHospitalName = getIntent().getStringExtra("hospitalName");
         myAddress = getIntent().getStringExtra("address");
@@ -214,7 +195,20 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         myComments = getIntent().getStringExtra("comments");
         myAvailableService = getIntent().getBooleanExtra("emergencyService",myAvailableService);
 
+        new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
+
+        new GetAllStates().execute(baseUrl.getUrl()+"GetAllState");
+
+        new GetAllDistricts().execute(baseUrl.getUrl()+"GetAllDistrict");
+
+        new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
+
+        new GetPreviousTimings().execute(baseUrl.getUrl()+"GetAllTimeSlotbyAddressid?AddresID="+myAddressId);
+
         System.out.println("hospital name"+myHospitalName);
+
+        System.out.println("addressid..."+myAddressId);
+        System.out.println("doc id from manage adapter.."+getUserId);
 
         hospitalName.setText(myHospitalName);
         address.setText(myAddress);
@@ -233,25 +227,21 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
 
-        if(myAvailableService)
+        if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
             emergencyContactNumber.setText(myEmergencyContact);
+        }
 
+        if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
         }
 
         nextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
-                Toast.makeText(DoctorUpdateAddress.this, "Please fill above fields", Toast.LENGTH_SHORT).show();
-
-//                String js = formatDataAsJson();
-////                new sendDoctorAddAdressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
-//
-//                timingLayout.setVisibility(View.VISIBLE);
-//                details_layout.setVisibility(View.GONE);
-
+                validateFullAddress();
             }
         });
 
@@ -262,88 +252,299 @@ public class DoctorUpdateAddress extends AppCompatActivity {
             public void onClick(View v) {
 
                 String js = formatDoctorTimingsDataAsJson();
-//                System.out.println("js time array"+js.toString());
-//                new insertDoctorAppointmentTimings().execute(baseUrl.getUrl()+"DoctorInsertTimeSlot",js.toString());
+                System.out.println("js time array"+js.toString());
+                new insertDoctorAppointmentTimings().execute(baseUrl.getUrl()+"DoctorInsertTimeSlot",js.toString());
+
             }
         });
 
-//        sunday = (Button) findViewById(R.id.Sunday);
-//        monday = (Button) findViewById(R.id.Monday);
-//        tuesday = (Button) findViewById(R.id.Tuesday);
-//        wednesday =(Button)findViewById(R.id.Wednesday);
-//        thursday = (Button) findViewById(R.id.Thursday);
-//        friday = (Button) findViewById(R.id.Friday);
-//        saturday = (Button) findViewById(R.id.Saturday);
-//
-//        saturday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Saturday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MySaturdayCustomAlertDialog();
-//            }
-//        });
-//        friday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Friday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MyFridayCustomAlertDialog();
-//            }
-//        });
-//
-//        thursday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Thurday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MyThursdayCustomAlertDialog();
-//            }
-//        });
-//
-//        wednesday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "wednessday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MyWednesdayCustomAlertDialog();
-//            }
-//        });
-//
-//
-//
-//
-//        tuesday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Tuesday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MyTuesdayCustomAlertDialog();
-//            }
-//        });
-//
-//
-//
-//        monday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Monday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MyMondayCustomAlertDialog();
-//            }
-//        });
-//
-//        sunday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(DoctorUpdateAddress.this,
-//                        "Sunday Appointment Timings", Toast.LENGTH_LONG).show();
-//                MySundayCustomAlertDialog();
-//            }
-//        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+        toolbar.setTitle("Update Address");
+        toolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(DoctorUpdateAddress.this,DoctorManageAddress.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
+                        startActivity(intent);
+
+                    }
+                }
+
+        );
+
+        sunday = (Button) findViewById(R.id.Sunday);
+        monday = (Button) findViewById(R.id.Monday);
+        tuesday = (Button) findViewById(R.id.Tuesday);
+        wednesday =(Button)findViewById(R.id.Wednesday);
+        thursday = (Button) findViewById(R.id.Thursday);
+        friday = (Button) findViewById(R.id.Friday);
+        saturday = (Button) findViewById(R.id.Saturday);
+
+        saturday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MySaturdayCustomAlertDialog();
+            }
+        });
+        friday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MyFridayCustomAlertDialog();
+            }
+        });
+
+        thursday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MyThursdayCustomAlertDialog();
+            }
+        });
+
+        wednesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MyWednesdayCustomAlertDialog();
+            }
+        });
+
+        tuesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MyTuesdayCustomAlertDialog();
+            }
+        });
+
+        monday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MyMondayCustomAlertDialog();
+            }
+        });
+
+        sunday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MySundayCustomAlertDialog();
+            }
+        });
+
+    }
 
 
+    public void validateUpdateAddress()
+    {
+        if(!validate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent intent = new Intent(DoctorUpdateAddress.this,MapsActivity.class);
+            intent.putExtra("doc","docUpdate");
+            intent.putExtra("id",getUserId);
+            intent.putExtra("regMobile",regMobile);
+            intent.putExtra("addressId",myAddressId);
+            intent.putExtra("hospitalName",hospitalName.getText().toString());
+            intent.putExtra("address",address.getText().toString());
+            intent.putExtra("city",city.getSelectedItem().toString());
+            intent.putExtra("state",state.getSelectedItem().toString());
+            intent.putExtra("district",district.getSelectedItem().toString());
+            intent.putExtra("mobile",landlineMobileNumber.getText().toString());
+            intent.putExtra("pincode",pincode.getText().toString());
+            intent.putExtra("person",contactPerson.getText().toString());
+            intent.putExtra("fee",fee.getText().toString());
+
+            intent.putExtra("contactName",myContactPerson);
+            intent.putExtra("emergencyContact",myEmergencyContact);
+            intent.putExtra("emergencyService",myAvailableService);
+
+            System.out.println("emergency service.Update."+myAvailableService);
+            intent.putExtra("comments",myComments);
+            startActivity(intent);
+        }
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+        if(hospitalName.getText().toString().trim().isEmpty())
+        {
+            hospitalName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the name");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+        if( fee.getText().toString().trim().isEmpty())
+        {
+            fee.setError("please enter fee");
+            validate  = false;
+
+        }
+//        if( comments.getText().toString().trim().isEmpty())
+//        {
+//            comments.setError("please enter comments");
+//            validate  = false;
+//
+//        }
+//        if( lat.getText().toString().isEmpty())
+//        {
+//            lat.setError("please select location");
+//            validate  = false;
+//
+//        }
+//        if( lng.getText().toString().isEmpty())
+//        {
+//            lng.setError("please select location");
+//            validate  = false;
+//
+//        }
+
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+//        if(emergencyContactNo.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNo.getText().toString()).matches())
+//        {
+//            emergencyContactNo.setError("please enter emergency number");
+//            validate=false;
+//        }
+//        else if(emergencyContactNo.getText().toString().length()<10 || emergencyContactNo.getText().toString().length()>10)
+//        {
+//            emergencyContactNo.setError(" Invalid phone number ");
+//            validate=false;
+//        }
+
+
+
+        return validate;
+    }
+
+
+    public void validateFullAddress()
+    {
+        if(!addressValidate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            new sendDoctorUpdateAdressDetails().execute(baseUrl.getUrl()+"UpdateDoctorAddress",js.toString());
+
+            timingLayout.setVisibility(View.VISIBLE);
+            details_layout.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean addressValidate()
+    {
+        boolean validate = true;
+        if(hospitalName.getText().toString().trim().isEmpty())
+        {
+            hospitalName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the name");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+        if( fee.getText().toString().trim().isEmpty())
+        {
+            fee.setError("please enter fee");
+            validate  = false;
+
+        }
+        if( comments.getText().toString().trim().isEmpty())
+        {
+            comments.setError("please enter comments");
+            validate  = false;
+
+        }
+        if( lat.getText().toString().isEmpty())
+        {
+            lat.setError("please select location");
+            validate  = false;
+
+        }
+        if( lng.getText().toString().isEmpty())
+        {
+            lng.setError("please select location");
+            validate  = false;
+
+        }
+
+        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+        {
+            landlineMobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        {
+            landlineMobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+        if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+        {
+            emergencyContactNumber.setError("please enter valid number");
+            validate=false;
+        }
+        else if(emergencyContactNumber.getText().toString().length()<10 || emergencyContactNumber.getText().toString().length()>10)
+        {
+            emergencyContactNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        return validate;
     }
 
     private String formatDoctorTimingsDataAsJson() {
@@ -365,9 +566,11 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                 int i = 0;
 
-                System.out.println("map values "+map);
+                System.out.println("map values index.. "+values.get(i));
 
-//                System.out.println("items size "+getmUserItemsSunItems.size());
+                System.out.println("items size "+getmUserItemsSunItems.size());
+
+                System.out.println("items ele "+getmUserItemsSunItems.toString());
 
                 if(key.equals("0"))
                 {
@@ -376,18 +579,36 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsSunItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
-                        System.out.println("sun map "+AllTimeSlotsList.toString());
+                        System.out.println("sun map "+mylist.toString());
 
                         JSONObject eachData = new JSONObject();
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", sunAppointmentsCount);
                         allDataArray.add(eachData);
@@ -402,8 +623,28 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+
+                        String lis = getmUserItemsMonItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -411,7 +652,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", monAppointmentsCount);
                         allDataArray.add(eachData);
@@ -426,8 +667,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsTueItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -435,7 +694,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", tueAppointmentsCount);
                         allDataArray.add(eachData);
@@ -451,8 +710,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsWedItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -460,7 +737,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", wedApointmentsCount);
                         allDataArray.add(eachData);
@@ -477,8 +754,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsThurItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -486,7 +781,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", thuAppointmentsCount);
                         allDataArray.add(eachData);
@@ -504,8 +799,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsFriItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -513,7 +826,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", friAppointmentsCount);
                         allDataArray.add(eachData);
@@ -531,8 +844,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     //Loop index size()
                     for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
+                        String lis = getmUserItemsSatItems.toString();
+                        a = lis.split(", ");
+
+                        String s = a[0];
+                        String last = a[a.length-1];
+
+                        if(index == 0)
+                        {
+                            s = s.substring(1);
+                            System.out.println("a first value.."+s);
+                            a[index] = s;
+                        }
+
+                        if(index == a.length-1)
+                        {
+                            last = last.substring(0,last.length()-1);
+                            System.out.println("a last value.."+last);
+                            a[index] = last;
+                        }
+
                         List mylist = new ArrayList<>();
                         mylist.addAll(Arrays.asList(a));
 
@@ -540,7 +871,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", myAddressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", satAppointmentsCount);
                         allDataArray.add(eachData);
@@ -631,6 +962,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 String[] stockArr = new String[allItemsList.size()];
 
                 allItems = allItemsList.toArray(stockArr);
+
                 checkedSunAmTimings = new boolean[allItems.length];
                 checkedMonAmTimings = new boolean[allItems.length];
                 checkedTueAmTimings = new boolean[allItems.length];
@@ -678,7 +1010,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         try{
             if(availableService.isChecked())
             {
-                data.put("DoctorID",getUserId);
+                data.put("AddressID",myAddressId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -691,7 +1023,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 data.put("District",myDistrict);
                 data.put("FrontofficeContactPerson",myContactPerson);
 
-                data.put("iConsultationFee",myFee);
+                data.put("ConsultationFee",myFee);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
@@ -701,7 +1033,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
             }
             else if(!availableService.isChecked())
             {
-                data.put("DoctorID",getUserId);
+                data.put("AddressID",myAddressId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -716,7 +1048,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 data.put("District",myDistrict);
                 data.put("FrontofficeContactPerson",myContactPerson);
 
-                data.put("iConsultationFee",myFee);
+                data.put("ConsultationFee",myFee);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
@@ -735,10 +1067,10 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     }
 
 
+
     public void MySundayCustomAlertDialog(){
 
         getmUserItemsSunItems = new ArrayList<>();
-
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
         builder1.setTitle("how many appointments want ??");
@@ -749,20 +1081,18 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
+        appointments.setText(sunPrevAppointmentsCount);
 
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
 
-        appointments.setEnabled(true);
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        sunPrevAppointmentsCount, Toast.LENGTH_LONG).show();
-                appointments.setText(sunPrevAppointmentsCount);
+
                 sunAppointmentsCount = appointments.getText().toString();
                 System.out.println("count..."+sunAppointmentsCount);
                 showSunalert(sunAppointmentsCount);
@@ -777,35 +1107,38 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         });
 
         MyDialog.show();
-//        return get
     }
 
     public void showSunalert(String txt)
     {
         getmUserItemsSunItems = new ArrayList<>();
 
-//        getmUserItemsSunPmItems = new ArrayList<>();
-
         TextView inputtext;
         final int value=Integer.parseInt(txt);
 
-//        System.out.println("value length.."+allItems.length);
-
         final AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(DoctorUpdateAddress.this);
 
-
-        for(int i=0;i<allSunPrevItems.length;i++)
+        if(sunPrevAppointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevSunTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevSunTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevSunTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedSunAmTimings[pos] = true;
-            }
+            allSunPrevItems  = new String[0];
+
         }
 
+        else
+        {
+            for (int i = 0; i < allSunPrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevSunTimeSlotsList.get(i))) {
+//                Toast.makeText(getApplicationContext(),prevSunTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevSunTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedSunAmTimings[pos] = true;
+                    getmUserItemsSunItems.add(prevSunTimeSlotsList.get(i).toString());
+                }
+            }
+        }
 
         mBuilder2.setTitle("Appointments: "+txt);
         mBuilder2.setMultiChoiceItems(allItems, checkedSunAmTimings, new DialogInterface.OnMultiChoiceClickListener() {
@@ -829,7 +1162,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_SunAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_SunAmValue.get(i))];
                     if (i != getmUserItems_SunAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -882,6 +1215,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
+        appointments.setText(monPrevAppointmentsCount);
 
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
@@ -892,12 +1226,11 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-                appointments.setText(monPrevAppointmentsCount);
+
                 monAppointmentsCount = appointments.getText().toString();
                 System.out.println("mon count..."+monAppointmentsCount);
                 showMonAlert(monAppointmentsCount);
+
             }
         });
 
@@ -915,25 +1248,38 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     {
         getmUserItemsMonItems = new ArrayList<>();
 
-
         TextView inputtext;
         final int value=Integer.parseInt(txt);
 
         System.out.println("mon ap count"+value);
 
-        for(int i=0;i<allMonPrevItems.length;i++)
-        {
-            if(AllTimeSlotsList.containsValue(prevMonTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevMonTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+        final AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(DoctorUpdateAddress.this);
 
-                int pos = Arrays.asList(allItems).indexOf(prevMonTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedMonAmTimings[pos] = true;
+        if(monPrevAppointmentsCount.equals("0"))
+        {
+            String[] stockArr = new String[0];
+
+            allMonPrevItems = new String[0];
+
+//            checkedPrevMonTimings = new boolean[allMonPrevItems.length];
+        }
+
+        else
+        {
+            for(int i=0;i<allMonPrevItems.length;i++)
+            {
+                if(AllTimeSlotsList.containsValue(prevMonTimeSlotsList.get(i)))
+                {
+//                Toast.makeText(getApplicationContext(),prevMonTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevMonTimeSlotsList.get(i).toString());
+                    System.out.println("pos.."+pos);
+                    checkedMonAmTimings[pos] = true;
+                    getmUserItemsMonItems.add(prevMonTimeSlotsList.get(i).toString());
+                }
             }
         }
 
-        final AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(DoctorUpdateAddress.this);
 
         mBuilder2.setTitle("Appointments: "+txt);
         mBuilder2.setMultiChoiceItems(allItems, checkedMonAmTimings, new DialogInterface.OnMultiChoiceClickListener() {
@@ -957,7 +1303,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_MonAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_MonAmValue.get(i))];
                     if (i != getmUserItems_MonAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -1004,6 +1350,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
+        appointments.setText(tuePrevAppointmentsCount);
 
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
@@ -1014,10 +1361,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-
-                appointments.setText(tuePrevAppointmentsCount);
 
                 tueAppointmentsCount = appointments.getText().toString();
                 System.out.println("tue count..."+tueAppointmentsCount);
@@ -1043,15 +1386,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         final int value=Integer.parseInt(txt);
         System.out.println("tue ap count"+value);
 
-        for(int i=0;i<allTuePrevItems.length;i++)
+        if(tuePrevAppointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevTueTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevTueTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevTueTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedTueAmTimings[pos] = true;
+            allTuePrevItems = new String[0];
+
+//            checkedPrevTueTimings = new boolean[allTuePrevItems.length];
+        }
+
+        else
+        {
+            for (int i = 0; i < allTuePrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevTueTimeSlotsList.get(i))) {
+//                Toast.makeText(getApplicationContext(),prevTueTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevTueTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedTueAmTimings[pos] = true;
+                    getmUserItemsTueItems.add(prevTueTimeSlotsList.get(i).toString());
+                }
             }
         }
 
@@ -1079,7 +1433,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_TueAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_TueAmValue.get(i))];
                     if (i != getmUserItems_TueAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -1127,6 +1481,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
+        appointments.setText(wedPrevApointmentsCount);
 
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
@@ -1137,10 +1492,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-
-                appointments.setText(wedPrevApointmentsCount);
 
                 wedApointmentsCount = appointments.getText().toString();
                 System.out.println("wed count..."+wedApointmentsCount);
@@ -1167,15 +1518,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         final int value=Integer.parseInt(txt);
         System.out.println("wed ap count"+value);
 
-        for(int i=0;i<allWedPrevItems.length;i++)
+        if(wedPrevApointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevWedTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevWedTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevWedTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedWedAmTimings[pos] = true;
+            allWedPrevItems = new String[0];
+
+//            checkedPrevTueTimings = new boolean[allTuePrevItems.length];
+        }
+
+        else
+        {
+            for (int i = 0; i < allWedPrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevWedTimeSlotsList.get(i))) {
+//                Toast.makeText(getApplicationContext(),prevWedTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevWedTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedWedAmTimings[pos] = true;
+                    getmUserItemsWedItems.add(prevWedTimeSlotsList.get(i).toString());
+                }
             }
         }
 
@@ -1203,7 +1565,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_WedAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_WedAmValue.get(i))];
                     if (i != getmUserItems_WedAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -1251,6 +1613,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
+        appointments.setText(thuPrevAppointmentsCount);
 
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
@@ -1261,10 +1624,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-
-                appointments.setText(thuPrevAppointmentsCount);
 
                 thuAppointmentsCount = appointments.getText().toString();
                 System.out.println("thur count..."+thuAppointmentsCount);
@@ -1291,15 +1650,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         final int value=Integer.parseInt(txt);
         System.out.println("thur ap count"+value);
 
-        for(int i=0;i<allThurPrevItems.length;i++)
+        if(thuPrevAppointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevThurTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevThurTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevThurTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedThuAmTimings[pos] = true;
+            allThurPrevItems = new String[0];
+
+//            checkedPrevTueTimings = new boolean[allTuePrevItems.length];
+        }
+
+        else
+        {
+            for (int i = 0; i < allThurPrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevThurTimeSlotsList.get(i))) {
+//                Toast.makeText(getApplicationContext(),prevThurTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevThurTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedThuAmTimings[pos] = true;
+                    getmUserItemsThurItems.add(prevThurTimeSlotsList.get(i).toString());
+                }
             }
         }
 
@@ -1328,7 +1698,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_ThurAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_ThurAmValue.get(i))];
                     if (i != getmUserItems_ThurAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -1375,6 +1745,8 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
+        appointments.setText(friPrevAppointmentsCount);
+
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
 
@@ -1384,11 +1756,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-
-                appointments.setText(friPrevAppointmentsCount);
-
                 friAppointmentsCount = appointments.getText().toString();
                 System.out.println("fri count..."+friAppointmentsCount);
                 showFriAlert(friAppointmentsCount);
@@ -1414,15 +1781,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         final int value=Integer.parseInt(txt);
         System.out.println("fri ap count"+value);
 
-        for(int i=0;i<allFriPrevItems.length;i++)
+        if(friPrevAppointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevFriTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevFriTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevFriTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedFriAmTimings[pos] = true;
+            allFriPrevItems = new String[0];
+
+//            checkedPrevTueTimings = new boolean[allTuePrevItems.length];
+        }
+
+        else
+        {
+            for (int i = 0; i < allFriPrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevFriTimeSlotsList.get(i))) {
+//                Toast.makeText(getApplicationContext(),prevFriTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevFriTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedFriAmTimings[pos] = true;
+                    getmUserItemsFriItems.add(prevFriTimeSlotsList.get(i).toString());
+                }
             }
         }
 
@@ -1451,7 +1829,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_FriAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_FriAmValue.get(i))];
                     if (i != getmUserItems_FriAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
@@ -1499,6 +1877,8 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
+        appointments.setText(satPrevAppointmentsCount);
+
         ok_btn = (Button)MyDialog.findViewById(R.id.ok);
         cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
 
@@ -1508,10 +1888,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorUpdateAddress.this,
-                        "Timings", Toast.LENGTH_LONG).show();
-
-                appointments.setText(satPrevAppointmentsCount);
 
                 satAppointmentsCount = appointments.getText().toString();
                 System.out.println("sat count..."+satAppointmentsCount);
@@ -1539,15 +1915,26 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         final int value=Integer.parseInt(txt);
         System.out.println("sat ap count"+value);
 
-        for(int i=0;i<allSatPrevItems.length;i++)
+        if(satPrevAppointmentsCount.equals("0"))
         {
-            if(AllTimeSlotsList.containsValue(prevSatTimeSlotsList.get(i)))
-            {
-                Toast.makeText(getApplicationContext(),prevSatTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+            String[] stockArr = new String[0];
 
-                int pos = Arrays.asList(allItems).indexOf(prevSatTimeSlotsList.get(i).toString());
-                System.out.println("pos.."+pos);
-                checkedSatAmTimings[pos] = true;
+            allSatPrevItems = new String[0];
+
+//            checkedPrevTueTimings = new boolean[allTuePrevItems.length];
+        }
+
+        else
+        {
+            for (int i = 0; i < allSatPrevItems.length; i++) {
+                if (AllTimeSlotsList.containsValue(prevSatTimeSlotsList.get(i))) {
+                    //                Toast.makeText(getApplicationContext(),prevSatTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
+
+                    int pos = Arrays.asList(allItems).indexOf(prevSatTimeSlotsList.get(i).toString());
+                    System.out.println("pos.." + pos);
+                    checkedSatAmTimings[pos] = true;
+                    getmUserItemsSatItems.add(prevSatTimeSlotsList.get(i).toString());
+                }
             }
         }
 
@@ -1577,10 +1964,11 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 for (int i = 0; i <  getmUserItems_SatAmValue.size(); i++) {
                     item = item + allItems[Integer.parseInt(getmUserItems_SatAmValue.get(i))];
                     if (i != getmUserItems_SatAmValue.size() - 1) {
-                        item = item + ",";
+                        item = item + ", ";
                         count ++;
                     }
                 }
+
                 System.out.println("count"+count);
                 getmUserItemsSatItems.add(item);
 
@@ -1611,6 +1999,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         AlertDialog mDialog1 = mBuilder2.create();
         mDialog1.show();
     }
+
 
     public static Object getCityKeyFromValue(Map hm, Object value) {
         for (Object o : hm.keySet()) {
@@ -1733,29 +2122,43 @@ public class DoctorUpdateAddress extends AppCompatActivity {
             Log.e("TAG result doc add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             JSONObject js;
 
-            try {
-                js= new JSONObject(result);
-                int s = js.getInt("Code");
-                if(s == 200)
-                {
-                    addressId = js.getString("DataValue");
-//                    showSuccessMessage(js.getString("Message"));
-                }
-                else
-                {
-                    showErrorMessage(js.getString("Message"));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+//            try {
+//                js= new JSONObject(result);
+//                int s = js.getInt("Code");
+//                if(s == 200)
+//                {
+//                    addressId = js.getString("DataValue");
+////                    showSuccessMessage(js.getString("Message"));
+//                }
+//                else
+//                {
+//                    showErrorMessage(js.getString("Message"));
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
         }
     }
 
 
     private class insertDoctorAppointmentTimings extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DoctorUpdateAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -1849,6 +2252,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 //
             Log.e("TAG result doc add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             JSONObject js;
+            progressDialog.dismiss();
 
             try {
                 js= new JSONObject(result);
@@ -1876,19 +2280,20 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 
         AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage(message)
+        a_builder.setMessage("Updated Successfully")
                 .setCancelable(false)
                 .setNegativeButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
-                        Intent intent = new Intent(DoctorUpdateAddress.this,MainActivity.class);
-//                        intent.putExtra("id",getUserId);
+                        Intent intent = new Intent(DoctorUpdateAddress.this,DoctorDashboard.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",regMobile);
                         startActivity(intent);
                     }
                 });
         AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
+        alert.setTitle("Address");
         alert.show();
 
     }
@@ -1912,7 +2317,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
     }
 
 
-
     //Get previous timings list from api call
     public class GetPreviousTimings extends AsyncTask<String, Void, String> {
 
@@ -1934,6 +2338,37 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 System.out.println("dsfafssss....");
                 InputStream in = httpURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+//                    showMessage();
+                    in = httpURLConnection.getErrorStream();
+                    inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
 
                 int inputStreamData = inputStreamReader.read();
                 while (inputStreamData != -1) {
@@ -1978,6 +2413,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                 org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
 
                 Long dayNameId = jsonObj.getLong("DayName");
+
                 if(dayNameId==0)
                 {
                     prevSunTimeSlotsList.add(jsonObj.getString("TimeSlots"));
@@ -1989,7 +2425,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     allSunPrevItems = prevSunTimeSlotsList.toArray(stockArr);
 
                     checkedPrevSunTimings = new boolean[allSunPrevItems.length];
-
 
                 }
 
@@ -2004,7 +2439,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
                     allMonPrevItems = prevSunTimeSlotsList.toArray(stockArr);
 
                     checkedPrevMonTimings = new boolean[allMonPrevItems.length];
-
 
                 }
 
@@ -2303,7 +2737,7 @@ public class DoctorUpdateAddress extends AppCompatActivity {
 //            districtsList.add(0,myDistrict);
             }
 
-            myDistrictsList.add(0,myDistrict);
+            districtsList.add(0,myDistrict);
             adapter4 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, districtsList);
             adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
             district.setAdapter(adapter4); // Apply the adapter to the spinner

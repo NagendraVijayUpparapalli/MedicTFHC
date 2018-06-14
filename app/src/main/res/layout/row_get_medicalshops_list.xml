@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:focusable="true"
+    android:background="#fff"
+    android:focusableInTouchMode="true"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_location"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="40dp"
+        app:cardElevation="0dp"
+        card_view:cardBackgroundColor="#bcb7b7"
+        card_view:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginStart="130dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/doctorName"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="jsdjgsjdsjjd"
+                    android:textSize="18dp"
+                    android:textColor="#000080"
+                    android:textStyle="bold"
+
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="40dp"
+                android:id="@+id/liner"
+                android:layout_gravity="center"
+                android:weightSum="4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                />
+
+                <TextView
+                    android:id="@+id/speciality_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact: "
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textColor="#2C5E83"
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/ContactPerson"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="Leaver"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/lati"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="12.23"
+                    android:visibility="gone"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/lngi"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="12.23"
+                    android:visibility="gone"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/image"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="12.23"
+                    android:visibility="gone"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_marginStart="40dp"
+                    android:id="@+id/constaultancefee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mobile : "
+                    android:textStyle="bold"
+                    android:textColor="#2C5E83"
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/phonenum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="9490617845"
+                    android:textSize="13dp"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+
+                android:layout_width="match_parent"
+                android:background="#f938a72f"
+
+                android:layout_height="25dp">
+
+                <!--<RatingBar-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/ratingBar"-->
+
+                <!--style="?android:attr/ratingBarStyleIndicator"-->
+                <!--android:isIndicator="false"-->
+                <!--android:scaleX=".5"-->
+                <!--android:rating="3.5"-->
+                <!--android:scaleY=".5"-->
+                <!--android:transformPivotX="20dp"-->
+                <!--android:transformPivotY="0dp"-->
+                <!--android:max="5"/>-->
+
+
+                <TextView
+                    android:id="@+id/Book_Appointment"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:paddingTop="3dp"
+                    android:textStyle="bold"
+                    android:text="@string/book_appointment"
+                    android:textSize="14dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <android.support.v4.widget.Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/docImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/share"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/noimage11"
+        app:civ_border_width="0.5dp"
+        app:civ_border_color="#FF000000"
+        app:layout_constraintHorizontal_bias="0.502"
+        tools:ignore="NotSibling" />
+
+    <TextView
+        android:id="@+id/phonenum1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#fde402"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/addressId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#fde402"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/doctorId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#fde402"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/userid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#fde402"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

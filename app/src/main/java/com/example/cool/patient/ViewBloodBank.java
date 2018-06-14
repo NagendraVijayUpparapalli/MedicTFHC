@@ -34,7 +34,7 @@ public class ViewBloodBank extends AppCompatActivity {
     Bitmap mIcon11;
     ArrayList<BloodBankClass> bloodBankClassArrayList;
     String latitude,longitude;
-    String phone,bloodbank_name,city,area,contact_name,location,uri=null;
+    String phone,bloodbank_name,city,area,contact_name,location,uri=null,userMobile,userId;
     String arr[];
     String mainUrl=null;
 
@@ -54,6 +54,8 @@ public class ViewBloodBank extends AppCompatActivity {
                     public void onClick(View v) {
                         Toast.makeText(ViewBloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ViewBloodBank.this,BloodBank.class);
+                        intent.putExtra("userId",getIntent().getStringExtra("id"));
+                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
                         startActivity(intent);
 
                     }
@@ -79,22 +81,9 @@ public class ViewBloodBank extends AppCompatActivity {
             }
         });
 
-
-
-
-//        Bundle extras = getIntent().getExtras();
-//        int p = extras.getInt("image");
-//        byte[] bytes = extras.getByteArray("image");
-//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-
-//        Intent i = getIntent();
         String image1 = getIntent().getStringExtra("image");
 
         System.out.println("image url.."+image1);
-//        String bloodbankname = extras.getString("name");
-//        String addressarea = extras.getString("addressline");
-//        String mobilenum = extras.getString("phone");
-//        String emailid = extras.getString("email");
         final String bloodbankname = getIntent().getStringExtra("name");
         String contact_person = getIntent().getStringExtra("person_name");
 

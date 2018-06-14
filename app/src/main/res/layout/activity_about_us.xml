@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About Us"/>
+        android:text="@string/about_us"/>
     <LinearLayout
         android:layout_marginLeft="10dp"
         android:layout_marginTop="35dp"
@@ -49,7 +49,7 @@
             android:textSize="15sp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="8dp"
-            android:text="Mr.P.Ramkumar Varma"/>
+            android:text="@string/mr_p_ramkumar_varma"/>
 
         <TextView
             android:layout_below="@+id/texttt"
@@ -61,7 +61,7 @@
             android:textSize="12sp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="10dp"
-            android:text="(Managing Director and CEO)"/>
+            android:text="@string/managing_director_and_ceo"/>
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="30dp"

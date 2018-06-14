@@ -5,14 +5,19 @@ package com.example.cool.patient;
  */
 
 public class DoctorManageAddressClass {
-    public String doctorId,addressId,address1,hospitalName,stateId,cityId,stateName,cityName,zipcode,
-            landLineNo,contactPerson,latitude,longitude,comment,deleteReason,district,profileImage,emergencyContactNumber,consultationFee;
+    public String doctorId,addressId,address1,hospitalName,stateId,cityId,stateName,
+            cityName,zipcode,landLineNo,contactPerson,latitude,longitude,comment,
+            deleteReason,district,profileImage,emergencyContactNumber,consultationFee,registeredMobileNumber;
     public boolean emergencyservice;
 
     public DoctorManageAddressClass() {
     }
 
-    public DoctorManageAddressClass(String doctorId, String addressId, String address1, String hospitalName, String stateId, String cityId, String stateName, String cityName, String zipcode, String landLineNo, String contactPerson, String latitude, String longitude, boolean emergencyservice, String comment, String deleteReason, String district,String profileImage,String emergencyContactNumber,String consultationFee) {
+    public DoctorManageAddressClass(String doctorId, String addressId, String address1, String hospitalName, String stateId,
+                                    String cityId, String stateName, String cityName, String zipcode, String landLineNo,
+                                    String contactPerson, String latitude, String longitude, boolean emergencyservice,
+                                    String comment, String deleteReason, String district,String profileImage,
+                                    String emergencyContactNumber,String consultationFee,String registeredMobileNumber) {
         this.doctorId = doctorId;
         this.addressId = addressId;
         this.address1 = address1;
@@ -33,6 +38,7 @@ public class DoctorManageAddressClass {
         this.profileImage = profileImage;
         this.emergencyContactNumber = emergencyContactNumber;
         this.consultationFee = consultationFee;
+        this.registeredMobileNumber = registeredMobileNumber;
     }
 
     public String getConsultationFee() {
@@ -41,6 +47,14 @@ public class DoctorManageAddressClass {
 
     public void setConsultationFee(String consultationFee) {
         this.consultationFee = consultationFee;
+    }
+
+    public String getRegisteredMobileNumber() {
+        return registeredMobileNumber;
+    }
+
+    public void setRegisteredMobileNumber(String registeredMobileNumber) {
+        this.registeredMobileNumber = registeredMobileNumber;
     }
 
     public String getDeleteReason() {

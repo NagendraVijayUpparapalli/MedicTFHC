@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,20 +83,19 @@ import java.util.Map;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.camera.CameraManager;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import br.com.bloder.magic.view.MagicButton;
 
-public class PatientEditProfile extends AppCompatActivity implements View.OnClickListener  {
+public class PatientEditProfile extends AppCompatActivity  {
 
     //animation
-    Spinner spinner;
     ImageView Image;
     LinearLayout cardViewId;
     TextView fonts,p,a,d,o;
     LinearLayout profile,address,docs,others;
     Button profile_next,address_back,address_next,documents_back,documents_next,others_back;
     Animation downnup,Cardviewdowntoup,Textviewdowntoup;
-
 
     ApiBaseUrl baseUrl;
     Calendar mCurrentDate;
@@ -107,7 +108,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
     ProgressDialog progressDialog;
 
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
 
     Button  btn_aadhar,btn_profile;
     EditText editText;
@@ -118,35 +118,39 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
     MagicButton gen_btn;
     FloatingActionButton addImageFloatingButton;
 
-    Spinner city,district,state,blood_group;
+    SearchableSpinner city,district,state,blood_group;
     List<String> bloodgroupList,districtsList;;
-    List<String> citiesList;
+
     List<String> statesList;
     String myQrArrayList;
     String[] mydistrictlist;
+
     ArrayAdapter<String> adapter1,adapter4;
     ArrayAdapter<String > adapter2,adapter3;
+    List<String> citiesList;
     HashMap<Long, String> myCitiesList = new HashMap<Long, String>();
     HashMap<Long, String> myStatesList = new HashMap<Long, String>();
     List<String> myDistrictsList = new ArrayList<String>();
     HashMap<String, String> myBloodGroupList = new HashMap<String, String>();
 
     String smsUrl = null;
-    ImageView aadhar_image,decodeimg,qrImage,qrScanIcon;
+    ImageView aadharimage,decodeimg,qrImage,qrScanIcon;
     final Activity activity = this;
     String Surname,Name,Email,Mobile,Salutation,Address1,Address2,Gender,MaritalStatus,City,District,State,Pincode,Dob,Blood_group,Emergency_mobile,Aadhar_num,Age,MedicalPromotion,DiagnosticPromotion,BloodDonor;
-    static int getUserId;
+    static String getUserId;
     static String uploadServerUrl = null;
 
     static String newName,mySurname,myName,myEmail,myMobile,mySalutation,myDistrict,myAddress1,myAddress2,myGender,myMaritalStatus,myPincode,myDob,myBlood_group,myEmergency_mobile,myAadhar_num,myAadharImage;
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor;
     static Long myCity,myState,myAge;
     Bitmap mIcon11;
-    static String encodedImage = null,encoded;
+    static String encodedImage;
     Uri selectedImageUri ;
     Bitmap selectedImageBitmap = null;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
     String  mobile_number ;
     static String my_city,my_state,my_district,my_bloodgroup;
+    String checkNewUser = null;
 
 
     //qr code get data fields
@@ -165,12 +169,11 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
         //get user details based on id
         mobile_number = getIntent().getStringExtra("mobile");
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        getUserId = getIntent().getStringExtra("id");
         System.out.print("userid in patientactivity....."+getUserId);
 
 
         baseUrl = new ApiBaseUrl();
-        baseUrl.getUrl();
 
         uploadServerUrl = baseUrl.getUrl()+"GetPatientByID";
 
@@ -188,11 +191,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.qrcode);
-
-//        toolbar.setNavigationIcon(R.drawable.qrcode);
-
-//        getSupportActionBar().setCustomView();
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setTitle("Edit Profile");
@@ -203,6 +201,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PatientEditProfile.this,MainActivity.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
                     }
@@ -228,16 +227,16 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
         address1 = (EditText) findViewById(R.id.address1);
         address2 = (EditText) findViewById(R.id.address2);
-        city = (Spinner) findViewById(R.id.city);
-        district = (Spinner) findViewById(R.id.district);
-        state = (Spinner) findViewById(R.id.state);
+        city = (SearchableSpinner) findViewById(R.id.city);
+        district = (SearchableSpinner) findViewById(R.id.district);
+        state = (SearchableSpinner) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
         dob = (EditText)findViewById(R.id.date_of_birth);
-        blood_group = (Spinner) findViewById(R.id.bloodgroup);
+        blood_group = (SearchableSpinner) findViewById(R.id.bloodgroup);
         emergency_mobile = (EditText) findViewById(R.id.emergencymobileNumber);
         aadhar_num = (EditText) findViewById(R.id.aadhaarNumber);
 
-        aadhar_image = (ImageView) findViewById(R.id.aadharimage);
+        aadharimage = (ImageView) findViewById(R.id.aadharimage);
 //        decodeimg = (ImageView) findViewById(R.id.decodeimage);
 
 //        qrScanIcon = (ImageView) findViewById(R.id.qricon);
@@ -248,8 +247,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 //        gen_btn = (Button) findViewById(R.id.gen_btn);
 
         qrImage = (ImageView) findViewById(R.id.image);
-        btnShare = (Button) findViewById(R.id.btn_share);
-        btnSave  = (Button) findViewById(R.id.btn_save);
+
 
         promotion_medical = (CheckBox) findViewById(R.id.promotion_medicalstore);
         promotion_diagnostic = (CheckBox) findViewById(R.id.promotion_diagnostic);
@@ -338,16 +336,146 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
 
-                String json = formatDataAsJson();
+                validateEditProfile();
 
-                new sendEditProfileDetails().execute(baseUrl.getUrl()+"UpdatePatient",json.toString());
+//                String json = formatDataAsJson();
+//
+//                System.out.println("json..."+json.toString());
+//
+//                new sendEditProfileDetails().execute(baseUrl.getUrl()+"UpdatePatient",json.toString());
 
             }
 
         });
+    }
+
+    public void validateEditProfile()
+    {
+        intialization();
+        if(!validate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String json = formatDataAsJson();
+            System.out.println("json..."+json.toString());
+
+            new sendEditProfileDetails().execute(baseUrl.getUrl()+"UpdatePatient",json.toString());
+        }
+    }
+
+    public void intialization()
+    {
+
+//        surname,name,email,mobile,salutation,address1,address2,pincode,dob,emergency_mobile,aadhar_num;
+
+//        mySurname = surname.getText().toString().trim();
+//        myName = name.getText().toString().trim();
+
+        myMobile = mobile.getText().toString().trim();
+        myEmail = email.getText().toString().trim();
+        myAddress1 = address1.getText().toString();
+        myAddress2 = address2.getText().toString();
+        myPincode = pincode.getText().toString();
+        myDob = dob.getText().toString();
+        myEmergency_mobile = emergency_mobile.getText().toString();
+        myAadhar_num = aadhar_num.getText().toString();
 
     }
 
+    public boolean validate()
+    {
+        boolean validate = true;
+
+//        surname,name,email,mobile,salutation,address1,address2,pincode,dob,emergency_mobile,aadhar_num;
+
+        if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
+        {
+            mobile.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(myMobile.length()<10 || myMobile.length()>10)
+        {
+            mobile.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(myEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(myEmail).matches())
+        {
+            email.setError("please enter valid email id");
+            validate=false;
+        }
+
+        if(myDob.isEmpty())
+        {
+            dob.setError("please enter date of birth");
+            validate=false;
+        }
+
+        if(myEmergency_mobile.isEmpty() || !Patterns.PHONE.matcher(myEmergency_mobile).matches())
+        {
+            emergency_mobile.setError("please enter emergency mobile number");
+            validate=false;
+        }
+
+        if(myAadhar_num.isEmpty())
+        {
+            aadhar_num.setError("please enter aadhaar number");
+            validate=false;
+        }
+
+        if(myAddress1.isEmpty())
+        {
+            address1.setError("please enter address1");
+            validate=false;
+        }
+
+        if(myAddress2.isEmpty())
+        {
+            address2.setError("please enter address2");
+            validate=false;
+        }
+
+        System.out.println("state key.."+getStateKeyFromValue(myStatesList,state.getSelectedItem().toString()));
+        System.out.println("city key.."+getCityKeyFromValue(myCitiesList,city.getSelectedItem().toString()));
+        System.out.println("district index.."+district.getSelectedItem().toString());
+        System.out.println("blood index.."+blood_group.getSelectedItem().toString());
+
+//        if (state.getSelectedItem().toString().trim().equals("Select State")) {
+//            TextView errorText = (TextView)state.getSelectedView();
+//            errorText.setError("");
+//            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+//            errorText.setText("please select state");
+//            validate=false;
+//        }
+//
+//        if (city.getSelectedItem().toString().trim().equals("Select City")) {
+//            TextView errorText = (TextView)city.getSelectedView();
+//            errorText.setError("");
+//            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+//            errorText.setText("please select city");
+//            validate=false;
+//        }
+//
+//        if (blood_group.getSelectedItem().toString().trim().equals("Select Blood Group")) {
+//            TextView errorText = (TextView)blood_group.getSelectedView();
+//            errorText.setError("");
+//            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+//            errorText.setText("please select bloodgroup");
+//            validate=false;
+//        }
+//        if (district.getSelectedItem().toString().trim().equals("Select Blood Group")) {
+//            TextView errorText = (TextView)district.getSelectedView();
+//            errorText.setError("");
+//            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+//            errorText.setText("please select bloodgroup");
+//             validate=false;
+//        }
+
+        return validate;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -446,41 +574,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         gen_btn.setVisibility(View.VISIBLE);
     }
 
-//    public void rbclick(View v)
-//    {
-//        int genderid = radioGroup.getCheckedRadioButtonId();
-//        System.out.println("genderid...."+genderid);
-//        // find the radioButton by returned id
-//        genderradioButton = (RadioButton) findViewById(genderid);
-//
-////        Toast.makeText(getBaseContext(),genderradioButton.getText(),Toast.LENGTH_LONG).show();
-//
-//    }
-
-    public void setupView() {
-        btnShare.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
-    }
-
-    public void init() {
-        imageView = (ImageView) findViewById(R.id.image);
-        btnShare = (Button) findViewById(R.id.btn_share);
-        btnSave  = (Button) findViewById(R.id.btn_save);
-    }
-
-
-    private void Toast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
-
-    public byte[] imageViewToByte(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -560,10 +653,15 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
                 BufferedWriter out=null;
                 try {
                     selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//                    encodedImage = myEncodeImage(selectedImage);
-//                    formatDataAsJson();
+
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
 
                 }
                 catch (IOException e)
@@ -571,12 +669,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
                     System.out.println("Exception ");
 
                 }
-//
-//
-////                System.out.print("text.."+encodedImage);
-                aadhar_image.setImageBitmap(selectedImageBitmap);
-//
-////                editText.setText(encodedImage);
+                aadharimage.setImageBitmap(selectedImageBitmap);
 
                 Log.d("hello","I'm in.");
 
@@ -588,43 +681,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void onSelectFromGalleryResult(Intent data) {
-
-        Bitmap bm = null;
-        if (data != null) {
-            try {
-                //  Log.e("1234ccg","data "+data.getData());
-                bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                //   Log.e("1234ccg","bm - "+bm);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-                byte[] b = bytes.toByteArray();
-                encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-//                Cache.putData(CatchValue.User_Pic, this, encImage, Cache.CACHE_LOCATION_DISK);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        aadhar_image.setImageBitmap(bm);
-   /* capturedata.setVisibility(View.INVISIBLE);
-    capturedataResult.setVisibility(View.VISIBLE);*/
-    }
-
-    private String myEncodeImage(Bitmap bm)
-    {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
-
-//        decode base64 string to image
-//        b = Base64.decode(encImage, Base64.DEFAULT);
-//        Bitmap decodedImage = BitmapFactory.decodeByteArray(b, 0, b.length);
-//        decodeimg.setImageBitmap(decodedImage);
-
-        return encImage;
-    }
-
     public static Bitmap viewToBitmap(View view,int width,int height){
         Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -632,37 +688,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         return bitmap;
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.btn_share: {
-                startShare();
-                break;
-            }
-            case R.id.btn_save: {
-                dialog = new AlertDialog.Builder(this).create();
-                dialog.setTitle("Save image");
-                dialog.setMessage("Are you sure to want to save the QRCode?");
-                dialog.setButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startSave();
-                    }
-                });
 
-                dialog.setButton2("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-                break;
-
-            }
-        }
-    }
 
     public void startSave() {
         FileOutputStream fileOutputStream = null;
@@ -701,6 +727,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return  new File(file,"QR Code");
     }
+
     public void startShare()
     {
         Bitmap bitmap =viewToBitmap(imageView,imageView.getWidth(),imageView.getHeight());
@@ -723,6 +750,21 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
     //Get patient list based on id from api call
     private class GetPatientDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(PatientEditProfile.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading..");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -764,6 +806,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getProfileDetails(result);
 
         }
@@ -777,6 +820,10 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
             if(js.has("UploadAadharImage"))
             {
+//                checkNewUser = "No";
+
+                System.out.println("checkNewUser in if old..."+checkNewUser);
+
                 myName = (String) js.get("FirstName");
                 mySurname = (String) js.get("LastName");
                 myMobile = (String) js.get("MobileNumber");
@@ -818,6 +865,8 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             }
             else
             {
+//                checkNewUser = "Yes";
+
                 myName = (String) js.get("FirstName");
                 mySurname = (String) js.get("LastName");
                 myMobile = (String) js.get("MobileNumber");
@@ -851,6 +900,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             {
                 female.setChecked(true);
             }
+
             else
             {
                 male.setChecked(false);
@@ -872,6 +922,18 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
                 married.setChecked(false);
             }
 
+            if(myAadhar_num.equals(""))
+            {
+                checkNewUser = "Yes";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
+            }
+
+            else
+            {
+                checkNewUser = "No";
+                System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
+            }
+
             aadhar_num.setText(myAadhar_num);
             dob.setText(myDob);
             pincode.setText(myPincode);
@@ -879,40 +941,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             promotion_medical.setChecked(myMedicalPromotion);
             promotion_diagnostic.setChecked(myDiagnosticPromotion);
             donor.setChecked(myBloodDonor);
-
-
-
-//            if(myBloodDonor==true)
-//            {
-//                donor.setChecked(true);
-////                myBloodDonor = true;
-//            }
-//            else if(myBloodDonor==false)
-//            {
-//                donor.setChecked(false);
-////                myBloodDonor = false;
-//            }
-
-//            if(myMedicalPromotion==true)
-//            {
-//                promotion_medical.setChecked(true);
-//            }
-//            else if(myDiagnosticPromotion==true)
-//            {
-//                promotion_diagnostic.setChecked(true);
-//            }
-//            else if(myMedicalPromotion==true && myDiagnosticPromotion==true)
-//            {
-//                promotion_medical.setChecked(true);
-//                promotion_diagnostic.setChecked(true);
-//            }
-//            else if(myMedicalPromotion!=true && !myDiagnosticPromotion!=true)
-//            {
-//                promotion_medical.setChecked(false);
-//                promotion_diagnostic.setChecked(false);
-//            }
-
-
 
             name.setEnabled(false);
 //            name.setTextColor(this.getResources().getColor(R.color.colorPrimary));
@@ -923,8 +951,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             address2.setText(myAddress2);
             System.out.println("image url.."+myAadharImage);
 
-            new GetImageTask(aadhar_image).execute(baseUrl.getImageUrl()+myAadharImage);
-
+            new GetImageTask(aadharimage).execute(baseUrl.getImageUrl()+myAadharImage);
 
 
             if(myBlood_group.equals(""))
@@ -1293,27 +1320,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         {}
     }
 
-    private String SendPatientId()
-    {
-
-        JSONObject data = new JSONObject();
-
-//        Salutation = salutation.getText().toString().trim();
-//        BloodDonor = donor.getText().toString();
-
-        try{
-            data.put("ID",getUserId);
-
-            return data.toString();
-
-        }
-        catch (Exception e)
-        {
-            Log.d("JSON","Can't format JSON");
-        }
-
-        return null;
-    }
 
     public static Object getCityKeyFromValue(Map hm, Object value) {
         for (Object o : hm.keySet()) {
@@ -1412,7 +1418,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
             myMaritalStatus = "Married";
         }
 
-
         System.out.println("marital..."+myMaritalStatus);
         City = city.getSelectedItem().toString();
 
@@ -1443,58 +1448,85 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         Aadhar_num = aadhar_num.getText().toString().trim();
         System.out.println("aadhar num..."+Aadhar_num);
 
+        System.out.println("encoded Image is ..."+encodedImage);
+
+        if(encodedImage == null)
+        {
+            aadharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) aadharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+            System.out.println("image view in if encoded Image..."+encodedImage);
+
+        }
+
         try{
-            final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            if(checkNewUser.equals("Yes"))
+            {
+                System.out.println("checkNewUser in put new..."+checkNewUser);
+                data.put("PatientID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+//                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("Address1",myAddress1);
+                data.put("Address2",myAddress2);
+                data.put("Gender",myGender);
+                data.put("MaritalStatus",myMaritalStatus);
+                data.put("State",getStateKeyFromValue(myStatesList,State));
+                data.put("City",getCityKeyFromValue(myCitiesList,City));
+                data.put("ZipCode",Pincode);
+                data.put("BloodGroup",Blood_group);
+                data.put("District",myDistrict);
+                data.put("EmergencyContactNo",Emergency_mobile);
+                data.put("DOB",Dob);
+                data.put("AadharNumber",aadhar_num.getText().toString());
+                data.put("ReminderMedicalShop", myMedicalPromotion);
+                data.put("ReminderDiagnosticC", myDiagnosticPromotion);
 
-//            editText.setText(encodedImage);
+                data.put("DonateBlood",myBloodDonor);
 
-//        decode base64 string to image
+                data.put("UploadAadharImage",encodedImage);
+                System.out.println("image data in if.."+data.toString());
+                return data.toString();
+            }
+            else if(checkNewUser.equals("No"))
+            {
+                System.out.println("checkNewUser in put old..."+checkNewUser);
+                data.put("PatientID",getUserId);
+                data.put("FirstName",mySurname);
+                data.put("LastName",myName);
+//                data.put("MobileNumber",myMobile);
+                data.put("EmailID",myEmail);
+                data.put("Address1",myAddress1);
+                data.put("Address2",myAddress2);
+                data.put("Gender",myGender);
+                data.put("MaritalStatus",myMaritalStatus);
+                data.put("State",getStateKeyFromValue(myStatesList,State));
+                data.put("City",getCityKeyFromValue(myCitiesList,City));
+                data.put("ZipCode",Pincode);
+                data.put("BloodGroup",Blood_group);
+                data.put("District",myDistrict);
+                data.put("EmergencyContactNo",Emergency_mobile);
+                data.put("DOB",Dob);
+//                data.put("AadharNumber",aadhar_num.getText().toString());
+                data.put("ReminderMedicalShop", myMedicalPromotion);
+                data.put("ReminderDiagnosticC", myDiagnosticPromotion);
 
+                data.put("DonateBlood",myBloodDonor);
 
+                data.put("UploadAadharImage",encodedImage);
 
-//            b = Base64.decode(encodedImage, Base64.DEFAULT);
-//            Bitmap decodedImage = BitmapFactory.decodeByteArray(b, 0, b.length);
-//            decodeimg.setImageBitmap(decodedImage);
+                System.out.println("image data in else.."+data.toString());
+                return data.toString();
+            }
 
-
-            data.put("PatientID",getUserId);
-            data.put("FirstName",mySurname);
-            data.put("LastName",myName);
-//            data.put("MobileNumber",myMobile);
-            data.put("EmailID",myEmail);
-            data.put("Address1",myAddress1);
-            data.put("Address2",myAddress2);
-            data.put("Gender",myGender);
-            data.put("MaritalStatus",myMaritalStatus);
-            data.put("State",getStateKeyFromValue(myStatesList,State));
-            data.put("City",getCityKeyFromValue(myCitiesList,City));
-            data.put("ZipCode",Pincode);
-            data.put("BloodGroup",Blood_group);
-            data.put("District",myDistrict);
-            data.put("EmergencyContactNo",Emergency_mobile);
-            data.put("DOB",Dob);
-            data.put("AadharNumber","");
-            data.put("ReminderMedicalShop", myMedicalPromotion);
-            data.put("ReminderDiagnosticC", myDiagnosticPromotion);
-
-//            System.out.println("json donor.."+data.put("DonateBlood",myBloodDonor));
-            data.put("DonateBlood",myBloodDonor);
-
-            data.put("UploadAadharImage","");
-//            data.put("UploadAadharImage",encodedImage.replaceAll("\n",""));
-
-//            System.out.print("encoded..."+encodedImage.replaceAll("\n",""));
-//            System.out.print("hai..."+encodedImage);
-
-//            data.put("Age",age.getText().toString());
-            return data.toString();
         }
         catch (Exception e)
         {
@@ -1699,7 +1731,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         }
 
         protected void onPostExecute(Bitmap result) {
-            aadhar_image.setImageBitmap(result);
+            aadharimage.setImageBitmap(result);
         }
 
     }
@@ -1715,9 +1747,6 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                // HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
-                //HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
-
 
                 String message="Your profile has been successfully updated for MEDIC TFHC.COM"+". Thank you."+"Click here to Login:"+baseUrl.getLink();
                 smsUrl = baseUrl.getSmsUrl();
@@ -1758,7 +1787,7 @@ public class PatientEditProfile extends AppCompatActivity implements View.OnClic
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "the message", Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
     }

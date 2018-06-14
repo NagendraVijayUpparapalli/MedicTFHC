@@ -31,145 +31,71 @@
         </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/paymentModeType_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
+            android:orientation="vertical"
 
+            android:layout_marginBottom="10dp">
 
-            android:orientation="horizontal">
-            <CheckBox
+            <RadioButton
                 android:id="@+id/cash_on_hand"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                />
-
-
-            <android.support.v4.widget.Space
-                android:layout_width="5dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2dp"
-                android:text=" Cash on Hand"
-                android:textStyle="bold"
                 android:drawableLeft="@drawable/cashonhand_icon"
-                android:textSize="15dp"
-                android:textColor="@color/green" />
+                android:text="Cash On Hand"
+                android:layout_marginStart="70dp"
+                android:checked="false"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/green"
+                android:textSize="15dp"/>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-
-            tools:ignore="Orientation">
-
-            <CheckBox
-                android:id="@+id/debit_card"
+            <RadioButton
+                android:id="@+id/credit_debit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
-
-                />
-
-            <android.support.v4.widget.Space
-                android:layout_width="5dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=" Credi/Debit"
-                android:textStyle="bold"
+                android:text="Debit Card"
+                android:layout_marginStart="70dp"
+                android:checked="false"
                 android:drawableLeft="@drawable/creditcard_icon"
+                android:textStyle="bold"
                 android:layout_marginTop="2dp"
-                android:textSize="15dp"
-                android:textColor="@color/green" />
+                android:textColor="@color/green"
+                android:textSize="15dp"/>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:layout_width="wrap_content"
-            android:layout_marginStart="70dp"
-
-            android:layout_height="wrap_content"
-            tools:ignore="Orientation">
-
-            <CheckBox
+            <RadioButton
                 android:id="@+id/paytm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
-
-                />
-
-
-
-            <android.support.v4.widget.Space
-                android:layout_width="5dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=" Paytm"
+                android:text="Paytm"
                 android:textStyle="bold"
+                android:layout_marginStart="70dp"
+                android:checked="false"
                 android:drawableLeft="@drawable/custom_icon"
                 android:textSize="15dp"
                 android:layout_marginTop="2dp"
                 android:textColor="@color/green" />
 
 
-        </LinearLayout>
-
-
-        <LinearLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-
-
-            android:orientation="horizontal">
-            <CheckBox
+            <RadioButton
                 android:id="@+id/net_banking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
-
-                />
-
-
-
-            <android.support.v4.widget.Space
-                android:layout_width="5dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2dp"
-                android:text=" Net Banking"
-                android:textStyle="bold"
+                android:text="Net Banking"
                 android:drawableLeft="@drawable/custom_netbanking_icon"
+                android:textStyle="bold"
+                android:layout_marginStart="70dp"
+                android:checked="false"
+                android:layout_marginTop="2dp"
                 android:textColor="@color/green"
-                android:textSize="15dp" />
+                android:textSize="15dp"/>
 
-
-        </LinearLayout>
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -179,10 +105,6 @@
                 android:layout_height="10dp" />
 
         </LinearLayout>
-
-
-
-
 
         <LinearLayout
             android:id="@+id/linearLayout2"

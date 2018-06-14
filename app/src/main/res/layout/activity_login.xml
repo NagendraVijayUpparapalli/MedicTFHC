@@ -40,7 +40,7 @@
             android:layout_marginTop="40dp"
             android:layout_below="@+id/image1"
             android:gravity="center"
-            android:text="Login"
+            android:text="@string/loginFont"
             android:textColor="#fff"
             android:textSize="25dp"
             android:textStyle="bold"
@@ -72,40 +72,45 @@
 
                 android:layout_marginBottom="10dp">
 
-                <RadioButton
-                    android:id="@+id/aadharRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:onClick="aadharRadioClick"
-                    android:textColor="@android:color/white"
-                    android:text="AadhaarNumber"/>
-                <View
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"/>
 
                 <RadioButton
                     android:id="@+id/mobileRadio"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:onClick="mobileRadioClick"
+                    android:checked="true"
+
                     android:textColor="@android:color/white"
 
-                    android:text="MobileNumber" />
+                    android:text="@string/mobileNumber" />
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+
+
+
+                <RadioButton
+                    android:id="@+id/aadharRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+
+                    android:textColor="@android:color/white"
+                    android:text="@string/aadhaarNumber"/>
 
             </RadioGroup>
             <EditText
                 android:id="@+id/mobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Mobile Number"
+                android:hint="@string/mobileNumber"
                 android:drawableLeft="@drawable/phone"
                 android:drawablePadding="5dp"
                 android:paddingStart="10dp"
                 android:inputType="phone"
                 android:textColor="#000"
+                android:textSize="17dp"
                 android:textColorHint="#b8867e7e"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -116,45 +121,47 @@
                 android:id="@+id/aadharNumber"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Aadhaar Number"
+                android:hint="@string/aadhaarNumber"
                 android:visibility="gone"
                 android:paddingStart="10dp"
                 android:inputType="phone"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:textColor="#000"
+                android:textSize="17dp"
                 android:textColorHint="#b8867e7e"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_button"/>
+
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:textColorHint="#b8867e7e"
                 android:drawableLeft="@drawable/password1"
                 android:drawablePadding="5dp"
                 android:paddingStart="10dp"
                 android:textColor="#000"
+                android:textSize="17dp"
                 android:inputType="textPassword"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edittext_button"/>
 
-
-
-            <!--<Button-->
-            <!--android:id="@+id/btn_login"-->
-            <!--android:layout_marginStart="85dp"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:text="Login"-->
-            <!--android:layout_height="wrap_content"/>-->
+            <CheckBox
+                android:id="@+id/cbShowPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:text="Show Password" />
 
             <br.com.bloder.magic.view.MagicButton
                 android:id="@+id/btn_login"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="90dp"
@@ -167,7 +174,7 @@
                 app:button_icon_height="25dp"
                 app:button_icon_width="23dp"
                 app:expandable_area_color="#4796C2"
-                app:hide_text="LOGIN"
+                app:hide_text="@string/btn_Login"
                 app:hide_text_color="@android:color/white"
                 app:hide_text_size="8sp"
                 app:icon_button_color="#ace68a"
@@ -190,10 +197,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_weight="0.1"
-
                 android:textColor="@android:color/white"
-
-                android:text="Don't have Account?"
+                android:text="@string/dont_have_account"
                 android:textSize="15sp" />
             <android.support.v4.widget.Space
                 android:layout_width="8dp"
@@ -204,15 +209,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_weight="0.1"
-
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#ace68a"
                 android:layout_below="@+id/layoutId"
-                android:text="Signup"
+                android:text="@string/signup"
                 android:textSize="15sp" />
-
-
 
         </LinearLayout>
         <TextView
@@ -225,7 +227,7 @@
 
             android:textColor="@android:color/white"
             android:layout_below="@+id/new_user"
-            android:text="Forgot Password?"
+            android:text="@string/forgotPassword"
             android:textSize="15sp" />
 
 

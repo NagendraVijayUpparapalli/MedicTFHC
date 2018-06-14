@@ -9,7 +9,7 @@ class DoctorClass {
 
     public String doctorId,addressId,address,hospitalName,state,city,mobile,Name,qualification,specialityName,doctorImage,experience,
     latitude,longitude,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm;
-    public int patientId;
+    public String patientId;
 
 //    public DoctorClass()
 //    {
@@ -22,7 +22,7 @@ class DoctorClass {
 
 //    public DoctorClass(String doctorId, String addressId, String address, String hospitalName, String state, String city, String mobile, String Name, String qualification, String specialityName, String doctorImage, String experience, String latitude, String longitude, String emergencyService, String consultationFee, String consultationPrice, String cashonHand, String creditDebit, String netBanking, String paytm) {
 
-    public DoctorClass(String doctorId, String addressId, int patientId, String mobile, String Name, String qualification, String specialityName, String doctorImage, String experience, String latitude, String longitude, String emergencyService, String consultationFee, String consultationPrice, String cashonHand, String creditDebit, String netBanking, String paytm) {
+    public DoctorClass(String doctorId, String addressId, String patientId, String mobile, String Name, String qualification, String specialityName, String doctorImage, String experience, String latitude, String longitude, String emergencyService, String consultationFee, String consultationPrice, String cashonHand, String creditDebit, String netBanking, String paytm) {
         this.doctorId = doctorId;
         this.addressId = addressId;
         this.patientId = patientId;
@@ -80,11 +80,11 @@ class DoctorClass {
 //    }
 
 
-    public int getPatientId() {
+    public String getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(int patientId) {
+    public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
 

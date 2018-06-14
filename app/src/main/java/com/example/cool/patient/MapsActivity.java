@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,7 +17,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     String lati,longi;
-    static int getUserId;
+    static String getUserId,regMobile;
     static String moduleName;
 
     @Override
@@ -29,8 +28,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        getUserId = getIntent().getIntExtra("id",getUserId);
+        getUserId = getIntent().getStringExtra("id");
+        regMobile = getIntent().getStringExtra("regMobile");
+
         moduleName = getIntent().getStringExtra("doc");
+
+        System.out.println("my reg mobile...."+regMobile+"....userid.."+getUserId+"\n"+"module.."+moduleName);
 
     }
 
@@ -70,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lati = String.valueOf(latLng.latitude);
                 longi = String.valueOf(latLng.longitude);
 
-                Toast.makeText(getApplicationContext(),latLng.latitude+","+latLng.longitude,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),latLng.latitude+","+latLng.longitude,Toast.LENGTH_SHORT).show();
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 builder.setMessage("are you sure this is your location");
@@ -81,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             Intent intent = new Intent(MapsActivity.this,DocAddAddress.class);
                             intent.putExtra("id",getUserId);
+                            intent.putExtra("regMobile",regMobile);
                             intent.putExtra("hospitalName",getIntent().getStringExtra("hospitalName"));
                             intent.putExtra("address",getIntent().getStringExtra("address"));
                             intent.putExtra("city",getIntent().getStringExtra("city"));
@@ -100,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             Intent intent = new Intent(MapsActivity.this,DocUpdateAddress.class);
                             intent.putExtra("id",getUserId);
+                            intent.putExtra("regMobile",regMobile);
                             intent.putExtra("addressId",getIntent().getStringExtra("addressId"));
                             intent.putExtra("hospitalName",getIntent().getStringExtra("hospitalName"));
                             intent.putExtra("address",getIntent().getStringExtra("address"));
@@ -113,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             intent.putExtra("contactName",getIntent().getStringExtra("contactName"));
                             intent.putExtra("emergencyContact",getIntent().getStringExtra("emergencyContact"));
-                            intent.putExtra("emergencyService",getIntent().getStringExtra("emergencyService"));
+                            intent.putExtra("emergencyService",getIntent().getBooleanExtra("emergencyService",true));
                             intent.putExtra("comments",getIntent().getStringExtra("comments"));
 
                             intent.putExtra("lat",lati);
@@ -125,6 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             Intent intent = new Intent(MapsActivity.this,DiagAddAddress.class);
                             intent.putExtra("id",getUserId);
+                            intent.putExtra("regMobile",regMobile);
                             intent.putExtra("diagName",getIntent().getStringExtra("diagName"));
                             intent.putExtra("address",getIntent().getStringExtra("address"));
                             intent.putExtra("city",getIntent().getStringExtra("city"));
@@ -141,25 +147,80 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             startActivity(intent);
                         }
 
-//                        if(moduleName.equals("diagUpdate"))
-//                        {
-//                            Intent intent = new Intent(MapsActivity.this,DiagAddAddress.class);
-//                            intent.putExtra("id",getUserId);
-//                            intent.putExtra("diagName",getIntent().getStringExtra("diagName"));
-//                            intent.putExtra("address",getIntent().getStringExtra("address"));
-//                            intent.putExtra("city",getIntent().getStringExtra("city"));
-//                            intent.putExtra("state",getIntent().getStringExtra("state"));
-//                            intent.putExtra("district",getIntent().getStringExtra("district"));
-//                            intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-//                            intent.putExtra("pincode",getIntent().getStringExtra("pincode"));
-//                            intent.putExtra("person",getIntent().getStringExtra("person"));
-//                            intent.putExtra("landmobile",getIntent().getStringExtra("landmobile"));
-//                            intent.putExtra("comments",getIntent().getStringExtra("comments"));
-//
-//                            intent.putExtra("lat",lati);
-//                            intent.putExtra("lng",longi);
-//                            startActivity(intent);
-//                        }
+                        if(moduleName.equals("diagUpdate"))
+                        {
+                            Intent intent = new Intent(MapsActivity.this,DiagUpdateAddress.class);
+                            intent.putExtra("diagid",getIntent().getStringExtra("diagid"));
+                            intent.putExtra("regMobile",regMobile);
+                            intent.putExtra("addressId",getIntent().getStringExtra("addressId"));
+                            intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                            intent.putExtra("centerName",getIntent().getStringExtra("centerName"));
+                            intent.putExtra("address1",getIntent().getStringExtra("address1"));
+                            intent.putExtra("comment",getIntent().getStringExtra("comment"));
+                            intent.putExtra("emergencyContact",getIntent().getStringExtra("emergencyContact"));
+                            intent.putExtra("city",getIntent().getStringExtra("city"));
+                            intent.putExtra("pincode",getIntent().getStringExtra("pincode"));
+                            intent.putExtra("district",getIntent().getStringExtra("district"));
+                            intent.putExtra("state",getIntent().getStringExtra("state"));
+                            intent.putExtra("landline",getIntent().getStringExtra("landline"));
+                            intent.putExtra("contactName",getIntent().getStringExtra("contactName"));
+                            intent.putExtra("emergencyService",getIntent().getBooleanExtra("emergencyService",true));
+                            intent.putExtra("lati",lati);
+                            intent.putExtra("longi",longi);
+
+                            intent.putExtra("fromtime",getIntent().getStringExtra("fromtime"));
+                            intent.putExtra("totime",getIntent().getStringExtra("totime"));
+                            startActivity(intent);
+                        }
+
+                        if(moduleName.equals("medicAdd"))
+                        {
+                            Intent intent = new Intent(MapsActivity.this,MedicalShopAddAddressFromMaps.class);
+                            intent.putExtra("id",getUserId);
+                            intent.putExtra("regMobile",regMobile);
+                            intent.putExtra("diagName",getIntent().getStringExtra("diagName"));
+                            intent.putExtra("address",getIntent().getStringExtra("address"));
+                            intent.putExtra("Experience",getIntent().getStringExtra("Experience"));
+                            intent.putExtra("city",getIntent().getStringExtra("city"));
+                            intent.putExtra("state",getIntent().getStringExtra("state"));
+                            intent.putExtra("district",getIntent().getStringExtra("district"));
+                            intent.putExtra("PharmacyType",getIntent().getStringExtra("PharmacyType"));
+                            intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                            intent.putExtra("pincode",getIntent().getStringExtra("pincode"));
+                            intent.putExtra("person",getIntent().getStringExtra("person"));
+                            intent.putExtra("landmobile",getIntent().getStringExtra("landmobile"));
+                            intent.putExtra("comments",getIntent().getStringExtra("comments"));
+
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("lng",longi);
+                            startActivity(intent);
+                        }
+                        if(moduleName.equals("medicUpdate"))
+                        {
+                            Intent intent = new Intent(MapsActivity.this,MedicalShopUpdateAddressFromMaps.class);
+                            intent.putExtra("medicalId",getIntent().getStringExtra("medicalId"));
+                            intent.putExtra("regMobile",regMobile);
+                            intent.putExtra("addressId",getIntent().getStringExtra("addressId"));
+                            intent.putExtra("diagName",getIntent().getStringExtra("diagName"));
+                            intent.putExtra("address",getIntent().getStringExtra("address"));
+                            intent.putExtra("Experience",getIntent().getStringExtra("Experience"));
+                            intent.putExtra("city",getIntent().getStringExtra("city"));
+                            intent.putExtra("state",getIntent().getStringExtra("state"));
+                            intent.putExtra("district",getIntent().getStringExtra("district"));
+                            intent.putExtra("PharmacyType",getIntent().getStringExtra("PharmacyType"));
+                            intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                            intent.putExtra("pincode",getIntent().getStringExtra("pincode"));
+                            intent.putExtra("person",getIntent().getStringExtra("person"));
+                            intent.putExtra("landmobile",getIntent().getStringExtra("landmobile"));
+                            intent.putExtra("comments",getIntent().getStringExtra("comments"));
+                            intent.putExtra("fromTime",getIntent().getStringExtra("fromTime"));
+                            intent.putExtra("toTime",getIntent().getStringExtra("toTime"));
+                            intent.putExtra("Emeregency_contact",getIntent().getStringExtra("Emeregency_contact"));
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("lng",longi);
+                            startActivity(intent);
+                        }
+
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

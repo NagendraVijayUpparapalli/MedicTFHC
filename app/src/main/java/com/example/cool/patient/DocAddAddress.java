@@ -2,6 +2,7 @@ package com.example.cool.patient;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +49,7 @@ import br.com.bloder.magic.view.MagicButton;
 public class DocAddAddress extends AppCompatActivity {
 
     EditText hospitalName,address,pincode,contactPerson,fee,mobileNumber,comments,lat,lng,emergencyContactNumber;
-    Spinner city,state,district;
+    SearchableSpinner city,state,district;
     CheckBox availableService;
     MagicButton btn_AddAddress;
     Button nextView;
@@ -65,13 +69,13 @@ public class DocAddAddress extends AppCompatActivity {
     JSONArray jsonArray = new JSONArray();
     JSONObject data = new JSONObject();
 
-    static int getUserId;
+    static String getUserId;
     static String uploadServerUrl = null,addressId,sunAppointmentsCount = "0",
             monAppointmentsCount = "0",tueAppointmentsCount = "0",wedApointmentsCount = "0",
             thuAppointmentsCount = "0",friAppointmentsCount = "0",satAppointmentsCount = "0";
 
 
-    static String userId,myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myFee,
+    static String regMobile,userId,myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myFee,
             myComments,myLati,myLngi,myCity,myState,myDistrict,myEmergencyContact,myLatitude,myLongitude;
     boolean myAvailableService;
 
@@ -128,6 +132,8 @@ public class DocAddAddress extends AppCompatActivity {
 
     ApiBaseUrl baseUrl;
 
+    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,14 +144,14 @@ public class DocAddAddress extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setTitle("Edit Profile");
+        toolbar.setTitle("Add Address");
         toolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 //                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DocAddAddress.this,DoctorDashboard.class);
-                        intent.putExtra("id",getUserId);
+                        intent.putExtra("id",userId);
                         startActivity(intent);
 
                     }
@@ -165,9 +171,9 @@ public class DocAddAddress extends AppCompatActivity {
         fee = (EditText) findViewById(R.id.Consultation_Fee);
 
         mobileNumber = (EditText) findViewById(R.id.Mobile_Number);
-        city = (Spinner) findViewById(R.id.cityId);
-        state = (Spinner) findViewById(R.id.stateId);
-        district = (Spinner) findViewById(R.id.districtId);
+        city = (SearchableSpinner) findViewById(R.id.cityId);
+        state = (SearchableSpinner) findViewById(R.id.stateId);
+        district = (SearchableSpinner) findViewById(R.id.districtId);
 
         comments = (EditText) findViewById(R.id.Comments_Others);
         getLatLong = findViewById(R.id.getlatlng);
@@ -194,6 +200,7 @@ public class DocAddAddress extends AppCompatActivity {
         new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
 
 
+        regMobile = getIntent().getStringExtra("regMobile");
         userId = getIntent().getStringExtra("id");
         myHospitalName = getIntent().getStringExtra("hospitalName");
         myAddress = getIntent().getStringExtra("address");
@@ -222,38 +229,14 @@ public class DocAddAddress extends AppCompatActivity {
         availableService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emergencyContactLayout.setVisibility(View.VISIBLE);
+                viewEmergencyContactField();
             }
         });
-
-//        availableService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                emergencyContactLayout.setVisibility(View.GONE);
-//            }
-//        });
-
-//        emergencyContactLayout.setVisibility(View.GONE);
-
-//        if(availableService.isChecked())
-//        {
-//            emergencyContactLayout.setVisibility(View.VISIBLE);
-//        }
-//        if(!availableService.isChecked())
-//        {
-//            emergencyContactLayout.setVisibility(View.GONE);
-//        }
 
         nextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String js = formatDataAsJson();
-//                new sendDoctorAddAdressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
-
-                timingLayout.setVisibility(View.VISIBLE);
-                details_layout.setVisibility(View.GONE);
-
+                validateFullAddress();
             }
         });
 
@@ -265,7 +248,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                 String js = formatDoctorTimingsDataAsJson();
 //                System.out.println("js time array"+js.toString());
-//                new insertDoctorAppointmentTimings().execute(baseUrl.getUrl()+"DoctorInsertTimeSlot",js.toString());
+                new insertDoctorAppointmentTimings().execute(baseUrl.getUrl()+"DoctorInsertTimeSlot",js.toString());
             }
         });
 
@@ -281,17 +264,12 @@ public class DocAddAddress extends AppCompatActivity {
         saturday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(DocAddAddress.this,
-                        "Saturday Appointment Timings", Toast.LENGTH_LONG).show();
                 MySaturdayCustomAlertDialog();
             }
         });
         friday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "Friday Appointment Timings", Toast.LENGTH_LONG).show();
                 MyFridayCustomAlertDialog();
             }
         });
@@ -299,8 +277,6 @@ public class DocAddAddress extends AppCompatActivity {
         thursday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "Thurday Appointment Timings", Toast.LENGTH_LONG).show();
                 MyThursdayCustomAlertDialog();
             }
         });
@@ -308,20 +284,14 @@ public class DocAddAddress extends AppCompatActivity {
         wednesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "wednessday Appointment Timings", Toast.LENGTH_LONG).show();
                 MyWednesdayCustomAlertDialog();
             }
         });
 
 
-
-
         tuesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "Tuesday Appointment Timings", Toast.LENGTH_LONG).show();
                 MyTuesdayCustomAlertDialog();
             }
         });
@@ -331,8 +301,6 @@ public class DocAddAddress extends AppCompatActivity {
         monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "Monday Appointment Timings", Toast.LENGTH_LONG).show();
                 MyMondayCustomAlertDialog();
             }
         });
@@ -340,8 +308,6 @@ public class DocAddAddress extends AppCompatActivity {
         sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DocAddAddress.this,
-                        "Sunday Appointment Timings", Toast.LENGTH_LONG).show();
                 MySundayCustomAlertDialog();
             }
         });
@@ -349,7 +315,108 @@ public class DocAddAddress extends AppCompatActivity {
 
     }
 
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+        }
+    }
 
+    public void validateFullAddress()
+    {
+        if(!addressValidate())
+        {
+//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String js = formatDataAsJson();
+            new sendDoctorAddAdressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
+
+            timingLayout.setVisibility(View.VISIBLE);
+            details_layout.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean addressValidate()
+    {
+        boolean validate = true;
+        if(hospitalName.getText().toString().trim().isEmpty())
+        {
+            hospitalName.setError("please enter the name");
+            validate  = false;
+
+        }
+        if(address.getText().toString().trim().isEmpty())
+        {
+            address.setError("please enter address");
+            validate  = false;
+
+        }
+        if(pincode.getText().toString().trim().isEmpty())
+        {
+            pincode.setError("please enter the name");
+            validate  = false;
+
+        }
+        if( contactPerson.getText().toString().trim().isEmpty())
+        {
+            contactPerson.setError("please enter contactperson");
+            validate  = false;
+
+        }
+        if( fee.getText().toString().trim().isEmpty())
+        {
+            fee.setError("please enter fee");
+            validate  = false;
+
+        }
+        if( comments.getText().toString().trim().isEmpty())
+        {
+            comments.setError("please enter comments");
+            validate  = false;
+
+        }
+        if( lat.getText().toString().isEmpty())
+        {
+            lat.setError("please select location");
+            validate  = false;
+
+        }
+        if( lng.getText().toString().isEmpty())
+        {
+            lng.setError("please select location");
+            validate  = false;
+
+        }
+
+        if(mobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobileNumber.getText().toString().trim()).matches())
+        {
+            mobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+        else if(mobileNumber.getText().toString().trim().length()<10 || mobileNumber.getText().toString().trim().length()>10)
+        {
+            mobileNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+        if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+        {
+            emergencyContactNumber.setError("please enter valid number");
+            validate=false;
+        }
+        else if(emergencyContactNumber.getText().toString().length()<10 || emergencyContactNumber.getText().toString().length()>10)
+        {
+            emergencyContactNumber.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        return validate;
+    }
 
 
     private String formatDoctorTimingsDataAsJson() {
@@ -393,7 +460,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", sunAppointmentsCount);
                         allDataArray.add(eachData);
@@ -417,7 +484,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", monAppointmentsCount);
                         allDataArray.add(eachData);
@@ -441,7 +508,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", tueAppointmentsCount);
                         allDataArray.add(eachData);
@@ -466,7 +533,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", wedApointmentsCount);
                         allDataArray.add(eachData);
@@ -492,7 +559,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", thuAppointmentsCount);
                         allDataArray.add(eachData);
@@ -519,15 +586,12 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", friAppointmentsCount);
                         allDataArray.add(eachData);
-
                     }
-
                 }
-
 
                 if(key.equals("6"))
                 {
@@ -546,7 +610,7 @@ public class DocAddAddress extends AppCompatActivity {
 
                         eachData.put("TsID", getTimeKeyFromValue(AllTimeSlotsList,mylist.get(index)));
                         eachData.put("TimeSlots", mylist.get(index));
-                        eachData.put("AddressID", 1332);
+                        eachData.put("AddressID", addressId);
                         eachData.put("DayNameID", key);
                         eachData.put("NoOfAppointments", satAppointmentsCount);
                         allDataArray.add(eachData);
@@ -684,7 +748,7 @@ public class DocAddAddress extends AppCompatActivity {
         try{
             if(availableService.isChecked())
             {
-                data.put("DoctorID",getUserId);
+                data.put("DoctorID",userId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -697,7 +761,7 @@ public class DocAddAddress extends AppCompatActivity {
                 data.put("District",myDistrict);
                 data.put("FrontofficeContactPerson",myContactPerson);
 
-                data.put("iConsultationFee",myFee);
+                data.put("ConsultationFee",myFee);///
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
@@ -707,7 +771,7 @@ public class DocAddAddress extends AppCompatActivity {
             }
             else if(!availableService.isChecked())
             {
-                data.put("DoctorID",getUserId);
+                data.put("DoctorID",userId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -722,7 +786,7 @@ public class DocAddAddress extends AppCompatActivity {
                 data.put("District",myDistrict);
                 data.put("FrontofficeContactPerson",myContactPerson);
 
-                data.put("iConsultationFee",myFee);
+                data.put("ConsultationFee",myFee);///
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
@@ -739,6 +803,7 @@ public class DocAddAddress extends AppCompatActivity {
 
         return null;
     }
+
 
     public void MySundayCustomAlertDialog(){
 
@@ -1640,15 +1705,15 @@ public class DocAddAddress extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 200)
+                if(s == 1017)
                 {
                     addressId = js.getString("DataValue");
 //                    showSuccessMessage(js.getString("Message"));
                 }
-                else
-                {
-                    showErrorMessage(js.getString("Message"));
-                }
+//                else
+//                {
+//                    showErrorMessage(js.getString("Message"));
+//                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1660,6 +1725,22 @@ public class DocAddAddress extends AppCompatActivity {
 
 
     private class insertDoctorAppointmentTimings extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DocAddAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -1752,6 +1833,7 @@ public class DocAddAddress extends AppCompatActivity {
             super.onPostExecute(result);
 //
             Log.e("TAG result doc add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             JSONObject js;
 
             try {
@@ -1786,12 +1868,13 @@ public class DocAddAddress extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
                         Intent intent = new Intent(DocAddAddress.this,DoctorDashboard.class);
-                        intent.putExtra("id",getUserId);
+                        intent.putExtra("id",userId);
+                        intent.putExtra("mobile",regMobile);
                         startActivity(intent);
                     }
                 });
         AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
+        alert.setTitle("Add Address");
         alert.show();
 
     }
@@ -1809,7 +1892,7 @@ public class DocAddAddress extends AppCompatActivity {
                     }
                 });
         AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
+        alert.setTitle("Add Address");
         alert.show();
 
     }

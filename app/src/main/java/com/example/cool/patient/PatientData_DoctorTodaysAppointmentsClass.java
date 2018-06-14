@@ -6,11 +6,13 @@ package com.example.cool.patient;
 
 public class PatientData_DoctorTodaysAppointmentsClass {
 
-    int dstatus,appointmentID,patientID;
-    String status1,patientName,emailID,mobileNo,prescription,comments,reasonAppointments,aadharNumber,timeSlots,age;
+    int dstatus;
+    String appointmentID,patientID,doctorId,docMobile,status1,patientName,emailID,mobileNo,prescription,comments,reasonAppointments,aadharNumber,timeSlots,age;
 
-    public PatientData_DoctorTodaysAppointmentsClass(int dstatus, String status1, int appointmentID, String patientName, String emailID, String mobileNo, int patientID, String comments, String reasonAppointments,String timeSlots,String age) {
+    public PatientData_DoctorTodaysAppointmentsClass(String doctorId,String docMobile,int dstatus, String status1, String appointmentID, String patientName, String emailID, String mobileNo, String patientID, String comments, String reasonAppointments,String timeSlots,String age) {
 
+        this.doctorId = doctorId;
+        this.docMobile = docMobile;
         this.dstatus=dstatus;
         this.status1=status1;
         this.appointmentID=appointmentID;
@@ -27,6 +29,22 @@ public class PatientData_DoctorTodaysAppointmentsClass {
 
     }
 
+    public String getDocMobile() {
+        return docMobile;
+    }
+
+    public void setDocMobile(String docMobile) {
+        this.docMobile = docMobile;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
     public int getDstatus() {
         return dstatus;
     }
@@ -35,7 +53,7 @@ public class PatientData_DoctorTodaysAppointmentsClass {
         return status1;
     }
 
-    public int getAppointmentID() {
+    public String getAppointmentID() {
         return appointmentID;
     }
 
@@ -55,7 +73,7 @@ public class PatientData_DoctorTodaysAppointmentsClass {
 //        return prescription;
 //    }
 
-    public int getPatientID() {
+    public String getPatientID() {
         return patientID;
     }
 
@@ -87,7 +105,7 @@ public class PatientData_DoctorTodaysAppointmentsClass {
         this.status1 = status1;
     }
 
-    public void setAppointmentID(int appointmentID) {
+    public void setAppointmentID(String appointmentID) {
         this.appointmentID = appointmentID;
     }
 
@@ -107,7 +125,7 @@ public class PatientData_DoctorTodaysAppointmentsClass {
 //        this.prescription = prescription;
 //    }
 
-    public void setPatientID(int patientID) {
+    public void setPatientID(String patientID) {
         this.patientID = patientID;
     }
 

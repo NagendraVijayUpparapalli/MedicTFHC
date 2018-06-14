@@ -31,7 +31,7 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
     Context context;
     AlertDialog alertDialog1;
     String address,lati,longi,consultationFee,comments,emergencyContact;
-    int patientId;
+    String patientId;
     boolean emergencyService;
 
     String doctorname,hospitalname,doornum,city,state,payment,mobile,navigaton;
