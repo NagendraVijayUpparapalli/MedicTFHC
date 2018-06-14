@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/cool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/toolbar_gradient"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="xxxxxxx xxxx"
+                android:textAlignment="center"
+                android:transitionName="patient_name_transtion"
+                android:textColor="#0712e9"
+                android:layout_marginTop="80dp"
+                android:textStyle="bold"
+                android:textSize="21dp"
+                />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_height="wrap_content"
+                tools:ignore="Orientation">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aadhar Number :"
+                    android:textColor="#2C5E83"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    />
+                <TextView
+                    android:id="@+id/aadhaarNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="993412564789"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="17dp"
+                    android:layout_marginStart="19dp"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_height="wrap_content"
+                tools:ignore="Orientation">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2C5E83"
+                    android:text="Mobile Number :"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/mobilenumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="9492862167"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:transitionName="patient_phone_transtion"
+                    android:textSize="17dp"
+                    android:layout_marginStart="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+
+                android:layout_marginStart="28dp"
+                android:layout_height="wrap_content"
+                tools:ignore="Orientation">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2C5E83"
+                    android:text="TestName :"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/testname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="17dp"
+                    android:transitionName="patient_time_transtion"
+                    android:layout_marginStart="60dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="28dp"
+                android:layout_width="wrap_content"
+                android:weightSum="2"
+                android:layout_height="wrap_content"
+                tools:ignore="Orientation">
+
+                <TextView
+                    android:id="@+id/select_city"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2C5E83"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:text="Status :" />
+
+                <Spinner
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:textColor="#000"
+                    android:backgroundTint="#2C5E83"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Comments :"
+                    android:textColor="#2C5E83"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/Comments"
+                    android:textColor="#000"
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="45dp"
+                    android:background="@drawable/edittext_button"
+                    android:layout_weight="1"
+                    android:textSize="15dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:text="Payment Mode"
+                    android:textColor="#2C5E83"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     android:weightSum="7"
+                    android:layout_marginStart="20dp"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/cash_on_hand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:buttonTint="@color/green"
+                        android:drawableRight="@drawable/cashonhand_icon"
+                        android:layout_marginLeft="2dp" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Cash on Hand"
+                        android:layout_marginTop="5dp"
+                        android:textSize="15dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/green" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="20dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/debit_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/creditcard_icon"
+                        android:drawablePadding="5dp"
+                        app:buttonTint="@color/green"/>
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Credi/Debit"
+                        android:textSize="15dp"
+                        android:textColor="@color/green" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="7"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/net_banking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:buttonTint="@color/green"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/custom_netbanking_icon"
+                        android:layout_marginLeft="2dp" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:text="Net Banking"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/green"
+                        android:textSize="15dp" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="34dp"
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/pay_paytm"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/custom_icon"
+                        app:buttonTint="@color/green"/>
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/paytmtext"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Paytm"
+                        android:textSize="15dp"
+                        android:textColor="@color/green" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Amount (INR) :"
+                    android:textColor="#2C5E83"
+                    android:layout_marginTop="25dp"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#8c8080">
+                    <EditText
+                        android:id="@+id/amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                        android:ems="10"
+                        android:hint="Enter amount here"
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/green"
+                        android:textSize="15dp"
+                        android:inputType="textPersonName" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:text="Prescription"
+                    android:textColor="#2C5E83"/>
+                <android.support.design.widget.CoordinatorLayout
+                    android:id="@+id/main1"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="100dp"
+                    android:orientation="vertical"
+                    tools:ignore="MissingPrefix">
+
+                    <android.support.design.widget.AppBarLayout
+                        android:id="@+id/appbar1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fitsSystemWindows="true"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">>
+
+                        <ImageView
+                            android:id = "@+id/prescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:scaleType="centerCrop"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/noimage11" />
+                    </android.support.design.widget.AppBarLayout>
+
+
+                </android.support.design.widget.CoordinatorLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_marginStart="135dp"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="Submit"
+                    />
+
+            </LinearLayout>
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
