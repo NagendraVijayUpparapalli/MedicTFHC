@@ -10,6 +10,7 @@
     android:keyboardNavigationCluster="true"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarcool"
         android:layout_width="match_parent"
@@ -372,56 +373,87 @@
                 </LinearLayout>
 
 
+                <!--<LinearLayout-->
+                    <!--android:weightSum="2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
+
+                    <!--<android.support.v7.widget.AppCompatCheckBox-->
+                        <!--android:id="@+id/cash_on_hand"-->
+                        <!--android:layout_width="140dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:drawableLeft="@drawable/cashonhand_icon"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="13dp"-->
+                        <!--android:text="@string/cash_on_hand" />-->
+
+                    <!--<android.support.v7.widget.AppCompatCheckBox-->
+                        <!--android:id="@+id/debit_card"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:drawableLeft="@drawable/creditcard_icon"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="13dp"-->
+
+                        <!--android:text="@string/credi_debit" />-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:weightSum="2"-->
+                    <!--android:layout_height="match_parent">-->
+
+                    <!--<android.support.v7.widget.AppCompatCheckBox-->
+                        <!--android:id="@+id/net_banking"-->
+
+                        <!--android:layout_width="110dp"-->
+
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:drawableLeft="@drawable/custom_netbanking_icon"-->
+                        <!--android:text="@string/net_banking"-->
+                        <!--android:textSize="13dp" />-->
+
+                    <!--<android.support.v7.widget.AppCompatCheckBox-->
+                        <!--android:id="@+id/pay_paym"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:drawableLeft="@drawable/custom_icon"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="13dp"-->
+                        <!--android:text="@string/paytm" />-->
+                <!--</LinearLayout>-->
+
+
+
                 <LinearLayout
-                    android:weightSum="2"
+                    android:weightSum="3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/cash_on_hand"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/cashonhand_icon"
-                        android:layout_weight="1"
-                        android:textSize="13dp"
-                        android:text="@string/cash_on_hand" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/debit_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/creditcard_icon"
                         android:layout_weight="1"
                         android:textSize="13dp"
-
-                        android:text="@string/credi_debit" />
-                </LinearLayout>
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:weightSum="2"
-                    android:layout_height="match_parent">
-
+                        android:text="Cash on Hand" />
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/net_banking"
-
-                        android:layout_width="110dp"
-
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/custom_netbanking_icon"
-                        android:text="@string/net_banking"
-                        android:textSize="13dp" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/pay_paym"
                         android:layout_width="wrap_content"
-                        android:drawableLeft="@drawable/custom_icon"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="13dp"
-                        android:text="@string/paytm" />
+                        android:text="Online Banking" />
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/swipe_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="13dp"
+                        android:text="Swipe cards" />
                 </LinearLayout>
 
                 <LinearLayout

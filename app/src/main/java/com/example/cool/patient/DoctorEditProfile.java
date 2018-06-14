@@ -85,7 +85,7 @@ public class DoctorEditProfile extends AppCompatActivity {
     Bitmap mIcon11;
     ImageView uploadCertificate, adharimage, DoctorImage;
     List<String> Spaliaty;
-    CheckBox cash_on_hand, debit_card, net_banking, pay_paym;
+    CheckBox cash_on_hand, swipe_card, net_banking, pay_paym;
     MagicButton gen_btn;
 
     RadioGroup radioGroup;
@@ -107,10 +107,14 @@ public class DoctorEditProfile extends AppCompatActivity {
 
     static String getUserId,mobile_number;
     static String uploadServerUrl = null;
-    static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,myQualification, myAddress1, myAddress2, myGender,myExperience,
+    static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,
+            myQualification, myAddress1, myAddress2, myGender,myExperience,
             myregistrationNumber,myuploadCertificate,myadharimage,mydoctorImage,myAadhar_num;
     boolean myEmergencyService;
-    static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor ,mycash_on_hand,mydebit_card ,mynet_banking,mypay_paym;
+
+    static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor , mycash_on_hand, myswipe_card,
+            mynet_banking,mypay_paym;
+
     FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon;
 
 
@@ -179,9 +183,9 @@ public class DoctorEditProfile extends AppCompatActivity {
         adharimage = (ImageView) findViewById(R.id.doc_aadhar_image);
         DoctorImage = (ImageView) findViewById(R.id.doc_profileimage);
         cash_on_hand = (CheckBox) findViewById(R.id.cash_on_hand);
-        debit_card = (CheckBox) findViewById(R.id.debit_card);
+        swipe_card = (CheckBox) findViewById(R.id.swipe_card);
         net_banking = (CheckBox) findViewById(R.id.net_banking);
-        pay_paym = (CheckBox) findViewById(R.id.pay_paym);
+//        pay_paym = (CheckBox) findViewById(R.id.pay_paym);
 
         female = (RadioButton) findViewById(R.id.femaleRadio);
         male = (RadioButton) findViewById(R.id.maleRadio);
@@ -384,9 +388,9 @@ public class DoctorEditProfile extends AppCompatActivity {
                 myadharimage = js.getString("AadharImage");
 
                 mycash_on_hand = (boolean) js.get("CashOnHand");
-                mydebit_card = (boolean) js.get("CreditDebit");
+                myswipe_card = (boolean) js.get("CreditDebit");
                 mynet_banking = (boolean) js.get("Netbanking");
-                mypay_paym = (boolean) js.get("Paytm");
+//                mypay_paym = (boolean) js.get("Paytm");
 
                 if(myGender.equals("Male"))
                 {
@@ -423,9 +427,9 @@ public class DoctorEditProfile extends AppCompatActivity {
                 myadharimage       =  (String) js.get("AadharImage");
 
                 mycash_on_hand     =  (boolean) js.get("CashOnHand");
-                mydebit_card       =  (boolean) js.get("CreditDebit");
+                myswipe_card       =  (boolean) js.get("CreditDebit");
                 mynet_banking      =  (boolean) js.get("Netbanking");
-                mypay_paym         =   (boolean) js.get("Paytm");
+//                mypay_paym         =   (boolean) js.get("Paytm");
 
                 if(myGender.equals(""))
                 {
@@ -439,9 +443,9 @@ public class DoctorEditProfile extends AppCompatActivity {
 
 
             System.out.println("hand.."+mycash_on_hand);
-            System.out.println("card.."+mydebit_card);
+            System.out.println("card.."+myswipe_card);
             System.out.println("net.."+mynet_banking);
-            System.out.println("paytm.."+mypay_paym);
+//            System.out.println("paytm.."+mypay_paym);
 
             if(myGender.equals("Male"))
             {
@@ -531,9 +535,9 @@ public class DoctorEditProfile extends AppCompatActivity {
             qualificationdoctor.setText(myQualification);
             registrationNumber.setText(myregistrationNumber);
             cash_on_hand.setChecked(mycash_on_hand);
-            debit_card.setChecked(mydebit_card);
+            swipe_card.setChecked(myswipe_card);
             net_banking.setChecked(mynet_banking);
-            pay_paym.setChecked(mypay_paym);
+//            pay_paym.setChecked(mypay_paym);
         }
         catch (JSONException e)
         {
@@ -1173,14 +1177,14 @@ public class DoctorEditProfile extends AppCompatActivity {
             validate=false;
         }
 
-        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !debit_card.isChecked() && !pay_paym.isChecked())
+        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !swipe_card.isChecked())
         {
 //            Toast.makeText(getApplicationContext(),"Please select one option",Toast.LENGTH_SHORT).show();
 
             cash_on_hand.setError("please checked");
             net_banking.setError("plwase checked");
-            debit_card.setError("please checked");
-            pay_paym.setError("please checked");
+            swipe_card.setError("please checked");
+//            pay_paym.setError("please checked");
             validate=false;
         }
 
@@ -1218,12 +1222,17 @@ public class DoctorEditProfile extends AppCompatActivity {
             System.out.println("mycash_on_hand if..."+mycash_on_hand);
         }
 
-        if(debit_card.isChecked())
+        if(swipe_card.isChecked())
         {
 //            myDiagnosticPromotion = false;
-            mydebit_card = true;
-            System.out.println("mydebit_card if..."+ mydebit_card);
+            myswipe_card = true;
+            System.out.println("myswipe_card if..."+ myswipe_card);
 
+        }
+        else
+        {
+            myswipe_card = false;
+            System.out.println("myswipe_card else..."+ myswipe_card);
         }
 
         if(net_banking.isChecked())
@@ -1232,13 +1241,18 @@ public class DoctorEditProfile extends AppCompatActivity {
             mynet_banking = true;
             System.out.println("mynet_banking if..."+ mynet_banking);
         }
-
-        if(pay_paym.isChecked())
+        else
         {
-//            myDiagnosticPromotion = false;
-            mypay_paym = true;
-            System.out.println("mypay_paym if..."+ mypay_paym);
+            mynet_banking = false;
+            System.out.println("mynet_banking if..."+ mynet_banking);
         }
+
+//        if(pay_paym.isChecked())
+//        {
+////            myDiagnosticPromotion = false;
+//            mypay_paym = true;
+//            System.out.println("mypay_paym if..."+ mypay_paym);
+//        }
 
         if(encodedCertificateImage == null)
         {
@@ -1302,8 +1316,8 @@ public class DoctorEditProfile extends AppCompatActivity {
                 data.put("CashOnHand", mycash_on_hand);
                 data.put("Suffix", newName);
                 data.put("Netbanking", mynet_banking);
-                data.put("Paytm", mypay_paym);
-                data.put("CreditDebit", mydebit_card);
+                data.put("Paytm", "");
+                data.put("CreditDebit", myswipe_card);
                 data.put("AadharImage",encodedAadharImage);
                 data.put("CertificateImage",encodedCertificateImage);
                 data.put("DoctorImage",encodedProfileimage);
@@ -1329,8 +1343,8 @@ public class DoctorEditProfile extends AppCompatActivity {
                 data.put("CashOnHand", mycash_on_hand);
                 data.put("Suffix", newName);
                 data.put("Netbanking", mynet_banking);
-                data.put("Paytm", mypay_paym);
-                data.put("CreditDebit", mydebit_card);
+                data.put("Paytm", "");
+                data.put("CreditDebit", myswipe_card);
                 data.put("AadharImage",encodedAadharImage);
                 data.put("CertificateImage",encodedCertificateImage);
                 data.put("DoctorImage",encodedProfileimage);

@@ -55,7 +55,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
     Spinner status;
     String selectedItemText,payment,comment,ammnt;
     EditText comments;
-    CheckBox cashonhand,paytm,netbanking,debitcard;
+    CheckBox cashonhand,netbanking,swipe_card;
     public static final CharSequence[] states = {"---Status---", "Initiated", "In Progress", "Finished"};
     EditText amnt;
     ImageView prescrption;
@@ -82,10 +82,10 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
         testname=(TextView)findViewById(R.id.testname);
         comments=(EditText)findViewById(R.id.Comments);
         cashonhand=(CheckBox)findViewById(R.id.cash_on_hand);
-        paytm=(CheckBox)findViewById(R.id.pay_paytm);
+//        paytm=(CheckBox)findViewById(R.id.pay_paytm);
         amnt=(EditText)findViewById(R.id.amount);
         netbanking=(CheckBox)findViewById(R.id.net_banking);
-        debitcard=(CheckBox)findViewById(R.id.debit_card);
+        swipe_card=(CheckBox)findViewById(R.id.swipe_card);
         status=(Spinner)findViewById(R.id.status);
         prescrption=(ImageView)findViewById(R.id.prescription);
         submit=(Button) findViewById(R.id.submit);
@@ -147,20 +147,20 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
 
                 if(cashonhand.isChecked())
                 {
-                    payment="Cash On Hand";
+                    payment="Cash on Hand";
                 }
             }
         });
 
-        paytm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(paytm.isChecked()){
-
-                    payment="Pay with Paytm";
-                }
-            }
-        });
+//        paytm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(paytm.isChecked()){
+//
+//                    payment="Pay with Paytm";
+//                }
+//            }
+//        });
 
         netbanking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,18 +168,18 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
 
                 if(netbanking.isChecked())
                 {
-                    payment="Net Banking";
+                    payment="Online Banking";
                 }
 
             }
         });
-        debitcard.setOnClickListener(new View.OnClickListener() {
+        swipe_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(debitcard.isChecked())
+                if(swipe_card.isChecked())
                 {
-                    payment="Credit/Debit Card";
+                    payment="Debit/Credit card Swipe";
                 }
             }
         });
@@ -383,6 +383,21 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
 
         comment=comments.getText().toString();
         ammnt=amnt.getText().toString();
+
+        if(netbanking.isChecked())
+        {
+            payment = "Online Banking";
+        }
+
+        if(cashonhand.isChecked())
+        {
+            payment="Cash on Hand";
+        }
+
+        if(swipe_card.isChecked())
+        {
+            payment="Debit/Credit card Swipe";
+        }
 
         System.out.println("status"+selectedItemText);
         System.out.println("comments"+comments.getText().toString());

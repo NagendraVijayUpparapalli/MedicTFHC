@@ -203,121 +203,34 @@
                     android:textAlignment="center"
                     android:text="Payment Mode"
                     android:textColor="#2C5E83"/>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                     android:weightSum="7"
-                    android:layout_marginStart="20dp"
-                    android:orientation="horizontal">
+                    android:weightSum="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
                     <android.support.v7.widget.AppCompatCheckBox
-                        android:layout_weight="1"
                         android:id="@+id/cash_on_hand"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:buttonTint="@color/green"
-                        android:drawableRight="@drawable/cashonhand_icon"
-                        android:layout_marginLeft="2dp" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_weight="1"
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Cash on Hand"
-                        android:layout_marginTop="5dp"
-                        android:textSize="15dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/green" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="20dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/debit_card"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableRight="@drawable/creditcard_icon"
-                        android:drawablePadding="5dp"
-                        app:buttonTint="@color/green"/>
-
-                    <android.support.v4.widget.Space
-                        android:layout_weight="1"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Credi/Debit"
-                        android:textSize="15dp"
-                        android:textColor="@color/green" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_weight="7"
-                    android:orientation="horizontal">
+                        android:textSize="13dp"
+                        android:text="Cash on Hand" />
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/net_banking"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:buttonTint="@color/green"
                         android:layout_weight="1"
-                        android:drawableRight="@drawable/custom_netbanking_icon"
-                        android:layout_marginLeft="2dp" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_weight="1"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="1dp"
-                        android:text="Net Banking"
-                        android:layout_weight="1"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/green"
-                        android:textSize="15dp" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_weight="1"
-                        android:layout_width="34dp"
-                        android:layout_height="wrap_content" />
+                        android:textSize="13dp"
+                        android:text="Online Banking" />
 
                     <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/pay_paytm"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
+                        android:id="@+id/swipe_card"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/custom_icon"
-                        app:buttonTint="@color/green"/>
-
-                    <android.support.v4.widget.Space
                         android:layout_weight="1"
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/paytmtext"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Paytm"
-                        android:textSize="15dp"
-                        android:textColor="@color/green" />
+                        android:textSize="13dp"
+                        android:text="Swipe cards" />
                 </LinearLayout>
 
             </LinearLayout>

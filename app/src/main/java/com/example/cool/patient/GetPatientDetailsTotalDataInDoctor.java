@@ -72,7 +72,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
     FloatingActionButton camaraicon,licenceicon;
     ImageView image;
     //MultiAutoCompleteTextView comment;
-    CheckBox paytm,netbanking,cashonhand,creditcard;
+    CheckBox netbanking,cashonhand,swipe_card;
     EditText amount,comment;
     Button button;
 
@@ -100,10 +100,10 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.prescription);
         comment=(EditText) findViewById(R.id.Comments_Others);
         button=(Button) findViewById(R.id.button);
-        paytm=(CheckBox)findViewById(R.id.pay_paytm);
+//        paytm=(CheckBox)findViewById(R.id.pay_paytm);
         netbanking=(CheckBox)findViewById(R.id.net_banking);
         cashonhand=(CheckBox)findViewById(R.id.cash_on_hand);
-        creditcard=(CheckBox)findViewById(R.id.debit_card);
+        swipe_card=(CheckBox)findViewById(R.id.swipe_card);
         amount=(EditText)findViewById(R.id.amount);
 
         spinner = (Spinner) findViewById(R.id.status);
@@ -166,17 +166,17 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
                     }
                 });
 
-        paytm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Payment = "Pay with Paytm";
-
-                netbanking.setEnabled(false);
-                cashonhand.setEnabled(false);
-                creditcard.setEnabled(false);
-            }
-        });
+//        paytm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Payment = "Pay with Paytm";
+//
+//                netbanking.setEnabled(false);
+//                cashonhand.setEnabled(false);
+//                creditcard.setEnabled(false);
+//            }
+//        });
 
         netbanking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,8 +184,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
 
                 Payment="Net Banking";
                 cashonhand.setEnabled(false);
-                creditcard.setEnabled(false);
-                paytm.setEnabled(false);
+                swipe_card.setEnabled(false);
+//                paytm.setEnabled(false);
             }
         });
         cashonhand.setOnClickListener(new View.OnClickListener() {
@@ -193,19 +193,19 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
             public void onClick(View view) {
 
                 Payment="Cash On Hand";
-                creditcard.setEnabled(false);
-                paytm.setEnabled(false);
+                swipe_card.setEnabled(false);
+//                paytm.setEnabled(false);
                 netbanking.setEnabled(false);
             }
         });
 
 
-        creditcard.setOnClickListener(new View.OnClickListener() {
+        swipe_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Payment="Credit/Debit Card";
-                paytm.setEnabled(false);
+//                paytm.setEnabled(false);
                 netbanking.setEnabled(false);
                 cashonhand.setEnabled(false);
 
@@ -664,25 +664,25 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
     {
         JSONObject data = new JSONObject();
 
-        if(paytm.isChecked())
-        {
-            Payment = "Pay with Paytm";
-        }
+//        if(paytm.isChecked())
+//        {
+//            Payment = "Pay with Paytm";
+//        }
 
 
         if(netbanking.isChecked())
         {
-            Payment = "Net Banking";
+            Payment = "Online Banking";
         }
 
         if(cashonhand.isChecked())
         {
-            Payment="Cash On Hand";
+            Payment="Cash on Hand";
         }
 
-        if(creditcard.isChecked())
+        if(swipe_card.isChecked())
         {
-            Payment="Credit/Debit Card";
+            Payment="Debit/Credit card Swipe";
         }
 
         System.out.println("payment mode..."+Payment);

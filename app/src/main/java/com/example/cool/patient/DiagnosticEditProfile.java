@@ -73,7 +73,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
     Bitmap mIcon11;
     ImageView adharimage, licenceImage;
     List<String> Spaliaty;
-    CheckBox cash_on_hand, debit_card, net_banking, pay_paym;
+    CheckBox cash_on_hand, swipe_card, net_banking;
     MagicButton gen_btn;
     RadioButton female,male;
     List<String>districtsList;
@@ -84,7 +84,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,myQualification, myAddress1, myAddress2, myGender,
             myLicenceNumber,myuploadLicence,myadharimage,myAadhar_num;
-    static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor ,mycash_on_hand,mydebit_card ,mynet_banking,mypay_paym;
+    static boolean mycash_on_hand,myswipe_card ,mynet_banking;
     FloatingActionButton addLicenceIcon,addAadharIcon;
     final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
 
@@ -126,9 +126,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         adharimage = (ImageView) findViewById(R.id.diag_aadhar_image);
         licenceImage = (ImageView) findViewById(R.id.Licence_Image);
         cash_on_hand = (CheckBox) findViewById(R.id.cash_on_hand);
-        debit_card = (CheckBox) findViewById(R.id.debit_card);
+        swipe_card = (CheckBox) findViewById(R.id.swipe_card);
         net_banking = (CheckBox) findViewById(R.id.net_banking);
-        pay_paym = (CheckBox) findViewById(R.id.pay_paym);
+//        pay_paym = (CheckBox) findViewById(R.id.pay_paym);
 
         aadhar_num = (EditText) findViewById(R.id.aadhaarNumber);
 
@@ -254,14 +254,14 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             validate=false;
         }
 
-        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !debit_card.isChecked() && !pay_paym.isChecked())
+        if(!cash_on_hand.isChecked() && !net_banking.isChecked() && !swipe_card.isChecked() )
         {
 //            Toast.makeText(getApplicationContext(),"Please select one option",Toast.LENGTH_SHORT).show();
 
             cash_on_hand.setError("please checked");
             net_banking.setError("plwase checked");
-            debit_card.setError("please checked");
-            pay_paym.setError("please checked");
+            swipe_card.setError("please checked");
+//            pay_paym.setError("please checked");
             validate=false;
         }
 
@@ -391,9 +391,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
                 mySalutation = (String) js.get("Suffix");
                 mycash_on_hand     =  (boolean) js.get("CashOnHand");
-                mydebit_card       =  (boolean) js.get("CreditDebit");
+                myswipe_card       =  (boolean) js.get("CreditDebit");
                 mynet_banking      =  (boolean) js.get("Netbanking");
-                mypay_paym         =   (boolean) js.get("Paytm");
+//                mypay_paym         =   (boolean) js.get("Paytm");
 
                 if(myGender.equals("Male"))
                 {
@@ -426,9 +426,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
 
                 mySalutation = (String) js.get("Suffix");
                 mycash_on_hand     =  (boolean) js.get("CashOnHand");
-                mydebit_card       =  (boolean) js.get("CreditDebit");
+                myswipe_card       =  (boolean) js.get("CreditDebit");
                 mynet_banking      =  (boolean) js.get("Netbanking");
-                mypay_paym         =   (boolean) js.get("Paytm");
+//                mypay_paym         =   (boolean) js.get("Paytm");
 
                 if(myGender.equals(""))
                 {
@@ -458,9 +458,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             }
 
             System.out.println("hand.."+mycash_on_hand);
-            System.out.println("card.."+mydebit_card);
+            System.out.println("card.."+myswipe_card);
             System.out.println("net.."+mynet_banking);
-            System.out.println("paytm.."+mypay_paym);
+//            System.out.println("paytm.."+mypay_paym);
 
 
             if(myGender.equals("Male"))
@@ -478,9 +478,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             }
 
             cash_on_hand.setChecked(mycash_on_hand);
-            debit_card.setChecked(mydebit_card);
+            swipe_card.setChecked(myswipe_card);
             net_banking.setChecked(mynet_banking);
-            pay_paym.setChecked(mypay_paym);
+//            pay_paym.setChecked(mypay_paym);
 
 
 //            name.setEnabled(false);
@@ -727,12 +727,17 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             System.out.println("mycash_on_hand if..."+mycash_on_hand);
         }
 
-        if(debit_card.isChecked())
+        if(swipe_card.isChecked())
         {
 //            myDiagnosticPromotion = false;
-            mydebit_card = true;
-            System.out.println("mydebit_card if..."+ mydebit_card);
+            myswipe_card = true;
+            System.out.println("myswipe_card if..."+ myswipe_card);
 
+        }
+        else
+        {
+            myswipe_card = false;
+            System.out.println("myswipe_card else..."+ myswipe_card);
         }
 
         if(net_banking.isChecked())
@@ -741,13 +746,18 @@ public class DiagnosticEditProfile extends AppCompatActivity {
             mynet_banking = true;
             System.out.println("mynet_banking if..."+ mynet_banking);
         }
-
-        if(pay_paym.isChecked())
+        else
         {
-//            myDiagnosticPromotion = false;
-            mypay_paym = true;
-            System.out.println("mypay_paym if..."+ mypay_paym);
+            mynet_banking = false;
+            System.out.println("mynet_banking if..."+ mynet_banking);
         }
+
+//        if(pay_paym.isChecked())
+//        {
+////            myDiagnosticPromotion = false;
+//            mypay_paym = true;
+//            System.out.println("mypay_paym if..."+ mypay_paym);
+//        }
 
         if(encodedLicenceCertificateImage == null)
         {
@@ -791,8 +801,8 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 data.put("Gender",myGender);
                 data.put("CashOnHand", mycash_on_hand);
                 data.put("Netbanking", mynet_banking);
-                data.put("Paytm", mypay_paym);
-                data.put("CreditDebit", mydebit_card);
+                data.put("Paytm", "");
+                data.put("CreditDebit", myswipe_card);
                 data.put("Suffix", newName);
                 data.put("AadharImage",encodedAadharImage);
                 data.put("LicenceCertificate",encodedLicenceCertificateImage);
@@ -812,8 +822,8 @@ public class DiagnosticEditProfile extends AppCompatActivity {
                 data.put("Gender",myGender);
                 data.put("CashOnHand", mycash_on_hand);
                 data.put("Netbanking", mynet_banking);
-                data.put("Paytm", mypay_paym);
-                data.put("CreditDebit", mydebit_card);
+                data.put("Paytm", "");
+                data.put("CreditDebit", myswipe_card);
                 data.put("Suffix", newName);
                 data.put("AadharImage",encodedAadharImage);
                 data.put("LicenceCertificate",encodedLicenceCertificateImage);
