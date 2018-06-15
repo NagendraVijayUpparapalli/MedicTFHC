@@ -62,14 +62,6 @@ public class MedicalShopManageAddress extends AppCompatActivity {
 
         new GetMedicalAllAddressDetails().execute(uploadServerUrl);
 
-//        arrayList = new ArrayList<DoctorManageAddressClass>();
-//        listview = (android.widget.ListView)findViewById(R.id.mylist);
-
-//        reason_Todelete = (MultiAutoCompleteTextView)findViewById(R.id.reason_delete);
-//        reasonToDelete = reason_Todelete.getText().toString().trim();
-//
-//        System.out.println("comm.."+reasonToDelete);
-
         myList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);

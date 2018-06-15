@@ -173,6 +173,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
 
             }
         });
+
         swipe_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +184,6 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
                 }
             }
         });
-
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
