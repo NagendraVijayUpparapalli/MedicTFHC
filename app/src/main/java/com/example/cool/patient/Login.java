@@ -186,7 +186,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
 
-//                validateLogin();
+                validateLogin();
 
 
             }
