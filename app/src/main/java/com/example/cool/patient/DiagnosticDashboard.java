@@ -720,14 +720,14 @@ public class DiagnosticDashboard extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent (DiagnosticDashboard.this,DiagnosticAddAddress.class);
-            intent.putExtra("id",getUserId);
-            startActivity(intent);
+//            Intent intent = new Intent (DiagnosticDashboard.this,DiagnosticAddAddress.class);
+//            intent.putExtra("id",getUserId);
+//            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent (DiagnosticDashboard.this,DiagnosticManageAddress.class);
-            intent.putExtra("id",getUserId);
-            startActivity(intent);
+//            Intent intent = new Intent (DiagnosticDashboard.this,DiagnosticManageAddress.class);
+//            intent.putExtra("id",getUserId);
+//            startActivity(intent);
         }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -735,13 +735,13 @@ public class DiagnosticDashboard extends AppCompatActivity
         }
 
         else if(id == R.id.Logout)  {
-            Intent logout =  new Intent(DiagnosticDashboard.this,Login.class);
-            startActivity(logout);
+//            Intent logout =  new Intent(DiagnosticDashboard.this,Login.class);
+//            startActivity(logout);
         }
         else if(id == R.id.change_password)  {
-            Intent change =  new Intent(DiagnosticDashboard.this,ChangePassword.class);
-            change.putExtra("mobile",mobile_number);
-            startActivity(change);
+//            Intent change =  new Intent(DiagnosticDashboard.this,ChangePassword.class);
+//            change.putExtra("mobile",mobile_number);
+//            startActivity(change);
 
         }
 

@@ -4,11 +4,14 @@ package com.example.cool.patient;
  * Created by Udayasri on 01-06-2018.
  */
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +19,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 
 
 class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter.ViewHolder>{
@@ -34,9 +48,19 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
     String patientId;
     boolean emergencyService;
 
-    String doctorname,hospitalname,doornum,city,state,payment,mobile,navigaton,patientMobileNumber;
+    String doctorname,hospitalname,doornum,city,state,payment,mobile,navigaton,patientMobileNumber,myaddressId;
 
     ApiBaseUrl baseUrl = new ApiBaseUrl();
+
+    Dialog MyDialog;
+    TextView myshopname,mydoornum,mycity,mystate,myfee,mypayment,myshopphonenum,mynavigation,
+            myContactPersonname,mySMS,mycancel;
+    String uri=null;
+
+    Button button;
+
+    ImageView mycenterImage;
+    ProgressDialog progressDialog;
 
 
     public MedicalShopListAdapter(GetCurrentMedicalShopsList getCurrentMedicalList,List<MedicalShopClass> medicalClassList) {
@@ -77,18 +101,78 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context,ViewMedicalShop.class);
-                    intent.putExtra("userId",patientId);
-                    intent.putExtra("userMobile",patientMobileNumber);
-                    intent.putExtra("shopName",Shopname.getText().toString());
-                    intent.putExtra("addressId",addressId.getText().toString());
-                    intent.putExtra("medicalID",medicalShopeID.getText().toString());
-                    intent.putExtra("lat",lati.getText().toString());
-                    intent.putExtra("long",longi.getText().toString());
-                    intent.putExtra("image",centerImage.getText().toString());
-                    intent.putExtra("mobile",medicalphonenum.getText().toString());
-                    intent.putExtra("ContactPerson",ContactPerson.getText().toString());
-                    context.startActivity(intent);
+
+                    new GetMeidcalAllAddressDetails().execute(baseUrl.getUrl()+"MSGetAddress?ID="+medicalShopeID.getText().toString());
+
+                    MyDialog =  new Dialog(context);
+                    MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    MyDialog.setContentView(R.layout.medicalshopview);
+
+                    myshopname=(TextView) MyDialog.findViewById(R.id.Shop_name);
+                    myContactPersonname = (TextView)MyDialog.findViewById(R.id.ContactPersonname);
+                    mydoornum=(TextView) MyDialog.findViewById(R.id.dr_no);
+                    mycity=(TextView) MyDialog.findViewById(R.id.city);
+                    mystate=(TextView) MyDialog.findViewById(R.id.state);
+                    myshopphonenum=(TextView) MyDialog.findViewById(R.id.Phononumber);
+                    mynavigation =(TextView) MyDialog.findViewById(R.id.navigate);
+                    mySMS = (TextView) MyDialog.findViewById(R.id.sms);
+                    mycenterImage = (ImageView) MyDialog.findViewById(R.id.centerImage);
+
+                    mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+
+                    mycancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyDialog.cancel();
+                        }
+                    });
+
+                    MyDialog.setCancelable(false);
+                    MyDialog.setCanceledOnTouchOutside(false);
+                    MyDialog.show();
+
+                    new GetProfileImageTask(mycenterImage).execute(baseUrl.getImageUrl()+centerImage.getText().toString());
+
+                    mySMS.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            new Mytask().execute();
+                        }
+                    });
+                    mynavigation.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lati.getText().toString()+","+longi.getText().toString()+"("+Shopname.getText().toString()+")");
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            context.startActivity(intent);
+                        }
+                    });
+
+
+                    myContactPersonname.setText(ContactPerson.getText().toString());
+                    myshopname.setText(Shopname.getText().toString());
+                    myshopphonenum.setText(medicalphonenum.getText().toString());
+
+                    myaddressId = addressId.getText().toString();
+
+                    System.out.println("shop name.."+Shopname.getText().toString());
+                    System.out.println("addres id.."+addressId.getText().toString());
+
+//                    System.out.println("fee.."+myfee);
+                    System.out.println("phone.."+medicalphonenum.getText().toString());
+//                    Intent intent = new Intent(context,ViewMedicalShop.class);
+//                    intent.putExtra("userId",patientId);
+//                    intent.putExtra("userMobile",patientMobileNumber);
+//                    intent.putExtra("shopName",Shopname.getText().toString());
+//                    intent.putExtra("addressId",addressId.getText().toString());
+//                    intent.putExtra("medicalID",medicalShopeID.getText().toString());
+//                    intent.putExtra("lat",lati.getText().toString());
+//                    intent.putExtra("long",longi.getText().toString());
+//                    intent.putExtra("image",centerImage.getText().toString());
+//                    intent.putExtra("mobile",medicalphonenum.getText().toString());
+//                    intent.putExtra("ContactPerson",ContactPerson.getText().toString());
+//                    context.startActivity(intent);
                 }
             });
 
@@ -165,6 +249,24 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
     private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(context);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
         public GetProfileImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
@@ -184,7 +286,109 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+            progressDialog.dismiss();
         }
 
+    }
+
+
+    //Get all addresses for doctor list from api call
+    private class GetMeidcalAllAddressDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(context);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("Api response.....", result);
+
+            getAllAddress(result);
+            progressDialog.dismiss();
+        }
+    }
+
+    private void getAllAddress(String result) {
+        try {
+
+            JSONArray jarray = new JSONArray(result);
+
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject object = jarray.getJSONObject(i);
+                String myaddressId = object.getString("AddressID");
+                System.out.println("addrid.."+myaddressId);
+
+                if(myaddressId.equals(myaddressId))
+                {
+                    System.out.println("if cond");
+                    String myaddress = object.getString("Address1");
+                    String  myShopName = object.getString("ShopName");
+                    String mystateName = object.getString("StateName");
+
+                    String mycityName = object.getString("CityName");
+
+                    //  hospitalname.setText(myShopName);
+                    mydoornum.setText(myaddress);
+                    mycity.setText(mycityName);
+                    mystate.setText(mystateName);
+
+                    break;
+                }
+//                else {
+//                    continue;
+//                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

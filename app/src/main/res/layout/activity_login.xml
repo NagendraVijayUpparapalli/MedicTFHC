@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -21,15 +22,16 @@
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="5dp" />
+
         <ImageView
             android:id="@+id/image1"
+            android:layout_marginTop="40dp"
             android:layout_weight="0.1"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="90sp"
             android:layout_below="@+id/cool"
             android:scaleType="fitCenter"
-            android:src="@drawable/mtw" />
-
+            android:src="@drawable/mtw" android:contentDescription="TODO"/>
 
         <TextView
             android:id="@+id/font"
@@ -37,12 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="12dp"
             android:layout_below="@+id/image1"
             android:gravity="center"
-            android:text="@string/loginFont"
+            android:text="myLogin"
             android:textColor="#fff"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:layout_marginBottom="12dp"/>
 
@@ -55,7 +57,7 @@
             android:weightSum="7"
             android:id="@+id/layoutId"
             android:foreground="@drawable/trans_rectangle"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="30dp"
             android:layout_below="@+id/font"
             android:layout_marginEnd="30dp"
@@ -69,6 +71,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginEnd="10dp"
 
                 android:layout_marginBottom="10dp">
 
@@ -110,7 +113,7 @@
                 android:paddingStart="10dp"
                 android:inputType="phone"
                 android:textColor="#000"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textColorHint="#b8867e7e"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -127,7 +130,7 @@
                 android:inputType="phone"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:textColor="#000"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textColorHint="#b8867e7e"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -144,7 +147,7 @@
                 android:drawablePadding="5dp"
                 android:paddingStart="10dp"
                 android:textColor="#000"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:inputType="textPassword"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -159,26 +162,42 @@
                 android:textColor="@android:color/white"
                 android:text="Show Password" />
 
-            <br.com.bloder.magic.view.MagicButton
-                android:id="@+id/btn_login"
+            <com.andexert.library.RippleView
+                android:id="@+id/rippleView"
                 android:layout_width="wrap_content"
+                android:layout_below="@+id/actionbar"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="90dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="90dp"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                app:button_icon="@drawable/login_icon"
-                app:button_icon_height="25dp"
-                app:button_icon_width="23dp"
-                app:expandable_area_color="#4796C2"
-                app:hide_text="@string/btn_Login"
-                app:hide_text_color="@android:color/white"
-                app:hide_text_size="8sp"
-                app:icon_button_color="#ace68a"
-                app:magic_button_size="50dp" />
+                ripple:rv_type="rectangle"
+                ripple:rv_zoom="true">
+
+                <TextView
+                    android:id="@+id/rect_child"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="Hello World!"
+                    android:background="#f938a72f"/>
+
+            </com.andexert.library.RippleView>
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_login"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginEnd="90dp"-->
+                <!--android:layout_marginLeft="90dp"-->
+                <!--android:layout_marginRight="90dp"-->
+                <!--android:layout_marginStart="70dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text="LOGIN"-->
+                 <!--/>-->
 
 
         </LinearLayout>

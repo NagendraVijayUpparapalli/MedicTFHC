@@ -1,4 +1,5 @@
 package com.example.cool.patient;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -55,8 +57,8 @@ import java.util.Map;
 
 public class ViewMedicalShop extends AppCompatActivity {
 
-    TextView shopname,hospitalname,doornum,city,state,fee,payment,shopphonenum,navigation,ContactPersonname,SMS;
-    EditText appointmentdate,patientname,age,patientmobileno,mail,aadharnum,reason;
+    TextView shopname,hospitalname,doornum,city,state,fee,payment,shopphonenum,navigation,ContactPersonname,SMS,cancel;
+
     Button button;
 
     ImageView doctorimage;
@@ -89,6 +91,8 @@ public class ViewMedicalShop extends AppCompatActivity {
     String uri=null;
     static String mainUrl = null;
 
+    Dialog MyDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,15 +113,33 @@ public class ViewMedicalShop extends AppCompatActivity {
 
         new GetMeidcalAllAddressDetails().execute(baseUrl.getUrl()+"MSGetAddress?ID="+medicalID);
 
-        shopname=(TextView) findViewById(R.id.Shop_name);
-        ContactPersonname = (TextView)findViewById(R.id.ContactPersonname);
-        doornum=(TextView) findViewById(R.id.dr_no);
-        city=(TextView) findViewById(R.id.city);
-        state=(TextView) findViewById(R.id.state);
-        shopphonenum=(TextView) findViewById(R.id.Phononumber);
-        navigation =(TextView) findViewById(R.id.navigate);
-        SMS = (TextView) findViewById(R.id.sms);
-        centerImage = (ImageView) findViewById(R.id.centerImage);
+        MyDialog =  new Dialog(ViewMedicalShop.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.medicalshopview);
+
+        shopname=(TextView) MyDialog.findViewById(R.id.Shop_name);
+        ContactPersonname = (TextView)MyDialog.findViewById(R.id.ContactPersonname);
+        doornum=(TextView) MyDialog.findViewById(R.id.dr_no);
+        city=(TextView) MyDialog.findViewById(R.id.city);
+        state=(TextView) MyDialog.findViewById(R.id.state);
+        shopphonenum=(TextView) MyDialog.findViewById(R.id.Phononumber);
+        navigation =(TextView) MyDialog.findViewById(R.id.navigate);
+        SMS = (TextView) MyDialog.findViewById(R.id.sms);
+        centerImage = (ImageView) MyDialog.findViewById(R.id.centerImage);
+
+        cancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+
+        MyDialog.setCancelable(false);
+        MyDialog.setCanceledOnTouchOutside(false);
+        MyDialog.show();
 
         new GetProfileImageTask(centerImage).execute(baseUrl.getImageUrl()+myImage);
 
@@ -147,12 +169,6 @@ public class ViewMedicalShop extends AppCompatActivity {
 
         System.out.println("fee.."+myfee);
         System.out.println("phone.."+myphone);
-
-        Calendar cal=Calendar.getInstance();
-        year1=cal.get(Calendar.YEAR);
-        month=cal.get(Calendar.MONTH);
-        day=cal.get(Calendar.DAY_OF_MONTH);
-        int dayName = cal.DAY_OF_WEEK;
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

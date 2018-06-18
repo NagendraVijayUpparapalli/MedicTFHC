@@ -546,7 +546,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(GetCurrentMedicalShopsList.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 
@@ -621,7 +621,6 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             }
             return data;
         }
-
 
         @Override
         protected void onPostExecute(String result) {

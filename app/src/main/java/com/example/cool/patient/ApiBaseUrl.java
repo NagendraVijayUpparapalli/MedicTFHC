@@ -29,5 +29,10 @@ public class ApiBaseUrl {
         return "https://ejson.mgage.solutions/sendEmail";
     }
 
+    public String getTokenUrl()
+    {
+        return "https://meditfhc.com/token";
+    }
+
 
 }

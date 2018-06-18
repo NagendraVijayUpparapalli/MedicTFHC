@@ -90,6 +90,9 @@
     <string name="registration_number">Registration Number</string>
     <string name="marital_status">Marital Status :</string>
     <string name="blood_group">Blood Group :</string>
+    <!--<string name="my_login">my Login</string>-->
+    <string name="my_login">my Login</string>
+    <string name="show_password">Show Password</string>
 
 
 </resources>

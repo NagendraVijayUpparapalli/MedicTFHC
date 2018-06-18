@@ -53,5 +53,6 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     compile 'com.github.twinkle942910:monthyearpicker:0.0.1'
     compile 'com.jsibbold:zoomage:1.1.0'
+    compile 'com.github.traex.rippleeffect:library:1.3'
 
 }

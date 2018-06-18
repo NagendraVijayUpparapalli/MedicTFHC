@@ -399,7 +399,7 @@
     <string name="btnSignup">SIGN UP</string>
 
     <!--login string fields-->
-    <string name="loginFont">Login</string>
+
     <string name="aadhaarNumber">Aadhaar Number</string>
     <string name="btn_Login">LOGIN</string>
     <string name="dont_have_account">Don\'t have Account?</string>
@@ -440,6 +440,9 @@
     <string name="registration_number">Registration Number</string>
     <string name="marital_status">Marital Status :</string>
     <string name="blood_group">Blood Group :</string>
+    <string name="my_login">my Login</string>
+    <string name="show_password">Show Password</string>
+    <!--<string name="my_login">my Login</string>-->
 
 
 </resources>

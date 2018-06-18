@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -14,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.andexert.library.RippleView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,6 +91,7 @@ public class Login extends Activity {
     ApiBaseUrl baseUrl;
 
     ProgressDialog progressDialog;
+    static String access_token = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,19 @@ public class Login extends Activity {
         setContentView(R.layout.activity_login);
 
         baseUrl = new ApiBaseUrl();
+
+//        String id = MyAppStorageClass.getInstance().getPreferenceManager().getString(MyPreferenceManager.KEY_ID);
+//        String accessToken = MyAppStorageClass.getInstance().getPreferenceManager().getString("access_token");
+
+//        SharedPreferences sharedPreferences=mContext.getSharedPreferences("", Context.MODE_PRIVATE);
+//        String access_token = sharedPreferences.getString("access_token", null);
+//        System.out.println("my token value login..."+accessToken);
+
+//        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+//        access_token = sharedPreferences.getString("access_token", null);
+//
+//        System.out.println("my token value login..."+access_token);
+
 
 //        getSupportActionBar().hide();
         Typeface mytapeface = Typeface.createFromAsset(getAssets(),"Rosewood.ttf");
@@ -151,6 +169,7 @@ public class Login extends Activity {
             }
         });
 
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -159,12 +178,15 @@ public class Login extends Activity {
             getLocation();
         }
 
-        button = (MagicButton) findViewById(R.id.btn_login);
-        button.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+//        button = (MagicButton) findViewById(R.id.btn_login);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                validateLogin();
+//                validateLogin();
 
 
             }
@@ -187,27 +209,6 @@ public class Login extends Activity {
             }
         });
 
-//        radioButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                radiobuttonid = radioGroup.getCheckedRadioButtonId();
-//                System.out.println("radio...."+radiobuttonid);
-//                // find the radioButton by returned id
-//                radioButton = (RadioButton) findViewById(radiobuttonid);
-//
-//                if(radioButton.getText().equals("MobileNumber"))
-//                {
-//                    mobile_num.setVisibility(View.VISIBLE);
-//                }
-//                else
-//                {
-//                    mobile_num.setVisibility(View.GONE);
-//                    aadhar_num.setVisibility(View.VISIBLE);
-//                }
-//                Toast.makeText(getBaseContext(),radioButton.getText(),Toast.LENGTH_LONG).show();
-//            }
-//        });
-
         new_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,42 +224,6 @@ public class Login extends Activity {
               startActivity(intent);
             }
         });
-
-    }
-
-
-    public void aadharRadioClick(View v)
-    {
-        radiobuttonid = radioGroup.getCheckedRadioButtonId();
-        System.out.println("radio...."+radiobuttonid);
-        // find the radioButton by returned id
-        radioButton = (RadioButton) findViewById(radiobuttonid);
-
-    }
-
-
-    public void mobileRadioClick(View v)
-    {
-        radiobuttonid = radioGroup.getCheckedRadioButtonId();
-        System.out.println("radio...."+radiobuttonid);
-        // find the radioButton by returned id
-        radioButton = (RadioButton) findViewById(radiobuttonid);
-
-//        Intent i2 = new Intent(Login.this, Registration.class);
-//        startActivity(i2);
-
-//        if(radioButton.getText().equals("AadharNumber"))
-//        {
-//            mobile_num.setVisibility(View.GONE);
-//            aadhar_num.setVisibility(View.VISIBLE);
-//
-//
-//        }
-//        else
-//        {
-//            mobile_num.setVisibility(View.VISIBLE);
-//        }
-//        Toast.makeText(getBaseContext(),radioButton.getText(),Toast.LENGTH_LONG).show();
 
     }
 
@@ -305,10 +270,11 @@ public class Login extends Activity {
             phone = mobile_num.getText().toString().trim();
             aadhar = aadhar_num.getText().toString().trim();
 
-            uploadServerUrl = baseUrl.getUrl()+"UserLogin";
+
             String js = formatDataAsJson();
             System.out.println("btn clickable text...");
-            new SendDetails().execute(uploadServerUrl,js.toString());
+            new SendDetails().execute(baseUrl.getUrl()+"UserLogin",js.toString());
+//            new SendDetails().execute(baseUrl.getUrl()+"UserLoginNew",js.toString());
         }
     }
 
@@ -336,6 +302,10 @@ public class Login extends Activity {
 
             String data = "";
 
+            String auth = "Bearer "+access_token;
+
+            System.out.println("auth token...."+auth);
+
             HttpURLConnection httpURLConnection = null;
             try {
                 System.out.println("dsfafssss....");
@@ -343,9 +313,9 @@ public class Login extends Activity {
                 httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
 
                 httpURLConnection.setUseCaches(false);
-//connection.setRequestProperty("Content-Type", "application/json");
-                httpURLConnection.setRequestProperty("Accept", "application/json");
+//                httpURLConnection.setRequestProperty("Accept", "application/json");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
+//                httpURLConnection.setRequestProperty("Authorization",auth);
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
@@ -384,6 +354,18 @@ public class Login extends Activity {
                         data += current;
                     }
                 }
+                else if(statuscode == 401){
+//                    showMessage();
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
 
             }
             catch (FileNotFoundException e) {
@@ -404,7 +386,7 @@ public class Login extends Activity {
             super.onPostExecute(result);
             str = result;
 
-            Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            Log.e("TAG result login...", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             progressDialog.dismiss();
             JSONObject js;
 
