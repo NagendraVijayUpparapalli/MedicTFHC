@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
         <activity
-            android:name=".SplashScreen"
+            android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme">
@@ -33,66 +33,66 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Language_Optional"
+            android:name=".common.Language_Optional"
             android:label="@string/app_name_Select_language"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".Subscription_for_Urban"
+            android:name=".subscriptionPlan.Subscription_for_Urban"
             android:label="@string/Subscription"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".patient.PatientDashBoard"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".Login"
+            android:name=".common.Login"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".Registration"
+            android:name=".common.Registration"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".common.ForgotPassword"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".PatientEditProfile"
+            android:name=".patient.PatientEditProfile"
             android:label="@string/Edit_profile"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".ContactUs"
+            android:name=".common.ContactUs"
             android:label="@string/Contactus"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".ReachUs"
+            android:name=".common.ReachUs"
             android:label="@string/Reachus"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
 
         <meta-data
@@ -100,256 +100,253 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".BloodBank"
+            android:name=".patient.ViewBloodBanksList.BloodBank"
             android:label="@string/title_activity_blood_bank"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".ViewBloodBank"
+            android:name=".patient.ViewBloodBanksList.ViewBloodBank"
             android:label="View BloodBank"
-            android:parentActivityName=".BloodBank"
+            android:parentActivityName=".patient.ViewBloodBanksList.BloodBank"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.BloodBank" />
+                android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank" />
         </activity>
         <activity
-            android:name=".AboutUs"
+            android:name=".common.aboutUs.AboutUs"
             android:label="About Us"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
-        <activity android:name=".SelectCity" />
+        <activity android:name=".common.SelectCity" />
         <activity
-            android:name=".BloodBank1"
+            android:name=".patient.ViewBloodBanksList.BloodBank1"
             android:label="@string/title_activity_blood_bank"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.BloodBank1" />
+                android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank1" />
         </activity>
         <activity
-            android:name=".MainActivity1"
+            android:name=".common.ChangePassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChangePassword"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".DoctorEditProfile"
+            android:name=".doctor.DoctorEditProfile"
             android:label="@string/Edit_profile"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cool.patient.MainActivity" />
+                android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
         <activity
-            android:name=".DoctorDashboard"
+            android:name=".doctor.DashBoardCalendar.DoctorDashboard"
             android:label="@string/title_activity_doctor_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".DoctorAddAddress"
+            android:name=".doctor.AddAddress.DoctorAddAddress"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticAddAddress"
+            android:name=".diagnostic.AddAddress.DiagnosticAddAddress"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticEditProfile"
+            android:name=".diagnostic.DiagnosticEditProfile"
             android:label="@string/Edit_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticDashboard"
+            android:name=".diagnostic.DashBoardCalendar.DiagnosticDashboard"
             android:label="@string/title_activity_diagnostic_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".DiagnosticManageAddress"
+            android:name=".diagnostic.ManageAddress.DiagnosticManageAddress"
             android:label="Manage Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorManageAddress"
+            android:name=".doctor.ManageAddress.DoctorManageAddress"
             android:label="Manage Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagAddAddress"
+            android:name=".diagnostic.AddAddress.DiagnosticAddAddressFromMaps"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".common.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorUpdateAddress"
+            android:name=".doctor.ManageAddress.DoctorUpdateAddress"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PatientBookAppointmentToDoctor"
+            android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"
             android:label="Book Doctor"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DocAddAddress"
+            android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DocUpdateAddress"
+            android:name=".doctor.ManageAddress.DoctorUpdateAddressFromMaps"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentDoctorsList"
+            android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList"
             android:label="Doctors List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorDeleteAddress"
+            android:name=".doctor.ManageAddress.DoctorDeleteAddress"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetPatientDetailsListInDoctor"
+            android:name=".doctor.DashBoardCalendar.GetPatientDetailsListInDoctor"
             android:label="Patient List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetPatientDetailsTotalDataInDoctor"
+            android:name=".doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor"
             android:label="View Appointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PatientMyDoctorAppointments"
+            android:name=".patient.MyDoctorAppointments.PatientMyDoctorAppointments"
             android:label="My Doctor Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewPatientMyDoctorAppointment"
+            android:name=".patient.MyDoctorAppointments.ViewPatientMyDoctorAppointment"
             android:label="View MyDoctorAppointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorTodaysAppointmentsForPatient"
+            android:name=".doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient"
             android:label="Todays Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PatientHistoryInDoctor"
+            android:name=".doctor.TodaysAppointments.PatientHistoryInDoctor"
             android:label="History"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewPatientHistoryInDoctor"
+            android:name=".doctor.TodaysAppointments.ViewPatientHistoryInDoctor"
             android:label="View History"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorTodaysAppointment"
+            android:name=".doctor.TodaysAppointments.DoctorTodaysAppointment"
             android:label="View Todays Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Subscription_for_Rural"
+            android:name=".subscriptionPlan.Subscription_for_Rural"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SubscriptionPlanAlertDialog"
+            android:name=".subscriptionPlan.SubscriptionPlanAlertDialog"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentDoctorsList11"
+            android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList11"
             android:label="Doctors List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DoctorReferDiagnostic"
+            android:name=".doctor.TodaysAppointments.DoctorReferDiagnostic"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticsUpdateAddress"
+            android:name=".diagnostic.ManageAddress.DiagnosticsUpdateAddress"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagUpdateAddress"
+            android:name=".diagnostic.ManageAddress.DiagnosticUpdateAddressFromMaps"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentDiagnosticsList"
+            android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList"
             android:label="Diagnostics List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PatientBookAppointmentToDiagnostics"
+            android:name="patient.BookAppointment.PatientBookAppointmentToDiagnostics"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopDashboard"
+            android:name=".medicalShop.MedicalShopDashboard"
             android:label="@string/title_activity_medical_shop_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".GetPatientDetailsTotalDataInDiagnostics"
+            android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsTotalDataInDiagnostics"
             android:label="View Appointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetPatientDetailsListInDiagnostics"
+            android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsListInDiagnostics"
             android:label="Patient List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticsTodaysAppointments"
+            android:name=".diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments"
             android:label="Todays Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DiagnosticsViewTodaysApppointment"
+            android:name=".diagnostic.TodaysAppointments.DiagnosticsViewTodaysApppointment"
             android:label="View Todays Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainPatientHistoryInDiagnostics"
+            android:name=".diagnostic.TodaysAppointments.MainPatientHistoryInDiagnostics"
             android:label="Patient History"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewPatientHistoryInDiagnosticsTodaysAppointments"
+            android:name=".diagnostic.TodaysAppointments.ViewPatientHistoryInDiagnosticsTodaysAppointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopEditProfile"
+            android:name=".medicalShop.MedicalShopEditProfile"
             android:label="@string/Edit_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopAddAddress"
+            android:name=".medicalShop.AddAddress.MedicalShopAddAddress"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopAddAddressFromMaps"
+            android:name=".medicalShop.AddAddress.MedicalShopAddAddressFromMaps"
             android:label="Add Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopManageAddress"
+            android:name=".medicalShop.ManageAddress.MedicalShopManageAddress"
             android:label="Manage Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopUpdateAddress"
+            android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddress"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopUpdateAddressFromMaps"
+            android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddressFromMaps"
             android:label="Update Address"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MedicalShopDeleteAddress"
+            android:name=".medicalShop.ManageAddress.MedicalShopDeleteAddress"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentMedicalShopsList"
+            android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList"
             android:label="MedicalShops List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PatientMyDiagnosticAppointments"
+            android:name=".patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments"
             android:label="My Diagnostic Appointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewPatientMyDiagnosticAppointments"
+            android:name=".patient.MyDiagnosticAppointments.ViewPatientMyDiagnosticAppointments"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewMedicalShop"
+            android:name=".patient.ViewMedicalShopsList.ViewMedicalShop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentDiagnosticsList11"
+            android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList11"
             android:label="Diagnostics List"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GetCurrentMedicalShopsList11"
+            android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList11"
             android:label="MedicalShops List"
             android:screenOrientation="portrait" />
-        <activity android:name=".DiagnosticDeleteAddress"></activity>
+        <activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"></activity>
     </application>
 
 </manifest>
