@@ -71,7 +71,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
     static String uploadServerUrl = null;
     static String getcity=null;
     LocationManager locationManager;
-    String lattitude,longitude;
+    double lattitude,longitude;
     static double lat,lng;
     Geocoder geocoder;
     List<Address> addresses;
@@ -81,6 +81,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
     static double selectedCitylat;
     static double selectedCitylong;
+    static String myDistance = null;
+    double currentlatti,currentlongi;
 
     static String selectedlocation=null;
 
@@ -326,10 +328,10 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
             if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
 
@@ -353,7 +355,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -380,12 +382,12 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 }
 
             } else  if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
-                System.out.print("longi...."+lattitude);
+                System.out.print("longi...."+longitude);
 
                 String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
@@ -408,7 +410,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -435,13 +437,12 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 }
 
             } else  if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
-                System.out.print("longi...."+lattitude);
-
+                System.out.print("longi...."+longitude);
                 String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
@@ -459,7 +460,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -676,8 +677,18 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
                 String medicImage = object.getString("ShopImage");
 
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
 
                 String emergencyService = "";
 
@@ -698,7 +709,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
 
                 MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
-                        medicImage,latitude,longitude,emergencyService,cashonHand,creditDebit,netBanking,paytm);
+                        medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
 
                 myList.add(medicalClass);
             }
@@ -707,6 +718,28 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;//in kms
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 
@@ -879,8 +912,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                         l1.add(new LatLng(a.getLatitude(),a.getLongitude()));
                     }
                 }
-                selectedCitylat = l1.get(0).latitude;
-                selectedCitylong = l1.get(0).longitude;
+                lattitude = l1.get(0).latitude;
+                longitude = l1.get(0).longitude;
 
                 String js = specialityBasedFormatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";

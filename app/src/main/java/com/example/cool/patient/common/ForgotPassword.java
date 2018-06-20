@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 
 import java.io.BufferedReader;
@@ -104,8 +105,11 @@ public class ForgotPassword extends Activity {
 
         mobile_num = (EditText) findViewById(R.id.mobileNumber);
 
-        button = (MagicButton) findViewById(R.id.btn_forgot);
-        button.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+//        button = (MagicButton) findViewById(R.id.btn_login);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ForgotPassword.this,"Button Clicked",Toast.LENGTH_SHORT).show();

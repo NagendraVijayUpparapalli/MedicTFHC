@@ -51,7 +51,7 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
 
         public int currentItem;
         public ImageView profileImage;
-        public TextView doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId;
+        public TextView doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId,distance;
 
 
 
@@ -72,6 +72,7 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
             addressId=(TextView) itemView.findViewById(R.id.addressId);
             doctorId=(TextView) itemView.findViewById(R.id.doctorId);
             userId=(TextView) itemView.findViewById(R.id.userid);
+//            distance  = (TextView) itemView.findViewById(R.id.distance);
 
             profileImage = (ImageView) itemView.findViewById(R.id.docImage);
 
@@ -123,55 +124,6 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
                 }
             });
 
-
-
-//        district = (TextView)itemView.findViewById(R.id.district);
-//        state = (TextView)itemView.findViewById(R.id.state);
-//        contactPerson = (TextView)itemView.findViewById(R.id.contact_person_name);
-//        mobile = (TextView)itemView.findViewById(R.id.phone_number);
-//        profileImage = (ImageView) itemView.findViewById(R.id.profile_image);
-
-
-//        edit = (Button) itemView.findViewById(R.id.Edit);
-
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(itemView.getContext(),DoctorUpdateAddress.class);
-//
-//                intent.putExtra("addressId",addressId);
-//                intent.putExtra("hospitalName",hospitalName.getText().toString());
-//                intent.putExtra("address",address.getText().toString());
-//                intent.putExtra("city",city.getText().toString());
-//                intent.putExtra("pincode",pincode.getText().toString());
-//                intent.putExtra("district",district.getText().toString());
-//                intent.putExtra("state",state.getText().toString());
-//                intent.putExtra("contactName",contactPerson.getText().toString());
-//                intent.putExtra("mobile",mobile.getText().toString());
-//
-//                intent.putExtra("fee",consultationFee);
-//                intent.putExtra("emergencyContact",emergencyContact);
-//
-//                intent.putExtra("lati",lati);
-//                intent.putExtra("longi",longi);
-//                intent.putExtra("comments",comments);
-//                intent.putExtra("emergencyService",emergencyService);
-//
-//                itemView.getContext().startActivity(intent);
-//            }
-//        });
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View v) {
-//
-//                    int position = getAdapterPosition();
-//                    itemView.getContext().startActivity(new Intent(v.getContext(),Registration.class));
-//
-////                    Snackbar.make(v, "Click detected on item " + position,
-////                            Snackbar.LENGTH_LONG)
-////                            .setAction("Action", null).show();
-//
-//                }
-//            });
         }
     }
 
@@ -194,7 +146,9 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
         viewHolder.doctorphonenum.setText(doctorClassList.get(i).getMobile());
         viewHolder.addressId.setText(doctorClassList.get(i).getAddressId());
         viewHolder.doctorId.setText(doctorClassList.get(i).getDoctorId());
-//        viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
+        viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
+//        viewHolder.distance.setText(doctorClassList.get(i).getDistance());
+
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorClassList.get(i).getDoctorImage());
@@ -211,36 +165,6 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
     public int getItemCount() {
         return doctorClassList.size();
     }
-
-
-
-//    public void checkRegisteredUserOrNotAlert()
-//    {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-//        alert.setTitle("Do you want to take Appointment for Register user?");
-//        //  alert.show();
-//        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                intent.putExtra("doctorName",);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setCancelable(false);
-//        alertDialog1 = alert.create();
-//        alertDialog1.setCanceledOnTouchOutside(false);
-//        alert.show();
-//    }
 
     private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;

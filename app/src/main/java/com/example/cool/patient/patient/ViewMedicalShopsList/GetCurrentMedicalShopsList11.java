@@ -77,6 +77,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity {
 
     static double selectedCitylat;
     static double selectedCitylong;
+    static String myDistance = null;
 
     static String selectedlocation=null;
 
@@ -419,8 +420,21 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity {
 
                 String medicImage = object.getString("ShopImage");
 
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+
+//                System.out.println("lati value city....."+currentlongi+"longi value city....."+currentlongi);
+//                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
+
+                System.out.println("distance from current to ur selected location in diag...."+myDistance);
+
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
 
                 String emergencyService = "";
 
@@ -428,6 +442,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity {
                 {
                     emergencyService = object.getString("EmergencyService");
                 }
+
                 else
                 {
                     emergencyService = "";
@@ -441,7 +456,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity {
 
 
                 MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
-                        medicImage,latitude,longitude,emergencyService,cashonHand,creditDebit,netBanking,paytm);
+                        medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
 
                 myList.add(medicalClass);
             }
@@ -450,6 +465,28 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;//in kms
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 

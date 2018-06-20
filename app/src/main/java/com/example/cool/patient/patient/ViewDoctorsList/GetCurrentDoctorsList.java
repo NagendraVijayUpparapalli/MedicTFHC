@@ -72,12 +72,15 @@ public class GetCurrentDoctorsList extends AppCompatActivity
     static String uploadServerUrl = null;
     static String getcity=null;
     LocationManager locationManager;
-    String lattitude,longitude;
+    double lattitude,longitude;
     static double lat,lng;
     Geocoder geocoder;
     List<Address> addresses;
     List<Address> fulladdress;
     private static final int REQUEST_LOCATION = 1;
+
+    static String myDistance = null;
+    double currentlatti,currentlongi;
 
 
     static double selectedCitylat;
@@ -312,10 +315,10 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
             if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
 
@@ -339,7 +342,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -366,10 +369,10 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 }
 
             } else  if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location1.getLatitude();
+                currentlongi = location1.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
@@ -394,7 +397,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -421,10 +424,10 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 }
 
             } else  if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location2.getLatitude();
+                currentlongi = location2.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
@@ -445,7 +448,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -666,13 +669,32 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 String specialityName = object.getString("SpecialityName");
                 String doctorImage = object.getString("DoctorImage");
                 String experience = object.getString("Experience");
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
-                String emergencyService = object.getString("EmergencyService");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
 
 
-                String consultationFee = "100";
-                String consultationPrice = "100";
+                String consultationFee = object.getString("ConsultationFee");
+                String consultationPrice = object.getString("ConsultationFee");
 
                 String cashonHand = object.getString("CashOnHand");
                 String creditDebit = object.getString("CreditDebit");
@@ -681,7 +703,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
 
                 DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                        doctorImage,experience,latitude,longitude,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                        doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
 
                 myList.add(doctorClass);
             }
@@ -690,6 +712,28 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 
@@ -863,8 +907,14 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                         l1.add(new LatLng(a.getLatitude(),a.getLongitude()));
                     }
                 }
-                selectedCitylat = l1.get(0).latitude;
-                selectedCitylong = l1.get(0).longitude;
+
+                lattitude = l1.get(0).latitude;
+                longitude = l1.get(0).longitude;
+
+//                System.out.println("lati value city....."+currentlongi+"longi value city....."+currentlongi);
+//
+//                lattitude = currentlatti;
+//                longitude = currentlongi;
 
                 String js = specialityBasedFormatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";

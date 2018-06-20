@@ -5,12 +5,15 @@ package com.example.cool.patient.patient.ViewDiagnosticsList;
  */
 
 public class DiagnosticsClass {
-    String mobileNumber,diagId,userId,centerName,cashOnHand,creditDebit,paytm,netBanking,landLineNumber,contactPerson,latitude,longitude,emergencyService,addressId,centerImage;
+    String mobileNumber,diagId,userId,centerName,cashOnHand,creditDebit,paytm,netBanking,landLineNumber,contactPerson,
+            latitude,longitude,distance,emergencyService,addressId,centerImage;
 
     public DiagnosticsClass() {
     }
 
-    public DiagnosticsClass(String mobileNumber, String diagId,String userId, String centerName, String cashOnHand, String creditDebit, String paytm, String netBanking, String landLineNumber, String contactPerson, String latitude, String longitude, String emergencyService, String addressId, String centerImage) {
+    public DiagnosticsClass(String mobileNumber, String diagId,String userId, String centerName, String cashOnHand,
+                            String creditDebit, String paytm, String netBanking, String landLineNumber, String contactPerson,
+                            String latitude, String longitude,String distance, String emergencyService, String addressId, String centerImage) {
         this.mobileNumber = mobileNumber;
         this.diagId = diagId;
         this.userId = userId;
@@ -23,9 +26,18 @@ public class DiagnosticsClass {
         this.contactPerson = contactPerson;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
         this.emergencyService = emergencyService;
         this.addressId = addressId;
         this.centerImage = centerImage;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     public String getUserId() {

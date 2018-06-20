@@ -51,7 +51,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     public int currentItem;
     public ImageView profileImage;
-    public TextView doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId;
+    public TextView doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId,distance;
 
 
 
@@ -72,6 +72,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         addressId=(TextView) itemView.findViewById(R.id.addressId);
         doctorId=(TextView) itemView.findViewById(R.id.doctorId);
         userId=(TextView) itemView.findViewById(R.id.userid);
+//        distance  = (TextView) itemView.findViewById(R.id.distance);
 
         profileImage = (ImageView) itemView.findViewById(R.id.docImage);
 
@@ -148,6 +149,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         viewHolder.addressId.setText(doctorClassList.get(i).getAddressId());
         viewHolder.doctorId.setText(doctorClassList.get(i).getDoctorId());
         viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
+//        viewHolder.distance.setText(doctorClassList.get(i).getDistance());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorClassList.get(i).getDoctorImage());
@@ -165,35 +167,6 @@ class ViewHolder extends RecyclerView.ViewHolder{
         return doctorClassList.size();
     }
 
-
-
-//    public void checkRegisteredUserOrNotAlert()
-//    {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-//        alert.setTitle("Do you want to take Appointment for Register user?");
-//        //  alert.show();
-//        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                intent.putExtra("doctorName",);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setCancelable(false);
-//        alertDialog1 = alert.create();
-//        alertDialog1.setCanceledOnTouchOutside(false);
-//        alert.show();
-//    }
 
 private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;

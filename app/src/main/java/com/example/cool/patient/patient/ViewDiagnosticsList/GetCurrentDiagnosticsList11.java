@@ -76,6 +76,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity {
 
     static double selectedCitylat;
     static double selectedCitylong;
+    static String myDistance = null;
 
     static String selectedlocation=null;
 
@@ -455,13 +456,36 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity {
                 String landLineNumber = object.getString("LandlineNo");
                 String contactPerson = object.getString("ContactPerson");
 
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
-                String emergencyService ="true";
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                double myDistances  = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
+
+                System.out.println("distance from current to ur selected location.in doc..."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" Km";
+                System.out.println("dist decimal round...."+myDistance);
+
                 String addressId = object.getString("AddressID");
                 String centerImage = object.getString("CenterImage");
 
-                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,creditDebit,paytm,netBanking,landLineNumber,contactPerson,latitude,longitude,emergencyService,addressId,centerImage);
+                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                        creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,
+                        addressId,centerImage);
 
                 myList.add(diagnosticsClass);
             }
@@ -470,6 +494,28 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;//in kms
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 

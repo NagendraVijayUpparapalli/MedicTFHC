@@ -8,7 +8,7 @@ class DoctorClass {
 
 
     public String doctorId,addressId,address,hospitalName,state,city,mobile,Name,qualification,specialityName,doctorImage,experience,
-    latitude,longitude,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm;
+    latitude,longitude,distance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm;
     public String patientId;
 
 //    public DoctorClass()
@@ -22,7 +22,10 @@ class DoctorClass {
 
 //    public DoctorClass(String doctorId, String addressId, String address, String hospitalName, String state, String city, String mobile, String Name, String qualification, String specialityName, String doctorImage, String experience, String latitude, String longitude, String emergencyService, String consultationFee, String consultationPrice, String cashonHand, String creditDebit, String netBanking, String paytm) {
 
-    public DoctorClass(String doctorId, String addressId, String patientId, String mobile, String Name, String qualification, String specialityName, String doctorImage, String experience, String latitude, String longitude, String emergencyService, String consultationFee, String consultationPrice, String cashonHand, String creditDebit, String netBanking, String paytm) {
+    public DoctorClass(String doctorId, String addressId, String patientId, String mobile, String Name, String qualification,
+                       String specialityName, String doctorImage, String experience, String latitude, String longitude,String distance,
+                       String emergencyService, String consultationFee, String consultationPrice, String cashonHand,
+                       String creditDebit, String netBanking, String paytm) {
         this.doctorId = doctorId;
         this.addressId = addressId;
         this.patientId = patientId;
@@ -38,6 +41,7 @@ class DoctorClass {
         this.experience = experience;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
         this.emergencyService = emergencyService;
         this.consultationFee = consultationFee;
         this.consultationPrice = consultationPrice;
@@ -47,38 +51,13 @@ class DoctorClass {
         this.paytm = paytm;
     }
 
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
-//
-//    public String getHospitalName() {
-//        return hospitalName;
-//    }
-//
-//    public void setHospitalName(String hospitalName) {
-//        this.hospitalName = hospitalName;
-//    }
-//
-//    public String getState() {
-//        return state;
-//    }
-//
-//    public void setState(String state) {
-//        this.state = state;
-//    }
-//
-//    public String getCity() {
-//        return city;
-//    }
-//
-//    public void setCity(String city) {
-//        this.city = city;
-//    }
+    public String getDistance() {
+        return distance;
+    }
 
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
 
     public String getPatientId() {
         return patientId;

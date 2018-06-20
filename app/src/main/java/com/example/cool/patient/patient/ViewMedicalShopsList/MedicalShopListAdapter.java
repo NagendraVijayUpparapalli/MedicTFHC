@@ -73,7 +73,8 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
         public int currentItem;
         public ImageView profileImage;
-        public TextView ContactPerson,Shopname,qualification,speciality,fee,medicalphonenum,addressId,medicalShopeID,userId,centerImage,lati,longi;
+        public TextView ContactPerson,Shopname,qualification,speciality,fee,medicalphonenum,addressId,medicalShopeID,
+                userId,centerImage,lati,longi,distance;
 
 
 
@@ -95,6 +96,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
             profileImage = (ImageView) itemView.findViewById(R.id.docImage);
             lati=(TextView) itemView.findViewById(R.id.lati);
             longi=(TextView) itemView.findViewById(R.id.lngi);
+            distance  = (TextView) itemView.findViewById(R.id.distance);
             centerImage=(TextView) itemView.findViewById(R.id.image);
 
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
@@ -200,6 +202,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         viewHolder.lati.setText(medicalClassList.get(i).getLatitude());
         viewHolder.longi.setText(medicalClassList.get(i).getLongitude());
         viewHolder.centerImage.setText(medicalClassList.get(i).getMedicImage());
+        viewHolder.distance.setText(medicalClassList.get(i).getDistance());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+medicalClassList.get(i).getMedicImage());

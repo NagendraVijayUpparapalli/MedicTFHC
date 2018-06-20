@@ -69,8 +69,13 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
+
     LocationManager locationManager;
-    String lattitude,longitude;
+    double lattitude,longitude;
+
+    static String myDistance = null;
+    double currentlatti,currentlongi;
+
     static double lat,lng;
     Geocoder geocoder;
     List<Address> addresses;
@@ -334,10 +339,14 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
             if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+//                double latti = location.getLatitude();
+//                double longi = location.getLongitude();
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
 
@@ -361,7 +370,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -388,10 +397,12 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 }
 
             } else  if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location1.getLatitude();
+                currentlongi = location1.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
@@ -414,7 +425,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -441,10 +452,13 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 }
 
             } else  if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+
+                currentlatti = location2.getLatitude();
+                currentlongi = location2.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
@@ -464,7 +478,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -661,13 +675,34 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 String landLineNumber = object.getString("LandlineNo");
                 String contactPerson = object.getString("ContactPerson");
 
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
-                String emergencyService = "true";///
+                String mylatii = object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
                 String addressId = object.getString("AddressID");
                 String centerImage = object.getString("CenterImage");
 
-                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,creditDebit,paytm,netBanking,landLineNumber,contactPerson,latitude,longitude,emergencyService,addressId,centerImage);
+                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                        creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
 
                 myList.add(diagnosticsClass);
             }
@@ -676,6 +711,28 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;//in kms
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 
@@ -848,8 +905,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                         l1.add(new LatLng(a.getLatitude(),a.getLongitude()));
                     }
                 }
-                selectedCitylat = l1.get(0).latitude;
-                selectedCitylong = l1.get(0).longitude;
+                lattitude = l1.get(0).latitude;
+                longitude = l1.get(0).longitude;
 
 
 

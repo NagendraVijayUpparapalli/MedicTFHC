@@ -71,7 +71,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     static String uploadServerUrl = null;
 //    static String getcity=null;
     LocationManager locationManager;
-    String lattitude,longitude;
+    double lattitude,longitude;
     static double lat,lng;
     Geocoder geocoder;
     List<Address> addresses;
@@ -83,6 +83,10 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     static double selectedCitylong;
 
     static String selectedlocation=null;
+
+    static String myDistance = null;
+    double currentlatti,currentlongi;
+
 
     String addressline,mobile,email,pincode,city,state;
     TextView current_city;
@@ -161,6 +165,9 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            getLocation();
         }
 
         getlatlng();
@@ -316,47 +323,47 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
             if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location.getLatitude();
+                currentlongi = location.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
 
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                adapter = new DoctorListAdapter11(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DoctorClass>();
+////
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                adapter = new DoctorListAdapter11(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
                     {
 //                        cityname.setTitle("waiting");
-                        current_city.setText("Waiting");
+//                        current_city.setText("Waiting");
                     }
                     else
                     {
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            current_city.setText(city);
+//                            current_city.setText(city);
 //                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -370,27 +377,27 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 }
 
             } else  if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location1.getLatitude();
+                currentlongi = location1.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                adapter = new DoctorListAdapter11(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DoctorClass>();
+//
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//                adapter = new DoctorListAdapter11(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
 //                textView.setText("latitude"+lattitude);
 //                textView1.setText("longitude"+longitude);
@@ -398,7 +405,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -411,7 +418,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            current_city.setText(city);
+//                            current_city.setText(city);
 //                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -425,31 +432,31 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 }
 
             } else  if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
+                currentlatti = location2.getLatitude();
+                currentlongi = location2.getLongitude();
+                lattitude = currentlatti;
+                longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+lattitude);
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                adapter = new DoctorListAdapter11(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                adapter = new DoctorListAdapter11(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
                 try {
-                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
                     System.out.println("addresses"+addresses);
 
                     if (addresses.isEmpty())
@@ -462,7 +469,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                         if(addresses.size()>0)
                         {
                             city=addresses.get(0).getLocality();
-                            current_city.setText(city);
+//                            current_city.setText(city);
 //                            cityname.setTitle(city);
                             System.out.println("city name"+city);
                         }
@@ -632,8 +639,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
                 String doctorId = object.getString("DoctorID");
 
-
-
                 String addressId = object.getString("AddressID");
 
                 String mobile = object.getString("MobileNumber");
@@ -646,13 +651,36 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 String specialityName = object.getString("SpecialityName");
                 String doctorImage = object.getString("DoctorImage");
                 String experience = object.getString("Experience");
-                String latitude = object.getString("Latitude");
-                String longitude = object.getString("Longitude");
-                String emergencyService = object.getString("EmergencyService");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
 
 
-                String consultationFee = "100";
-                String consultationPrice = "100";
+//                System.out.println("lati value city....."+currentlongi+"longi value city....."+currentlongi);
+                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+                double myDistances  = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
+
+                System.out.println("distance from current to ur selected location.in doc..."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+
+                String consultationFee = object.getString("ConsultationFee");
+                String consultationPrice = object.getString("ConsultationFee");
 
                 String cashonHand = object.getString("CashOnHand");
                 String creditDebit = object.getString("CreditDebit");
@@ -661,31 +689,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
 
                 DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                        doctorImage,experience,latitude,longitude,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
-
-//                doctorClass.setDoctorId(object.getString("DoctorID"));
-//                doctorClass.setAddressId(object.getString("AddressID"));
-//
-//                String firstName = object.getString("FirstName");
-//                String lastName = object.getString("LastName");
-//
-//                doctorClass.setName("Dr. "+firstName+" "+lastName);
-//                doctorClass.setQualification(object.getString("Qualification"));
-//                doctorClass.setSpecialityName(object.getString("SpecialityName"));
-//                doctorClass.setDoctorImage(object.getString("DoctorImage"));
-//
-//                doctorClass.setExperience((object.getString("Experience")));
-//
-//                doctorClass.setLatitude((object.getString("Latitude")));
-//                doctorClass.setLongitude((object.getString("Longitude")));
-//                doctorClass.setEmergencyService(object.getString("EmergencyService"));
-//
-//                doctorClass.setConsultationPrice(object.getString("ConsultationFee"));
-//
-//                doctorClass.setCashonHand(object.getString("CashOnHand"));
-//                doctorClass.setCreditDebit(object.getString("CreditDebit"));
-//                doctorClass.setNetBanking(object.getString("Netbanking"));
-//                doctorClass.setPaytm(object.getString("Paytm"));
+                        doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,
+                        cashonHand,creditDebit,netBanking,paytm);
 
                 myList.add(doctorClass);
             }
@@ -694,6 +699,28 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
 
@@ -888,6 +915,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 }
                 selectedCitylat = l1.get(0).latitude;
                 selectedCitylong = l1.get(0).longitude;
+
+                System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 
                 String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";

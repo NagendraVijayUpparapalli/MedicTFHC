@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 
 import org.json.simple.JSONObject;
@@ -46,8 +47,11 @@ public class ChangePassword extends AppCompatActivity {
         new_pswd = (EditText) findViewById(R.id.newpassword);
         confirm_pswd = (EditText) findViewById(R.id.confirmpassword);
 
-        btn_change_password = (MagicButton) findViewById(R.id.btn_changepassword);
-        btn_change_password.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+//        button = (MagicButton) findViewById(R.id.btn_login);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadServerUrl = baseUrl.getUrl()+"ChangePassword";

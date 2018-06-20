@@ -50,7 +50,8 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
 
         public int currentItem;
         public ImageView profileImage;
-        public TextView diagName,qualification,speciality,fee,addressId,diagId,userId,centerImage,contactPerson,mobileNumber;
+        public TextView diagName,qualification,speciality,fee,addressId,diagId,userId,centerImage,contactPerson,
+                mobileNumber,distance;
 
         RecyclerView recyclerView;
 
@@ -70,6 +71,7 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
             mobileNumber = (TextView) itemView.findViewById(R.id.mobileNumber);
 
             profileImage = (ImageView) itemView.findViewById(R.id.centerImage);
+//            distance  = (TextView) itemView.findViewById(R.id.distance);
 
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
 
@@ -110,6 +112,7 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
         viewHolder.userId.setText(diagnosticsClassList.get(i).getUserId());
         viewHolder.contactPerson.setText(diagnosticsClassList.get(i).getContactPerson());
         viewHolder.mobileNumber.setText(diagnosticsClassList.get(i).getMobileNumber());
+//        viewHolder.distance.setText(diagnosticsClassList.get(i).getDistance());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+diagnosticsClassList.get(i).getCenterImage());

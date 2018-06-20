@@ -34,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 
 import org.json.simple.JSONObject;
@@ -105,11 +106,13 @@ public class Registration extends Activity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         confirm_password = (EditText) findViewById(R.id.confirmpassword);
-        register = (MagicButton) findViewById(R.id.btn_register);
+//        register = (MagicButton) findViewById(R.id.btn_register);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.registerLayout);
 
-        register.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 register();

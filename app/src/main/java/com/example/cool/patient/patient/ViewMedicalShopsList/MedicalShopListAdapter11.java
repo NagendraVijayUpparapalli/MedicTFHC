@@ -48,7 +48,8 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     public int currentItem;
     public ImageView profileImage;
-    public TextView ContactPerson,Shopname,qualification,speciality,fee,medicalphonenum,addressId,medicalShopeID,userId,centerImage,lati,longi;
+    public TextView ContactPerson,Shopname,qualification,speciality,fee,medicalphonenum,addressId,medicalShopeID,
+            userId,centerImage,lati,longi,distance;
 
 
 
@@ -70,6 +71,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         profileImage = (ImageView) itemView.findViewById(R.id.docImage);
         lati=(TextView) itemView.findViewById(R.id.lati);
         longi=(TextView) itemView.findViewById(R.id.lngi);
+        distance  = (TextView) itemView.findViewById(R.id.distance);
         centerImage=(TextView) itemView.findViewById(R.id.image);
 
         recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
@@ -114,6 +116,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         viewHolder.medicalShopeID.setText(medicalClassList.get(i).getDoctorId());
         viewHolder.lati.setText(medicalClassList.get(i).getLatitude());
         viewHolder.longi.setText(medicalClassList.get(i).getLongitude());
+        viewHolder.distance.setText(medicalClassList.get(i).getDistance());
         viewHolder.centerImage.setText(medicalClassList.get(i).getMedicImage());
 
 

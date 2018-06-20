@@ -7,11 +7,11 @@ package com.example.cool.patient.patient.ViewMedicalShopsList;
 class MedicalShopClass {
 
     public String ContactPerson,ShopName,MedicalID,addressId,address,hospitalName,state,city,mobile,Name,qualification,specialityName,medicImage,experience,
-            latitude,longitude,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm,LandlineNo;
+            latitude,longitude,distance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm,LandlineNo;
     public String patientId,usermobileNumber;
 
     public MedicalShopClass( String MedicalID,String addressId,String patientId,String usermobileNumber,String mobile,String ShopName,String ContactPerson ,String LandlineNo
-            , String medicImage, String latitude, String longitude, String emergencyService,
+            , String medicImage, String latitude,String longitude, String distance, String emergencyService,
                          String cashonHand, String creditDebit, String netBanking, String paytm) {
 
         this.MedicalID = MedicalID;
@@ -25,11 +25,20 @@ class MedicalShopClass {
         this.medicImage = medicImage;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
         this.emergencyService = emergencyService;
         this.cashonHand = cashonHand;
         this.creditDebit = creditDebit;
         this.netBanking = netBanking;
         this.paytm = paytm;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     public String getUsermobileNumber() {
