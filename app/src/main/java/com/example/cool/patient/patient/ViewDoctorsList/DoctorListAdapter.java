@@ -107,6 +107,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                         intent.putExtra("user","No");
+                        intent.putExtra("userId",userId.getText().toString());
                         intent.putExtra("doctorName",doctorName.getText().toString());
                         intent.putExtra("addressId",addressId.getText().toString());
                         intent.putExtra("doctorId",doctorId.getText().toString());

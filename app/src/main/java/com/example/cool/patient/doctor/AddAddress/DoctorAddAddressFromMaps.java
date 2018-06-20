@@ -1707,11 +1707,12 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 1017)
-                {
-                    addressId = js.getString("DataValue");
-//                    showSuccessMessage(js.getString("Message"));
-                }
+                addressId = js.getString("DataValue");
+//                if(s == 1017)
+//                {
+//                    addressId = js.getString("DataValue");
+////                    showSuccessMessage(js.getString("Message"));
+//                }
 //                else
 //                {
 //                    showErrorMessage(js.getString("Message"));

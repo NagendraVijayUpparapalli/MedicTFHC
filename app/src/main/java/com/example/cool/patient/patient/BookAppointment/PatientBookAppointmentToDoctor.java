@@ -153,6 +153,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             System.out.print("userid in patient book doc....."+getUserId);
             new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
         }
+        else if(user.equals("No"))
+        {
+            getUserId = getIntent().getStringExtra("userId");
+            System.out.print("userid in patient book doc....."+getUserId);
+//            new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
+        }
 
         timings=(Spinner)findViewById(R.id.timings);
 
@@ -667,7 +673,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             {
                 data.put("ReasonAppointments",reason.getText().toString());
                 data.put("AddressID",cur_addressId);
-                data.put("PatientID", getUserId);
+                data.put("PatientID", patientId);
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
@@ -686,7 +692,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             {
                 data.put("ReasonAppointments",reason.getText().toString());
                 data.put("AddressID",cur_addressId);
-                data.put("PatientID", getUserId);
+                data.put("PatientID", patientId);
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
@@ -704,7 +710,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             {
                 data.put("ReasonAppointments",reason.getText().toString());
                 data.put("AddressID",cur_addressId);
-                data.put("PatientID", getUserId);
+                data.put("PatientID", patientId);
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
@@ -723,7 +729,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             {
                 data.put("ReasonAppointments",reason.getText().toString());
                 data.put("AddressID",cur_addressId);
-                data.put("PatientID", getUserId);
+                data.put("PatientID", patientId);
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());

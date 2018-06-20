@@ -10,6 +10,7 @@
     android:keyboardNavigationCluster="true"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarcool"
         android:layout_width="match_parent"
