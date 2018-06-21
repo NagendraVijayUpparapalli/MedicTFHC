@@ -127,7 +127,7 @@
 
                         android:textColor="@android:color/white" />
                     <RadioButton
-                        android:id="@+id/phonenumber"
+                        android:id="@+id/aadharRadio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

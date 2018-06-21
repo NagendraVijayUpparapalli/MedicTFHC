@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
@@ -14,6 +15,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -84,7 +86,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     static String smsUrl = null;
 
     ProgressDialog mProgressDialog;
-//    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
+    //    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
     String mydoctorImage,mydoctormobile,mydoctorspeciality,mydoctorEmail;
 
@@ -161,6 +163,17 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         }
 
         timings=(Spinner)findViewById(R.id.timings);
+//        timings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+////                https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44
+//
+//                int keyValue = (int) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
+//                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+appointmentdate.getText().toString()+"&TimeslotID="+keyValue);
+//
+//            }
+//        });
 
         button=(Button)findViewById(R.id.submit);
 
@@ -242,73 +255,112 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             }
         });
 
+        
+        //finding appointment count based on time
+        timings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String appdate=appointmentdate.getText().toString();
+                String dates[]=appdate.split("/");
+
+                String date=dates[1]+"/"+dates[2]+"/"+dates[0];
+                System.out.println("date"+date);
+
+                String keyValue = (String) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
+                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+date+"&TimeslotID="+keyValue);
+
+                //new GetAppointmentCount().execute("https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
     }
 
-    //Get all addresses for doctor list from api call
-//    private class GetDoctorAllAddressDetails extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//
-//            String data = "";
-//            HttpURLConnection httpURLConnection = null;
-//            try {
-//                System.out.println("dsfafssss....");
-//
-//                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
-//                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-//                Log.d("Service", "Started");
-//                httpURLConnection.setRequestMethod("GET");
-//                System.out.println("u...."+params[0]);
-//                System.out.println("dsfafssss....");
-//                InputStream in = httpURLConnection.getInputStream();
-//                InputStreamReader inputStreamReader = new InputStreamReader(in);
-//
-//                int inputStreamData = inputStreamReader.read();
-//                while (inputStreamData != -1) {
-//                    char current = (char) inputStreamData;
-//                    inputStreamData = inputStreamReader.read();
-//                    data += current;
-//                }
-//            } catch (ProtocolException e) {
-//                e.printStackTrace();
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return data;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            super.onPostExecute(result);
-//            Log.e("Api response.....", result);
-//            getData(result);
-//        }
-//    }
-//
-//    private void getData(String result) {
-//        try {
-//
-//            JSONArray jarray = new JSONArray(result);
-//
-//            for (int i = 0; i < jarray.length(); i++) {
-//                JSONObject object = jarray.getJSONObject(i);
-//
-//                doctorLatitude = object.getString("Latitude");
-//                doctorLongitude = object.getString("Longitude");
-//                doctorHospitalName = object.getString("HospitalName");
-////                doctorAddress = object.getString("Address1");
-//
-//
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
+    //Get appointment count based on timeslot from api call
+    private class GetAppointmentCount extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("Api response.....", result);
+
+            if(result.isEmpty())
+            {
+                System.out.println("hiii");
+            }
+            else {
+
+
+                int res = Integer.parseInt(result);
+
+                if (res >= 4)
+
+                {
+                    showalert1();
+                } else {
+                    System.out.println("no dats");
+                }
+            }
+
+        }
+
+
+    }
+
+    private void showalert1() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDoctor.this);
+        builder.setMessage("already four appiontments are taken choose antoher time");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int id) {
+
+
+                dialogInterface.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
 
     //get doctor details based on id from api call
     private class GetDoctorDetails extends AsyncTask<String, Void, String> {
@@ -624,7 +676,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
 
-                        new Mytask().execute();
+                        // new Mytask().execute();
 
                         String js = emailFormatDataAsJson();
 
