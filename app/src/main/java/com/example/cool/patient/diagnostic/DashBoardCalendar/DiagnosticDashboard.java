@@ -2,6 +2,7 @@ package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -105,7 +106,7 @@ public class DiagnosticDashboard extends AppCompatActivity
     TextView current_city;
 
     // expandable list view
-
+    ProgressDialog progressDialog;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -599,6 +600,21 @@ public class DiagnosticDashboard extends AppCompatActivity
     private class GetAppointmentCount extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticDashboard.this);
+            // Set progressdialog title
+            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -638,6 +654,7 @@ public class DiagnosticDashboard extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result);
+            progressDialog.dismiss();
             getcount(result);
 
         }

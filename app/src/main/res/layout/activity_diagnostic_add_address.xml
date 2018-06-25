@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:focusedByDefault="false"
+    android:keyboardNavigationCluster="true"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
 <RelativeLayout android:id="@+id/relative"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -21,7 +33,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways" >
@@ -29,8 +41,6 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-
-
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:ems="20"
                             android:hint="@string/diagnostic_name"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawablePadding="5dp"
                             android:drawableLeft="@drawable/ic_account_balance_black_24dp"
                             android:inputType="textPersonName" />
@@ -98,10 +108,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="20"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawablePadding="5dp"
                             android:drawableLeft="@drawable/street_icons"
-                            android:hint="Address"
+                            android:hint="@string/address"
                             android:inputType="text" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -119,8 +129,8 @@
                         android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:text="City :" />
+                        android:textSize="16sp"
+                        android:text="@string/city" />
 
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                         android:id="@+id/cityId"
@@ -145,8 +155,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:text="District :" />
+                        android:textSize="16sp"
+                        android:text="@string/district" />
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                         android:id="@+id/districtId"
                         android:layout_width="match_parent"
@@ -166,8 +176,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:text="State :" />
+                        android:textSize="16sp"
+                        android:text="@string/state" />
 
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                         android:id="@+id/stateId"
@@ -199,8 +209,8 @@
                             android:ems="10"
                             android:drawableLeft="@drawable/phone"
                             android:drawablePadding="5dp"
-                            android:hint="Mobile number"
-                            android:textSize="15dp"
+                            android:hint="@string/mobile_number"
+                            android:textSize="15sp"
                             android:inputType="phone" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -222,10 +232,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawableLeft="@drawable/zipcode_icon"
                             android:drawablePadding="5dp"
-                            android:hint="Pincode"
+                            android:hint="@string/pincode"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -253,8 +263,8 @@
                             android:ems="10"
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:drawablePadding="5dp"
-                            android:hint="Contact person"
-                            android:textSize="15dp"
+                            android:hint="@string/contact_person"
+                            android:textSize="15sp"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -274,9 +284,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawableLeft="@drawable/phone"
-                            android:hint="Landline no"
+                            android:hint="@string/landline_no"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -296,8 +306,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:text="Google Location : " />
+                        android:textSize="16sp"
+                        android:text="@string/google_location" />
 
                 </LinearLayout>
 
@@ -318,9 +328,9 @@
                         android:textAlignment="center"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/google_map_link"
-                        android:text="Click here to get your Location"
+                        android:text="@string/click_here_to_get_your_location"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -346,9 +356,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-
-                            android:hint="Latitude"
-                            android:textSize="15dp"
+                            android:hint="@string/latitude"
+                            android:textSize="15sp"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -366,8 +375,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:textSize="15dp"
-                            android:hint="Longitude"
+                            android:textSize="15sp"
+                            android:hint="@string/longitude"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -387,8 +396,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:text="Availability Timing : " />
+                        android:textSize="16sp"
+                        android:text="@string/availability_timing" />
 
                 </LinearLayout>
 
@@ -413,8 +422,8 @@
                             android:ems="10"
                             android:drawableRight="@drawable/ic_timer_black_24dp"
                             android:text="09:00"
-                            android:hint="From Time"
-                            android:textSize="15dp"
+                            android:hint="@string/from_time"
+                            android:textSize="15sp"
                             android:inputType="time" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -436,9 +445,9 @@
                             android:ems="10"
                             android:drawableRight="@drawable/ic_timer_black_24dp"
                             android:text="08.00"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:paddingRight="20dp"
-                            android:hint="To Time"
+                            android:hint="@string/to_time"
                             android:inputType="time" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -455,10 +464,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
-
-                        android:text="Comments :"
+                        android:text="@string/comments"
                         android:textColor="#2C5E83"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
 
@@ -472,7 +480,7 @@
                         android:background="@drawable/edittext_button"
                         android:layout_weight="2"
                         android:textStyle="bold"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         />
 
                 </LinearLayout>
@@ -488,9 +496,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
 
-                        android:text="Speciality :"
+                        android:text="@string/speciality"
                         android:textColor="#2C5E83"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -503,9 +511,9 @@
                         android:layout_marginEnd="20dp"
                         android:layout_marginStart="20dp"
                         android:background="@drawable/google_map_link"
-                        android:text="Select Speciality"
+                        android:text="@string/select_speciality"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -513,11 +521,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Center Image :"
+                    android:text="@string/center_image"
                     android:textStyle="bold"
                     android:textColor="#2C5E83"
                     android:layout_marginTop="15dp"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
                 <android.support.design.widget.CoordinatorLayout
 
                     android:id="@+id/main"
@@ -533,14 +541,13 @@
                         android:id="@+id/appbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         >
 
                         <ImageView
                             android:id="@+id/diag_center_image"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/noimage11"
                             />
 
@@ -574,10 +581,10 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
 
-                        android:text="Are you available for emergency."
+                        android:text="@string/are_you_available_for_emergency"
 
                         android:textColor="#ff0000"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -603,10 +610,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="20"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawablePadding="5dp"
                             android:drawableLeft="@drawable/phone"
-                            android:hint="Emergency Contact Number"
+                            android:hint="@string/emergency_number"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -616,21 +623,45 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <br.com.bloder.magic.view.MagicButton
-                        android:id="@+id/gen_btn"
+                    <!--<br.com.bloder.magic.view.MagicButton-->
+                        <!--android:id="@+id/gen_btn"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--app:button_icon="@drawable/login_icon"-->
+                        <!--app:button_icon_height="25dp"-->
+                        <!--app:button_icon_width="23dp"-->
+                        <!--app:expandable_area_color="#4796C2"-->
+                        <!--app:hide_text="@string/submit"-->
+                        <!--app:hide_text_color="@android:color/white"-->
+                        <!--app:hide_text_size="8sp"-->
+                        <!--app:icon_button_color="#df760e"-->
+                        <!--app:magic_button_size="50dp" />-->
+
+
+                    <com.andexert.library.RippleView
+                        android:id="@+id/rippleView"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        app:button_icon="@drawable/login_icon"
-                        app:button_icon_height="25dp"
-                        app:button_icon_width="23dp"
-                        app:expandable_area_color="#4796C2"
-                        app:hide_text="@string/submit"
-                        app:hide_text_color="@android:color/white"
-                        app:hide_text_size="8sp"
-                        app:icon_button_color="#df760e"
-                        app:magic_button_size="50dp" />
+                        ripple:rv_type="rectangle"
+                        ripple:rv_zoom="true">
+
+                        <TextView
+                            android:id="@+id/rect_child"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:gravity="center"
+                            android:text="@string/submit"
+                            android:background="#f938a72f"/>
+
+                    </com.andexert.library.RippleView>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -638,3 +669,4 @@
     </ScrollView>
 
 </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

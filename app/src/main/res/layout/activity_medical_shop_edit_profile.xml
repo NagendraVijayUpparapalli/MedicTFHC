@@ -10,7 +10,6 @@
     android:keyboardNavigationCluster="true"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarcool"
         android:layout_width="match_parent"
@@ -71,11 +70,11 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:drawablePadding="5dp"
                             android:ems="20"
-                            android:hint="Medical Shop Name"
+                            android:hint="@string/medicalshop_name"
                             android:scrollbarAlwaysDrawHorizontalTrack="true"
                             android:inputType="textPersonName"
                             android:textColor="#000"
-                            android:textSize="23dp" />
+                            android:textSize="23sp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -97,7 +96,7 @@
                             android:backgroundTint="@color/green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:hint="@string/email_id"
                             android:drawablePadding="5dp"
                             android:drawableLeft="@drawable/ic_mail_black_24dp"
@@ -131,7 +130,7 @@
                             android:ems="20"
                             android:hint="@string/mobile_number"
                             android:inputType="phone"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
@@ -139,7 +138,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:weightSum="3">
-
                     <TextView
                         android:id="@+id/textView"
                         android:paddingRight="16.5dp"
@@ -147,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:textStyle="bold"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="#2C5E83"
                         android:text="@string/gender" />
                     <android.support.v4.widget.Space
@@ -171,7 +169,7 @@
                             android:buttonTint="@color/green"
                             android:checked="false"
                             android:layout_weight="1"
-                            android:text="Male" />
+                            android:text="@string/male" />
                         <RadioButton
                             android:id="@+id/femaleRadio"
                             android:layout_width="wrap_content"
@@ -180,7 +178,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
                             android:checked="false"
-                            android:text="Female" />
+                            android:text="@string/female" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -195,23 +193,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="LicenceNumber :"
+                        android:text="@string/licence_number"
                         android:layout_weight="1"
                         android:textStyle="bold"
                         android:textColor="#2C5E83"
                         android:layout_marginTop="10dp"
-                        android:textSize="16dp"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="LicenceImage :"
+                        android:text="@string/licence_image"
                         android:textStyle="bold"
                         android:textColor="#2C5E83"
-
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
-                        android:textSize="16dp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
 
@@ -224,9 +222,9 @@
                     <MultiAutoCompleteTextView
                         android:layout_weight="1"
                         android:id="@+id/licenceNumber"
-                        android:layout_width="160dp"
+                        android:layout_width="match_parent"
                         android:layout_height="195dp"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="normal"
                         android:background="@drawable/edittext_button"/>
 
@@ -234,10 +232,8 @@
                     <android.support.design.widget.CoordinatorLayout
                         android:id="@+id/main1"
                         android:layout_weight="1"
-                        android:layout_width="170dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-
                         android:layout_marginStart="15dp"
                         android:orientation="vertical"
                         >
@@ -245,16 +241,14 @@
                         <android.support.design.widget.AppBarLayout
                             android:id="@+id/appbar1"
                             android:layout_width="match_parent"
-                            android:layout_height="196dp"
-
-                            >
+                            android:layout_height="196dp">
 
 
                             <ImageView
                                 android:id = "@+id/Licence_Image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/noimage11"/>
                         </android.support.design.widget.AppBarLayout>
 
@@ -271,11 +265,7 @@
                             app:layout_anchorGravity="bottom|right|end" />
 
                     </android.support.design.widget.CoordinatorLayout>
-
-
                 </LinearLayout>
-
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -284,7 +274,7 @@
                     android:textStyle="bold"
                     android:textColor="#2C5E83"
                     android:layout_marginTop="10dp"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
 
                 <android.support.design.widget.CoordinatorLayout
                     android:layout_weight="1"
@@ -307,7 +297,7 @@
                             android:id="@+id/diag_aadhar_image"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/noimage11" />
 
                     </android.support.design.widget.AppBarLayout>
@@ -343,15 +333,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:ems="20"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawableLeft="@drawable/aadhar_icon"
                             android:drawablePadding="5dp"
-                            android:hint="Aadhaar Number"
+                            android:hint="@string/aadhar_number"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -365,66 +354,12 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="4dp"
                         android:textStyle="bold"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textAlignment="center"
-                        android:text="Choose convenient Payment mode for patient"
+                        android:text="@string/choose_convenient_payment_mode_for_patient"
                         android:textColor="#2C5E83"/>
 
                 </LinearLayout>
-
-
-                <!--<LinearLayout-->
-                    <!--android:weightSum="2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/cash_on_hand"-->
-                        <!--android:layout_width="140dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/cashonhand_icon"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-                        <!--android:text="@string/cash_on_hand" />-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/debit_card"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/creditcard_icon"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-
-                        <!--android:text="@string/credi_debit" />-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:weightSum="2"-->
-                    <!--android:layout_height="match_parent">-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/net_banking"-->
-
-                        <!--android:layout_width="110dp"-->
-
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:drawableLeft="@drawable/custom_netbanking_icon"-->
-                        <!--android:text="@string/net_banking"-->
-                        <!--android:textSize="13dp" />-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/pay_paym"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/custom_icon"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-                        <!--android:text="@string/paytm" />-->
-                <!--</LinearLayout>-->
-
 
 
                 <LinearLayout
@@ -437,14 +372,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
+                        android:textSize="13sp"
                         android:text="Cash on Hand" />
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/net_banking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
+                        android:textSize="13sp"
                         android:text="Online Banking" />
 
                     <android.support.v7.widget.AppCompatCheckBox
@@ -452,7 +387,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
+                        android:textSize="13sp"
                         android:text="Swipe cards" />
                 </LinearLayout>
 
@@ -460,7 +395,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-
+                    android:weightSum="1"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatCheckBox
@@ -475,16 +410,16 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        android:layout_weight="1"
                         android:id="@+id/confirm_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="I confirm that I am a registered Diagnostic."
+                        android:text="I confirm that i am a registered medical"
                         android:textColor="#ff0000"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"

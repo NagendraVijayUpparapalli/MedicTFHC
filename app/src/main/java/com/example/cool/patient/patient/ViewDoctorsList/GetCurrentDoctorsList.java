@@ -537,7 +537,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             // Create a progressdialog
             progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

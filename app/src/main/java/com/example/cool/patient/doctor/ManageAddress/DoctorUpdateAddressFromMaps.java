@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
@@ -57,6 +58,7 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity {
 
     List<String> districtsList,citiesList,statesList;
 
+    RippleView rippleView;
     //doc timings alert
     Button ok_btn,cancel_btn;
     EditText appointments;
@@ -120,7 +122,7 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity {
     LinearLayout timingLayout,details_layout,emergencyContactLayout ;
 
 
-//    static int getUserId;
+    //    static int getUserId;
     static String uploadServerUrl = null,addressId,sunAppointmentsCount = "0",
             monAppointmentsCount = "0",tueAppointmentsCount = "0",wedApointmentsCount = "0",
             thuAppointmentsCount = "0",friAppointmentsCount = "0",satAppointmentsCount = "0";
@@ -235,8 +237,9 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity {
         });
 
 
-        btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        //btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
+        rippleView=(RippleView) findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

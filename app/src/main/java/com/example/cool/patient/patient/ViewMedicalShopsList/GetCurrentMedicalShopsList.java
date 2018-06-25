@@ -879,19 +879,19 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
         distance.setText("Distance :"+seek_bar.getProgress()+"Km");
 
-        String js = specialityBasedFormatDataAsJson();
-        uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
-
-        new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-
-        myList = new ArrayList<MedicalShopClass>();
+//        String js = specialityBasedFormatDataAsJson();
+//        uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 //
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+//        new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+//
+//        myList = new ArrayList<MedicalShopClass>();
+////
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//        recyclerView.setHasFixedSize(true);
+//
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
 
     }
 
@@ -919,6 +919,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
                 new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+
+
 
                 myList = new ArrayList<MedicalShopClass>();
 //

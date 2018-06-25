@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.common.MapsActivity;
@@ -55,7 +56,7 @@ public class DoctorAddAddress extends AppCompatActivity {
     SearchableSpinner city,state,district;
     CheckBox availableService;
     MagicButton btn_AddAddress;
-
+    RippleView rippleView;
     //doc timings alert
     Button ok_btn,cancel_btn;
     EditText appointments;
@@ -187,7 +188,7 @@ public class DoctorAddAddress extends AppCompatActivity {
         availableService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               viewEmergencyContactField();
+                viewEmergencyContactField();
             }
         });
 
@@ -213,9 +214,9 @@ public class DoctorAddAddress extends AppCompatActivity {
 
         new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
 
-
-        btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        rippleView = (RippleView) findViewById(R.id.rippleView);
+        // btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -791,20 +792,20 @@ public class DoctorAddAddress extends AppCompatActivity {
 
                 String timeId = jsonObj.getString("TsID");
 
-                    String timeValue = jsonObj.getString("TimeSlots");
-                    AllTimeSlotsList.put(timeId,timeValue);
+                String timeValue = jsonObj.getString("TimeSlots");
+                AllTimeSlotsList.put(timeId,timeValue);
 
-                    allItemsList.add(jsonObj.getString("TimeSlots"));
-                    String[] stockArr = new String[allItemsList.size()];
+                allItemsList.add(jsonObj.getString("TimeSlots"));
+                String[] stockArr = new String[allItemsList.size()];
 
-                    allItems = allItemsList.toArray(stockArr);
-                    checkedSunAmTimings = new boolean[allItems.length];
-                    checkedMonAmTimings = new boolean[allItems.length];
-                    checkedTueAmTimings = new boolean[allItems.length];
-                    checkedWedAmTimings = new boolean[allItems.length];
-                    checkedThuAmTimings = new boolean[allItems.length];
-                    checkedFriAmTimings = new boolean[allItems.length];
-                    checkedSatAmTimings = new boolean[allItems.length];
+                allItems = allItemsList.toArray(stockArr);
+                checkedSunAmTimings = new boolean[allItems.length];
+                checkedMonAmTimings = new boolean[allItems.length];
+                checkedTueAmTimings = new boolean[allItems.length];
+                checkedWedAmTimings = new boolean[allItems.length];
+                checkedThuAmTimings = new boolean[allItems.length];
+                checkedFriAmTimings = new boolean[allItems.length];
+                checkedSatAmTimings = new boolean[allItems.length];
 
             }
         }
@@ -907,7 +908,7 @@ public class DoctorAddAddress extends AppCompatActivity {
 //                }
                 map.put("0", getmUserItemsSunItems);
 
-               MyDialog.cancel();
+                MyDialog.cancel();
             }
         });
 

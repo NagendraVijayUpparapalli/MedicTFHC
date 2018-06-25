@@ -1,678 +1,706 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/relative"
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:focusedByDefault="false"
     android:keyboardNavigationCluster="true"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarcool"
+    android:orientation="vertical">
+    <RelativeLayout android:id="@+id/relative"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/toolbar_gradient"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways" >
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/details"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="false"
+        android:keyboardNavigationCluster="true"
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarcool"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:padding="20dp">
-            <LinearLayout
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:weightSum="1"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_salutation"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    >
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/toolbar_gradient"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:layout_scrollFlags="scroll|enterAlways" >
 
-                    <EditText
-                        android:id="@+id/Hospital_Name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="20"
+            </android.support.v7.widget.Toolbar>
 
-                        android:hint=" Hospital Name"
-                        android:textSize="15dp"
-                        android:drawablePadding="5dp"
-                        android:drawableLeft="@drawable/ic_account_balance_black_24dp"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+        </android.support.design.widget.AppBarLayout>
 
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/details"
                 android:layout_width="match_parent"
-                android:weightSum="1"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    >
-                    <EditText
-                        android:id="@+id/Address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="20"
-                        android:textSize="15dp"
-                        android:drawablePadding="5dp"
-                        android:drawableLeft="@drawable/street_icons"
-                        android:hint="Address"
-                        android:inputType="text" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/select_city"
-                    android:textColor="#2C5E83"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="City :" />
-
-                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                    android:id="@+id/cityId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/green"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <!--<LinearLayout-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/select_city"-->
-            <!--android:textColor="#2C5E83"-->
-            <!--android:layout_width="75dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textSize="16dp"-->
-            <!--android:text="Select City" />-->
-            <!--<Spinner-->
-            <!--android:id="@+id/cityId"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
-
-            <!--</LinearLayout>-->
-            <LinearLayout
-                android:layout_marginTop="15dp"
-                android:weightSum="2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-
-                    android:id="@+id/select_district"
-                    android:textColor="#2C5E83"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="District :" />
-                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                    android:id="@+id/districtId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/select_state"
-                    android:textColor="#2C5E83"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="State :" />
-
-                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                    android:id="@+id/stateId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:weightSum="2"
-                android:layout_marginTop="15dp"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/Mobile_Numbertext"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-
-                    <EditText
-                        android:id="@+id/Mobile_Number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:drawableLeft="@drawable/phone"
-                        android:drawablePadding="5dp"
-                        android:hint="Mobile number"
-                        android:textSize="15dp"
-                        android:inputType="phone" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_weight="1"
-                    android:id="@+id/input_pincode"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-
-                    <EditText
-                        android:id="@+id/pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:textSize="15dp"
-                        android:drawableLeft="@drawable/zipcode_icon"
-                        android:drawablePadding="5dp"
-                        android:hint="Pincode"
-                        android:inputType="number" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:layout_weight="1"
-                    android:id="@+id/Frontoffice_Contact_Person"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-
-                    <EditText
-                        android:id="@+id/Frontoffice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:hint="Contact person"
-                        android:textSize="15dp"
-                        android:inputType="textPersonName" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_weight="1"
-                    android:id="@+id/Consultation_Feetext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-
-                    <EditText
-                        android:id="@+id/Consultation_Fee"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:textSize="15dp"
-                        android:drawableLeft="@drawable/ic_attach_money_black_24dp"
-                        android:hint="Cconsultation fee"
-                        android:inputType="number" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:weightSum="1"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/googleLocation"
-                    android:textColor="#2C5E83"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="Google Location : " />
-
-            </LinearLayout>
-
-            <!--<LinearLayout-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:elevation="5dp"-->
-            <!--android:gravity="center"-->
-            <!--android:background="@drawable/edittext_button"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="#00801F"-->
-            <!--android:textSize="16dp"-->
-            <!--android:text="Click Here for Google Map View" />-->
-
-
-            <!--</LinearLayout>-->
-
-            <LinearLayout
-                android:weightSum="1"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/getlatlng"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginEnd="60dp"
-                    android:textAlignment="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/google_map_link"
-                    android:text="Click here to get your Location"
-                    android:textColor="#fff"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/Latitudelabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-                    <EditText
-                        android:id="@+id/Latitude"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-
-                        android:hint="Latitude"
-                        android:textSize="15dp"
-                        android:inputType="phone" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/Logitude_Label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-                    <EditText
-                        android:id="@+id/Longitude"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:textSize="15dp"
-                        android:hint="Longitude"
-                        android:inputType="phone" />
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/Comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-
-                    android:text="Comments :"
-                    android:textColor="#2C5E83"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-
-                <MultiAutoCompleteTextView
-
-                    android:id="@+id/Comments_Others"
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/edittext_button"
-                    android:layout_weight="2"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:weightSum="1"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content">
-                <CheckBox
-
-                    android:id="@+id/serviceAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-
-                    android:text="Are you available for emergency."
-
-                    android:textColor="#ff0000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:id="@+id/emergencyContactLayout"
-                android:layout_marginTop="15dp"
-                android:visibility="gone"
-                android:layout_height="match_parent">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/emergencyContactText"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#8c8080"
-                    android:editable="false"
-                    android:layout_gravity="center">
-                    <EditText
-                        android:id="@+id/emergencyContact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="20"
-                        android:textSize="15dp"
-                        android:drawablePadding="5dp"
-                        android:drawableLeft="@drawable/phone"
-                        android:hint="Emergency Contact Number"
-                        android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right|end"
-                android:layout_marginTop="15dp">
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="1"
+                    android:layout_height="match_parent">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_salutation"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        >
+
+                        <EditText
+                            android:id="@+id/Hospital_Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:hint="@string/hospital_name"
+                            android:textSize="15sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/ic_account_balance_black_24dp"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="1"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        >
+                        <EditText
+                            android:id="@+id/Address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:textSize="15sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/street_icons"
+                            android:hint="@string/address"
+                            android:inputType="text" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/select_city"
+                        android:textColor="#2C5E83"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="@string/city" />
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/cityId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/green"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
                 <!--<TextView-->
+                <!--android:id="@+id/select_city"-->
+                <!--android:textColor="#2C5E83"-->
+                <!--android:layout_width="75dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="16dp"-->
+                <!--android:text="Select City" />-->
+                <!--<Spinner-->
+                <!--android:id="@+id/cityId"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:text="Once you click next we can't change above fields?"/>-->
+                <!--android:layout_weight="1" />-->
 
-                <Button
-                    android:id="@+id/next_link"
+                <!--</LinearLayout>-->
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+
+                        android:id="@+id/select_district"
+                        android:textColor="#2C5E83"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="@string/district" />
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/districtId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/select_state"
+                        android:textColor="#2C5E83"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="@string/state" />
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/stateId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="2"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/Mobile_Numbertext"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+
+                        <EditText
+                            android:id="@+id/Mobile_Number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:drawableLeft="@drawable/phone"
+                            android:drawablePadding="5dp"
+                            android:hint="@string/mobile_number"
+                            android:textSize="15sp"
+                            android:inputType="phone" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_weight="1"
+                        android:id="@+id/input_pincode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+
+                        <EditText
+                            android:id="@+id/pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:textSize="15dp"
+                            android:drawableLeft="@drawable/zipcode_icon"
+                            android:drawablePadding="5sp"
+                            android:hint="@string/pincode"
+                            android:inputType="number" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_weight="1"
+                        android:id="@+id/Frontoffice_Contact_Person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+
+                        <EditText
+                            android:id="@+id/Frontoffice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:drawableLeft="@drawable/ic_person_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:hint="@string/contact_person"
+                            android:textSize="15sp"
+                            android:inputType="textPersonName" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_weight="1"
+                        android:id="@+id/Consultation_Feetext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+
+                        <EditText
+                            android:id="@+id/Consultation_Fee"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:textSize="15sp"
+                            android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                            android:hint="@string/cconsultation_fee"
+                            android:inputType="number" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/googleLocation"
+                        android:textColor="#2C5E83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="@string/google_location" />
+
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/textView"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:elevation="5dp"-->
+                <!--android:gravity="center"-->
+                <!--android:background="@drawable/edittext_button"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#00801F"-->
+                <!--android:textSize="16dp"-->
+                <!--android:text="Click Here for Google Map View" />-->
+
+
+                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/getlatlng"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="60dp"
+                        android:textAlignment="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/google_map_link"
+                        android:text="@string/click_here_to_get_your_location"
+                        android:textColor="#fff"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/Latitudelabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+                        <EditText
+                            android:id="@+id/Latitude"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+
+                            android:hint="@string/latitude"
+                            android:textSize="15sp"
+                            android:inputType="phone" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/Logitude_Label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+                        <EditText
+                            android:id="@+id/Longitude"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:textSize="15sp"
+                            android:hint="@string/longitude"
+                            android:inputType="phone" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/Comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/comments"
+                        android:textColor="#2C5E83"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/Comments_Others"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/edittext_button"
+                        android:layout_weight="2"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+
+                        android:id="@+id/serviceAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/are_you_available_for_emergency"
+                        android:textColor="#ff0000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/emergencyContactLayout"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/emergencyContactText"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#8c8080"
+                        android:editable="false"
+                        android:layout_gravity="center">
+                        <EditText
+                            android:id="@+id/emergencyContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:textSize="15sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/phone"
+                            android:hint="@string/emergency_number"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#1faa00"
-                    android:text="Next"
-                    android:textColor="#fff" />
+                    android:layout_gravity="bottom|right|end"
+                    android:layout_marginTop="15dp">
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Once you click next we can't change above fields?"/>-->
+
+                    <Button
+                        android:id="@+id/next_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#1faa00"
+                        android:text="@string/next"
+                        android:textColor="#fff" />
+                </LinearLayout>
+
+
+
             </LinearLayout>
 
+        </ScrollView>
 
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/timing"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical"
-        android:layout_marginTop="60dp"
-        android:weightSum="2"
-        android:padding="20dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <TextView
-            android:id="@+id/Booking"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/timing"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:textColor="#2c5e83"
-            android:layout_marginBottom="5dp"
-            android:text="Booking Appointment Timing" />
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_marginTop="60dp"
+            android:weightSum="2"
+            android:padding="20dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <TextView
-            android:id="@+id/Note"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:textColor="#ff0000"
-            android:text="Note: In every slot of 30min the maximum appointments that can be 4 " />
-
-        <LinearLayout
-            android:weightSum="3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Sunday"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/Booking"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="Sunday"
-                android:inputType="phone" />
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="#2c5e83"
+                android:layout_marginBottom="5dp"
+                android:text="@string/booking_appointment_timing" />
 
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Monday"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/Note"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="Monday"
-                android:inputType="phone" />
-            <Button
+                android:textAlignment="center"
+                android:textSize="16sp"
                 android:layout_weight="1"
-                android:id="@+id/Tuesday"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:textColor="#ff0000"
+                android:text="@string/note_in_every_slot_of_30min_the_maximum_appointments_that_can_be_4" />
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Sunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/sunday"
+                    android:inputType="phone" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/monday"
+                    android:inputType="phone" />
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/tuesday"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="match_parent">
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Wednesday"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/wednessday"
+                    android:inputType="phone" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Thursday"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:ems="10"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/thurday"
+                    android:inputType="phone" />
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Friday"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:ems="10"
+                    android:textColor="#fff"
+                    android:background="@drawable/round_button"
+                    android:text="@string/friday"
+                    android:inputType="phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="Tuesday"
-                android:inputType="phone" />
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/Saturday"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+
+                    android:background="@drawable/round_button"
+                    android:text="@string/saturday"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <!--<br.com.bloder.magic.view.MagicButton-->
+                <!--android:id="@+id/btn_addAddress"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--app:button_icon="@drawable/login_icon"-->
+                <!--app:button_icon_height="25dp"-->
+                <!--app:button_icon_width="23dp"-->
+                <!--app:expandable_area_color="#4796C2"-->
+                <!--app:hide_text="@string/submit"-->
+                <!--app:hide_text_color="@android:color/white"-->
+                <!--app:hide_text_size="8sp"-->
+                <!--app:icon_button_color="#df760e"-->
+                <!--app:magic_button_size="50dp" />-->
+
+                <com.andexert.library.RippleView
+                    android:id="@+id/rippleView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    ripple:rv_type="rectangle"
+                    ripple:rv_zoom="true">
+
+                    <TextView
+                        android:id="@+id/rect_child"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:text="@string/submit"
+                        android:background="#f938a72f"/>
+
+                </com.andexert.library.RippleView>
+            </LinearLayout>
 
         </LinearLayout>
-        <LinearLayout
-            android:weightSum="3"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="match_parent">
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Wednesday"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="wednessday"
-                android:inputType="phone" />
-
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Thursday"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:ems="10"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="Thurday"
-                android:inputType="phone" />
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Friday"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:ems="10"
-                android:textColor="#fff"
-                android:background="@drawable/round_button"
-                android:text="Friday"
-                android:inputType="phone" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:weightSum="3"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/Saturday"
-
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-
-                android:background="@drawable/round_button"
-                android:text="Saturday"
-                android:inputType="phone" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <br.com.bloder.magic.view.MagicButton
-                android:id="@+id/btn_addAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                app:button_icon="@drawable/login_icon"
-                app:button_icon_height="25dp"
-                app:button_icon_width="23dp"
-                app:expandable_area_color="#4796C2"
-                app:hide_text="@string/submit"
-                app:hide_text_color="@android:color/white"
-                app:hide_text_size="8sp"
-                app:icon_button_color="#df760e"
-                app:magic_button_size="50dp" />
-        </LinearLayout>
-
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

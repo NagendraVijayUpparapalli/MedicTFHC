@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -123,7 +124,7 @@ public class PatientEditProfile extends AppCompatActivity  {
     HashMap<Long, String> myStatesList = new HashMap<Long, String>();
     List<String> myDistrictsList = new ArrayList<String>();
     HashMap<String, String> myBloodGroupList = new HashMap<String, String>();
-
+    RippleView rippleView;
     String smsUrl = null;
     ImageView aadharimage,decodeimg,qrImage,qrScanIcon;
     final Activity activity = this;
@@ -322,8 +323,9 @@ public class PatientEditProfile extends AppCompatActivity  {
 //                    }
 //                });
 
-        gen_btn = (MagicButton) findViewById(R.id.gen_btn);
-        gen_btn.setMagicButtonClickListener(new View.OnClickListener() {
+       // gen_btn = (MagicButton) findViewById(R.id.gen_btn);
+        rippleView=(RippleView) findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

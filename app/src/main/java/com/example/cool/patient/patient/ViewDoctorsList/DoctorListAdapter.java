@@ -72,7 +72,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         addressId=(TextView) itemView.findViewById(R.id.addressId);
         doctorId=(TextView) itemView.findViewById(R.id.doctorId);
         userId=(TextView) itemView.findViewById(R.id.userid);
-//        distance  = (TextView) itemView.findViewById(R.id.distance);
+        distance  = (TextView) itemView.findViewById(R.id.Distance);
 
         profileImage = (ImageView) itemView.findViewById(R.id.docImage);
 
@@ -149,7 +149,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         viewHolder.addressId.setText(doctorClassList.get(i).getAddressId());
         viewHolder.doctorId.setText(doctorClassList.get(i).getDoctorId());
         viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
-//        viewHolder.distance.setText(doctorClassList.get(i).getDistance());
+        viewHolder.distance.setText(doctorClassList.get(i).getDistance());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorClassList.get(i).getDoctorImage());

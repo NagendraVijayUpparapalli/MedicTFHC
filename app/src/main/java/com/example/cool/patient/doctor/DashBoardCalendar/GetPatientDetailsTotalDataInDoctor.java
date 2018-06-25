@@ -118,7 +118,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
         mobilenum = getIntent().getStringExtra("mobilenumber");
         timeslt = getIntent().getStringExtra("timeslot");
         status1 = getIntent().getStringExtra("status");
-        AppointmentID1 = getIntent().getIntExtra("AppointmentID",1);
+        AppointmentID = getIntent().getStringExtra("AppointmentID");
         doctorId = getIntent().getStringExtra("doctorId");
         doctorMobile = getIntent().getStringExtra("doctorMobile");
         addressID=getIntent().getStringExtra("doctorAddressID");
@@ -135,7 +135,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity {
         System.out.println("Appintmentid..."+AppointmentID1);
         System.out.println("patientid totaldatadoc..."+patientId);
         System.out.println("doctorid..."+doctorId);
-        AppointmentID=Integer.toString(AppointmentID1);
+        //AppointmentID=Integer.toString(AppointmentID1);
         //AppointmentID1=Integer.parseInt(AppointmentID);
 
         patientname.setText(myPatientname);

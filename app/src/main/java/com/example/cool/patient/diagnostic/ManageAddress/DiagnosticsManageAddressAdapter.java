@@ -84,7 +84,7 @@ public class DiagnosticsManageAddressAdapter extends RecyclerView.Adapter<Diagno
             addressId = (TextView)itemView.findViewById(R.id.addressId);
             regMobile = (TextView) itemView.findViewById(R.id.regMobile);
 
-            reason_Todelete = (EditText) itemView.findViewById(R.id.reason_delete);
+            //reason_Todelete = (EditText) itemView.findViewById(R.id.reason_delete);
             regMobile = (TextView) itemView.findViewById(R.id.regMobile);
 
             edit = (Button) itemView.findViewById(R.id.Edit);
@@ -176,7 +176,7 @@ public class DiagnosticsManageAddressAdapter extends RecyclerView.Adapter<Diagno
         emergencyService = diagnosticsManageAddressClassList.get(i).isEmergencyservice();
         final int pos = i;
 
-        reasonToDelete = reason_Todelete.getText().toString();
+      //  reasonToDelete = reason_Todelete.getText().toString();
         mobile = viewHolder.regMobile.getText().toString();
         diagId = diagnosticsManageAddressClassList.get(pos).getDiagnosticId();
         addId = diagnosticsManageAddressClassList.get(pos).getAddressId();

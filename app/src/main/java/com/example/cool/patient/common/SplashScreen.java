@@ -1,5 +1,6 @@
 package com.example.cool.patient.common;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends Activity {
 
 
     private static int SPLASH_TIME_OUT = 4000;

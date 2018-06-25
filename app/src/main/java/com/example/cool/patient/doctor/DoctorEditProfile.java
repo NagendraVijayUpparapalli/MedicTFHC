@@ -34,6 +34,7 @@ import android.widget.RadioGroup;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
@@ -80,7 +81,7 @@ public class DoctorEditProfile extends AppCompatActivity {
     List<String> Spaliaty;
     CheckBox cash_on_hand, swipe_card, net_banking, pay_paym;
     MagicButton gen_btn;
-
+    RippleView rippleView;
     RadioGroup radioGroup;
     RadioButton radioButton;
     int radiobuttonid;
@@ -199,14 +200,15 @@ public class DoctorEditProfile extends AppCompatActivity {
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addAadharIcon);
         addProfileIcon = (FloatingActionButton) findViewById(R.id.addprofileIcon);
 
-        gen_btn = (MagicButton) findViewById(R.id.gen_btn);
-        gen_btn.setMagicButtonClickListener(new View.OnClickListener() {
+
+
+        rippleView = (RippleView) findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 validateEditProfile();
             }
         });
-
         addCertificateIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

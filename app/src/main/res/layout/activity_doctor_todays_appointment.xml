@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:focusedByDefault="false"
+    android:keyboardNavigationCluster="true"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout android:id="@+id/relative"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:focusedByDefault="false"
+    android:keyboardNavigationCluster="true"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarcool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -24,251 +42,225 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrool"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:layout_below="@+id/appbarcool">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#fff"
-            android:padding="20dp">
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_salutation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColorHint="#8c8080">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbarcool">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#fff"
+                android:padding="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="1"
+                    android:layout_height="match_parent">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_salutation"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#8c8080">
+                        <EditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/green"
+                            android:drawableLeft="@drawable/ic_person_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:ems="20"
+                            android:hint="@string/patient_name"
+                            android:inputType="textPersonName"
+                            android:textSize="15sp" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/name"
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_gravity="center"
+                    android:weightSum="4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/green"
-                    android:drawableLeft="@drawable/ic_person_black_24dp"
-                    android:drawablePadding="5dp"
-                    android:ems="20"
-                    android:hint="Patient Name"
-                    android:inputType="textPersonName"
-                    android:textSize="15dp" />
-            </android.support.design.widget.TextInputLayout>
-            <!--<RelativeLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="100dp">-->
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Patient History"-->
-            <!--/>-->
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:text="@string/age"/>
+                    <TextView
+                        android:id="@+id/age"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="21"/>
 
-            <!--</RelativeLayout>-->
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-            <LinearLayout
-                android:id="@+id/layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
+                        android:textColor="#000"
+                        android:text="@string/patient_history"/>
+                    <TextView
+                        android:id="@+id/click"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#6e74e4"
+                        android:text="@string/click_here"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:textSize="15dp"
-                    android:text="Age :"/>
-                <TextView
-                    android:id="@+id/age"
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="0.1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:text="@string/reason"/>
+                    <TextView
+                        android:layout_weight="0.1"
+                        android:id="@+id/reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="fever"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:text="21"/>
-
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="90dp"
-                    android:textColor="#000"
-                    android:text="Patient History :"/>
-                <TextView
-                    android:id="@+id/click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#6e74e4"
-                    android:text="Click Here..."/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:textSize="15dp"
-                    android:text="Reason :"/>
-                <TextView
-                    android:id="@+id/reason"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="fever"/>
-
-            </LinearLayout>
+                    android:layout_marginTop="10dp"
+                    android:weightSum="1"
+                    android:orientation="vertical">
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Comments :"
-                android:textColor="#000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/comments"
+                        android:textColor="#000"/>
 
-            <MultiAutoCompleteTextView
-                android:id="@+id/Comments"
-                android:textColor="#000"
-                android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_height="120dp"
-                android:background="@drawable/edittext_button"
-                android:layout_weight="1"
-                android:textSize="15dp"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Prescription :"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
-
-            <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:fitsSystemWindows="true"
-                android:orientation="vertical">
-
-                <android.support.design.widget.AppBarLayout
-                    android:id="@+id/appbar"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-                    <ImageView
-                        android:id="@+id/prescription"
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/Comments"
+                        android:textColor="#000"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/noimage11" />
-                </android.support.design.widget.AppBarLayout>
-
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/gallery_icon"
-                    android:layout_width="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="120dp"
+                        android:background="@drawable/edittext_button"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:clickable="true"
-                    android:src="@drawable/ic_camera_black_24dp"
-                    app:fabSize="mini"
-                    app:layout_anchor="@id/appbar"
-                    app:layout_anchorGravity="bottom|right|end" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/camera_icon"
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/upload_prescription"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:clickable="true"
-                    android:src="@drawable/ic_camera_black_24dp"
-                    app:fabSize="mini"
-                    app:layout_anchor="@id/appbar"
-                    app:layout_anchorGravity="bottom|left|end" />
-
-            </android.support.design.widget.CoordinatorLayout>
-
-            <!--<CheckBox-->
-                <!--android:id="@+id/refer_diagnostics"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="16dp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_marginBottom="5dp"-->
-                <!--android:textColor="#070c6e"-->
-                <!--android:text="Refer Diagnostics" />-->
-
-            <!--<RelativeLayout-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/relative1"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/diagnostic_centers"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-                <!--</Spinner>-->
-                <!--<CheckBox-->
-                    <!--android:id="@+id/test1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="16dp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:textColor="#070c6e"-->
-                    <!--android:text="Sugar Test" />-->
-                <!--<CheckBox-->
-                    <!--android:id="@+id/test2"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="16dp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:layout_marginTop="30dp"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:textColor="#070c6e"-->
-                    <!--android:text="Blood Test" />-->
-                <!--<CheckBox-->
-                    <!--android:id="@+id/test3"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="16dp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:layout_marginTop="50dp"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:textColor="#070c6e"-->
-                    <!--android:text="BP Test" />-->
+                    android:layout_marginTop="10dp"
+                    android:weightSum="1"
+                    android:orientation="vertical">
 
 
-            <!--</RelativeLayout>-->
+                    <android.support.design.widget.CoordinatorLayout
+                        android:id="@+id/main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp">
 
-            <Button
-                android:id="@+id/gen_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="60dp"
-                android:layout_marginLeft="90dp"
-                android:background="@drawable/round_button"
-                android:text="Submit"
-                android:textColor="#FFFFFF"
-                android:layout_marginRight="100dp"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="20dp"
-                android:drawablePadding="20dp"/>
-        </LinearLayout>
+                        <android.support.design.widget.AppBarLayout
+                            android:id="@+id/appbar"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/prescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/noimage" />
+                        </android.support.design.widget.AppBarLayout>
+
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/gallery_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:clickable="true"
+                            android:src="@drawable/ic_camera_black_24dp"
+                            app:fabSize="mini"
+                            app:layout_anchor="@id/appbar"
+                            app:layout_anchorGravity="bottom|right|end" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/camera_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:clickable="true"
+                            android:src="@drawable/ic_camera_black_24dp"
+                            app:fabSize="mini"
+                            app:layout_anchor="@id/appbar"
+                            app:layout_anchorGravity="bottom|left|end" />
+
+                    </android.support.design.widget.CoordinatorLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/gen_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/round_button"
+                        android:text="@string/submit"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="20dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

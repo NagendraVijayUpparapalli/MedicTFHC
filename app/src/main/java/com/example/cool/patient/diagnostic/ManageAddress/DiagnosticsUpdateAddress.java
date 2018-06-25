@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.common.MapsActivity;
@@ -73,6 +74,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity {
     ImageView centerImage;
     FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
+    RippleView rippleView;
     LinearLayout emergencyContactLayout;
 
     static String uploadServerUrl = null;
@@ -172,7 +174,9 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity {
 
         centerImage = (ImageView) findViewById(R.id.diag_center_image);
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
-        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
+//        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
+        rippleView=(RippleView)findViewById(R.id.rippleView);
+
 
 
         myaddressId = getIntent().getStringExtra("addressId");
@@ -234,7 +238,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity {
             }
         });
 
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFullAddress();

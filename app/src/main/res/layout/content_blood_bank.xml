@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.cool.patient.BloodBank">
+    tools:context="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank">
 
     <!--<android.support.v4.widget.Space-->
     <!--android:layout_width="match_parent"-->

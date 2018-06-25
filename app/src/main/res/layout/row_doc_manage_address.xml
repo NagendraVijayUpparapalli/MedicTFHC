@@ -9,256 +9,268 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android" >
-
-
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/pink"
 
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:paddingLeft="10dp"
-            app:cardElevation="35dp"
-            card_view:cardBackgroundColor="@color/pink"
-
-            card_view:cardCornerRadius="5dp">
+            >
 
             <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="70dp"
+                    android:src="@drawable/noimage11"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_width="3dp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/Hospital_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Municpal apollo hosipaptal"
+                    android:textColor="#ff0000"
+                    android:textSize="21dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/Address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="140dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="D.No:3-30/A, Balabbavari Thopu(Vill)"
+                    />
                 <LinearLayout
+                    android:weightSum="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/profile_image"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="70dp"
-                        android:src="@drawable/noimage11"
-                        app:civ_border_color="@color/colorAccent"
-                        app:civ_border_width="3dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:orientation="vertical">
+                    android:layout_marginStart="140dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
                     <TextView
-                        android:id="@+id/Hospital_Name"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/city"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:text="Municpal apollo hosipaptal"
-                        android:textColor="#ff0000"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-
-
-
-                    <TextView
-                        android:id="@+id/Address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="140dp"
-                        android:layout_marginTop="5dp"
-                        android:textSize="17dp"
+                        android:layout_weight="1"
+                        android:text="Vishakapatanum "
                         android:textColor="#000"
-                        android:text="D.No:3-30/A, Balabbavari Thopu(Vill)"
+                        android:textSize="17dp" />
+
+                    <!--<android.support.v4.widget.Space-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="wrap_content" />-->
+                    <TextView
+                        android:layout_width="13dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:text="-"
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:id="@+id/pincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="533003"
+                        android:layout_weight="1"
+                        android:textColor="#000"
+                        android:textSize="17dp"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="140dp"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/district"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="East Godavari District"
+                        android:textColor="#000"
+                        android:textSize="17dp"
+
                         />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="140dp"
-                        android:layout_marginTop="5dp">
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Amalapuram"
-                            android:textColor="#000"
-                            android:textSize="17dp" />
-
-                        <!--<android.support.v4.widget.Space-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="wrap_content" />-->
-                        <TextView
-                            android:layout_width="13dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="-"
-                            android:textSize="20dp"/>
-
-                        <TextView
-                            android:id="@+id/pincode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="533003"
-                            android:textColor="#000"
-                            android:textSize="17dp"
-                            />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="140dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/district"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="East Godavari District"
-                            android:textColor="#000"
-                            android:textSize="17dp"
-
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="140dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/state"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Andhra Pradesh"
-                            android:textColor="#000"
-                            android:textSize="17dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="140dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/contact_person_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="udayasri"
-                            android:textColor="#2C5E83"
-                            android:textSize="17dp" />
-
-                        <TextView
-                            android:layout_width="13dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="-"
-                            android:textSize="20dp"/>
-
-                        <TextView
-                            android:id="@+id/phone_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="9492862167"
-                            android:textColor="#000"
-                            android:textSize="17dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/Comments"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Comments :"
-                            android:textColor="#2C5E83"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-
-                        <!--<MultiAutoCompleteTextView-->
-                        <!--android:layout_width="160dp"-->
-                        <!--android:layout_height="195dp"-->
-                        <!--android:textSize="15dp"-->
-                        <!--android:textStyle="normal"-->
-                        <!--android:background="@drawable/edittext_button"/>-->
-
-                        <MultiAutoCompleteTextView
-                            android:id="@+id/reason_delete"
-                            android:textColor="#000"
-                            android:layout_width="240dp"
-                            android:layout_height="50dp"
-                            android:background="@drawable/edittext_button"
-                            android:layout_weight="1"
-                            android:padding="9dp"
-                            android:hint="Reason to delete"
-                            android:textSize="15dp"
-                            />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_height="wrap_content">
-                        <Button
-                            android:id="@+id/Edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
-                            android:background="@drawable/active_button"
-                            android:text="EDIT"
-                            android:textColor="#FFFFFF"
-                            android:textStyle="bold" />
-
-                        <Button
-                            android:id="@+id/InActive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="135dp"
-                            android:background="@drawable/inactive_button"
-                            android:text="InActive"
-
-                            android:textColor="#FFFFFF"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp" />
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="140dp"
+                    android:layout_marginTop="5dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/state"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/regMobile"
-                        android:visibility="gone"/>
+                        android:text="Andhra Pradesh"
+                        android:textColor="#000"
+                        android:textSize="17dp" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:weightSum="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="140dp"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/contact_person_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amudula"
+                        android:textColor="#2C5E83"
+                        android:textSize="17dp" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="13dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="-"
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9492862167"
+                        android:textColor="#000"
+                        android:textSize="17dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="140dp"
+
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!--<TextView-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:id="@+id/Comments"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Comments : "-->
+                    <!--android:textColor="#2C5E83"-->
+                    <!--android:textSize="17dp" />-->
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/reason_delete"
+                        android:textColor="#000"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="10dp"
+                        android:hint="comment for Reason"
+                        android:paddingLeft="5dp"
+                        android:background="@drawable/edittext_button"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="3"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="match_parent">
+                    <Button
+                        android:id="@+id/Edit"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stateListAnimator="@null"
+                        android:elevation="10dp"
+                        android:background="#202bce"
+                        android:text="EDIT"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="3dp"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/InActive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="InActive"
+                        android:background="#e90d0d"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/regMobile"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
             <!--</RelativeLayout>-->
-
         </android.support.v7.widget.CardView>
-
     </ScrollView>
 </LinearLayout>
+

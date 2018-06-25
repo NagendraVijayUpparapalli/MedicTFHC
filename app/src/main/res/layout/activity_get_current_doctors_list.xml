@@ -34,37 +34,141 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<include-->
-    <!--layout="@layout/doctor_manage_address_content"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
+    <RelativeLayout
+        android:id="@+id/myLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar">
 
-    <!--<TextView-->
-        <!--android:id="@+id/phonenum"-->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:orientation="vertical">
+
+        <!--<LinearLayout-->
         <!--android:layout_width="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:textColor="#FFFFFF"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="20sp"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:visibility="gone"-->
-        <!--android:text="8465887420"-->
-        <!--android:textColor="#fde402"-->
-        <!--android:textSize="18sp" />-->
+        <!--android:text="Blood Group: "/>-->
+        <!--<Spinner-->
+        <!--android:id="@+id/spinner2"-->
+        <!--android:layout_width="160dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginEnd="15dp"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:layout_below="@id/linearLayout"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/edittext_button" />-->
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/rangeLayout"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/appbar"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:text="Range: "/>
+
+            <android.support.v4.widget.Space
+                android:layout_width="65dp"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_width="180dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Note: Range(0Km - 100Km):"
+                    android:textColor="#e40c0c"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/seekbar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/linearLayout" />
+
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/txt"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#000"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/specialityLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/rangeLayout">
+            <TextView
+                android:id="@+id/Speciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose Speciality :"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="#2C5E83"
+                />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/speciality"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/green" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </RelativeLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:layout_below="@+id/appbar"/>
-
-    <!--<ListView-->
-        <!--android:id="@+id/mylist"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:divider="@null"-->
-
-
-        <!--tools:listitem="@layout/row_get_doctors_list">-->
-
-    <!--</ListView>-->
+        android:layout_below="@+id/myLayout"/>
 
 </RelativeLayout>

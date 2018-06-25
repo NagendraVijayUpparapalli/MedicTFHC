@@ -267,6 +267,7 @@
 
                 <com.andexert.library.RippleView
                     android:id="@+id/rippleView"
+
                     android:layout_width="wrap_content"
                     android:layout_below="@+id/actionbar"
                     android:layout_marginTop="20dp"

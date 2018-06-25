@@ -186,9 +186,29 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String json=formatDataAsJson();
-                System.out.println("js data.getpatient details in diag."+json.toString());
-                new SendDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment",json.toString());
+//                String json=formatDataAsJson();
+//                System.out.println("js data.getpatient details in diag."+json.toString());
+//                new SendDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment",json.toString());
+
+                comment=comments.getText().toString();
+                ammnt=amnt.getText().toString();
+
+                if(netbanking.isChecked())
+                {
+                    payment = "Online Banking";
+                }
+
+                if(cashonhand.isChecked())
+                {
+                    payment="CashonHand";
+                }
+
+                if(swipe_card.isChecked())
+                {
+                    payment="Debit/Credit card Swipe";
+                }
+                new SendDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
+
             }
         });
 
@@ -299,10 +319,11 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity {
                 httpURLConnection.setRequestProperty("Accept", "application/json");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 Log.d("Service","Started");
+                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[1]);
-                wr.writeBytes(params[1]);
+                System.out.println("params....."+params[0]);
+                wr.writeBytes(params[0]);
                 wr.flush();
                 wr.close();
 

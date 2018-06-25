@@ -65,7 +65,7 @@ public class Registration extends AppCompatActivity {
     Animation downnup,Cardviewdowntoup,Textviewdowntoup;
 
     EditText surname,name,mobile,email,password,confirm_password,usertype;
-    String mySurname,myName,myMobile,myEmail,myPassword,myConfirm_password,myUsertype;;
+    String mySurname,myName,myMobile,myEmail,myPassword,myConfirm_password,myUsertype;
     String selectedUserType;
     MagicButton register;
     static String uploadServerUrl = null;
@@ -94,8 +94,8 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         baseUrl = new ApiBaseUrl();
+//        baseUrl.getUrl();
 
-        //url for sending registration details to api
         uploadServerUrl = baseUrl.getUrl()+"UserRegistration";
 
         getUserType();
@@ -500,7 +500,7 @@ public class Registration extends AppCompatActivity {
         {
             String js = formatDataAsJson();
             System.out.println("params...."+js.toString());
-            new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
+//            new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
         }
     }
 

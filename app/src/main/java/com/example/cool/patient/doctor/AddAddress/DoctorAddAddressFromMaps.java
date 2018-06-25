@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
@@ -54,6 +55,7 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity {
     SearchableSpinner city,state,district;
     CheckBox availableService;
     MagicButton btn_AddAddress;
+    RippleView  rippleView;
     Button nextView;
     LinearLayout timingLayout,details_layout,emergencyContactLayout;
     TextView getLatLong;
@@ -243,8 +245,10 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity {
         });
 
 
-        btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+//        btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
+
+        rippleView=(RippleView)  findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/relative"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:focusedByDefault="false"
+    android:keyboardNavigationCluster="true"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:id="@+id/relative"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +23,6 @@
     android:keyboardNavigationCluster="true"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarcool"
         android:layout_width="match_parent"
@@ -71,7 +83,7 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:drawablePadding="5dp"
                             android:ems="20"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:hint="@string/name"
                             android:inputType="textPersonName" />
                         <!--</HorizontalScrollView>-->
@@ -88,15 +100,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textColorHint="#8c8080"
-                        android:editable="false"
-                        >
+                        android:editable="false">
 
                         <EditText
                             android:id="@+id/email"
                             android:backgroundTint="@color/green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:hint="@string/email_id"
                             android:drawablePadding="5dp"
                             android:drawableLeft="@drawable/ic_mail_black_24dp"
@@ -130,7 +141,7 @@
                             android:ems="20"
                             android:hint="@string/mobile_number"
                             android:inputType="phone"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
@@ -147,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:textStyle="bold"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="#2C5E83"
                         android:text="@string/gender" />
                     <android.support.v4.widget.Space
@@ -171,7 +182,7 @@
                             android:buttonTint="@color/green"
                             android:checked="false"
                             android:layout_weight="1"
-                            android:text="Male" />
+                            android:text="@string/male" />
 
                         <RadioButton
                             android:id="@+id/femaleRadio"
@@ -181,7 +192,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
                             android:checked="false"
-                            android:text="Female" />
+                            android:text="@string/female" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -196,22 +207,22 @@
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Licence Number :"
+                        android:text="@string/licence_number"
                         android:textStyle="bold"
                         android:textColor="#2C5E83"
                         android:layout_marginTop="10dp"
-                        android:textSize="16dp"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Licence Image :"
+                        android:text="@string/licence_image"
                         android:textStyle="bold"
                         android:textColor="#2C5E83"
-
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
-                        android:textSize="16dp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -222,34 +233,28 @@
                     <MultiAutoCompleteTextView
                         android:layout_weight="1"
                         android:id="@+id/licenceNumber"
-                        android:layout_width="160dp"
+                        android:layout_width="match_parent"
                         android:layout_height="195dp"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="normal"
                         android:background="@drawable/edittext_button"/>
 
                     <android.support.design.widget.CoordinatorLayout
                         android:layout_weight="1"
                         android:id="@+id/main1"
-                        android:layout_width="170dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-
-                        >
+                        android:layout_marginStart="15dp">
 
                         <android.support.design.widget.AppBarLayout
                             android:id="@+id/appbar1"
-                            android:layout_width="170dp"
-                            android:layout_height="196dp"
-
-                            >
-
-
+                            android:layout_width="match_parent"
+                            android:layout_height="196dp">
                             <ImageView
                                 android:id = "@+id/Licence_Image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/noimage11"/>
 
                         </android.support.design.widget.AppBarLayout>
@@ -273,11 +278,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/upload_aadhaarimage"
+                    android:text="@string/upload_aadharimage"
                     android:textStyle="bold"
                     android:textColor="#2C5E83"
                     android:layout_marginTop="10dp"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
 
                 <android.support.design.widget.CoordinatorLayout
 
@@ -286,21 +291,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="15dp"
-
-                    >
+                    android:layout_marginTop="15dp">
 
                     <android.support.design.widget.AppBarLayout
                         android:id="@+id/appbar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/diag_aadhar_image"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/noimage11" />
 
                     </android.support.design.widget.AppBarLayout>
@@ -337,7 +339,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:ems="20"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:drawableLeft="@drawable/aadhar_icon"
                             android:drawablePadding="5dp"
                             android:hint="@string/aadhaar_number"
@@ -358,65 +360,12 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="4dp"
                         android:textStyle="bold"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textAlignment="center"
-                        android:text="Choose convenient Payment mode for patient"
+                        android:text="@string/choose_convenient_payment_mode_for_patient"
                         android:textColor="#2C5E83"/>
 
                 </LinearLayout>
-
-
-                <!--<LinearLayout-->
-                    <!--android:weightSum="2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/cash_on_hand"-->
-                        <!--android:layout_width="140dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/cashonhand_icon"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-                        <!--android:text="@string/cash_on_hand" />-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/debit_card"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/creditcard_icon"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-
-                        <!--android:text="@string/credi_debit" />-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:weightSum="2"-->
-                    <!--android:layout_height="match_parent">-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/net_banking"-->
-
-                        <!--android:layout_width="110dp"-->
-
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:drawableLeft="@drawable/custom_netbanking_icon"-->
-                        <!--android:text="@string/net_banking"-->
-                        <!--android:textSize="13dp" />-->
-
-                    <!--<android.support.v7.widget.AppCompatCheckBox-->
-                        <!--android:id="@+id/pay_paym"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/custom_icon"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textSize="13dp"-->
-                        <!--android:text="@string/paytm" />-->
-                <!--</LinearLayout>-->
 
 
                 <LinearLayout
@@ -429,26 +378,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
-                        android:text="Cash on Hand" />
+                        android:textSize="13sp"
+                        android:text="@string/cash_on_hand" />
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/net_banking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
-                        android:text="Online Banking" />
+                        android:textSize="13sp"
+                        android:text="@string/online_banking" />
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/swipe_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="13dp"
-                        android:text="Swipe cards" />
+                        android:textSize="13sp"
+                        android:text="@string/swipe_cards" />
                 </LinearLayout>
-
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -471,8 +418,8 @@
                         android:id="@+id/confirm_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="I confirm that I am a registered Diagnostic."
+                        android:textSize="15sp"
+                        android:text="@string/i_confirm_that_i_am_a_registered_diagnostic"
                         android:textColor="#ff0000"
                         android:textStyle="bold"/>
 
@@ -482,23 +429,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <br.com.bloder.magic.view.MagicButton
-                        android:id="@+id/gen_btn"
+                    <!--<br.com.bloder.magic.view.MagicButton-->
+                        <!--android:id="@+id/gen_btn"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--app:button_icon="@drawable/login_icon"-->
+                        <!--app:button_icon_height="25dp"-->
+                        <!--app:button_icon_width="23dp"-->
+                        <!--app:expandable_area_color="#4796C2"-->
+                        <!--app:hide_text="@string/submit"-->
+                        <!--app:hide_text_color="@android:color/white"-->
+                        <!--app:hide_text_size="8sp"-->
+                        <!--app:icon_button_color="#ace68a"-->
+                        <!--app:magic_button_size="50dp" />-->
+
+                    <com.andexert.library.RippleView
+                        android:id="@+id/rippleView"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        app:button_icon="@drawable/login_icon"
-                        app:button_icon_height="25dp"
-                        app:button_icon_width="23dp"
-                        app:expandable_area_color="#4796C2"
-                        app:hide_text="@string/submit"
-                        app:hide_text_color="@android:color/white"
-                        app:hide_text_size="8sp"
-                        app:icon_button_color="#ace68a"
-                        app:magic_button_size="50dp" />
+                        ripple:rv_type="rectangle"
+                        ripple:rv_zoom="true">
+
+                        <TextView
+                            android:id="@+id/rect_child"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:gravity="center"
+                            android:text="@string/submit"
+                            android:background="#f938a72f"/>
+
+                    </com.andexert.library.RippleView>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

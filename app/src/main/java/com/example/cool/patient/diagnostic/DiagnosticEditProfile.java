@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.R;
@@ -76,6 +77,8 @@ public class DiagnosticEditProfile extends AppCompatActivity {
     List<String> Spaliaty;
     CheckBox cash_on_hand, swipe_card, net_banking;
     MagicButton gen_btn;
+
+    RippleView rippleView;
     RadioButton female,male;
     List<String>districtsList;
     List<String> myDistrictsList = new ArrayList<String>();
@@ -136,8 +139,9 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         addLicenceIcon = (FloatingActionButton) findViewById(R.id.Licence_ImageIcon);
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharIcon);
 
-        gen_btn = (MagicButton) findViewById(R.id.gen_btn);
-        gen_btn.setMagicButtonClickListener(new View.OnClickListener() {
+//        gen_btn = (MagicButton) findViewById(R.id.gen_btn);
+        rippleView=(RippleView)findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

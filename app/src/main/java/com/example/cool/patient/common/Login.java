@@ -182,8 +182,6 @@ public class Login extends Activity {
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
 
-//        button = (MagicButton) findViewById(R.id.btn_login);
-
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

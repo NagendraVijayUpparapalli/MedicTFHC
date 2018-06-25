@@ -4,9 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-
-
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -15,8 +12,6 @@
         android:id="@+id/docImage"
         android:layout_width="50dp"
         android:layout_height="80dp"
-
-
         android:layout_marginStart="10dp"
         android:contentDescription="@string/share"
         android:layout_marginTop="1dp"
@@ -55,14 +50,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="12dp"
-                android:text="Contact Person : " />
+                android:textSize="12sp"
+                android:text="@string/cntpersn" />
 
             <TextView
                 android:id="@+id/ContactPerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:text="Udaya sri prabhakararaju " />
         </LinearLayout>
 
@@ -73,22 +68,22 @@
             android:orientation="horizontal">
             <TextView
                 android:textColor="#2C5E83"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="Phone Number : " />
+                android:text="@string/mobile_number_patient" />
 
 
             <TextView
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:id="@+id/phonenum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="8341495888" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_gravity="right"
@@ -97,14 +92,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#2C5E83"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:text="Distance : "/>
+                android:text="@string/distance"/>
             <TextView
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 Km"/>
+                android:text="25.5 Km"/>
 
 
         </LinearLayout>
@@ -172,10 +167,7 @@
             android:textColor="#fde402"
             android:textSize="18sp" />
 
-
-
     </LinearLayout>
-
-
 </LinearLayout>
+
 
