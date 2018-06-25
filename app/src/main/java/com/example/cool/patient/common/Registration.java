@@ -19,6 +19,7 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -53,7 +54,7 @@ import java.util.List;
 
 import br.com.bloder.magic.view.MagicButton;
 
-public class Registration extends Activity {
+public class Registration extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
@@ -93,8 +94,8 @@ public class Registration extends Activity {
         setContentView(R.layout.activity_registration);
 
         baseUrl = new ApiBaseUrl();
-//        baseUrl.getUrl();
 
+        //url for sending registration details to api
         uploadServerUrl = baseUrl.getUrl()+"UserRegistration";
 
         getUserType();
