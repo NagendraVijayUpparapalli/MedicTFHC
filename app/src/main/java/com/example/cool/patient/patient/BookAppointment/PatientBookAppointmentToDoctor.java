@@ -255,7 +255,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             }
         });
 
-        
+
         //finding appointment count based on time
         timings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

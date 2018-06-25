@@ -267,7 +267,7 @@
             android:label="Diagnostics List"
             android:screenOrientation="portrait" />
         <activity
-            android:name="patient.BookAppointment.PatientBookAppointmentToDiagnostics"
+            android:name=".patient.BookAppointment.PatientBookAppointmentToDiagnostics"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.MedicalShopDashboard"

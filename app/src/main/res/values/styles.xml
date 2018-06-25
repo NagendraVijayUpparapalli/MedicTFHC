@@ -30,9 +30,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorPrimary">@color/mycolor</item>
-    </style>
+    <!--<style name="MyAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">-->
+        <!--<item name="colorPrimary">@color/mycolor</item>-->
+    <!--</style>-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
