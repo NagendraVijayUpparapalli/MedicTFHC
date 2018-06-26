@@ -25,7 +25,7 @@
             android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,15 +58,15 @@
         <activity
             android:name=".common.Login"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.Registration"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.ForgotPassword"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".patient.PatientEditProfile"
             android:label="@string/Edit_profile"
@@ -204,14 +204,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList"
-            android:label="Doctors List"
+            android:label="Doctors"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.ManageAddress.DoctorDeleteAddress"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.DashBoardCalendar.GetPatientDetailsListInDoctor"
-            android:label="Patient List"
+            android:label="Patients"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor"
@@ -249,7 +249,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList11"
-            android:label="Doctors List"
+            android:label="Doctors"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.TodaysAppointments.DoctorReferDiagnostic"
@@ -264,7 +264,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList"
-            android:label="Diagnostics List"
+            android:label="Diagnostics"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.BookAppointment.PatientBookAppointmentToDiagnostics"
@@ -280,7 +280,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsListInDiagnostics"
-            android:label="Patient List"
+            android:label="Patient"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments"
@@ -326,7 +326,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList"
-            android:label="MedicalShops List"
+            android:label="MedicalShops"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments"
@@ -340,11 +340,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList11"
-            android:label="Diagnostics List"
+            android:label="Diagnostics"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList11"
-            android:label="MedicalShops List"
+            android:label="MedicalShops"
             android:screenOrientation="portrait" />
         <activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"></activity>
     </application>

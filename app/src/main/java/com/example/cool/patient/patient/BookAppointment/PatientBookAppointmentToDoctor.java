@@ -163,17 +163,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         }
 
         timings=(Spinner)findViewById(R.id.timings);
-//        timings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-////                https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44
-//
-//                int keyValue = (int) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
-//                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+appointmentdate.getText().toString()+"&TimeslotID="+keyValue);
-//
-//            }
-//        });
 
         button=(Button)findViewById(R.id.submit);
 

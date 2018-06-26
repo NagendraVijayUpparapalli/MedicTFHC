@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -36,10 +37,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andexert.library.RippleView;
+import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
+import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
+import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.patient.PatientEditProfile;
 import com.example.cool.patient.R;
 
@@ -57,7 +61,7 @@ import java.util.List;
 
 import br.com.bloder.magic.view.MagicButton;
 
-public class Login extends Activity {
+public class Login extends AppCompatActivity {
 
     ImageView Image;
     LinearLayout cardViewId;
@@ -66,7 +70,7 @@ public class Login extends Activity {
     Animation downnup,Cardviewdowntoup,Textviewdowntoup;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    int radiobuttonid;
+    int radiobuttonid,loginTypeId;
     EditText mobile_num,password1,aadhar_num;
     CheckBox showPasswordCheckBox;
     TextView new_user,forgot,present_location;
@@ -143,12 +147,12 @@ public class Login extends Activity {
 
         // find the radioButton by returned id
         radioGroup = (RadioGroup) findViewById(R.id.logintype_radio);
-
-        radiobuttonid = radioGroup.getCheckedRadioButtonId();
-
-        System.out.println("radio...."+radiobuttonid);
-
-        radioButton = (RadioButton) findViewById(radiobuttonid);
+//
+//        radiobuttonid = radioGroup.getCheckedRadioButtonId();
+//
+//        System.out.println("radio...."+radiobuttonid);
+//
+//        radioButton = (RadioButton) findViewById(radiobuttonid);
 
         password1 = (EditText) findViewById(R.id.password);
         aadhar_num = (EditText) findViewById(R.id.aadharNumber);
@@ -186,8 +190,20 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
 
-                validateLogin();
+                password=password1.getText().toString().trim();
+                phone = mobile_num.getText().toString().trim();
+                aadhar = aadhar_num.getText().toString().trim();
 
+                if(!phone.equals(""))
+                {
+                    System.out.println("mobile validate");
+                    validateMobileLogin();
+                }
+                else
+                {
+                    System.out.println("aadhaar validate");
+                    validateAadhaarLogin();
+                }
 
             }
         });
@@ -195,6 +211,7 @@ public class Login extends Activity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                 if(checkedId==R.id.mobileRadio)
                 {
                     mobile_num.setVisibility(View.VISIBLE);
@@ -202,7 +219,6 @@ public class Login extends Activity {
                 }
                 else if(checkedId==R.id.aadharRadio)
                 {
-//                    aadhar_num.setCompoundDrawablesWithIntrinsicBounds(null, null,getResources().getDrawable(R.drawable.aadharr), null);
                     mobile_num.setVisibility(View.GONE);
                     aadhar_num.setVisibility(View.VISIBLE);
                 }
@@ -231,17 +247,17 @@ public class Login extends Activity {
     {
         JSONObject data = new JSONObject();
 
-        System.out.println("radio text.."+radioButton.getText());
-
         try{
-            if(radioButton.getText().equals("Mobile Number"))
+            if(!mobile_num.getText().toString().trim().equals(""))
             {
+                System.out.println("mobile json text.."+mobile_num.getText().toString().trim());
                 data.put("MobileNumber",mobile_num.getText().toString());
                 data.put("UPassword",password1.getText().toString());
                 data.put("LoginType",1);
                 return data.toString();
             }
-            else {
+            else if(!aadhar_num.getText().toString().trim().equals("")) {
+                System.out.println("aadhar json text.."+aadhar_num.getText().toString().trim());
                 data.put("MobileNumber", aadhar_num.getText().toString());
                 data.put("UPassword", password1.getText().toString());
                 data.put("LoginType", 2);
@@ -256,23 +272,52 @@ public class Login extends Activity {
         return null;
     }
 
-    public void validateLogin()
+    public void validateMobileLogin()
     {
+        System.out.println("phone validate...");
+
         intialization();
-        if(!validate())
+        if(!mobileValidate())
         {
-//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+
+//            System.out.println("btn clickable text if condition...");
         }
         else
         {
 
             password=password1.getText().toString().trim();
             phone = mobile_num.getText().toString().trim();
+
+            System.out.println("phone text..."+phone);
+            String js = formatDataAsJson();
+            System.out.println("btn clickable text phone...");
+            new SendDetails().execute(baseUrl.getUrl()+"UserLogin",js.toString());
+//            new SendDetails().execute(baseUrl.getUrl()+"UserLoginNew",js.toString());
+        }
+    }
+
+    public void validateAadhaarLogin()
+    {
+        System.out.println("aadhaar validate...");
+        intialization();
+        if(!aadhaarValidate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+
+            System.out.println("btn clickable text if condition...");
+        }
+        else
+        {
+
+            password=password1.getText().toString().trim();
+
             aadhar = aadhar_num.getText().toString().trim();
 
-
+//            System.out.println("phone text..."+phone);
+//            System.out.println("aadhaar text..."+aadhar);
             String js = formatDataAsJson();
-            System.out.println("btn clickable text...");
+            System.out.println("btn clickable text aadhaar...");
             new SendDetails().execute(baseUrl.getUrl()+"UserLogin",js.toString());
 //            new SendDetails().execute(baseUrl.getUrl()+"UserLoginNew",js.toString());
         }
@@ -398,83 +443,168 @@ public class Login extends Activity {
                     showMessage();
                 }
 
-                else if(js.has("ModuleName"))
+                else if(js.has("ModuleName") && js.getBoolean("IsEdited")==false)
                 {
                     module_name = js.getString("ModuleName");
 
                     userId =  js.getString("UserID");
                     System.out.println("module...."+module_name);
-                    if(phone.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
+                    if(js.getString("MobileNumber").length()==10)
                     {
-                        if(module_name.equalsIgnoreCase("Patient"))
+                        if(phone.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
                         {
-                            Intent i2 = new Intent(Login.this, PatientEditProfile.class);
-                            i2.putExtra("mobile",phone);
-                            i2.putExtra("id",userId);
+                            if(module_name.equalsIgnoreCase("Patient"))
+                            {
+                                Intent i2 = new Intent(Login.this, PatientEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
 //                        Log.e("city in login result...", city);
 //                        System.out.print("city in loginactivity....."+city);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Doctor"))
-                        {
-                            Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
-                            i2.putExtra("mobile",phone);
-                            i2.putExtra("module","doc");
-                            i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Doctor"))
+                            {
+                                Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("module","doc");
+                                i2.putExtra("id",userId);
 //                        Log.e("city in login result...", city);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Diagnostics"))
-                        {
-                            Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
-                            i2.putExtra("mobile",phone);
-                            i2.putExtra("module","diag");
-                            i2.putExtra("id",userId);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Medicalshop"))
-                        {
-                            Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
-                            i2.putExtra("mobile",phone);
-                            i2.putExtra("id",userId);
-                            startActivity(i2);
-                        }
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Diagnostics"))
+                            {
+                                Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("module","diag");
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Medicalshop"))
+                            {
+                                Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
 
+                        }
                     }
-                    else if(aadhar.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
+                    else
                     {
-                        if(module_name.equalsIgnoreCase("Patient"))
+                        if(aadhar.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
                         {
-
-                            Intent i2 = new Intent(Login.this, PatientEditProfile.class);
-                            i2.putExtra("id",userId);
-//                        i2.putExtra("location",city);
-//                        Log.e("city in login result...", city);
-//                        System.out.print("city in loginactivity....."+city);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Doctor"))
-                        {
-                            Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
-                            i2.putExtra("id",userId);
-//                        i2.putExtra("location",city);
-//                        Log.e("city in login result...", city);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Diagnostics"))
-                        {
-                            Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
-                            i2.putExtra("id",userId);
-                            startActivity(i2);
-                        }
-                        else if(module_name.equalsIgnoreCase("Medicalshop"))
-                        {
-                            Intent i2 = new Intent(Login.this, MedicalShopDashboard.class);
-                            i2.putExtra("mobile",phone);
-                            i2.putExtra("id",userId);
-                            startActivity(i2);
+                            if(module_name.equalsIgnoreCase("Patient"))
+                            {
+                                Intent i2 = new Intent(Login.this, PatientEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+    //                        Log.e("city in login result...", city);
+    //                        System.out.print("city in loginactivity....."+city);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Doctor"))
+                            {
+                                Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Diagnostics"))
+                            {
+                                Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Medicalshop"))
+                            {
+                                Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
                         }
                     }
+
+
+                }
+
+                else if(js.has("ModuleName") && js.getBoolean("IsEdited")==true)
+                {
+                    module_name = js.getString("ModuleName");
+
+                    userId =  js.getString("UserID");
+                    System.out.println("module...."+module_name);
+                    if(js.getString("MobileNumber").length()==10)
+                    {
+                        if(phone.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
+                        {
+                            if(module_name.equalsIgnoreCase("Patient"))
+                            {
+                                Intent i2 = new Intent(Login.this, PatientDashBoard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Doctor"))
+                            {
+                                Intent i2 = new Intent(Login.this, DoctorDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Diagnostics"))
+                            {
+                                Intent i2 = new Intent(Login.this, DiagnosticDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Medicalshop"))
+                            {
+                                Intent i2 = new Intent(Login.this, MedicalShopDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if(aadhar.equalsIgnoreCase(js.getString("MobileNumber")) && password.equalsIgnoreCase(js.getString("UPassword")))
+                        {
+                            if(module_name.equalsIgnoreCase("Patient"))
+                            {
+                                Intent i2 = new Intent(Login.this, PatientDashBoard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Doctor"))
+                            {
+                                Intent i2 = new Intent(Login.this, DoctorDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Diagnostics"))
+                            {
+                                Intent i2 = new Intent(Login.this, DiagnosticDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                            else if(module_name.equalsIgnoreCase("Medicalshop"))
+                            {
+                                Intent i2 = new Intent(Login.this, MedicalShopDashboard.class);
+                                i2.putExtra("mobile",phone);
+                                i2.putExtra("id",userId);
+                                startActivity(i2);
+                            }
+                        }
+                    }
+
                 }
 
 
@@ -674,7 +804,7 @@ public class Login extends Activity {
         aadhar = aadhar_num.getText().toString().trim();
     }
 
-    public boolean validate()
+    public boolean mobileValidate()
     {
         boolean validate = true;
 
@@ -700,12 +830,37 @@ public class Login extends Activity {
             validate=false;
         }
 
-//        if(aadhar.isEmpty())
+        return validate;
+    }
+
+    public boolean aadhaarValidate()
+    {
+        boolean validate = true;
+
+        if(password.isEmpty())
+        {
+            password1.setError("please enter the password");
+            validate=false;
+        }
+        else if(password.length()<8)
+        {
+            password1.setError("password should be 8 charactors or more than 8 charactors ");
+            validate = false;
+
+        }
+
+        if(aadhar.isEmpty())
+        {
+            aadhar_num.setError("please enter aadhar number");
+            validate=false;
+        }
+
+//        else if(aadhar.length()>12)
 //        {
-//            aadhar_num.setError("please enter the number");
+//            aadhar_num.setError(" Invalid aadhar number ");
 //            validate=false;
 //        }
-//        else if(aadhar.length()!=12)
+//        else if(aadhar.length()<12)
 //        {
 //            aadhar_num.setError(" Invalid aadhar number ");
 //            validate=false;

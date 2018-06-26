@@ -276,7 +276,7 @@ public class DiagnosticEditProfile extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.qricon, menu);
+//        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -287,24 +287,24 @@ public class DiagnosticEditProfile extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id==R.id.qricon)
-        {
-//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-
-            IntentIntegrator integrator = new IntentIntegrator(activity);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt("Scan");
-            integrator.setCameraId(0);
-            integrator.setBeepEnabled(false);
-            integrator.setBarcodeImageEnabled(false);
-            integrator.initiateScan();
-            return true;
-//                CameraManager a = new CameraManager();
-//                }
-//            });
-        }
+//        if(id==R.id.qricon)
+//        {
+////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+//
+//            IntentIntegrator integrator = new IntentIntegrator(activity);
+//            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+//            integrator.setPrompt("Scan");
+//            integrator.setCameraId(0);
+//            integrator.setBeepEnabled(false);
+//            integrator.setBarcodeImageEnabled(false);
+//            integrator.initiateScan();
+//            return true;
+////                CameraManager a = new CameraManager();
+////                }
+////            });
+//        }
 
         return super.onOptionsItemSelected(item);
     }

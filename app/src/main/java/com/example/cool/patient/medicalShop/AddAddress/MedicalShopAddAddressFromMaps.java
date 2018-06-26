@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.R;
@@ -172,7 +173,6 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity {
 
         centerImage = (ImageView) findViewById(R.id.diag_center_image);
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
-        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
 
         getUserId = getIntent().getStringExtra("id");
         myLatitude = getIntent().getStringExtra("lat");
@@ -221,7 +221,9 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity {
 
 
 
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

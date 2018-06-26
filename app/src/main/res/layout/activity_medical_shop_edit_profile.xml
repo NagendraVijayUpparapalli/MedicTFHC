@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:focusedByDefault="false"
@@ -20,7 +21,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways" >
@@ -74,7 +75,7 @@
                             android:scrollbarAlwaysDrawHorizontalTrack="true"
                             android:inputType="textPersonName"
                             android:textColor="#000"
-                            android:textSize="23sp" />
+                            android:textSize="15sp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -414,7 +415,7 @@
                         android:id="@+id/confirm_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
+                        android:textSize="16dp"
                         android:text="I confirm that i am a registered medical"
                         android:textColor="#ff0000"
                         android:textStyle="bold"/>
@@ -425,21 +426,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <br.com.bloder.magic.view.MagicButton
-                        android:id="@+id/gen_btn"
+                    <com.andexert.library.RippleView
+                        android:id="@+id/rippleView"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        app:button_icon="@drawable/login_icon"
-                        app:button_icon_height="25dp"
-                        app:button_icon_width="23dp"
-                        app:expandable_area_color="#4796C2"
-                        app:hide_text="@string/submit"
-                        app:hide_text_color="@android:color/white"
-                        app:hide_text_size="8sp"
-                        app:icon_button_color="#ace68a"
-                        app:magic_button_size="50dp" />
+                        ripple:rv_type="rectangle"
+                        ripple:rv_zoom="true">
+
+                        <TextView
+                            android:id="@+id/rect_child"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:gravity="center"
+                            android:text="@string/submit"
+                            android:background="#f938a72f"/>
+
+                    </com.andexert.library.RippleView>
                 </LinearLayout>
 
             </LinearLayout>

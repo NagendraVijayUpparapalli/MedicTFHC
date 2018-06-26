@@ -72,7 +72,7 @@ public class DoctorListAdapter11 extends RecyclerView.Adapter<DoctorListAdapter1
             addressId=(TextView) itemView.findViewById(R.id.addressId);
             doctorId=(TextView) itemView.findViewById(R.id.doctorId);
             userId=(TextView) itemView.findViewById(R.id.userid);
-            distance  = (TextView) itemView.findViewById(R.id.Distance);
+            distance  = (TextView) itemView.findViewById(R.id.distance);
 
             profileImage = (ImageView) itemView.findViewById(R.id.docImage);
 

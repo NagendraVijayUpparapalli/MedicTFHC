@@ -250,7 +250,6 @@ public class DoctorUpdateAddress extends AppCompatActivity {
         });
 
 
-        // btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
         rippleView=(RippleView) findViewById(R.id.rippleView);
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override

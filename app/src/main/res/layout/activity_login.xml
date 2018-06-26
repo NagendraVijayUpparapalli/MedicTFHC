@@ -43,7 +43,6 @@
                     android:layout_height="100dp"
 
 
-
                     android:scaleType="fitCenter"
                     android:src="@drawable/mtw" />
             </LinearLayout>
@@ -113,9 +112,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="horizontal">
 
-                    >
                     <RadioButton
                         android:id="@+id/mobileRadio"
                         android:layout_width="wrap_content"
@@ -131,9 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-
-
-                        android:text="Aadhaar Number"
+                        android:text="@string/aadhaar_number"
 
                         android:textColor="@android:color/white" />
 
@@ -154,7 +150,7 @@
                     android:paddingStart="10dp"
                     android:textColor="#000"
                     android:textColorHint="#b8867e7e"
-                    android:textSize="17dp" />
+                    android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/aadharNumber"
@@ -177,7 +173,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginStart="15dp"
                     android:background="@drawable/edittext_button"
@@ -188,7 +184,7 @@
                     android:paddingStart="10dp"
                     android:textColor="#000"
                     android:textColorHint="#b8867e7e"
-                    android:textSize="17dp" />
+                    android:textSize="16dp" />
 
                 <CheckBox
                     android:id="@+id/cbShowPwd"
@@ -196,6 +192,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Show Password"
+                    android:textSize="12dp"
+                    android:textColor="@android:color/white" />
+
+                <CheckBox
+                    android:id="@+id/remember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Remember me my mobile number"
+                    android:textSize="12dp"
                     android:textColor="@android:color/white" />
 
                 <com.andexert.library.RippleView

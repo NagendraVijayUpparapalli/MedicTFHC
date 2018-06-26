@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -63,8 +64,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    static int progress_value,dis = 20;
+    static TextView distance,availability;
+    static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
     //lat,long
@@ -166,40 +167,94 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
 
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getLocation();
         }
 
         getlatlng();
 
-        MyDialog =  new Dialog(GetCurrentDoctorsList11.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.speciality_based_layout);
 
-        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+//        String js = formatDataAsJson();
+//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//        myList = new ArrayList<DoctorClass>();
+//
+//        adapter = new DoctorListAdapter11(this, myList);
+//        layoutManager = new LinearLayoutManager(this);
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//        recyclerView.setHasFixedSize(true);
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        availability = (TextView) findViewById(R.id.availability);
+        seek_bar.setProgress(dis);
 
 
-        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-                anotheralert();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String js = specialityBasedFormatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+
+                adapter = new DoctorListAdapter11(GetCurrentDoctorsList11.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                anotheralert();
-            }
-        });
-        MyDialog.setCancelable(false);
-        MyDialog.setCanceledOnTouchOutside(false);
-        MyDialog.show();
+
+
+        rangeBar();
+
+//        MyDialog =  new Dialog(GetCurrentDoctorsList11.this);
+//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialog.setContentView(R.layout.speciality_based_layout);
+//
+//        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+//
+//
+//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
+//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
+//        okBtn.setEnabled(true);
+//        cancelBtn.setEnabled(true);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+//                anotheralert();
+//
+//            }
+//        });
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                anotheralert();
+//            }
+//        });
+//        MyDialog.setCancelable(false);
+//        MyDialog.setCanceledOnTouchOutside(false);
+//        MyDialog.show();
+
     }
 
 
@@ -269,8 +324,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 mySpecialitiesList.put(specialityKey,specialityValue);
                 specialityList.add(jsonObj.getString("Speciality"));
 
-                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+                specialityAdapter = new ArrayAdapter<String> (this, R.layout.custom_spinner, specialityList);
+                specialityAdapter.setDropDownViewResource(R.layout.custom_spinner); // Specify the layout to use when the list of choices appears
                 Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
 
 
@@ -303,194 +358,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         alert.show();
     }
 
-
-    private void getLocation() {
-        System.out.print("helo this is method");
-        if (ActivityCompat.checkSelfPermission(GetCurrentDoctorsList11.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (GetCurrentDoctorsList11.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.print("helo this is if");
-
-            ActivityCompat.requestPermissions(GetCurrentDoctorsList11.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-
-        } else {
-            System.out.print("helo this is else");
-
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
-
-            if (location != null) {
-                currentlatti = location.getLatitude();
-                currentlongi = location.getLongitude();
-                lattitude = currentlatti;
-                longitude = currentlongi;
-                System.out.print("latii...."+lattitude);
-                System.out.print("longi...."+longitude);
-
-
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DoctorClass>();
-////
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//
-//                adapter = new DoctorListAdapter11(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-
-                geocoder=new Geocoder(getApplicationContext());
-
-                try {
-                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
-                    System.out.println("addresses"+addresses);
-
-                    if (addresses.isEmpty())
-                    {
-//                        cityname.setTitle("waiting");
-//                        current_city.setText("Waiting");
-                    }
-                    else
-                    {
-                        if(addresses.size()>0)
-                        {
-                            city=addresses.get(0).getLocality();
-//                            current_city.setText(city);
-//                            cityname.setTitle(city);
-                            System.out.println("city name"+city);
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-
-            } else  if (location1 != null) {
-                currentlatti = location1.getLatitude();
-                currentlongi = location1.getLongitude();
-                lattitude = currentlatti;
-                longitude = currentlongi;
-                System.out.print("latii...."+lattitude);
-                System.out.print("longi...."+lattitude);
-
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DoctorClass>();
-//
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//                adapter = new DoctorListAdapter11(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-
-//                textView.setText("latitude"+lattitude);
-//                textView1.setText("longitude"+longitude);
-
-                geocoder=new Geocoder(getApplicationContext());
-
-                try {
-                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
-                    System.out.println("addresses"+addresses);
-
-                    if (addresses.isEmpty())
-                    {
-//                        cityname.setTitle("waiting");
-                        current_city.setText("Waiting");
-                    }
-                    else
-                    {
-                        if(addresses.size()>0)
-                        {
-                            city=addresses.get(0).getLocality();
-//                            current_city.setText(city);
-//                            cityname.setTitle(city);
-                            System.out.println("city name"+city);
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-
-            } else  if (location2 != null) {
-                currentlatti = location2.getLatitude();
-                currentlongi = location2.getLongitude();
-                lattitude = currentlatti;
-                longitude = currentlongi;
-                System.out.print("latii...."+lattitude);
-                System.out.print("longi...."+lattitude);
-
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//
-//                adapter = new DoctorListAdapter11(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-
-                geocoder=new Geocoder(getApplicationContext());
-
-                try {
-                    addresses = geocoder.getFromLocation(currentlatti, currentlongi,1);
-                    System.out.println("addresses"+addresses);
-
-                    if (addresses.isEmpty())
-                    {
-//                        cityname.setTitle("waiting");
-                        current_city.setText("Waiting");
-                    }
-                    else
-                    {
-                        if(addresses.size()>0)
-                        {
-                            city=addresses.get(0).getLocality();
-//                            current_city.setText(city);
-//                            cityname.setTitle(city);
-                            System.out.println("city name"+city);
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-
-
-            }else{
-
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
-
-            }
-        }
-    }
-
     private String formatDataAsJson()
     {
         JSONObject data = new JSONObject();
@@ -513,20 +380,20 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     //Get doctors list from api call
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
-            // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
+//            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -545,7 +412,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[1]);
+                System.out.println("params.doclist11...."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -600,7 +467,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
 
             try
             {
@@ -625,6 +492,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
         }
     }
@@ -633,6 +501,11 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         try {
 
             JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("doctors availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
@@ -765,79 +638,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
         alert.show();
     }
 
-    public void anotheralert()
-    {
-
-        MyDialoganother =  new Dialog(GetCurrentDoctorsList11.this);
-        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialoganother.setContentView(R.layout.range_layout);
-
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        seek_bar.setProgress(dis);
-
-        rangeBar();
-
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-
-        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-
-
-        adapter = new DoctorListAdapter11(this, myList);
-        layoutManager = new LinearLayoutManager(this);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-
-                String js = specialityBasedFormatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-//
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-
-                MyDialog.dismiss();
-                MyDialoganother.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDialog.show();
-
-            }
-        });
-        MyDialoganother.setCancelable(false);
-        MyDialoganother.setCanceledOnTouchOutside(false);
-        MyDialoganother.show();
-    }
-
     public void rangeBar()
     {
 
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
 
         seek_bar.setProgress(20);
 
-        adapter = new DoctorListAdapter11(this, myList);
-        layoutManager = new LinearLayoutManager(this);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText("Distance in progress :"+progress+"Km") ;
+                distance.setText(progress+"Km") ;
 
             }
 
@@ -848,7 +663,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText("Distance :"+progress_value+"Km");
+                distance.setText(progress_value+"Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -856,23 +671,27 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
             }
         });
 
-        distance.setText("Distance :"+seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+"Km");
 
-        String js = specialityBasedFormatDataAsJson();
-        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+        System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 
-        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//        String js = formatDataAsJson();
+//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//        myList = new ArrayList<DoctorClass>();
+//
+//        adapter = new DoctorListAdapter11(this, myList);
+//        layoutManager = new LinearLayoutManager(this);
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//        recyclerView.setHasFixedSize(true);
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
 
-        myList = new ArrayList<DoctorClass>();
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-
-
-        adapter = new DoctorListAdapter11(this, myList);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
     }
 
@@ -925,12 +744,12 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
                 myList = new ArrayList<DoctorClass>();
 
+                adapter = new DoctorListAdapter11(this, myList);
+                layoutManager = new LinearLayoutManager(this);
+
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
                 recyclerView.setHasFixedSize(true);
 
-
-                adapter = new DoctorListAdapter11(this, myList);
-                layoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
 

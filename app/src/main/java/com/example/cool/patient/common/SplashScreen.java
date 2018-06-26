@@ -29,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class SplashScreen extends Activity {
+public class SplashScreen extends AppCompatActivity {
 
 
     private static int SPLASH_TIME_OUT = 4000;

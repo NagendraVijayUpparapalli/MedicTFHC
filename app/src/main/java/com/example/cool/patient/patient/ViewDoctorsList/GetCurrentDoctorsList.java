@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -58,14 +59,14 @@ import android.widget.ListView;
 public class GetCurrentDoctorsList extends AppCompatActivity
 {
     public static final CharSequence[] states = {"---Speciality---", "Head", "nose", "eyes"};
-    Dialog MyDialog;
-    Dialog MyDialoganother;
-    Button okBtn,cancelBtn;
+//    Dialog MyDialog;
+//    Dialog MyDialoganother;
+//    Button okBtn,cancelBtn;
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    static int progress_value,dis = 20;
+    static TextView distance,availability;
+    static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
     //lat,long
@@ -140,7 +141,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //  setSupportActionBar(toolbar);
-        toolbar.setTitle("Doctors List");
+        toolbar.setTitle("Doctors");
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(
@@ -165,35 +166,42 @@ public class GetCurrentDoctorsList extends AppCompatActivity
             getLocation();
         }
 
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        availability = (TextView) findViewById(R.id.availability);
+        seek_bar.setProgress(dis);
 
-        MyDialog =  new Dialog(GetCurrentDoctorsList.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.speciality_based_layout);
-
-        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+        rangeBar();
 
 
-        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-                anotheralert();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String js = specialityBasedFormatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+
+                adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                anotheralert();
-            }
-        });
-        MyDialog.setCancelable(false);
-        MyDialog.setCanceledOnTouchOutside(false);
-        MyDialog.show();
+
     }
 
 //    get doctor specialities from api call
@@ -253,7 +261,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             specialityList = new ArrayList<>();
 
             for (int i = 0; i < jsonArr.length(); i++) {
-                System.out.print("myspeciality for loop in..");
+//                System.out.print("myspeciality for loop in..");
 
                 org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
 
@@ -262,8 +270,9 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 mySpecialitiesList.put(specialityKey,specialityValue);
                 specialityList.add(jsonObj.getString("Speciality"));
 
-                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//                specialityList.add(0,"Select Speciality");
+                specialityAdapter = new ArrayAdapter<String> (this, R.layout.custom_spinner, specialityList);
+                specialityAdapter.setDropDownViewResource(R.layout.custom_spinner); // Specify the layout to use when the list of choices appears
                 Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
 
 
@@ -321,23 +330,6 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
-
-
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-//
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                adapter = new DoctorListAdapter(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
@@ -531,20 +523,20 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
     //Get doctors list from api call
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -618,7 +610,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
 
             try
             {
@@ -651,6 +643,11 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         try {
 
             JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("doctors availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
@@ -778,67 +775,11 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         alert.show();
     }
 
-    public void anotheralert()
-    {
-
-        MyDialoganother =  new Dialog(GetCurrentDoctorsList.this);
-        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialoganother.setContentView(R.layout.range_layout);
-
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        seek_bar.setProgress(dis);
-
-        rangeBar();
-
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-
-        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-
-
-        adapter = new DoctorListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-
-                String js = specialityBasedFormatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-//
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-
-                MyDialog.dismiss();
-                MyDialoganother.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDialog.dismiss();
-
-            }
-        });
-        MyDialoganother.setCancelable(false);
-        MyDialoganother.setCanceledOnTouchOutside(false);
-        MyDialoganother.show();
-    }
-
     public void rangeBar()
     {
 
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
 
         seek_bar.setProgress(20);
 
@@ -851,7 +792,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText("Distance in progress :"+progress+"Km") ;
+                distance.setText(progress+"Km") ;
 
             }
 
@@ -862,7 +803,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText("Distance :"+progress_value+"Km");
+                distance.setText(progress_value+"Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -870,7 +811,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             }
         });
 
-        distance.setText("Distance :"+seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+"Km");
 
 //        String js = specialityBasedFormatDataAsJson();
 //        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";

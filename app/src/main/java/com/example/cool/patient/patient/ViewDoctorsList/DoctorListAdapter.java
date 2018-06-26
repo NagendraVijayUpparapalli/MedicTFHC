@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,10 +43,15 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         ApiBaseUrl baseUrl = new ApiBaseUrl();
 
 
-public DoctorListAdapter(GetCurrentDoctorsList getCurrentDoctorsList,List<DoctorClass> doctorClassList) {
+//public DoctorListAdapter(AdapterView.OnItemSelectedListener getCurrentDoctorsList, List<DoctorClass> doctorClassList) {
+//        this.context = getCurrentDoctorsList;
+//        this.doctorClassList = doctorClassList;
+//        }
+
+    public DoctorListAdapter(GetCurrentDoctorsList getCurrentDoctorsList,List<DoctorClass> doctorClassList) {
         this.context = getCurrentDoctorsList;
         this.doctorClassList = doctorClassList;
-        }
+    }
 
 class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -72,7 +78,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
         addressId=(TextView) itemView.findViewById(R.id.addressId);
         doctorId=(TextView) itemView.findViewById(R.id.doctorId);
         userId=(TextView) itemView.findViewById(R.id.userid);
-        distance  = (TextView) itemView.findViewById(R.id.Distance);
+        distance  = (TextView) itemView.findViewById(R.id.distance);
 
         profileImage = (ImageView) itemView.findViewById(R.id.docImage);
 

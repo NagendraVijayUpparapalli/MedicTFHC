@@ -215,7 +215,6 @@ public class DoctorAddAddress extends AppCompatActivity {
         new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
 
         rippleView = (RippleView) findViewById(R.id.rippleView);
-        // btn_AddAddress = (MagicButton) findViewById(R.id.btn_addAddress);
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -69,7 +69,7 @@ public class DiagnosticsListAdapter11 extends RecyclerView.Adapter<DiagnosticsLi
 
             contactPerson = (TextView) itemView.findViewById(R.id.contactPerson);
             mobileNumber = (TextView) itemView.findViewById(R.id.mobileNumber);
-//            distance  = (TextView) itemView.findViewById(R.id.distance);
+            distance  = (TextView) itemView.findViewById(R.id.distance);
 
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
 
@@ -106,7 +106,7 @@ public class DiagnosticsListAdapter11 extends RecyclerView.Adapter<DiagnosticsLi
         viewHolder.userId.setText(diagnosticsClassList.get(i).getUserId());
         viewHolder.contactPerson.setText(diagnosticsClassList.get(i).getContactPerson());
         viewHolder.mobileNumber.setText(diagnosticsClassList.get(i).getMobileNumber());
-//        viewHolder.distance.setText(diagnosticsClassList.get(i).getDistance());
+        viewHolder.distance.setText(diagnosticsClassList.get(i).getDistance());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+diagnosticsClassList.get(i).getCenterImage());

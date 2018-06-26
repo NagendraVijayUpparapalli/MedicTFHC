@@ -32,12 +32,12 @@
     <!--app:showAsAction="always"-->
     <!--tools:ignore="MenuTitle" />-->
 
-    <item
-        android:id="@+id/qricon"
-        android:icon="@drawable/qrcodeicon"
-        android:orderInCategory="300"
-        app:showAsAction="always"
-        tools:ignore="MenuTitle" />
+    <!--<item-->
+        <!--android:id="@+id/qricon"-->
+        <!--android:icon="@drawable/qrcodeicon"-->
+        <!--android:orderInCategory="300"-->
+        <!--app:showAsAction="always"-->
+        <!--tools:ignore="MenuTitle" />-->
 
 
 </menu>

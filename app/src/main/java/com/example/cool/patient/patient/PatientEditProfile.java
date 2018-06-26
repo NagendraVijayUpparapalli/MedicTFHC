@@ -19,7 +19,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,12 +32,15 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -67,19 +73,30 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
+import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
+import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
+import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import br.com.bloder.magic.view.MagicButton;
 
-public class PatientEditProfile extends AppCompatActivity  {
+public class PatientEditProfile extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     //animation
     ImageView Image;
@@ -154,6 +171,13 @@ public class PatientEditProfile extends AppCompatActivity  {
     public static final CharSequence[] districts  = {"District", "Chittoor", "East Godavari ","West Godavari "};
     public static final CharSequence[] states  = { "Andhra Pradesh", "Telangana"};
 
+    // expandable list view
+
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,24 +206,33 @@ public class PatientEditProfile extends AppCompatActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+//        toolbar.setTitle("Edit Profile");
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",mobile_number);
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//
+//        );
 
-        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setTitle("Edit Profile");
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",mobile_number);
-                        startActivity(intent);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-                    }
-                }
-
-        );
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         //qr code
 //        surname = (EditText) findViewById(R.id.surname);
@@ -238,7 +271,7 @@ public class PatientEditProfile extends AppCompatActivity  {
 //        btn_profile = (Button) findViewById(R.id.btn_profileimage);
 //        gen_btn = (Button) findViewById(R.id.gen_btn);
 
-        qrImage = (ImageView) findViewById(R.id.image);
+//        qrImage = (ImageView) findViewById(R.id.image);
 
 
         promotion_medical = (CheckBox) findViewById(R.id.promotion_medicalstore);
@@ -250,6 +283,13 @@ public class PatientEditProfile extends AppCompatActivity  {
         month =mCurrentDate.get(Calendar.MONTH);
         year = mCurrentDate.get(Calendar.YEAR);
         month = month+1;
+
+
+//                if(blood_group.isClickable())
+//                {
+//                    bloodgroupList.remove(0);
+//                }
+
 
 //        dob.setText(day+"/"+month+"/"+year);
 
@@ -282,6 +322,18 @@ public class PatientEditProfile extends AppCompatActivity  {
                 datePickerDialog.show();
             }
         });
+
+
+//        blood_group.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bloodgroupList.remove(0);
+////                Set<String> myset = new HashSet<>();
+////                myset.addAll(bloodgroupList);
+////                bloodgroupList.clear();
+////                bloodgroupList.addAll(myset);
+//            }
+//        });
 
 
 //        myQrArrayList = "<QPDA n=\"Amudala Prabhakar Raju Udaya Sri\" u=\"xxxxxxxx1092\" g=\"F\" d=\"29-08-1994\" a=\"3-30/a,balabba vari thopu,Gudipala mandalam,Manchineella Gunta,Naragallu,Chittoor,Andhra Pradesh,517403\" i=\"AAAADGpQICANCocKAAAAFGZ0eXBqcDIgAAAAAGpwMiAAAAAtanAyaAAAABZpaGRyAAAAyAAAAKAAAwcHAAAAAAAPY29scgEAAAAAABAAAAGaanAyY/9P/1EALwAAAAAAoAAAAMgAAAAAAAAAAAAAAKAAAADIAAAAAAAAAAAAAwcBAQcBAQcBAf9SAAwAAAABAQUEBAAA/1wAI0JvGG7qbupuvGcAZwBm4l9MX0xfZEgDSANIRU/ST9JPYf9kACIAAUNyZWF0ZWQgYnk6IEpKMjAwMCB2ZXJzaW9uIDQuMf+QAAoAAAAAAQYAAf9SAAwAAAABAQUEBAAA/5PH0GwgOVnOqMalpgY77jW6GeRm+tdBcV2PoMLaYqPD5SBXnJRTSjysOaRzzQZk56Ftw+UgI1zOxDRWAOa+2Fe4hWFHQMfOTg+E2D4h4CjVdtlfn9ynW65YRsUgmuwcb/YdUyC1cWQ3wqVd3t46Fe9avN53Y/kM9qgYjW+bwEwAH5VtSlOcwEYAI+F6w+FaDqkHS098qXSv7+jjRFeevERQoKFuPgwHKx0qeva/HNHtNhG1eGjTR+wdxy0ZK1ixqRq5OZwAmflQgIDDqUOCAMVCtyIJeecoOR6eSBkDM99xP836gICAgICAgID/2Q==\" x=\"\" s=\"Yhv/nv0BwLVwjIImdEGu/lkEIGDyMMo5uRdUdFpnRCXKRAQeowsIMjP9+De/+eK1O48lzGg+8rhmNXpJT2aq3zKZA3Eh8MgZ2ehKSQ02SISXzKOC34joBSfm9du7hoNWt9ICQoZF/i0LxV3Zme/wvYyAxyhK65fdk0MuQHPUvqM3mxkRSzQ9Md9hp5rouFknPr6B4gqTPB71sWlmgsPfMLO6UnoO6TWEt3CznMW5FCdHbVq6IHs7i61wQ6/0dgxKQqx44qDuxQwGVGPWBlW/3ATQG8hiSMlk0ZiYIq3hfHkN/Nrsqm0OfdPYIfTsvYg0aWMHTC3BPeUFs4LTW+nYsw==\"/>";
@@ -340,6 +392,199 @@ public class PatientEditProfile extends AppCompatActivity  {
             }
 
         });
+
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListDetail = PatientSideNavigationExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new PatientSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM1) {
+                    retVal = false;
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM2) {
+                    retVal = false;
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent editProfile = new Intent(PatientEditProfile.this,PatientEditProfile.class);
+                    editProfile.putExtra("id",getUserId);
+                    startActivity(editProfile);
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+                    Intent contact = new Intent(PatientEditProfile.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+
+                    Intent contact = new Intent(PatientEditProfile.this,ReachUs.class);
+                    startActivity(contact);
+
+
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(PatientEditProfile.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
+//
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//                boolean retVal = true;
+//
+//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
+//
+//                    // call some activity here
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
+//                    // call some activity here
+//
+//                }
+//                return retVal;
+//            }
+//        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+                if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM1) {
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                        Intent i = new Intent(PatientEditProfile.this,GetCurrentDoctorsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
+                        startActivity(i);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_2) {
+                        Intent i = new Intent(PatientEditProfile.this,GetCurrentDiagnosticsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile_number);
+                        startActivity(i);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_3) {
+
+                        // call activity here
+
+//                        Intent in = new Intent(PatientDashBoard.this,GetCurrentMedicalShopsList.class);
+//                        in.putExtra("userId",getUserId);
+//                        in.putExtra("mobile",mobile_number);
+//                        startActivity(in);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
+
+                        // call activity here
+//                        Intent bloodbank = new Intent(PatientDashBoard.this,BloodBank.class);
+//                        startActivity(bloodbank);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
+
+                        // call activity here
+
+                    }
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+                        Intent intent = new Intent(PatientEditProfile.this,ChangePassword.class);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
+
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                }
+
+                else if(groupPosition == PatientSideNavigationExpandableListAdapter.ITEM2) {
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+                        // call activity here
+
+                        Intent intent = new Intent(PatientEditProfile.this,PatientMyDoctorAppointments.class);
+                        intent.putExtra("mobile",mobile_number);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent intent = new Intent(PatientEditProfile.this,PatientMyDiagnosticAppointments.class);
+                        intent.putExtra("mobile",mobile_number);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_3) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_4) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_5) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_6) {
+
+                        // call activity here
+
+                    }
+                }
+                return true;
+
+            }
+        });
+
+
     }
 
     public void validateEditProfile()
@@ -473,7 +718,7 @@ public class PatientEditProfile extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.qricon, menu);
+//        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -484,24 +729,24 @@ public class PatientEditProfile extends AppCompatActivity  {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id==R.id.qricon)
-        {
-//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-
-                    IntentIntegrator integrator = new IntentIntegrator(activity);
-                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                    integrator.setPrompt("Scan");
-                    integrator.setCameraId(0);
-                    integrator.setBeepEnabled(false);
-                    integrator.setBarcodeImageEnabled(false);
-                    integrator.initiateScan();
-                    return true;
-//                CameraManager a = new CameraManager();
-//                }
-//            });
-        }
+//        if(id==R.id.qricon)
+//        {
+////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+//
+//                    IntentIntegrator integrator = new IntentIntegrator(activity);
+//                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+//                    integrator.setPrompt("Scan");
+//                    integrator.setCameraId(0);
+//                    integrator.setBeepEnabled(false);
+//                    integrator.setBarcodeImageEnabled(false);
+//                    integrator.initiateScan();
+//                    return true;
+////                CameraManager a = new CameraManager();
+////                }
+////            });
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -740,6 +985,11 @@ public class PatientEditProfile extends AppCompatActivity  {
         startActivity(Intent.createChooser(shareIntent,"Share Image"));
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
+
 
     //Get patient list based on id from api call
     private class GetPatientDetails extends AsyncTask<String, Void, String> {
@@ -955,8 +1205,38 @@ public class PatientEditProfile extends AppCompatActivity  {
             }
             else {
                 bloodgroupList.add(0, myBlood_group);
-                System.out.println("state list.."+bloodgroupList);
+                System.out.println("bloodgroup list.."+bloodgroupList);
+
+
+//                Set<String> myset = new HashSet<>();
+//                myset.addAll(bloodgroupList);
+//                bloodgroupList.clear();
+//                bloodgroupList.addAll(myset);
+//                int i = bloodgroupList.indexOf(myBlood_group);
+//                System.out.println("bg index.."+i);
+//                if(i!=0)
+//                {
+//                    bloodgroupList.remove(myBlood_group);
+//                }
+//                bloodgroupList.remove(myBlood_group);
                 adapter1 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, bloodgroupList);
+//                {
+//                    @Override
+//                    public View getDropDownView(int position, View convertview, ViewGroup parent)
+//                    {
+//                        View view = super.getDropDownView(position,convertview,parent);
+//                        TextView tv = (TextView) view;
+//                        if(position==1)
+//                        {
+//                            tv.setVisibility(View.GONE);
+//                        }
+//                        else
+//                        {
+//                            tv.setVisibility(View.VISIBLE);
+//                        }
+//                        return view;
+//                    }
+//                };
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
                 blood_group.setAdapter(adapter1); // Apply the adapter to the spinner
             }
@@ -1306,6 +1586,7 @@ public class PatientEditProfile extends AppCompatActivity  {
                 String bloodgroupValue = jsonObj.getString("Value");
                 myBloodGroupList.put(bloodgroupKey,bloodgroupValue);
                 bloodgroupList.add(jsonObj.getString("Value"));
+
             }
 
         }

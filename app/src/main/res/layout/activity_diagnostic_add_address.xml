@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,7 +34,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways" >
@@ -622,23 +623,6 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
-                    <!--<br.com.bloder.magic.view.MagicButton-->
-                        <!--android:id="@+id/gen_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginBottom="10dp"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--app:button_icon="@drawable/login_icon"-->
-                        <!--app:button_icon_height="25dp"-->
-                        <!--app:button_icon_width="23dp"-->
-                        <!--app:expandable_area_color="#4796C2"-->
-                        <!--app:hide_text="@string/submit"-->
-                        <!--app:hide_text_color="@android:color/white"-->
-                        <!--app:hide_text_size="8sp"-->
-                        <!--app:icon_button_color="#df760e"-->
-                        <!--app:magic_button_size="50dp" />-->
-
 
                     <com.andexert.library.RippleView
                         android:id="@+id/rippleView"

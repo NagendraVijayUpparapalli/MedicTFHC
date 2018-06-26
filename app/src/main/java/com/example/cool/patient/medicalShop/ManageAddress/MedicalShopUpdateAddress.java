@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
@@ -154,7 +155,6 @@ public class MedicalShopUpdateAddress extends AppCompatActivity {
         ToTime = findViewById(R.id.To_Timing);
         centerImage = (ImageView) findViewById(R.id.diag_center_image);
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
-        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
 
         getLatLong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +222,9 @@ public class MedicalShopUpdateAddress extends AppCompatActivity {
 
         System.out.print("diagnos in add address comments....."+comments.getText().toString());
 
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateFullAddress();

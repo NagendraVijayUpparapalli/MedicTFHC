@@ -17,6 +17,7 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -43,7 +44,7 @@ import java.util.List;
 
 import br.com.bloder.magic.view.MagicButton;
 
-public class ForgotPassword extends Activity {
+public class ForgotPassword extends AppCompatActivity {
 
     ImageView Image;
     LinearLayout cardViewId;
@@ -106,8 +107,6 @@ public class ForgotPassword extends Activity {
         mobile_num = (EditText) findViewById(R.id.mobileNumber);
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
-
-//        button = (MagicButton) findViewById(R.id.btn_login);
 
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override

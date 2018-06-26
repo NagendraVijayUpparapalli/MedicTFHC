@@ -25,6 +25,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -201,6 +202,18 @@ public class DoctorEditProfile extends AppCompatActivity {
         addProfileIcon = (FloatingActionButton) findViewById(R.id.addprofileIcon);
 
 
+//        Speciality.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                specialityList.remove(0);
+//
+////                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
+////                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+////                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
+//            }
+//        });
+
 
         rippleView = (RippleView) findViewById(R.id.rippleView);
         rippleView.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +266,7 @@ public class DoctorEditProfile extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.qricon, menu);
+//        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -264,24 +277,24 @@ public class DoctorEditProfile extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id==R.id.qricon)
-        {
-//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-
-            IntentIntegrator integrator = new IntentIntegrator(activity);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt("Scan");
-            integrator.setCameraId(0);
-            integrator.setBeepEnabled(false);
-            integrator.setBarcodeImageEnabled(false);
-            integrator.initiateScan();
-            return true;
-//                CameraManager a = new CameraManager();
-//                }
-//            });
-        }
+//        if(id==R.id.qricon)
+//        {
+////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+//
+//            IntentIntegrator integrator = new IntentIntegrator(activity);
+//            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+//            integrator.setPrompt("Scan");
+//            integrator.setCameraId(0);
+//            integrator.setBeepEnabled(false);
+//            integrator.setBarcodeImageEnabled(false);
+//            integrator.initiateScan();
+//            return true;
+////                CameraManager a = new CameraManager();
+////                }
+////            });
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -467,26 +480,6 @@ public class DoctorEditProfile extends AppCompatActivity {
                 System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
-//            if(myGender.equals("Male"))
-//            {
-//                newName = "Mr.";
-//            }
-//            else if(myGender.equals("Female"))
-//            {
-//                newName = "Ms.";
-//            }
-//            else if(myGender.equals("Female"))
-//            {
-//                newName = "Mrs.";
-//            }
-
-
-//            salutation.setText(newName+mySurname+" "+myName);
-//            salutation.setEnabled(false);
-
-//            salutation.setTextColor(this.getResources().getColor(R.color.colorPrimary));
-//            surname.setText(mySurname);
-
             mobileNumber.setText(myMobile);
             email.setText(myEmail);
             Experience.setText(myExperience);
@@ -500,6 +493,8 @@ public class DoctorEditProfile extends AppCompatActivity {
             new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 
             new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
+
+            specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
 
             if(mySpeciality.equals(""))
             {

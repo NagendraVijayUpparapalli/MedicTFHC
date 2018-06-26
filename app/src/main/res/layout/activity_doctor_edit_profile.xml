@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolappbar"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/toolbar_gradient"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways" >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
+
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -23,24 +59,24 @@
         android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarcool"
-            android:layout_width="match_parent"
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/appbarcool"-->
+            <!--android:layout_width="match_parent"-->
 
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/toolbar_gradient"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways" >
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/toolbar_gradient"-->
+                <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+                <!--app:layout_scrollFlags="scroll|enterAlways" >-->
 
-            </android.support.v7.widget.Toolbar>
+            <!--</android.support.v7.widget.Toolbar>-->
 
-        </android.support.design.widget.AppBarLayout>
+        <!--</android.support.design.widget.AppBarLayout>-->
         <ScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/scrool"
@@ -48,13 +84,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:isScrollContainer="true"
-            android:layout_below="@+id/appbarcool"
+
             >
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_below="@+id/appbarcool">
+                android:layout_below="@+id/toolappbar">
                 <LinearLayout
                     android:weightSum="2"
                     android:layout_width="match_parent"
@@ -83,7 +119,7 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:drawablePadding="5dp"
                             android:ems="20"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:hint="@string/name"
                             android:inputType="textPersonName" />
 
@@ -107,7 +143,7 @@
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:drawableLeft="@drawable/ic_mail_black_24dp"
                             android:drawablePadding="5dp"
                             android:ems="20"
@@ -137,8 +173,8 @@
                             android:drawableLeft="@drawable/experience_icon"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:textSize="18sp"
-                            android:paddingStart="10dp"
+                            android:textSize="15sp"
+
                             android:backgroundTint="@color/green"
                             android:drawablePadding="5dp"
                             android:hint="@string/experience"
@@ -158,9 +194,9 @@
                             android:id="@+id/mobileNumber"
                             android:layout_width="match_parent"
                             android:hint="@string/mobileNumber"
-                            android:paddingStart="10dp"
+
                             android:drawablePadding="5dp"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:backgroundTint="@color/green"
                             android:drawableLeft="@drawable/phone"
                             android:layout_height="wrap_content"
@@ -182,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#2C5E83"
                         android:text="@string/gender" />
                     <android.support.v4.widget.Space
@@ -239,7 +275,7 @@
                         android:layout_weight="1"
                         android:text="@string/speciality"
                         android:layout_marginTop="6dp"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
@@ -272,11 +308,10 @@
                             android:drawableLeft="@drawable/experience_icon"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:textSize="18sp"
-                            android:paddingStart="10dp"
+                            android:textSize="15sp"
                             android:backgroundTint="@color/green"
                             android:drawablePadding="5dp"
-                            android:hint="@string/qualification"
+                            android:hint="@string/qualification1"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -293,8 +328,7 @@
                             android:id="@+id/registrationNumber"
                             android:layout_width="match_parent"
                             android:hint="@string/registration_number"
-                            android:paddingStart="10dp"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:drawablePadding="5dp"
                             android:backgroundTint="@color/green"
                             android:drawableLeft="@drawable/phone"
@@ -407,7 +441,7 @@
                         android:textStyle="bold"
                         android:textColor="#2C5E83"
                         android:layout_marginTop="15dp"
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -430,7 +464,7 @@
                                 android:id="@+id/doc_aadhar_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="180dp"
-                                android:scaleType="centerCrop"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/noimage" />
 
                         </android.support.design.widget.AppBarLayout>
@@ -473,7 +507,8 @@
                             android:drawablePadding="5dp"
                             android:ems="20"
                             android:hint="@string/aadhaarNumber"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:textSize="15dp"/>
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -631,3 +666,36 @@
 
 </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.NavigationView
+
+
+            android:id="@+id/nav_view"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header_main"
+            android:fitsSystemWindows="true">
+
+            <ExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:id="@+id/expandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginTop="179dp"
+                android:choiceMode="singleChoice"
+                android:divider="#000"
+                android:dividerHeight="0.2dp"
+
+                android:groupIndicator="@null"
+                android:alpha="255"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                >
+            </ExpandableListView>
+        </android.support.design.widget.NavigationView>
+
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

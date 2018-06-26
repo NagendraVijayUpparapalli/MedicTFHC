@@ -334,10 +334,6 @@ public class BloodBank extends Activity {
 //        viewbloodbank = (TextView) findViewById(R.id.viewdetails);
         bw_dist = (TextView) findViewById(R.id.between_dist);
 
-        String js = formatDataAsJson();
-//        new GetBloodBankDetails().execute(uploadServerUrl);
-        arrayList = new ArrayList<BloodBankClass>();
-        listview = (ListView)findViewById(R.id.mylist);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);

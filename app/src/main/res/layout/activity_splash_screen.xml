@@ -44,7 +44,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="255dp"
                     android:layout_height="283dp"
-                    android:src="@drawable/mlogo1"
+                    android:src="@drawable/symb"
 
 
                     />
@@ -107,18 +107,8 @@
                     android:textColor="#2f2f7b"
                     />
 
-
-
             </LinearLayout>
-
-
         </RelativeLayout>
 
-
-
-
     </LinearLayout>
-
-
-
 </android.support.constraint.ConstraintLayout>

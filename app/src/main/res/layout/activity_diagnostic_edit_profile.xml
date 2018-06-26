@@ -33,7 +33,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways" >
@@ -83,7 +83,7 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:drawablePadding="5dp"
                             android:ems="20"
-                            android:textSize="20sp"
+                            android:textSize="15sp"
                             android:hint="@string/name"
                             android:inputType="textPersonName" />
                         <!--</HorizontalScrollView>-->
@@ -278,7 +278,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/upload_aadharimage"
+                    android:text="@string/upload_aadhaarimage"
                     android:textStyle="bold"
                     android:textColor="#2C5E83"
                     android:layout_marginTop="10dp"
@@ -418,7 +418,7 @@
                         android:id="@+id/confirm_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:text="@string/i_confirm_that_i_am_a_registered_diagnostic"
                         android:textColor="#ff0000"
                         android:textStyle="bold"/>
@@ -428,22 +428,6 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
-                    <!--<br.com.bloder.magic.view.MagicButton-->
-                        <!--android:id="@+id/gen_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginBottom="10dp"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--app:button_icon="@drawable/login_icon"-->
-                        <!--app:button_icon_height="25dp"-->
-                        <!--app:button_icon_width="23dp"-->
-                        <!--app:expandable_area_color="#4796C2"-->
-                        <!--app:hide_text="@string/submit"-->
-                        <!--app:hide_text_color="@android:color/white"-->
-                        <!--app:hide_text_size="8sp"-->
-                        <!--app:icon_button_color="#ace68a"-->
-                        <!--app:magic_button_size="50dp" />-->
 
                     <com.andexert.library.RippleView
                         android:id="@+id/rippleView"

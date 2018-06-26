@@ -172,7 +172,6 @@ public class DiagnosticAddAddress extends AppCompatActivity {
 
         centerImage = (ImageView) findViewById(R.id.diag_center_image);
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
-//        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
         rippleView=(RippleView)findViewById(R.id.rippleView);
 
 

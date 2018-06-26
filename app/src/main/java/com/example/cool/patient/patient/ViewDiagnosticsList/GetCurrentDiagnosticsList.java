@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -56,9 +57,9 @@ import android.widget.ListView;
 
 public class GetCurrentDiagnosticsList extends AppCompatActivity {
     public static final CharSequence[] states = {"---Speciality---", "Head", "nose", "eyes"};
-    Dialog MyDialog;
-    Dialog MyDialoganother;
-    Button okBtn,cancelBtn;
+//    Dialog MyDialog;
+//    Dialog MyDialoganother;
+//    Button okBtn,cancelBtn;
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
@@ -172,33 +173,73 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
             getLocation();
         }
 
-        MyDialog =  new Dialog(GetCurrentDiagnosticsList.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.speciality_based_layout);
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        seek_bar.setProgress(dis);
 
-        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+        rangeBar();
 
-        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+
+        adapter = new DiagnosticsListAdapter(this, myList);
+        layoutManager = new LinearLayoutManager(this);
+
+        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-                anotheralert();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String js = specialityBasedFormatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+
+                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DiagnosticsClass>();
+//
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                adapter = new DiagnosticsListAdapter(GetCurrentDiagnosticsList.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDiagnosticsList.this);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                anotheralert();
-            }
-        });
-        MyDialog.setCancelable(false);
-        MyDialog.setCanceledOnTouchOutside(false);
-        MyDialog.show();
+
+
+
+//        MyDialog =  new Dialog(GetCurrentDiagnosticsList.this);
+//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialog.setContentView(R.layout.speciality_based_layout);
+//
+//        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+//
+//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
+//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
+//        okBtn.setEnabled(true);
+//        cancelBtn.setEnabled(true);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+//                anotheralert();
+//
+//            }
+//        });
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                anotheralert();
+//            }
+//        });
+//        MyDialog.setCancelable(false);
+//        MyDialog.setCanceledOnTouchOutside(false);
+//        MyDialog.show();
     }
 
     private String specialityBasedFormatDataAsJson()
@@ -351,21 +392,21 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 System.out.print("longi...."+longitude);
 
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
-
-                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DiagnosticsClass>();
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                adapter = new DiagnosticsListAdapter(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DiagnosticsClass>();
+////
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                adapter = new DiagnosticsListAdapter(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
@@ -777,68 +818,68 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         alert.show();
     }
 
-    public void anotheralert()
-    {
-
-        MyDialoganother =  new Dialog(GetCurrentDiagnosticsList.this);
-        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialoganother.setContentView(R.layout.range_layout);
-
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        seek_bar.setProgress(dis);
-
-        rangeBar();
-
-
-        adapter = new DiagnosticsListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
-
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-
-        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-
-                String js = specialityBasedFormatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
-
-                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DiagnosticsClass>();
+//    public void anotheralert()
+//    {
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-
-                MyDialog.dismiss();
-                MyDialoganother.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDialog.show();
-
-            }
-        });
-        MyDialoganother.setCancelable(false);
-        MyDialoganother.setCanceledOnTouchOutside(false);
-        MyDialoganother.show();
-    }
+//        MyDialoganother =  new Dialog(GetCurrentDiagnosticsList.this);
+//        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialoganother.setContentView(R.layout.range_layout);
+//
+//        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
+//        seek_bar.setProgress(dis);
+//
+//        rangeBar();
+//
+//
+//        adapter = new DiagnosticsListAdapter(this, myList);
+//        layoutManager = new LinearLayoutManager(this);
+//
+//        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
+//
+//        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
+//        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
+//        okBtn.setEnabled(true);
+//        cancelBtn.setEnabled(true);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+//
+//                String js = specialityBasedFormatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+//
+//                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DiagnosticsClass>();
+////
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
+//
+//                MyDialog.dismiss();
+//                MyDialoganother.dismiss();
+//            }
+//        });
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MyDialog.show();
+//
+//            }
+//        });
+//        MyDialoganother.setCancelable(false);
+//        MyDialoganother.setCanceledOnTouchOutside(false);
+//        MyDialoganother.show();
+//    }
 
     public void rangeBar()
     {
 
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
 
         adapter = new DiagnosticsListAdapter(this, myList);
         layoutManager = new LinearLayoutManager(this);

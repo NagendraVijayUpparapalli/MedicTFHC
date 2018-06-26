@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
@@ -160,7 +161,7 @@ public class MedicalShopAddAddress extends AppCompatActivity {
         chooseTime = findViewById(R.id.From);
         ToTime = findViewById(R.id.To_Timing);
 
-        btn_AddAddress = (MagicButton)findViewById(R.id.gen_btn);
+
 
         centerImage = (ImageView) findViewById(R.id.diag_center_image);
         addCenterIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterIcon);
@@ -186,7 +187,9 @@ public class MedicalShopAddAddress extends AppCompatActivity {
 //        myLatitude = getIntent().getStringExtra("lat");
 //        myLongitude = getIntent().getStringExtra("lng");
 
-        btn_AddAddress.setMagicButtonClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
