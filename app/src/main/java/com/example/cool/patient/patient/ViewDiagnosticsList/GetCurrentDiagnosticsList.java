@@ -63,8 +63,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    static int progress_value,dis = 20;
+    private static TextView distance,availability;
+    static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
     //lat,long
@@ -147,7 +147,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //  setSupportActionBar(toolbar);
-        toolbar.setTitle("Diagnostics List");
+        toolbar.setTitle("Diagnostics");
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(
@@ -176,13 +176,10 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         distance = (TextView) findViewById(R.id.DistanceRange);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        availability = (TextView) findViewById(R.id.availability);
         seek_bar.setProgress(dis);
 
         rangeBar();
-
-
-        adapter = new DiagnosticsListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
 
         Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -267,6 +264,21 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
     private class GetAllDiagSpecialities extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetCurrentDiagnosticsList.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -329,8 +341,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 ListItems = specialitiesList.toArray(stockArr);
                 checkedItems = new boolean[ListItems.length];
 
-                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialitiesList);
-                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+                specialityAdapter = new ArrayAdapter<String> (this, R.layout.custom_spinner, specialitiesList);
+                specialityAdapter.setDropDownViewResource(R.layout.custom_spinner); // Specify the layout to use when the list of choices appears
                 Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
             }
 
@@ -576,20 +588,6 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
 
     private class GetDiagnostics_N_List extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(GetCurrentDiagnosticsList.this);
-            // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -672,6 +670,10 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
                 if(ss.equals("No data found."))
                 {
                     showMessage();
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
                     Log.e("Api response if.....", result);
                 }
                 else
@@ -696,6 +698,11 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         try {
 
             JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("diag availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++)
             {
@@ -891,7 +898,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText("Distance in progress :"+progress+"Km") ;
+                distance.setText(progress+"Km") ;
 
             }
 
@@ -902,7 +909,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText("Distance :"+progress_value+"Km");
+                distance.setText(progress_value+"Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -911,7 +918,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
             }
         });
 
-        distance.setText("Distance :"+seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+"Km");
 
 //        String js = specialityBasedFormatDataAsJson();
 //        uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";

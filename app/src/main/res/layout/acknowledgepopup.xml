@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
+    android:background="@drawable/alertdialog_border"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp">
 

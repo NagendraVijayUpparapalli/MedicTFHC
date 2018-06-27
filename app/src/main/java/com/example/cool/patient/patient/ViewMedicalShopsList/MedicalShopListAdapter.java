@@ -69,6 +69,11 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         this.medicalClassList = medicalClassList;
     }
 
+    public MedicalShopListAdapter(GetCurrentMedicalShopsList11 getCurrentMedicalList,List<MedicalShopClass> medicalClassList) {
+        this.context = getCurrentMedicalList;
+        this.medicalClassList = medicalClassList;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;
@@ -255,21 +260,21 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
 
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(context);
-            // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(context);
+//            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//        }
 
         public GetProfileImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
@@ -290,7 +295,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
         }
 
     }

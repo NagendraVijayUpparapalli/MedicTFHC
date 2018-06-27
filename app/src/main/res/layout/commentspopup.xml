@@ -4,6 +4,7 @@
     android:layout_height="280dp"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
+    android:background="@drawable/alertdialog_border"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"

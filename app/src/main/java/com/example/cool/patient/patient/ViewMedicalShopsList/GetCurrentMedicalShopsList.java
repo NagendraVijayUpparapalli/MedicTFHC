@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -57,14 +58,14 @@ import android.widget.ListView;
 public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
     public static final CharSequence[] states = {"---Speciality---", "Head", "nose", "eyes"};
-    Dialog MyDialog;
-    Dialog MyDialoganother;
-    Button okBtn,cancelBtn;
+//    Dialog MyDialog;
+//    Dialog MyDialoganother;
+//    Button okBtn,cancelBtn;
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    static int progress_value,dis = 20;
+    static TextView distance,availability;
+    static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
     //lat,long
@@ -143,7 +144,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
         myList = new ArrayList<MedicalShopClass>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Medical List");
+        toolbar.setTitle("MedicalShops");
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(
@@ -169,38 +170,89 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             getLocation();
         }
 
-        MyDialog =  new Dialog(GetCurrentMedicalShopsList.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.speciality_based_layout);
+        pharmacyType = (SearchableSpinner) findViewById(R.id.speciality);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        availability = (TextView) findViewById(R.id.availability);
+        seek_bar.setProgress(dis);
 
-        pharmacyType = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+        rangeBar();
 
-        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        pharmacyType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-                anotheralert();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String js = specialityBasedFormatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
+
+                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<MedicalShopClass>();
+
+                adapter = new MedicalShopListAdapter(GetCurrentMedicalShopsList.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentMedicalShopsList.this);
+//
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                anotheralert();
-            }
-        });
-        MyDialog.setCancelable(false);
-        MyDialog.setCanceledOnTouchOutside(false);
-        MyDialog.show();
+
+
+//        MyDialog =  new Dialog(GetCurrentMedicalShopsList.this);
+//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialog.setContentView(R.layout.speciality_based_layout);
+//
+//        pharmacyType = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
+//
+//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
+//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
+//        okBtn.setEnabled(true);
+//        cancelBtn.setEnabled(true);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+//                anotheralert();
+//
+//            }
+//        });
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                anotheralert();
+//            }
+//        });
+//        MyDialog.setCancelable(false);
+//        MyDialog.setCanceledOnTouchOutside(false);
+//        MyDialog.show();
 
     }
 
     //Get MedicalPharmacyList list from api call
     private class GetAllMedicalPharmacyList extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetCurrentMedicalShopsList.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -242,6 +294,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getPharmacyList(result);
 
         }
@@ -278,8 +331,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 System.out.print("pharmacyTypeList.."+pharmacyTypeList);
             }
 
-            adapter5 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, pharmacyTypeList);
-            adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            adapter5 = new ArrayAdapter<String> (this, R.layout.custom_spinner, pharmacyTypeList);
+            adapter5.setDropDownViewResource(R.layout.custom_spinner); // Specify the layout to use when the list of choices appears
             pharmacyType.setAdapter(adapter5); // Apply the adapter to the spinner
 
         }
@@ -336,21 +389,21 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 System.out.print("longi...."+longitude);
 
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
-
-                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<MedicalShopClass>();
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                adapter = new MedicalShopListAdapter(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<MedicalShopClass>();
+////
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                adapter = new MedicalShopListAdapter(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
@@ -443,6 +496,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 longitude = currentlongi;
                 System.out.print("latii...."+lattitude);
                 System.out.print("longi...."+longitude);
+
                 String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
@@ -632,6 +686,10 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 if(ss.equals("No data found."))
                 {
                     showMessage();
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
                     Log.e("Api response if.....", result);
                 }
                 else
@@ -656,6 +714,11 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
         try {
 
             JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("medical availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
@@ -784,71 +847,68 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
         alert.show();
     }
 
-    public void anotheralert()
-    {
-
-        MyDialoganother =  new Dialog(GetCurrentMedicalShopsList.this);
-        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialoganother.setContentView(R.layout.range_layout);
-
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        seek_bar.setProgress(dis);
-
-        rangeBar();
-
-
-        adapter = new MedicalShopListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
-
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-
-        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-        okBtn.setEnabled(true);
-        cancelBtn.setEnabled(true);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-
-                String js = specialityBasedFormatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
-
-                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<MedicalShopClass>();
+//    public void anotheralert()
+//    {
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-
-                MyDialog.dismiss();
-                MyDialoganother.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDialog.show();
-
-            }
-        });
-        MyDialoganother.setCancelable(false);
-        MyDialoganother.setCanceledOnTouchOutside(false);
-        MyDialoganother.show();
-    }
+//        MyDialoganother =  new Dialog(GetCurrentMedicalShopsList.this);
+//        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialoganother.setContentView(R.layout.range_layout);
+//
+//        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
+//        seek_bar.setProgress(dis);
+//
+//        rangeBar();
+//
+//
+//        adapter = new MedicalShopListAdapter(this, myList);
+//        layoutManager = new LinearLayoutManager(this);
+//
+//        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
+//
+//        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
+//        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
+//        okBtn.setEnabled(true);
+//        cancelBtn.setEnabled(true);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+//
+//                String js = specialityBasedFormatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
+//
+//                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<MedicalShopClass>();
+////
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
+//
+//                MyDialog.dismiss();
+//                MyDialoganother.dismiss();
+//            }
+//        });
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MyDialog.show();
+//
+//            }
+//        });
+//        MyDialoganother.setCancelable(false);
+//        MyDialoganother.setCanceledOnTouchOutside(false);
+//        MyDialoganother.show();
+//    }
 
     public void rangeBar()
     {
 
-        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-
-        adapter = new MedicalShopListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
 
         seek_bar.setProgress(20);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -857,7 +917,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText("Distance in progress :"+progress+"Km") ;
+                distance.setText(progress+"Km") ;
 
             }
 
@@ -868,7 +928,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText("Distance :"+progress_value+"Km");
+                distance.setText(progress_value+"Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -877,21 +937,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
             }
         });
 
-        distance.setText("Distance :"+seek_bar.getProgress()+"Km");
-
-//        String js = specialityBasedFormatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
-//
-//        new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<MedicalShopClass>();
-////
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
+        distance.setText(seek_bar.getProgress()+"Km");
 
     }
 
@@ -919,8 +965,6 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity {
                 uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
                 new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-
-
 
                 myList = new ArrayList<MedicalShopClass>();
 //

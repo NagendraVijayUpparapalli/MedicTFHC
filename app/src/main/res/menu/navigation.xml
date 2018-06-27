@@ -4,8 +4,12 @@
 
     <item
         android:id="@+id/bottomnav_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/home" />
+        tools:ignore="MenuTitle" />
+
+    <!--<item-->
+        <!--android:id="@+id/bottomnav_home"-->
+        <!--android:icon="@drawable/ic_home_black_24dp"-->
+        <!--android:title="@string/home" />-->
 
     <!--<item-->
         <!--android:id="@+id/bottomnav_editprofile"-->

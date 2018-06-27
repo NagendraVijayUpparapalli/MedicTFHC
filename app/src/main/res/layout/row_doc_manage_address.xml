@@ -33,7 +33,26 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="30dp"
                 android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/dummyimage"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+
+                        android:src="@drawable/noimage11"
+                        app:civ_border_color="@color/colorAccent"
+                        app:civ_border_width="3dp" />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_image"
@@ -42,10 +61,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="70dp"
+
                     android:src="@drawable/noimage11"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="3dp" />
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -169,26 +189,44 @@
                         android:textColor="#2C5E83"
                         android:textSize="17dp" />
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="13dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="-"
-                        android:textSize="20dp"/>
+                    <!--<TextView-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:layout_width="13dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginStart="10dp"-->
+                        <!--android:text="-"-->
+                        <!--android:textSize="20dp"/>-->
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:id="@+id/phone_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="9492862167"
-                        android:textColor="#000"
-                        android:textSize="17dp" />
+                    <!--<TextView-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:id="@+id/phone_number"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="9492862167"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:textSize="17dp" />-->
 
                 </LinearLayout>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:layout_marginTop="5dp">
+                <TextView
+                android:layout_weight="1"
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9492862167"
+                android:textColor="#000"
+                android:textSize="17dp" />
 
-                <LinearLayout
+
+            </LinearLayout>
+
+
+            <LinearLayout
                     android:weightSum="2"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"

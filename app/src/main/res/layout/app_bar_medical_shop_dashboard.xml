@@ -16,7 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/toolbar_gradient"
-            app:popupTheme="@style/MyMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/MyMaterialTheme.PopupOverlay" >
+
+        <TextView
+            android:drawableRight="@drawable/ic_add_location_black_24dp"
+            android:drawablePadding="5dp"
+            android:id="@+id/select_city"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="10dp"
+            android:textSize="17dp"
+            android:textColor="#fff"
+            android:layout_height="wrap_content"
+            android:text="Location"/>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

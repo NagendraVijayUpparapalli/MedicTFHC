@@ -208,6 +208,21 @@ public class GetCurrentDoctorsList extends AppCompatActivity
 private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // Create a progressdialog
+        progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
+        // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+        // Set progressdialog message
+        progressDialog.setMessage("Loading...");
+
+        progressDialog.setIndeterminate(false);
+        // Show progressdialog
+        progressDialog.show();
+    }
+
+    @Override
     protected String doInBackground(String... params) {
 
         String data = "";
@@ -247,7 +262,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         super.onPostExecute(result);
 
         Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-
+        progressDialog.dismiss();
         getSpecialities(result);
 
     }
@@ -523,20 +538,20 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
     //Get doctors list from api call
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
-//            // Set progressdialog title
-////            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -610,7 +625,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
 
             try
             {
@@ -618,7 +633,13 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 String ss = (String) jsono.get("Message");
                 if(ss.equals("No data found."))
                 {
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+
                     showMessage();
+
                     Log.e("Api response if.....", result);
                 }
                 else

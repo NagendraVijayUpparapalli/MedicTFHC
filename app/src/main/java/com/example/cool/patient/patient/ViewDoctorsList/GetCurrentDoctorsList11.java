@@ -96,7 +96,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     LinearLayoutManager layoutManager;
 
     ArrayList<DoctorClass> myList;
-    DoctorListAdapter11 adapter;
+    DoctorListAdapter adapter;
 
 
     ListView listview;
@@ -145,7 +145,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //  setSupportActionBar(toolbar);
-        toolbar.setTitle("Doctors List");
+        toolbar.setTitle("Doctors");
 
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setNavigationOnClickListener(
@@ -168,26 +168,11 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
             buildAlertMessageNoGps();
 
         }
+        else
+        {
+            getlatlng();
+        }
 
-        getlatlng();
-
-
-//        String js = formatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<DoctorClass>();
-//
-//        adapter = new DoctorListAdapter11(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
 
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
@@ -207,11 +192,11 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
                 myList = new ArrayList<DoctorClass>();
 
-                adapter = new DoctorListAdapter11(GetCurrentDoctorsList11.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
-
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
                 recyclerView.setHasFixedSize(true);
+
+                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
 
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
@@ -223,6 +208,13 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
             }
         });
 
+
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+
+        seek_bar.setProgress(20);
+
+        distance.setText(seek_bar.getProgress()+"Km");
 
         rangeBar();
 
@@ -260,6 +252,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
     //    get doctor specialities from api call
     private class GetAllSpeciality extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -302,6 +309,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
             Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
+            progressDialog.dismiss();
             getSpecialities(result);
 
         }
@@ -380,21 +388,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
     //Get doctors list from api call
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
-//            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
-
         @Override
         protected String doInBackground(String... params) {
 
@@ -412,7 +405,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params.doclist11...."+params[1]);
+                System.out.println("params...doclist11...."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -467,7 +460,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
 
             try
             {
@@ -475,6 +468,11 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
                 String ss = (String) jsono.get("Message");
                 if(ss.equals("No data found."))
                 {
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+
                     showMessage();
                     Log.e("Api response if.....", result);
                 }
@@ -667,7 +665,25 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
-                getlatlng();
+//                getlatlng();
+
+
+        String js = specialityBasedFormatDataAsJson();
+        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+        myList = new ArrayList<DoctorClass>();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -737,21 +753,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity
 
                 System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-
-                adapter = new DoctorListAdapter11(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DoctorClass>();
+//
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//                adapter = new DoctorListAdapter(this, myList);
+//                layoutManager = new LinearLayoutManager(this);
+//
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
 
 
             } catch (IOException e) {

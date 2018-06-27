@@ -46,6 +46,11 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
         this.diagnosticsClassList = diagnosticsClassList;
     }
 
+    public DiagnosticsListAdapter(GetCurrentDiagnosticsList11 getCurrentDiagnosticsList,List<DiagnosticsClass> diagnosticsClassList) {
+        this.context = getCurrentDiagnosticsList;
+        this.diagnosticsClassList = diagnosticsClassList;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;

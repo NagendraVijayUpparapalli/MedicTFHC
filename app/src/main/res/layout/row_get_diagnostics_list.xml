@@ -11,6 +11,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/dummyimage"
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/share"
+
+
+        android:src="@drawable/noimage11"
+        app:civ_border_width="0.5dp"
+        app:civ_border_color="#FF000000"
+        app:layout_constraintHorizontal_bias="0.502"
+        tools:ignore="NotSibling" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/centerImage"
         android:layout_width="50dp"
@@ -25,6 +43,7 @@
         app:civ_border_color="#FF000000"
         app:layout_constraintHorizontal_bias="0.502"
         tools:ignore="NotSibling" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

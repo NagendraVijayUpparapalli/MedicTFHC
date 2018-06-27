@@ -26,6 +26,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Toast;
 
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
@@ -96,6 +97,8 @@ public class MedicalShopDashboard extends AppCompatActivity
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    private static long back_pressed;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -300,13 +303,24 @@ public class MedicalShopDashboard extends AppCompatActivity
 
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
+
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+    public void onBackPressed(){
+        if (back_pressed + 2000 > System.currentTimeMillis()){
             super.onBackPressed();
+        }
+        else{
+            Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
+            back_pressed = System.currentTimeMillis();
         }
     }
 

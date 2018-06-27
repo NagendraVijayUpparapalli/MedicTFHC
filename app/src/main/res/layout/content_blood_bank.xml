@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
                 android:layout_marginStart="18dp"
-                android:text="My Location"
+                android:text="Location"
                 android:gravity="center"
                 android:textColor="#fff"
 
@@ -169,7 +169,7 @@
                                 android:textSize="16dp"
                                 android:textStyle="bold" />
                             <TextView
-                                android:id="@+id/Kilometers"
+                                android:id="@+id/DistanceRange"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"

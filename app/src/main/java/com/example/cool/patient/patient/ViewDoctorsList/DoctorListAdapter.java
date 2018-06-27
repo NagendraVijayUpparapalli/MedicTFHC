@@ -53,6 +53,11 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         this.doctorClassList = doctorClassList;
     }
 
+    public DoctorListAdapter(GetCurrentDoctorsList11 getCurrentDoctorsList,List<DoctorClass> doctorClassList) {
+        this.context = getCurrentDoctorsList;
+        this.doctorClassList = doctorClassList;
+    }
+
 class ViewHolder extends RecyclerView.ViewHolder{
 
     public int currentItem;
