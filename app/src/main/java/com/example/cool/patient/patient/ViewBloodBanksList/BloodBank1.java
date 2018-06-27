@@ -53,8 +53,8 @@ public class BloodBank1 extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
 
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    int progress_value,dis=20,str;
+    private static TextView distance,availability;
+    int progress_value,dis=20,availabilityCount;
 
 
     static double selectedCitylat;
@@ -104,7 +104,8 @@ public class BloodBank1 extends AppCompatActivity {
 
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
-        bw_dist = (TextView) findViewById(R.id.between_dist);
+//        bw_dist = (TextView) findViewById(R.id.between_dist);
+        availability = (TextView) findViewById(R.id.availability);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -411,6 +412,11 @@ public class BloodBank1 extends AppCompatActivity {
                 String ss = (String) jsono.get("Message");
                 if(ss.equals("No data found."))
                 {
+                    availabilityCount = 0;
+                    System.out.println("bb availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+
                     showMessage();
                     Log.e("Api response if.....", result);
                 }
@@ -439,6 +445,11 @@ public class BloodBank1 extends AppCompatActivity {
 //            else
 //            {
             JSONArray jarray = jsono.getJSONArray("BloodbankList");
+
+            availabilityCount = jarray.length();
+            System.out.println("bb availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);

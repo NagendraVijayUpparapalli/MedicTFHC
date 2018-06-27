@@ -68,30 +68,10 @@ public class BloodBankAdapter extends ArrayAdapter<BloodBankClass> {
         holder.person_name.setText(bloodBankClassArrayList.get(position).getContact_person());
 //        holder.availabilty.setText(bloodBankClassArrayList.get(position).getAvailability());
         double d1 = Double.parseDouble(bloodBankClassArrayList.get(position).getDistance());
+
         double dis = Math.round(d1*1000)/1000.0;
-        String[] arr = String.valueOf(dis).split("\\.");
-        int[] intarr = new int[2];
-        intarr[0] = Integer.parseInt(arr[0]);
-        intarr[1] = Integer.parseInt(arr[1]);
 
-        System.out.println("dist decimal...."+intarr[0]);
-
-//        String s = (Double.toString(dis));
-//       String[] ar=  s.split(".");
-//       String a = ar[0];
-//        String b = ar[1];
-//        System.out.println("dist decimal...."+s);
-
-//        for(int i=0;i<ar.length;i++)
-//        {
-//            a= ar[i];
-//        }
-
-//        System.out.println("dist a...."+a);
-//        System.out.println("dist b...."+b);
-        holder.dist.setText("Distance :"+intarr[0]+"."+intarr[1]+" Km");
-
-//        holder.dist.setText("Distance :"+dis+" Km");
+        holder.dist.setText("Distance :"+String.format("%.1f", dis)+" km");
 
         return v;
 
@@ -99,7 +79,7 @@ public class BloodBankAdapter extends ArrayAdapter<BloodBankClass> {
 
     static class ViewHolder {
         public ImageView itemImage;
-        public TextView name,location,mobile,availabilty,dist,lat,lng,person_name;
+        public TextView name,location,mobile,dist,lat,lng,person_name;
 
     }
 

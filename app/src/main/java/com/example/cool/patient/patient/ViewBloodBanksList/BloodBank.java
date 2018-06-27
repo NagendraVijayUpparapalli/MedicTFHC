@@ -61,8 +61,8 @@ public class BloodBank extends Activity {
     public static final CharSequence[] MobileNumber  = {"---Select MobileNumber ---", "9491232233", "8764758392"};
     Spinner cityt,bloodbankname,bloodgroup;
     private static SeekBar seek_bar;
-    private static TextView distance,bw_dist;
-    static int progress_value,dis = 20,str;
+    private static TextView distance,availability;
+    static int progress_value,dis = 20,availabilityCount;
     private static String label="";
 
     //lat,long
@@ -117,6 +117,7 @@ public class BloodBank extends Activity {
         listview = (ListView)findViewById(R.id.mylist);
 //        cardView = (CardView)findViewById(R.id.mylist);
         current_city = (TextView) findViewById(R.id.select_city);
+        availability = (TextView) findViewById(R.id.availability);
         current_city.setText(city);
 
         current_city.setOnClickListener(new View.OnClickListener() {
@@ -332,7 +333,7 @@ public class BloodBank extends Activity {
 //        seek_bar.setMin(1);
         distance = (TextView) findViewById(R.id.DistanceRange);
 //        viewbloodbank = (TextView) findViewById(R.id.viewdetails);
-        bw_dist = (TextView) findViewById(R.id.between_dist);
+//        bw_dist = (TextView) findViewById(R.id.between_dist);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -851,6 +852,11 @@ public class BloodBank extends Activity {
                 String ss = (String) jsono.get("Message");
                 if(ss.equals("No data found."))
                 {
+                    availabilityCount = 0;
+                    System.out.println("bb availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+
                     showMessage();
                     Log.e("Api response if.....", result);
                 }
@@ -879,6 +885,11 @@ public class BloodBank extends Activity {
 //            else
 //            {
             JSONArray jarray = jsono.getJSONArray("BloodbankList");
+
+            availabilityCount = jarray.length();
+            System.out.println("bb availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);

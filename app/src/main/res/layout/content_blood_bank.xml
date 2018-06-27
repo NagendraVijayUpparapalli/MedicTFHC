@@ -206,13 +206,14 @@
                     android:layout_height="wrap_content"
                     android:text="Availability : "/>
                 <TextView
+                    android:id="@+id/availability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
                     android:textColor="#fff"
-                    android:text="10"/>
+                    android:text="-"/>
 
 
 
