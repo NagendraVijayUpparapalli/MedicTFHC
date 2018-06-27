@@ -10,7 +10,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -21,19 +25,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
+import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.SelectCity;
+import com.example.cool.patient.patient.PatientEditProfile;
+import com.example.cool.patient.patient.PatientSideNavigationExpandableListAdapter;
+import com.example.cool.patient.patient.PatientSideNavigationExpandableSubList;
+import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
 import com.google.android.gms.maps.model.LatLng;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
@@ -55,7 +72,7 @@ import java.util.HashMap;
 import java.util.List;
 import android.widget.ListView;
 
-public class GetCurrentDiagnosticsList extends AppCompatActivity {
+public class GetCurrentDiagnosticsList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static final CharSequence[] states = {"---Speciality---", "Head", "nose", "eyes"};
 //    Dialog MyDialog;
 //    Dialog MyDialoganother;
@@ -115,6 +132,12 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
 
     String cur_addressId,myaddressId,mydocName,myhospitalName,myaddress,mycity,mystate,myfee,mypaymentMode,myphone,myLati,myLongi,myImage;
 
+    // expandable list view
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,21 +172,21 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         //  setSupportActionBar(toolbar);
         toolbar.setTitle("Diagnostics");
 
-        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(GetCurrentDiagnosticsList.this,PatientDashBoard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-                        startActivity(intent);
-
-                    }
-                }
-
-        );
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(GetCurrentDiagnosticsList.this,PatientDashBoard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//
+//        );
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -204,6 +227,208 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        //side navigation
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListDetail = PatientSideNavigationExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new PatientSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM1) {
+                    retVal = false;
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM2) {
+                    retVal = false;
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent editProfile = new Intent(GetCurrentDiagnosticsList.this,PatientEditProfile.class);
+                    editProfile.putExtra("id",getUserId);
+                    startActivity(editProfile);
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,ReachUs.class);
+                    startActivity(contact);
+
+
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
+//
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//                boolean retVal = true;
+//
+//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
+//
+//                    // call some activity here
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
+//                    // call some activity here
+//
+//                }
+//                return retVal;
+//            }
+//        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+                if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM1) {
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                        Intent i = new Intent(GetCurrentDiagnosticsList.this,GetCurrentDoctorsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile);
+                        startActivity(i);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_2) {
+                        Intent i = new Intent(GetCurrentDiagnosticsList.this,GetCurrentDiagnosticsList.class);
+                        i.putExtra("userId",getUserId);
+                        i.putExtra("mobile",mobile);
+                        startActivity(i);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_3) {
+
+                        // call activity here
+
+//                        Intent in = new Intent(PatientDashBoard.this,GetCurrentMedicalShopsList.class);
+//                        in.putExtra("userId",getUserId);
+//                        in.putExtra("mobile",mobile_number);
+//                        startActivity(in);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
+
+                        // call activity here
+//                        Intent bloodbank = new Intent(PatientDashBoard.this,BloodBank.class);
+//                        startActivity(bloodbank);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
+
+                        // call activity here
+
+                    }
+
+                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+                        Intent intent = new Intent(GetCurrentDiagnosticsList.this,ChangePassword.class);
+                        intent.putExtra("mobile",mobile);
+                        startActivity(intent);
+
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                }
+
+                else if(groupPosition == PatientSideNavigationExpandableListAdapter.ITEM2) {
+                    if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+                        // call activity here
+
+                        Intent intent = new Intent(GetCurrentDiagnosticsList.this,PatientMyDoctorAppointments.class);
+                        intent.putExtra("mobile",mobile);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent intent = new Intent(GetCurrentDiagnosticsList.this,PatientMyDiagnosticAppointments.class);
+                        intent.putExtra("mobile",mobile);
+                        intent.putExtra("id",getUserId);
+                        startActivity(intent);
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_3) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_4) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_5) {
+
+                        // call activity here
+
+                    }
+                    else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_6) {
+
+                        // call activity here
+
+                    }
+                }
+                return true;
 
             }
         });
@@ -257,6 +482,11 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
 

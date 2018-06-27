@@ -13,17 +13,23 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,9 +38,17 @@ import android.widget.Toast;
 
 import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.MapsActivity;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
+import com.example.cool.patient.medicalShop.MedicalShopSideNavigatioExpandableSubList;
+import com.example.cool.patient.medicalShop.MedicalShopSideNavigationExpandableListAdapter;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -61,7 +75,7 @@ import java.util.List;
 import java.util.Map;
 import br.com.bloder.magic.view.MagicButton;
 
-public class MedicalShopUpdateAddress extends AppCompatActivity {
+public class MedicalShopUpdateAddress extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
     EditText diagnosticName,address,pincode,contactPerson,mobile,landlineMobileNumber,comments,lat,lng,Experience,Emeregency_contact;
@@ -113,6 +127,13 @@ public class MedicalShopUpdateAddress extends AppCompatActivity {
     //get lat,lng on touch map
     String myLatitude,myLongitude,myAddressId,regMobile;
     TextView getLatLong;
+
+    // expandable list view
+
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
 
 
     @Override
@@ -296,22 +317,170 @@ public class MedicalShopUpdateAddress extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setTitle("Update Address");
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MedicalShopUpdateAddress.this,MedicalShopDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",regMobile);
-                        startActivity(intent);
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(MedicalShopUpdateAddress.this,MedicalShopDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",regMobile);
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//
+//        );
 
-                    }
+        //side navigation
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
+        expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new MedicalShopSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Services) {
+                    retVal = false;
+                } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
+                    retVal = false;
+                } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
                 }
 
-        );
+                else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent contact = new Intent(MedicalShopUpdateAddress.this,MedicalShopEditProfile.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
+//                    startActivity(about);
+
+                } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+                    Intent contact = new Intent(MedicalShopUpdateAddress.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(MedicalShopUpdateAddress.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM8) {
+                    // call some activity here
+                    Intent contact = new Intent(MedicalShopUpdateAddress.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+//                if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Services) {
+//                    if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM1_1) {
+//
+//                        Intent i = new Intent(DiagnosticDashboard.this,DiagnosticDashboard.class);
+//                        startActivity(i);
+//
+//                    }
+//                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_2) {
+//
+//                        // call activity here
+//
+////                        Intent i = new Intent(DiagnosticDashboard.this,DoctorTodaysAppointmentsForPatient.class);
+////                        i.putExtra("userId",getUserId);
+////                        startActivity(i);
+//
+//                    }
+////                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_3) {
+////
+////                        // call activity here
+////
+////                    }
+//
+//
+//                }
+                if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+
+                        Intent about = new Intent(MedicalShopUpdateAddress.this,ChangePassword.class);
+                        about.putExtra("mobile",regMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                } else if(groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
+                    if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+                        Intent about = new Intent(MedicalShopUpdateAddress.this,MedicalShopAddAddress.class);
+                        about.putExtra("id",getUserId);
+                        about.putExtra("mobile",regMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent about = new Intent(MedicalShopUpdateAddress.this,MedicalShopManageAddress.class);
+                        about.putExtra("id",getUserId);
+                        about.putExtra("mobile",regMobile);
+                        startActivity(about);
+
+                    }
+
+                }
+                return true;
+
+            }
+        });
 
     }
 
@@ -536,6 +705,11 @@ public class MedicalShopUpdateAddress extends AppCompatActivity {
 //        }
 
         return validate;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
 

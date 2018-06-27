@@ -303,6 +303,7 @@ public class DoctorDashboard extends AppCompatActivity
         });
 
 
+        //side navigation
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());

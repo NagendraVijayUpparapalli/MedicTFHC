@@ -1,6 +1,7 @@
 package com.example.cool.patient.diagnostic.TodaysAppointments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,16 +12,22 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -28,6 +35,17 @@ import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
+import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
+import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
+import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
+import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
+import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticManageAddress;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +62,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class DiagnosticsViewTodaysApppointment extends AppCompatActivity {
+public class DiagnosticsViewTodaysApppointment extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     EditText Patientname,emailid,mobilenumer,aadharnumber,address;
     TextView testname,status;
@@ -65,6 +86,13 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity {
     static String encodedImage = null;
 
     ApiBaseUrl baseUrl;
+
+    // expandable list view
+    ProgressDialog progressDialog;
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,22 +162,175 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setTitle("View Todays Appointments");
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticsTodaysAppointments.class);
-                        intent.putExtra("userId",diagnosticId);
-                        startActivity(intent);
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticsTodaysAppointments.class);
+//                        intent.putExtra("userId",diagnosticId);
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//
+//        );
 
-                    }
+
+        // side navigation
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
+        expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new DiagnosticSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
+                    retVal = false;
+                } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
+                    retVal = false;
+                } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
                 }
 
-        );
+                else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticEditProfile.class);
+                    contact.putExtra("id",diagnosticId);
+                    contact.putExtra("mobile",diagMobile);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+                    Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagnosticId);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
+
+                } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM8) {
+                    // call some activity here
+                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+                if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
+                    if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                        Intent i = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticDashboard.class);
+                        i.putExtra("id",diagnosticId);
+                        i.putExtra("mobile",diagMobile);
+                        startActivity(i);
+
+                    }
+                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_2) {
+
+                        // call activity here
+
+                        Intent i = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticsTodaysAppointments.class);
+                        i.putExtra("userId",diagnosticId);
+                        i.putExtra("mobile",diagMobile);
+                        startActivity(i);
+
+                    }
+//                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_3) {
+//
+//                        // call activity here
+//
+//                    }
+
+
+                } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+
+                        Intent about = new Intent(DiagnosticsViewTodaysApppointment.this,ChangePassword.class);
+                        about.putExtra("mobile",diagMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                } else if(groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
+                    if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+
+                        Intent about = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticAddAddress.class);
+                        about.putExtra("id",diagnosticId);
+                        about.putExtra("mobile",diagMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent about = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticManageAddress.class);
+                        about.putExtra("id",diagnosticId);
+                        about.putExtra("mobile",diagMobile);
+                        startActivity(about);
+
+                    }
+
+                }
+                return true;
+
+            }
+        });
 
     }
 
@@ -220,6 +401,11 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity {
 //        decodeimg.setImageBitmap(decodedImage);
 
         return encImage;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
     private class SendDetails extends AsyncTask<String, Void, String> {

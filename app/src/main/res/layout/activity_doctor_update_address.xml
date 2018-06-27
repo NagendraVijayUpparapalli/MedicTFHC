@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolappbar"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/toolbar_gradient"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways" >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -10,6 +45,7 @@
     android:focusedByDefault="false"
     android:keyboardNavigationCluster="true"
     android:orientation="vertical">
+
     <RelativeLayout android:id="@+id/relative"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -21,23 +57,24 @@
         android:keyboardNavigationCluster="true"
         android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools">
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarcool"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/toolbar_gradient"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways" >
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/appbarcool"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-            </android.support.v7.widget.Toolbar>
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/toolbar_gradient"-->
+                <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+                <!--app:layout_scrollFlags="scroll|enterAlways" >-->
 
-        </android.support.design.widget.AppBarLayout>
+            <!--</android.support.v7.widget.Toolbar>-->
+
+        <!--</android.support.design.widget.AppBarLayout>-->
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -60,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
                         android:textColorHint="#8c8080"
                         android:editable="false"
                         >
@@ -704,3 +740,41 @@
         </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+
+        android:fitsSystemWindows="true">
+
+        <include
+            layout="@layout/nav_header_doctor_dashboard" />
+
+
+        <ExpandableListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@+id/nav_view"
+            android:id="@+id/expandableListView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="179dp"
+            android:choiceMode="singleChoice"
+            android:divider="#000"
+            android:dividerHeight="0.2dp"
+
+            android:groupIndicator="@null"
+            android:alpha="255"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
+        </ExpandableListView>
+        <!--</RelativeLayout>-->
+
+        </android.support.design.widget.NavigationView>
+
+
+
+    </android.support.v4.widget.DrawerLayout>
+    </LinearLayout>

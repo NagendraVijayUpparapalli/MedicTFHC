@@ -3,6 +3,10 @@ package com.example.cool.patient.doctor.DashBoardCalendar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,10 +14,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
+import com.example.cool.patient.doctor.DoctorEditProfile;
+import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
+import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
+import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
+import com.example.cool.patient.doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,9 +45,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class GetPatientDetailsListInDoctor extends AppCompatActivity {
+public class GetPatientDetailsListInDoctor extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     String date,geturl;
     String DoctorId,DoctorAddressId,doctorMobile;
@@ -48,6 +67,13 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity {
     ApiBaseUrl baseUrl;
 
     ProgressDialog mProgressDialog;
+
+    // expandable list view
+
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,23 +104,208 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setTitle("Patients List");
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(GetPatientDetailsListInDoctor.this,DoctorDashboard.class);
-                        intent.putExtra("id",DoctorId);
-                        intent.putExtra("mobile",doctorMobile);
-                        startActivity(intent);
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+        toolbar.setTitle("Patients");
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(GetPatientDetailsListInDoctor.this,DoctorDashboard.class);
+//                        intent.putExtra("id",DoctorId);
+//                        intent.putExtra("mobile",doctorMobile);
+//                        startActivity(intent);
+//
+//                    }
+//                }
+//
+//        );
 
-                    }
+
+        //side navigation
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
+        expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new DoctorSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == DoctorSideNavigationExpandableListAdapter.Services) {
+                    retVal = false;
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.Address) {
+                    retVal = false;
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
                 }
 
-        );
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent contact = new Intent(GetPatientDetailsListInDoctor.this,DoctorEditProfile.class);
+                    contact.putExtra("id",DoctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    startActivity(contact);
 
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+                    Intent i = new Intent(GetPatientDetailsListInDoctor.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",DoctorId);
+                    i.putExtra("module","doc");
+                    startActivity(i);
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+                    Intent contact = new Intent(GetPatientDetailsListInDoctor.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(GetPatientDetailsListInDoctor.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM8) {
+                    // call some activity here
+                    Intent contact = new Intent(GetPatientDetailsListInDoctor.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
+//
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//                boolean retVal = true;
+//
+//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
+//
+//                    // call some activity here
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
+//                    // call some activity here
+//
+//                }
+//                return retVal;
+//            }
+//        });
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        expandableListTitle.get(groupPosition)
+//                                + " -> "
+//                                + expandableListDetail.get(
+//                                expandableListTitle.get(groupPosition)).get(
+//                                childPosition), Toast.LENGTH_SHORT
+//                ).show();
+                if (groupPosition == DoctorSideNavigationExpandableListAdapter.Services) {
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                        Intent i = new Intent(GetPatientDetailsListInDoctor.this,DoctorDashboard.class);
+                        i.putExtra("id",DoctorId);
+                        i.putExtra("mobile",doctorMobile);
+                        startActivity(i);
+
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_2) {
+
+                        // call activity here
+
+                        Intent i = new Intent(GetPatientDetailsListInDoctor.this,DoctorTodaysAppointmentsForPatient.class);
+                        i.putExtra("id",DoctorId);
+                        i.putExtra("mobile",doctorMobile);
+                        startActivity(i);
+
+                    }
+//                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_3) {
+//
+//                        // call activity here
+//
+//                    }
+
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+
+                        Intent about = new Intent(GetPatientDetailsListInDoctor.this,ChangePassword.class);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                } else if(groupPosition == DoctorSideNavigationExpandableListAdapter.Address) {
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+
+                        Intent about = new Intent(GetPatientDetailsListInDoctor.this,DoctorAddAddress.class);
+                        about.putExtra("id",DoctorId);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent about = new Intent(GetPatientDetailsListInDoctor.this,DoctorManageAddress.class);
+                        about.putExtra("id",DoctorId);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+
+                }
+                return true;
+
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
     //Get patient details  based on doctor id and appointment date

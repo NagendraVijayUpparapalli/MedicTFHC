@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -99,6 +100,16 @@ public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
     static String access_token = null;
 
+    private CheckBox rem_mobile_aadhaar;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+    private static final String PREF_NAME = "prefs";
+    private static final String KEY_REMEMBER = "remember";
+    private static final String KEY_Mobile = "mobile";
+    private static final String KEY_Aadhaar = "aadhaar";
+    private static final String KEY_PASS = "password";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,8 +154,6 @@ public class Login extends AppCompatActivity {
 
         mobile_num = (EditText) findViewById(R.id.mobileNumber);
 
-
-
         // find the radioButton by returned id
         radioGroup = (RadioGroup) findViewById(R.id.logintype_radio);
 //
@@ -157,7 +166,42 @@ public class Login extends AppCompatActivity {
         password1 = (EditText) findViewById(R.id.password);
         aadhar_num = (EditText) findViewById(R.id.aadharNumber);
 
+        //store mobile number or aadhar number for future use
+        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         showPasswordCheckBox = (CheckBox) findViewById(R.id.cbShowPwd);
+        rem_mobile_aadhaar = (CheckBox) findViewById(R.id.remember);
+
+        if(sharedPreferences.getBoolean(KEY_REMEMBER, false))
+            rem_mobile_aadhaar.setChecked(true);
+        else
+            rem_mobile_aadhaar.setChecked(false);
+
+        if(!sharedPreferences.getString(KEY_Mobile,"").equals(""))
+        {
+            mobile_num.setText(sharedPreferences.getString(KEY_Mobile,""));
+            rem_mobile_aadhaar.setChecked(false);
+        }
+
+        else if(!sharedPreferences.getString(KEY_Aadhaar,"").equals(""))
+        {
+            aadhar_num.setText(sharedPreferences.getString(KEY_Aadhaar,""));
+            rem_mobile_aadhaar.setChecked(false);
+        }
+
+//        mobile_num.setText(sharedPreferences.getString(KEY_Mobile,""));
+//        aadhar_num.setText(sharedPreferences.getString(KEY_Aadhaar,""));
+        password1.setText(sharedPreferences.getString(KEY_PASS,""));
+
+
+        rem_mobile_aadhaar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // checkbox status is changed from uncheck to checked.
+                managePrefs();
+            }
+        });
 
         // add onCheckedListener on checkbox
         // when user clicks on this checkbox, this is the handler.
@@ -214,11 +258,13 @@ public class Login extends AppCompatActivity {
 
                 if(checkedId==R.id.mobileRadio)
                 {
+                    aadhar_num.setText("");
                     mobile_num.setVisibility(View.VISIBLE);
                     aadhar_num.setVisibility(View.GONE);
                 }
                 else if(checkedId==R.id.aadharRadio)
                 {
+                    mobile_num.setText("");
                     mobile_num.setVisibility(View.GONE);
                     aadhar_num.setVisibility(View.VISIBLE);
                 }
@@ -241,6 +287,33 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void managePrefs(){
+        if(rem_mobile_aadhaar.isChecked()){
+
+            if(!mobile_num.getText().toString().trim().equals(""))
+            {
+                editor.putString(KEY_Mobile, mobile_num.getText().toString().trim());
+                editor.putString(KEY_PASS, password1.getText().toString().trim());
+                editor.putBoolean(KEY_REMEMBER, true);
+                editor.apply();
+            }
+            else
+            {
+                editor.putString(KEY_Aadhaar, aadhar_num.getText().toString().trim());
+                editor.putString(KEY_PASS, password1.getText().toString().trim());
+                editor.putBoolean(KEY_REMEMBER, true);
+                editor.apply();
+            }
+
+        }else{
+            editor.putBoolean(KEY_REMEMBER, false);
+//            editor.remove(KEY_PASS);//editor.putString(KEY_PASS,"");
+            editor.remove(KEY_Mobile);//editor.putString(KEY_Mobile, "");
+            editor.remove(KEY_Aadhaar);//editor.putString(KEY_Aadhaar, "");
+            editor.apply();
+        }
     }
 
     private String formatDataAsJson()

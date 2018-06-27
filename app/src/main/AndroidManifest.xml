@@ -1,4 +1,348 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--<manifest xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--package="com.example.cool.patient">-->
+
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.USB_PERMISSION" />-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.SEND_SMS" />-->
+    <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
+
+    <!--<application-->
+        <!--android:allowBackup="true"-->
+        <!--android:icon="@drawable/symb"-->
+        <!--android:label="@string/app_name"-->
+        <!--android:largeHeap="true"-->
+        <!--android:roundIcon="@mipmap/ic_launcher_round"-->
+        <!--android:supportsRtl="true"-->
+        <!--android:theme="@style/MyMaterialTheme">-->
+        <!--<activity-->
+            <!--android:name=".common.SplashScreen"-->
+            <!--android:label="MEDIC TFHC"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/SplashTheme">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".common.Language_Optional"-->
+            <!--android:label="@string/app_name_Select_language"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".subscriptionPlan.Subscription_for_Urban"-->
+            <!--android:label="@string/Subscription"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".patient.PatientDashBoard"-->
+            <!--android:theme="@style/MyMaterialTheme" />-->
+        <!--<activity-->
+            <!--android:name=".common.Login"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:noHistory="true"-->
+            <!--android:theme="@style/AppTheme1" />-->
+        <!--<activity-->
+            <!--android:name=".common.Registration"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:theme="@style/AppTheme1" />-->
+        <!--<activity-->
+            <!--android:name=".common.ForgotPassword"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:theme="@style/AppTheme1" />-->
+        <!--<activity-->
+            <!--android:name=".patient.PatientEditProfile"-->
+            <!--android:label="@string/Edit_profile"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".common.ContactUs"-->
+            <!--android:label="@string/Contactus"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".common.ReachUs"-->
+            <!--android:label="@string/Reachus"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="@string/google_maps_key" />-->
+
+        <!--<activity-->
+            <!--android:name=".patient.ViewBloodBanksList.BloodBank"-->
+            <!--android:label="@string/title_activity_blood_bank"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewBloodBanksList.ViewBloodBank"-->
+            <!--android:label="View BloodBank"-->
+            <!--android:parentActivityName=".patient.ViewBloodBanksList.BloodBank">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".common.aboutUs.AboutUs"-->
+            <!--android:label="About Us"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity android:name=".common.SelectCity" />-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewBloodBanksList.BloodBank1"-->
+            <!--android:label="@string/title_activity_blood_bank"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank1" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".common.ChangePassword"-->
+            <!--android:hardwareAccelerated="false" />-->
+        <!--<activity-->
+            <!--android:name=".doctor.DoctorEditProfile"-->
+            <!--android:label="@string/Edit_profile"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:parentActivityName=".patient.PatientDashBoard">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.example.cool.patient.patient.PatientDashBoard" />-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".doctor.DashBoardCalendar.DoctorDashboard"-->
+            <!--android:label="@string/title_activity_doctor_dashboard"-->
+            <!--android:theme="@style/MyMaterialTheme" />-->
+        <!--<activity-->
+            <!--android:name=".doctor.AddAddress.DoctorAddAddress"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Add Address" />-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.AddAddress.DiagnosticAddAddress"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Add Address" />-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.DiagnosticEditProfile"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="@string/Edit_profile"/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.DashBoardCalendar.DiagnosticDashboard"-->
+            <!--android:label="@string/title_activity_diagnostic_dashboard"-->
+            <!--android:theme="@style/MyMaterialTheme" />-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.ManageAddress.DiagnosticManageAddress"-->
+            <!--android:label="Manage Address" />-->
+        <!--<activity-->
+            <!--android:name=".doctor.ManageAddress.DoctorManageAddress"-->
+            <!--android:label="Manage Address" />-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.AddAddress.DiagnosticAddAddressFromMaps"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Add Address" />-->
+        <!--<activity-->
+            <!--android:name=".common.MapsActivity"-->
+            <!--android:label="@string/title_activity_maps" />-->
+        <!--<activity-->
+            <!--android:name=".doctor.ManageAddress.DoctorUpdateAddress"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Update Address" />-->
+        <!--<activity-->
+            <!--android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Add Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.ManageAddress.DoctorUpdateAddressFromMaps"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Update Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList"-->
+            <!--android:label="Doctors"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.ManageAddress.DoctorDeleteAddress"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.DashBoardCalendar.GetPatientDetailsListInDoctor"-->
+            <!--android:label="Patient"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor"-->
+            <!--android:label="View Appointment"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.MyDoctorAppointments.PatientMyDoctorAppointments"-->
+            <!--android:label="My Doctor Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.MyDoctorAppointments.ViewPatientMyDoctorAppointment"-->
+            <!--android:label="View MyDoctorAppointment"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient"-->
+            <!--android:label="Todays Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.TodaysAppointments.PatientHistoryInDoctor"-->
+            <!--android:label="History"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.TodaysAppointments.ViewPatientHistoryInDoctor"-->
+            <!--android:label="View History"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.TodaysAppointments.DoctorTodaysAppointment"-->
+            <!--android:label="View Todays Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".subscriptionPlan.Subscription_for_Rural"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".subscriptionPlan.SubscriptionPlanAlertDialog"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList11"-->
+            <!--android:label="Doctors"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".doctor.TodaysAppointments.DoctorReferDiagnostic"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.ManageAddress.DiagnosticsUpdateAddress"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Update Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.ManageAddress.DiagnosticUpdateAddressFromMaps"-->
+            <!--android:hardwareAccelerated="false"-->
+            <!--android:label="Update Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList"-->
+            <!--android:label="Diagnostics"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.BookAppointment.PatientBookAppointmentToDiagnostics"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.MedicalShopDashboard"-->
+            <!--android:label="@string/title_activity_medical_shop_dashboard"-->
+
+            <!--android:theme="@style/MyMaterialTheme" />-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsTotalDataInDiagnostics"-->
+            <!--android:label="View Appointment"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsListInDiagnostics"-->
+            <!--android:label="Patients"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments"-->
+            <!--android:label="Todays Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.TodaysAppointments.DiagnosticsViewTodaysApppointment"-->
+            <!--android:label="View Todays Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.TodaysAppointments.MainPatientHistoryInDiagnostics"-->
+            <!--android:label="Patient History"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".diagnostic.TodaysAppointments.ViewPatientHistoryInDiagnosticsTodaysAppointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.MedicalShopEditProfile"-->
+            <!--android:label="@string/Edit_profile"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.AddAddress.MedicalShopAddAddress"-->
+            <!--android:label="Add Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.AddAddress.MedicalShopAddAddressFromMaps"-->
+            <!--android:label="Add Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.ManageAddress.MedicalShopManageAddress"-->
+            <!--android:label="Manage Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddress"-->
+            <!--android:label="Update Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddressFromMaps"-->
+            <!--android:label="Update Address"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".medicalShop.ManageAddress.MedicalShopDeleteAddress"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList"-->
+            <!--android:label="MedicalShops"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments"-->
+            <!--android:label="My Diagnostic Appointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.MyDiagnosticAppointments.ViewPatientMyDiagnosticAppointments"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewMedicalShopsList.ViewMedicalShop"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList11"-->
+            <!--android:label="Diagnostics"-->
+            <!--/>-->
+        <!--<activity-->
+            <!--android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList11"-->
+            <!--android:label="MedicalShops"-->
+            <!--/>-->
+        <!--<activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"></activity>-->
+    <!--</application>-->
+
+<!--</manifest>-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cool.patient">
 
@@ -24,7 +368,7 @@
         <activity
             android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
-            android:screenOrientation="portrait"
+
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +380,6 @@
             android:name=".common.Language_Optional"
             android:label="@string/app_name_Select_language"
             android:parentActivityName=".patient.PatientDashBoard"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -57,19 +400,21 @@
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".common.Login"
-            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.Registration"
-            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.ForgotPassword"
-            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".patient.PatientEditProfile"
             android:label="@string/Edit_profile"
+            android:hardwareAccelerated="false"
             android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
@@ -80,7 +425,7 @@
             android:name=".common.ContactUs"
             android:label="@string/Contactus"
             android:parentActivityName=".patient.PatientDashBoard"
-            android:screenOrientation="portrait">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -88,8 +433,7 @@
         <activity
             android:name=".common.ReachUs"
             android:label="@string/Reachus"
-            android:parentActivityName=".patient.PatientDashBoard"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".patient.PatientDashBoard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -102,8 +446,7 @@
         <activity
             android:name=".patient.ViewBloodBanksList.BloodBank"
             android:label="@string/title_activity_blood_bank"
-            android:parentActivityName=".patient.PatientDashBoard"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".patient.PatientDashBoard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -111,8 +454,7 @@
         <activity
             android:name=".patient.ViewBloodBanksList.ViewBloodBank"
             android:label="View BloodBank"
-            android:parentActivityName=".patient.ViewBloodBanksList.BloodBank"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".patient.ViewBloodBanksList.BloodBank">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank" />
@@ -142,6 +484,7 @@
         <activity
             android:name=".doctor.DoctorEditProfile"
             android:label="@string/Edit_profile"
+            android:hardwareAccelerated="false"
             android:parentActivityName=".patient.PatientDashBoard"
             android:screenOrientation="portrait">
             <meta-data
@@ -151,6 +494,7 @@
         <activity
             android:name=".doctor.DashBoardCalendar.DoctorDashboard"
             android:label="@string/title_activity_doctor_dashboard"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
@@ -350,3 +694,4 @@
     </application>
 
 </manifest>
+

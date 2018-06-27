@@ -154,7 +154,7 @@ public class MedicalShopDashboard extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+       //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -284,12 +284,14 @@ public class MedicalShopDashboard extends AppCompatActivity
                         
                         Intent about = new Intent(MedicalShopDashboard.this,MedicalShopAddAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
                     else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_2) {
                         Intent about = new Intent(MedicalShopDashboard.this,MedicalShopManageAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
