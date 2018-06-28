@@ -51,7 +51,7 @@ import java.util.List;
 public class GetPatientDetailsListInDoctor extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     String date,geturl;
-    String DoctorId,DoctorAddressId,doctorMobile;
+    static String DoctorId,DoctorAddressId,doctorMobile,status;
 
     String DStatus,Status1,PatientName,EmailID,MobileNo,ReasonAppointments,Comments,TimeSlots,AadharNumber,Prescription;
     int Dstatus;
@@ -87,10 +87,11 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
         data_list=new ArrayList<>();
 
         DoctorId = getIntent().getStringExtra("doctorId");
-        date=getIntent().getStringExtra("date");
+        date = getIntent().getStringExtra("date");
+        status = getIntent().getStringExtra("status");
         doctorMobile = getIntent().getStringExtra("doctorMobile");
 
-        System.out.println("doc id in getpatient list..."+DoctorId);
+        System.out.println("doc id in getpatient list..."+DoctorId+"...status..."+status);
 
         new GetPatientDetails().execute(baseUrl.getUrl()+"GetDoctorAppointToAccept"+"?id="+DoctorId+"&AppointmentDate="+date);
 
@@ -382,25 +383,35 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
             {
                 JSONObject js = jsonArray.getJSONObject(i);
 
-                Dstatus = js.getInt("DStatus");
-                DoctorAddressId = js.getString("AddressID");
-                Status1 = (String) js.get("Status");
-                AppointmentID=js.getString("AppointmentID");
-                PatientName=(String)js.get("PatientName");
-                EmailID = (String) js.get("EmailID");
-                MobileNo=(String) js.get("MobileNo");
-                Prescription=(String) js.get("Prescription");
-                PatientID= js.getString("PatientID");
-                Comments=(String) js.get("Comments");
-                ReasonAppointments=(String) js.get("ReasonAppointments");
-                AadharNumber=(String) js.get("Aadharnumber");
-                TimeSlots=(String) js.get("TimeSlots");
+                if(status.equals((String) js.get("Status")))
+                {
+                    Dstatus = js.getInt("DStatus");
+                    DoctorAddressId = js.getString("AddressID");
+                    Status1 = (String) js.get("Status");
+                    AppointmentID=js.getString("AppointmentID");
+                    PatientName=(String)js.get("PatientName");
+                    EmailID = (String) js.get("EmailID");
+                    MobileNo=(String) js.get("MobileNo");
+                    Prescription=(String) js.get("Prescription");
+                    PatientID= js.getString("PatientID");
+                    Comments=(String) js.get("Comments");
+                    ReasonAppointments=(String) js.get("ReasonAppointments");
+                    AadharNumber=(String) js.get("Aadharnumber");
+                    TimeSlots=(String) js.get("TimeSlots");
 
-                MyPatientDataClassInDoctor myPatientDataClassInDoctor = new MyPatientDataClassInDoctor(DoctorId,doctorMobile,
-                        DoctorAddressId,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,Prescription,PatientID,
-                        Comments,ReasonAppointments,AadharNumber,TimeSlots,date);
+                    MyPatientDataClassInDoctor myPatientDataClassInDoctor = new MyPatientDataClassInDoctor(DoctorId,doctorMobile,
+                            DoctorAddressId,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,Prescription,PatientID,
+                            Comments,ReasonAppointments,AadharNumber,TimeSlots,date);
 
-                data_list.add(myPatientDataClassInDoctor);
+                    data_list.add(myPatientDataClassInDoctor);
+                }
+//                else
+//                {
+//                    continue;
+//                }
+
+
+
 
 //                System.out.println("DStatus"+Dstatus);
 //                System.out.println("Status1"+Status1);

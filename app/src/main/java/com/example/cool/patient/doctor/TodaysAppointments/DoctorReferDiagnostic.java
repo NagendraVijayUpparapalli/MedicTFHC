@@ -84,9 +84,9 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
         }
         else
         {
-            new GetDiagnosticsRange().execute(baseUrl.getUrl()+"GetDiagnosticRange?AppointmentID="+appointmentId);
+//            new GetDiagnosticsRange().execute(baseUrl.getUrl()+"GetDiagnosticRange?AppointmentID="+appointmentId);
             String js = formatDoctorTimingsDataAsJson();
-            new sendDoctorReferDiagnosticDetails().execute(baseUrl.getUrl()+"InsertDoctorReferDiagnostics",js.toString());
+            new sendDoctorReferDiagnosticDetails().execute(baseUrl.getUrl()+"DoctotUpdateTodaysAppointment",js.toString());
         }
 
         selectButton = (Button) findViewById(R.id.select_button);
@@ -476,16 +476,12 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
             else
             {
 
-                data.put("PatientID",getIntent().getStringExtra("pid"));
-                data.put("DiagnosticCenterID","");
-                data.put("Prescription",getIntent().getStringExtra("prescription"));
-
-                data.put("DComment",getIntent().getStringExtra("reason"));
                 data.put("AppointmentID",getIntent().getStringExtra("aid"));
+                data.put("Comments",getIntent().getStringExtra("reason"));
+                data.put("ReferDiagnostic",0);
 
-                data.put("PatientName",getIntent().getStringExtra("name"));
-                data.put("SpecialityLst","");
-
+                data.put("ReferMedicalShop",0);
+                data.put("Prescription",getIntent().getStringExtra("prescription"));
                 return data.toString();
             }
 
@@ -532,18 +528,13 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
 
                 httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
                 httpURLConnection.setDoOutput(true);
-//                httpURLConnection.setDoInput(true);
-//                httpURLConnection.setUseCaches(false);
-//                httpURLConnection.setChunkedStreamingMode(1024);
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
-//                httpURLConnection.setRequestProperty("Accept", "application/json");
                 Log.d("Service","Started");
-//                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.connect();
 
                 //write
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params doc add....."+params[1]);
+                System.out.println("params refer add....."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();

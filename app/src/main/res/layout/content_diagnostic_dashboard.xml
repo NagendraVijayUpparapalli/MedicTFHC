@@ -405,6 +405,7 @@
 
                     <android.support.v7.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pendingCard"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -457,6 +458,7 @@
 
                     <android.support.v7.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/initiatedCard"
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#0000FF"
@@ -533,6 +535,7 @@
 
                     <android.support.v7.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/progressCard"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -584,6 +587,7 @@
 
                     <android.support.v7.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/finishedCard"
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
 

@@ -240,7 +240,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             }
         });
 
-
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
 
         rippleView.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +253,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                 System.out.println("status btn..."+spinner.getSelectedItem().toString());
 
                 String json=formatDataAsJson();
-                new SendDetails().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
+                new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
             }
         });
 
@@ -741,7 +740,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
     }
 
-    private class SendDetails extends AsyncTask<String, Void, String> {
+    //send appointment details to update
+    private class SendAppointmentDetailsToUpdate extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -753,7 +753,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
                 httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
                 httpURLConnection.setUseCaches(false);
-                //connection.setRequestProperty("Content-Type", "application/json");
                 httpURLConnection.setRequestProperty("Accept", "application/json");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 Log.d("Service","Started");

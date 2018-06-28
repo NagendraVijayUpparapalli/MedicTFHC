@@ -57,6 +57,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
     int Dstatus,RDTestID,SpecialityID;
 
     String status;
+    int myStatus = 0;
 
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
@@ -89,6 +90,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
         date = getIntent().getStringExtra("date");
         diagID = getIntent().getStringExtra("id");
+        myStatus = getIntent().getIntExtra("status",myStatus);
         diagmobile = getIntent().getStringExtra("mobile");
 
         new GetPatientDetails().execute(baseUrl.getUrl()+"APIGetDiagnosticAppointToAccept"+"?id="+diagID+"&AppointmentDate="+date);
@@ -356,51 +358,57 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
             {
                 JSONObject js = jsonArray.getJSONObject(i);
 
-                Dstatus = js.getInt("DStatus");
-                addressId = js.getString("AddressID");
-                Payment = (String) js.get("Payment");
-                RDTestID=js.getInt("RDID");
-                PatientName=(String)js.get("PatientName");
-                Comments=(String) js.get("DComment");
-                CenterName=(String)js.get("CenterName");
-                EmailID = (String) js.get("EmailID");
-                MobileNo=(String) js.get("MobileNo");
-                Prescription=(String) js.get("Prescription");
-                Amount=(String)js.get("Amount");
-                Aadharnumber=(String) js.get("Aadharnumber");
-
-                if(Dstatus==1)
+                if(myStatus == js.getInt("DStatus"))
                 {
-                    status="Initiated";
+                    Dstatus = js.getInt("DStatus");
+                    addressId = js.getString("AddressID");
+                    Payment = (String) js.get("Payment");
+                    RDTestID=js.getInt("RDID");
+                    PatientName=(String)js.get("PatientName");
+                    Comments=(String) js.get("DComment");
+                    CenterName=(String)js.get("CenterName");
+                    EmailID = (String) js.get("EmailID");
+                    MobileNo=(String) js.get("MobileNo");
+                    Prescription=(String) js.get("Prescription");
+                    Amount=(String)js.get("Amount");
+                    Aadharnumber=(String) js.get("Aadharnumber");
+
+                    if(Dstatus==1)
+                    {
+                        status="Initiated";
+                    }
+                    else if(Dstatus==2){
+
+                        status="In Progress";
+                    }
+                    else if(Dstatus==3){
+
+                        status="Finished";
+                    }
+                    else {
+
+                        status="Pending";
+                    }
+
+                    JSONArray jsonArray1=new JSONArray((js.getString("SpecialityLst")));
+
+                    for(int j=0;j<jsonArray1.length();j++)
+                    {
+                        JSONObject jsonObject=jsonArray1.getJSONObject(j);
+                        SpecialityID=jsonObject.getInt("SpecialityID");
+                        Speciality=jsonObject.getString("Speciality");
+                        speciality.add(Speciality);
+                    }
+
+                    MyPatientDataClassInDiagnostics myPatientData=new MyPatientDataClassInDiagnostics(diagID,diagmobile,addressId,Dstatus,Payment,
+                            RDTestID,PatientName,Comments,CenterName,EmailID,MobileNo,Prescription,Amount,Aadharnumber,speciality,
+                            status,date);
+
+                    data_list.add(myPatientData);
                 }
-                else if(Dstatus==2){
 
-                    status="In Progress";
-                }
-                else if(Dstatus==3){
 
-                    status="Finished";
-                }
-                else {
 
-                    status="Pending";
-                }
-
-                JSONArray jsonArray1=new JSONArray((js.getString("SpecialityLst")));
-
-                for(int j=0;j<jsonArray1.length();j++)
-                {
-                    JSONObject jsonObject=jsonArray1.getJSONObject(j);
-                    SpecialityID=jsonObject.getInt("SpecialityID");
-                    Speciality=jsonObject.getString("Speciality");
-                    speciality.add(Speciality);
-                }
-
-                MyPatientDataClassInDiagnostics myPatientData=new MyPatientDataClassInDiagnostics(diagID,diagmobile,addressId,Dstatus,Payment,
-                        RDTestID,PatientName,Comments,CenterName,EmailID,MobileNo,Prescription,Amount,Aadharnumber,speciality,
-                        status,date);
-
-                data_list.add(myPatientData);
 
             }
 

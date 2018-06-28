@@ -63,24 +63,30 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 
 //        mypatientId = my_data.get(position).getPatientID();
 
-        status1=my_data.get(position).getStatus1().toString();
+        status1= my_data.get(position).getStatus1();
 
         if(status1.equals("Accept"))
         {
 
-        holder.Status.setTextColor(Color.GREEN);
+        holder.Status.setTextColor(Color.BLACK);
 
         }
         else if(status1.equals("Reject"))
         {
 
-        holder.Status.setTextColor(Color.RED);
+        holder.Status.setTextColor(Color.BLACK);
         }
 
         else if(status1.equals("Pending"))
         {
 
-            holder.Status.setTextColor(Color.CYAN);
+            holder.Status.setTextColor(Color.BLACK);
+        }
+        else if(status1.equals("Reschedule"))
+        {
+
+            holder.Status.setTextColor(Color.BLACK);
+
         }
 
         }
@@ -109,6 +115,8 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
         appointmentDate = (TextView)itemView.findViewById(R.id.appointmentDate);
         AppoinmentID = (TextView)itemView.findViewById(R.id.AppoinmentID);
         patientId = (TextView)itemView.findViewById(R.id.patientId);
+
+        System.out.println("this is size..."+my_data.size());
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

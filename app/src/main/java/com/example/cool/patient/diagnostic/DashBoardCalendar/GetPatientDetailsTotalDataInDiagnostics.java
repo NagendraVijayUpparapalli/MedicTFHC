@@ -53,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -71,7 +72,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     private String fullScreenInd;
     TextView patintname,aadhar,mobile,testname;
     Spinner status;
-    String selectedItemText,payment,comment,ammnt;
+    static String selectedItemText,payment,comment,ammnt;
     EditText comments;
     CheckBox cashonhand,netbanking,swipe_card;
     public static final CharSequence[] states = {"---Status---", "Initiated", "In Progress", "Finished"};
@@ -90,6 +91,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -192,7 +195,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
                 if(netbanking.isChecked())
                 {
-                    payment="Online Banking";
+                    payment="OnlineBanking";
                 }
 
             }
@@ -204,7 +207,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
                 if(swipe_card.isChecked())
                 {
-                    payment="Debit/Credit card Swipe";
+                    payment="Debit/CreditcardSwipe";
                 }
             }
         });
@@ -221,21 +224,21 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                 comment=comments.getText().toString();
                 ammnt=amnt.getText().toString();
 
-                if(netbanking.isChecked())
-                {
-                    payment = "Online Banking";
-                }
-
-                if(cashonhand.isChecked())
-                {
-                    payment="CashonHand";
-                }
-
-                if(swipe_card.isChecked())
-                {
-                    payment="Debit/Credit card Swipe";
-                }
-                new SendDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
+//                if(netbanking.isChecked())
+//                {`
+//                    payment = "Online Banking";
+//                }
+//
+//                if(cashonhand.isChecked())
+//                {
+//                    payment="Cash on Hand";
+//                }
+//
+//                if(swipe_card.isChecked())
+//                {
+//                    payment="Debit/Credit card Swipe";
+//                }
+                new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
 
             }
         });
@@ -487,27 +490,43 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         }
     }
 
+    //send appointment details to update
+    private class SendAppointmentDetailsToUpdate extends AsyncTask<String, Void, String> {
 
-    private class SendDetails extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
 
             String data = "";
 
+//            HttpURLConnection connection=null;
             HttpURLConnection httpURLConnection = null;
             try {
+                System.out.println("dsfafssss....");
 
                 httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
-                httpURLConnection.setUseCaches(false);
-                //connection.setRequestProperty("Content-Type", "application/json");
-                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setDoOutput(true);
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 Log.d("Service","Started");
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
+                httpURLConnection.connect();
+
+                //write
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[0]);
+                System.out.println("params get patient data in diag....."+params[0]);
                 wr.writeBytes(params[0]);
                 wr.flush();
                 wr.close();
@@ -518,6 +537,20 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
                 InputStream in = null;
                 if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+
+                else if (statuscode == 400) {
 
                     in = httpURLConnection.getInputStream();
                     InputStreamReader inputStreamReader = new InputStreamReader(in);
@@ -541,7 +574,21 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                         data += current;
                     }
                 }
+                else if(statuscode == 500){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
 
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
             }
             catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -552,15 +599,20 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                     httpURLConnection.disconnect();
                 }
             }
+
             return data;
         }
-
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+//
+            Log.e("TAG result patient diag", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            progressDialog.dismiss();
 
             JSONObject js;
+
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
@@ -576,8 +628,6 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
         }
     }

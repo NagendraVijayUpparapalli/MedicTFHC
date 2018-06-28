@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -116,6 +117,7 @@ public class DoctorDashboard extends AppCompatActivity
     Bitmap mIcon11;
 
     TextView pending_count, Accept_count, Reschedule_count, Reject_count;
+    CardView acceptcard,pendingcard,reschedulecard,rejectcard;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
     com.prolificinteractive.materialcalendarview.MaterialCalendarView calendarView;
 
@@ -228,6 +230,68 @@ public class DoctorDashboard extends AppCompatActivity
         Accept_count = (TextView) findViewById(R.id.count_Accept);
         Reschedule_count = (TextView) findViewById(R.id.count_Reschedule);
         Reject_count = (TextView) findViewById(R.id.count_Reject);
+
+
+        pendingcard = (CardView) findViewById(R.id.pendingCard);
+        acceptcard = (CardView) findViewById(R.id.acceptCard);
+        reschedulecard = (CardView) findViewById(R.id.rescheduleCard);
+        rejectcard = (CardView) findViewById(R.id.rejectCard);
+
+
+
+
+        pendingcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status","Pending");
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        acceptcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status","Accept");
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        reschedulecard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status","Reschedule");
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        rejectcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status","Reject");
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
         calendarView = (com.prolificinteractive.materialcalendarview.MaterialCalendarView) findViewById(R.id.calendar);
 
         Calendar cal = Calendar.getInstance();
@@ -287,11 +351,8 @@ public class DoctorDashboard extends AppCompatActivity
 
                 System.out.println("date2" + date2);
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
-                intent.putExtra("doctorId",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+                new GetAppointmentCount().execute(baseUrl.getUrl()+"GetDoctorAppointmentsCalendar"+"?Id="+getUserId+"&AppointmentDate="+date2);
+
 
             }
         });

@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -85,6 +86,7 @@ public class DiagnosticDashboard extends AppCompatActivity
     ImageView imageView;
 
     TextView pending_count, Initiated, In_Progress, Finished;
+    CardView finishedCard,pendingCard,progressCard,initiatedCard;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
     MaterialCalendarView calendarView;
 
@@ -176,6 +178,62 @@ public class DiagnosticDashboard extends AppCompatActivity
         Initiated = (TextView) findViewById(R.id.count_initiated);
         In_Progress = (TextView) findViewById(R.id.inprogress);
         Finished = (TextView) findViewById(R.id.finished);
+
+        pendingCard = (CardView) findViewById(R.id.pendingCard);
+        progressCard = (CardView) findViewById(R.id.progressCard);
+        initiatedCard = (CardView) findViewById(R.id.initiatedCard);
+        finishedCard = (CardView) findViewById(R.id.finishedCard);
+
+        pendingCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status",0);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        initiatedCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status",1);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        progressCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status",2);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+        finishedCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("date",date2);
+                intent.putExtra("status",3);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+
+
         calendarView = (com.prolificinteractive.materialcalendarview.MaterialCalendarView) findViewById(R.id.calendar);
 
         Calendar cal = Calendar.getInstance();
@@ -235,11 +293,8 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                 System.out.println("date2" + date2);
 
-                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+                new GetAppointmentCount().execute(baseUrl.getUrl()+"DiagnosticCalEventsStatus"+"?Id="+getUserId+"&AppointmentDate="+date2);
+
 
             }
         });
@@ -677,10 +732,10 @@ public class DiagnosticDashboard extends AppCompatActivity
                 Status = (String) js.get("Status");
                 TotalCount = (String) js.get("TotalCount");
 
-                System.out.println("DStatus"+Dstatus);
-                System.out.println("StatusID"+StatusID);
-                System.out.println("Status"+Status);
-                System.out.println("TotalCount"+TotalCount);
+                System.out.println("DStatus.."+Dstatus);
+                System.out.println("StatusID..."+StatusID);
+                System.out.println("Status..."+Status);
+                System.out.println("TotalCount..."+TotalCount);
 
                 if(StatusID.equals("0"))
                 {
@@ -701,9 +756,7 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                     Finished.setText(TotalCount);
                 }
-                else {
-                    System.out.println("this is else");
-                }
+
             }
 
         } catch (JSONException e) {

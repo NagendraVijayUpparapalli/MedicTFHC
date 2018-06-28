@@ -5,9 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#000"
+
+
         tools:context="com.example.kiitsez.aboutus.ReachUs">
 
         <TextView
@@ -15,14 +19,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="20dp"
+
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#FFF"
             android:layout_centerHorizontal="true"
             android:text="Corporate address"/>
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:id="@+id/l2_animation"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:layout_below="@id/text7"
@@ -30,23 +37,27 @@
             android:orientation="horizontal">
             <android.support.v7.widget.CardView
                 android:id="@+id/bankcardId"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="205dp"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
                 android:layout_margin="10dp"
                 android:clickable="true"
+                android:layout_marginTop="5dp"
                 android:foreground="#1C00ffff">
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="200dp"
-                    android:layout_height="180dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:padding="10dp"
                     android:src="@drawable/location1" />
                 <TextView
-                    android:paddingLeft="15dp"
+
                     android:textColor="#000"
-                    android:padding="10dp"
+
+
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="190dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginEnd="20dp"
                     android:layout_height="wrap_content"
                     android:text="@string/address1"/>
@@ -55,14 +66,14 @@
         </LinearLayout>
         <TextView
             android:id="@+id/text2"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#FFF"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/l2_animation"
-            android:layout_marginTop="10dp"
+
             android:text="City Office"/>
         <LinearLayout
             android:id="@+id/l2_animation1"
@@ -75,23 +86,25 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/bankcardId11"
                 android:layout_width="wrap_content"
-                android:layout_height="205dp"
+                android:layout_weight="1"
+                app:cardUseCompatPadding="true"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:foreground="#1C00ffff">
                 <ImageView
                     android:id="@+id/image2"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:padding="10dp"
                     android:src="@drawable/capture1" />
                 <TextView
-                    android:paddingLeft="15dp"
+
                     android:textColor="#000"
                     android:textSize="13dp"
-                    android:padding="10dp"
+
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="190dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginEnd="20dp"
                     android:layout_height="wrap_content"
                     android:text="@string/address2"/>
@@ -99,12 +112,12 @@
 
         </LinearLayout>
         <TextView
-            android:layout_marginTop="10dp"
+
             android:layout_below="@+id/l2_animation1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#FFF"
             android:textStyle="bold"
             android:textSize="20dp"
             android:text="City Office"
@@ -113,7 +126,7 @@
         <LinearLayout
             android:id="@+id/l2_animation2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layout_below="@id/text3"
             android:gravity="center"
@@ -121,22 +134,22 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/bankcardId12"
                 android:layout_width="wrap_content"
-                android:layout_height="205dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:foreground="#1C00ffff">
                 <ImageView
                     android:id="@+id/image3"
-                    android:layout_width="200dp"
-                    android:layout_height="180dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:padding="10dp"
                     android:src="@drawable/location3" />
                 <TextView
-                    android:paddingLeft="15dp"
-                    android:padding="10dp"
+
                     android:textColor="#000"
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="190dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginEnd="20dp"
                     android:layout_height="wrap_content"
                     android:text="@string/address3"/>

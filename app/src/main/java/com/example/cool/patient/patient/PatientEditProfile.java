@@ -426,6 +426,7 @@ public class PatientEditProfile extends AppCompatActivity
                     // call some activity here
                     Intent editProfile = new Intent(PatientEditProfile.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",mobile_number);
                     startActivity(editProfile);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
@@ -720,7 +721,7 @@ public class PatientEditProfile extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.qricon, menu);
+        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -731,12 +732,18 @@ public class PatientEditProfile extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-//        if(id==R.id.qricon)
-//        {
-////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-//
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+
+//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+
 //                    IntentIntegrator integrator = new IntentIntegrator(activity);
 //                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
 //                    integrator.setPrompt("Scan");
@@ -745,10 +752,10 @@ public class PatientEditProfile extends AppCompatActivity
 //                    integrator.setBarcodeImageEnabled(false);
 //                    integrator.initiateScan();
 //                    return true;
-////                CameraManager a = new CameraManager();
-////                }
-////            });
-//        }
+//                CameraManager a = new CameraManager();
+//                }
+//            });
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -1959,6 +1966,7 @@ public class PatientEditProfile extends AppCompatActivity
                         new Mytask().execute();
                         Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
                     }
                 });

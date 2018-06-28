@@ -501,13 +501,8 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
 
                 httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
                 httpURLConnection.setDoOutput(true);
-//                httpURLConnection.setDoInput(true);
-//                httpURLConnection.setUseCaches(false);
-//                httpURLConnection.setChunkedStreamingMode(1024);
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
-//                httpURLConnection.setRequestProperty("Accept", "application/json");
                 Log.d("Service","Started");
-//                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.connect();
 
                 //write
