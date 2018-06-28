@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
@@ -79,7 +80,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     Bitmap mIcon11;
     ProgressDialog mProgressDialog;
     StringBuilder builder;
-    Button submit;
+//    Button submit;
     ApiBaseUrl baseUrl;
 
     String diagmobilenumber, diagaddress;
@@ -111,7 +112,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         swipe_card=(CheckBox)findViewById(R.id.swipe_card);
         status=(Spinner)findViewById(R.id.status);
         prescrption=(ImageView)findViewById(R.id.prescription);
-        submit=(Button) findViewById(R.id.submit);
+//        submit=(Button) findViewById(R.id.submit);
         builder=new StringBuilder();
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, states);
@@ -208,7 +209,9 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                String json=formatDataAsJson();

@@ -145,6 +145,31 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         prescription = (ImageView) findViewById(R.id.prescription);
         center_image = (ImageView) findViewById(R.id.center_image);
 
+
+        MobileNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String phn = MobileNumber.getText().toString();
+
+                System.out.println("phone no in diag..."+phn);
+
+                Intent callintent = new Intent(Intent.ACTION_CALL);
+                callintent.setData(Uri.parse("tel:"+phn));
+                if (ActivityCompat.checkSelfPermission(PatientBookAppointmentToDiagnostics.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callintent);
+            }
+        });
+
         addPrescriptionGalleryFloatingButton = (FloatingActionButton) findViewById(R.id.galleryIcon);
         addPrescriptionCameraFloatingButton = (FloatingActionButton) findViewById(R.id.cameraIcon);
 

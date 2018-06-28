@@ -286,8 +286,8 @@
                         android:layout_width="3dp"
                         android:layout_height="wrap_content" />
                     <Button
-                        android:layout_weight="1"
                         android:id="@+id/InActive"
+                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:elevation="10dp"

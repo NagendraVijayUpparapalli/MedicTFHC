@@ -116,6 +116,8 @@ public class DiagnosticDashboard extends AppCompatActivity
 
     private static long back_pressed;
 
+    int backButtonCount = 0;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -720,16 +722,35 @@ public class DiagnosticDashboard extends AppCompatActivity
 //        }
 //    }
 
-    @Override
-    public void onBackPressed(){
-        if (back_pressed + 2000 > System.currentTimeMillis()){
-            super.onBackPressed();
+//    @Override
+//    public void onBackPressed(){
+//        if (back_pressed + 2000 > System.currentTimeMillis()){
+//            super.onBackPressed();
+//        }
+//        else{
+//            Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
+//            back_pressed = System.currentTimeMillis();
+//        }
+//    }
+
+
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
-        else{
-            Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
-            back_pressed = System.currentTimeMillis();
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+
+            backButtonCount++;
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

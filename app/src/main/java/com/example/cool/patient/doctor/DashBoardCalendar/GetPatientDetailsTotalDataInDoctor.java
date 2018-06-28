@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
@@ -94,7 +95,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     //MultiAutoCompleteTextView comment;
     CheckBox netbanking,cashonhand,swipe_card;
     EditText amount,comment;
-    Button button;
+//    Button button;
 
     ArrayAdapter<String> statusAdapter;
 
@@ -126,7 +127,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         licenceicon = (FloatingActionButton) findViewById(R.id.Licence_ImageIcon);
         image = (ImageView) findViewById(R.id.prescription);
         comment=(EditText) findViewById(R.id.Comments_Others);
-        button=(Button) findViewById(R.id.button);
+//        button=(Button) findViewById(R.id.button);
 //        paytm=(CheckBox)findViewById(R.id.pay_paytm);
         netbanking=(CheckBox)findViewById(R.id.net_banking);
         cashonhand=(CheckBox)findViewById(R.id.cash_on_hand);
@@ -240,7 +241,9 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         });
 
 
-        button.setOnClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

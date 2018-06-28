@@ -1,13 +1,16 @@
 package com.example.cool.patient.patient.MyDiagnosticAppointments;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.patient.BookAppointment.PatientBookAppointmentToDiagnostics;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
 import com.example.cool.patient.R;
@@ -174,6 +178,31 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
                 new sendAppointmentRescheduleDetails().execute(baseUrl.getUrl()+"CancelDiagAppointment?AppointmentID="+appointmentId);
 
+            }
+        });
+
+        //phone call
+        phonenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String phn = phonenumber.getText().toString();
+
+                System.out.println("phone no in my diag..."+phn);
+
+                Intent callintent = new Intent(Intent.ACTION_CALL);
+                callintent.setData(Uri.parse("tel:"+phn));
+                if (ActivityCompat.checkSelfPermission(ViewPatientMyDiagnosticAppointments.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callintent);
             }
         });
 

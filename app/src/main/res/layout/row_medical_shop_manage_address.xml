@@ -20,7 +20,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:paddingLeft="10dp"
-            app:cardElevation="35dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="10dp"
             card_view:cardBackgroundColor="@color/pink"
             card_view:cardCornerRadius="5dp">
             <!--<RelativeLayout-->
@@ -334,32 +335,42 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:weightSum="2"
-                    android:layout_height="wrap_content">
+                    android:weightSum="3"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="match_parent">
                     <Button
                         android:id="@+id/Edit"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="18dp"
-                        android:background="@drawable/active_button"
-                        android:text="@string/edit"
+                        android:stateListAnimator="@null"
+                        android:elevation="10dp"
+                        android:background="#202bce"
+                        android:text="EDIT"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_weight="1"
+                        android:layout_width="3dp"
+                        android:layout_height="wrap_content" />
 
                     <Button
                         android:id="@+id/InActive"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="135dp"
-                        android:background="@drawable/inactive_button"
-                        android:text="@string/inactive"
-
+                        android:layout_height="match_parent"
+                        android:elevation="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="InActive"
+                        android:background="#e90d0d"
                         android:textColor="#FFFFFF"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"  />
                 </LinearLayout>
 
                 <android.support.v4.widget.Space

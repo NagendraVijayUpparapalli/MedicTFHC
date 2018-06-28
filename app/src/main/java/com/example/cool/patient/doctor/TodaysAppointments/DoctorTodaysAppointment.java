@@ -38,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
@@ -76,7 +77,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     EditText name,comments;
     TextView age,reason,viewhistory;
-    Button submitBtn;
+//    Button submitBtn;
 
     FloatingActionButton camaraicon;
     CheckBox refer;
@@ -124,11 +125,13 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
         age=(TextView) findViewById(R.id.age);
         reason=(TextView) findViewById(R.id.reason);
         viewhistory=(TextView) findViewById(R.id.click);
-        submitBtn = (Button) findViewById(R.id.gen_btn);
+//        submitBtn = (Button) findViewById(R.id.gen_btn);
 
         comments = (EditText) findViewById(R.id.Comments);
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
+        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showMessage();

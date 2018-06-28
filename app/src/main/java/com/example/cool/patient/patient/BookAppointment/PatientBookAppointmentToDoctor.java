@@ -1,29 +1,44 @@
 package com.example.cool.patient.patient.BookAppointment;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
@@ -55,31 +70,41 @@ import java.util.Locale;
 import java.util.Map;
 
 public class PatientBookAppointmentToDoctor extends AppCompatActivity {
-    TextView doctorname,hospitalname,doornum,city,state,fee,payment,doctorphonenum,navigation;
-    EditText appointmentdate,patientname,age,patientmobileno,mail,aadharnum,reason;
+    TextView doctorname, hospitalname, doornum, city, state, fee, payment, doctorphonenum, navigation;
+    EditText  patientname, age, patientmobileno, mail, aadharnum, reason;
+    TextView appointmentdate,apptdate;
     Button button;
+    RippleView rippleView;
     Spinner timings;
     ImageView doctorimage;
+    boolean isUp;
 
     AlertDialog alertDialog1;
     ProgressDialog progressDialog;
 
-    int year1,month,day;
+    int year1, month, day;
+    FloatingActionButton floatingActionButton;
 
 
-    static String newName,mySurname,myName,myEmail,myMobile,myGender,myMaritalStatus,myAadhar_num;
-    Long myAge;
+    static String newName, mySurname, myName, myEmail, myMobile, myGender, myMaritalStatus, myAadhar_num,myAge,myreason;
+    String appdate,agee;
+    Long myAge1;
     boolean enableHistory;
 
+    RelativeLayout relativeLayout;
 
-    String user,cur_addressId,doctorId,mydocName,myhospitalName,myaddress,mycity,mystate,myfee,mypaymentMode,myphone,myLati,myLongi,myImage;
+
+    String user, cur_addressId, doctorId, mydocName, myhospitalName, myaddress, mycity, mystate, myfee,
+            mypaymentMode, myphone, myLati, myLongi, myImage;
 
     ApiBaseUrl baseUrl;
 
-    List<String> allItemsList, prevSunTimeSlotsList,prevMonTimeSlotsList,prevTueTimeSlotsList,prevWedTimeSlotsList,prevThurTimeSlotsList,prevFriTimeSlotsList,prevSatTimeSlotsList;
-    ArrayAdapter<String > sunAdapter,monAdapter,tueAdapter,wedAdapter,thurAdapter,friAdapter,satAdapter;
+    View myview1,myview2;
+
+    List<String> allItemsList, prevSunTimeSlotsList, prevMonTimeSlotsList, prevTueTimeSlotsList, prevWedTimeSlotsList, prevThurTimeSlotsList, prevFriTimeSlotsList, prevSatTimeSlotsList;
+    ArrayAdapter<String> sunAdapter, monAdapter, tueAdapter, wedAdapter, thurAdapter, friAdapter, satAdapter;
     String myDayName;
-    String getUserId,patientId;
+    String getUserId, patientId;
 
     HashMap<String, String> AllTimeSlotsList = new HashMap<String, String>();
 
@@ -88,7 +113,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     //    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
-    String mydoctorImage,mydoctormobile,mydoctorspeciality,mydoctorEmail;
+    String mydoctorImage, mydoctormobile, mydoctorspeciality, mydoctorEmail;
 
     String bookAppointmentmessage;
 
@@ -110,33 +135,77 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         myfee = getIntent().getStringExtra("fee");
         myphone = getIntent().getStringExtra("mobile");
 
-        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+doctorId);
+        new GetDoctorDetails().execute(baseUrl.getUrl() + "GetDoctorByID" + "?id=" + doctorId);
 
-//        InsertDocAppointment
 
-        new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
+        new GetTimeSlots().execute(baseUrl.getUrl() + "GetAllTimeSlot");
 
-        new GetDoctorAllAddressDetails().execute(baseUrl.getUrl()+"DoctorGetAllAddress?ID="+doctorId);
+        new GetDoctorAllAddressDetails().execute(baseUrl.getUrl() + "DoctorGetAllAddress?ID=" + doctorId);
 
-        doctorname=(TextView) findViewById(R.id.Doctor_name);
-        hospitalname=(TextView) findViewById(R.id.hospital_name);
-        doornum=(TextView) findViewById(R.id.dr_no);
-        city=(TextView) findViewById(R.id.city);
-        state=(TextView) findViewById(R.id.state);
-        fee=(TextView) findViewById(R.id.fee);
-        payment=(TextView) findViewById(R.id.payment);
-        doctorphonenum=(TextView) findViewById(R.id.phonenum);
+        doctorname = (TextView) findViewById(R.id.Doctor_name);
+        hospitalname = (TextView) findViewById(R.id.hospital_name);
+        doornum = (TextView) findViewById(R.id.dr_no);
+        city = (TextView) findViewById(R.id.city);
+        state = (TextView) findViewById(R.id.state);
+        fee = (TextView) findViewById(R.id.fee);
+        payment = (TextView) findViewById(R.id.payment);
+        doctorphonenum = (TextView) findViewById(R.id.phonenum);
 
         doctorimage = (ImageView) findViewById(R.id.doctor_image);
-        navigation=(TextView) findViewById(R.id.navigation);
+        navigation = (TextView) findViewById(R.id.navigation);
 
-        appointmentdate=(EditText)findViewById(R.id.bookDate);
-        patientname=(EditText)findViewById(R.id.patient_name);
-        age=(EditText)findViewById(R.id.patient_age);
-        patientmobileno=(EditText)findViewById(R.id.mobilenumber);
-        mail=(EditText)findViewById(R.id.email);
-        aadharnum=(EditText)findViewById(R.id.aadhaarNumber);
-        reason=(EditText)findViewById(R.id.reason_for_Appointment);
+        appointmentdate = (TextView) findViewById(R.id.bookDate);
+        apptdate=(TextView) findViewById(R.id.bookDate1);
+        patientname = (EditText) findViewById(R.id.patient_name);
+        age = (EditText) findViewById(R.id.patient_age);
+        patientmobileno = (EditText) findViewById(R.id.mobilenumber);
+        mail = (EditText) findViewById(R.id.email);
+        aadharnum = (EditText) findViewById(R.id.aadhaarNumber);
+        reason = (EditText) findViewById(R.id.reason_for_Appointment);
+        relativeLayout=(RelativeLayout) findViewById(R.id.rellay1);
+
+        myview1=findViewById(R.id.rellay1);
+//        myview2=findViewById(R.id.rellay3);
+
+        isUp=false;
+
+        //floatingActionButton=(FloatingActionButton) findViewById(R.id.floating_button);
+
+        final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        //  collapsingToolbarLayout.setTitle("My Toolbar");
+        collapsingToolbarLayout.setTitleEnabled(false);
+
+        Context context=this;
+
+        doctorphonenum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String phn = doctorphonenum.getText().toString();
+
+                System.out.println("phone number in doc..."+phn);
+
+                Intent callintent = new Intent(Intent.ACTION_CALL);
+                callintent.setData(Uri.parse("tel:"+phn));
+                if (ActivityCompat.checkSelfPermission(PatientBookAppointmentToDoctor.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callintent);
+            }
+        });
 
         navigation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,14 +232,27 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         }
 
         timings=(Spinner)findViewById(R.id.timings);
+//        timings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+////                https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44
+//
+//                int keyValue = (int) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
+//                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+appointmentdate.getText().toString()+"&TimeslotID="+keyValue);
+//
+//            }
+//        });
 
-        button=(Button)findViewById(R.id.submit);
+//        button=(Button)findViewById(R.id.submit);
 
-        button.setOnClickListener(new View.OnClickListener()
+
+        rippleView=(RippleView)findViewById(R.id.rippleView);
+        rippleView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                showalert();
+                validation();
             }
         });
 
@@ -234,7 +316,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 //                        System.out.println("day id cal.."+dayOfWeek);
 
 
-                        appointmentdate.setText(myselecteddate);
+                        //apptdate.setPaintFlags(apptdate.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        apptdate.setText(myselecteddate);
 
                     }
                 }, year1,month,day);
@@ -244,13 +327,23 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             }
         });
 
-        
-        //finding appointment count based on time
+//        timings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+////                https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44
+//
+//                int keyValue = (int) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
+//                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+appointmentdate.getText().toString()+"&TimeslotID="+keyValue);
+//
+//            }
+//        });
+//
         timings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String appdate=appointmentdate.getText().toString();
+                appdate=apptdate.getText().toString();
                 String dates[]=appdate.split("/");
 
                 String date=dates[1]+"/"+dates[2]+"/"+dates[0];
@@ -270,6 +363,26 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
 
     }
+
+
+
+    private void slideDown(View myview) {
+
+        TranslateAnimation animation=new TranslateAnimation(0,0,0,myview.getHeight());
+        animation.setDuration(500);
+        animation.setFillAfter(true);
+        myview.startAnimation(animation);
+    }
+
+    private void slideUp(View myview) {
+
+        myview1.setVisibility(View.INVISIBLE);
+        TranslateAnimation animation=new TranslateAnimation(-50,-50,myview.getHeight(),0);
+        animation.setDuration(500);
+        animation.setFillAfter(true);
+        myview.startAnimation(animation);
+    }
+
 
     //Get appointment count based on timeslot from api call
     private class GetAppointmentCount extends AsyncTask<String, Void, String> {
@@ -665,7 +778,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 //                        dialog.cancel();
 
-                        // new Mytask().execute();
+                        new Mytask().execute();
 
                         String js = emailFormatDataAsJson();
 
@@ -718,7 +831,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
-                data.put("AppointmentDatestring",appointmentdate.getText().toString());
+                data.put("AppointmentDatestring",apptdate.getText().toString());
                 data.put("PatientSameUser", true);
                 data.put("PatientName", patientname.getText().toString());
 
@@ -737,7 +850,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
-                data.put("AppointmentDatestring",appointmentdate.getText().toString());
+                data.put("AppointmentDatestring",apptdate.getText().toString());
                 data.put("PatientSameUser", true);
                 data.put("PatientName", patientname.getText().toString());
 
@@ -755,7 +868,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
-                data.put("AppointmentDatestring",appointmentdate.getText().toString());
+                data.put("AppointmentDatestring",apptdate.getText().toString());
                 data.put("PatientSameUser", false);
                 data.put("PatientName", patientname.getText().toString());
 
@@ -774,7 +887,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 data.put("TimeSlots",getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString()));
 //                data.put("Address1","");
                 data.put("Aadharnumber",aadharnum.getText().toString());
-                data.put("AppointmentDatestring",appointmentdate.getText().toString());
+                data.put("AppointmentDatestring",apptdate.getText().toString());
                 data.put("PatientSameUser", false);
                 data.put("PatientName", patientname.getText().toString());
 
@@ -883,7 +996,10 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             myMaritalStatus = (String) js.get("MaritalStatus");
             myAadhar_num = (String) js.get("AadharNumber");
 
-            myAge = js.getLong("Age");
+            myAge1 = js.getLong("Age");
+            agee=myAge1.toString();
+
+
 
             if(myGender.equals("Male"))
             {
@@ -903,7 +1019,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             patientname.setText(mySurname);
             patientmobileno.setText(myMobile);
             mail.setText(myEmail);
-            age.setText(myAge.toString());
+            age.setText(agee);
             aadharnum.setText(myAadhar_num);
 
         }
@@ -1460,6 +1576,76 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 //            }
 
         }
+    }
+
+    public void validation()
+    {
+        intialization();
+        if(!validate())
+        {
+            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            showalert();
+        }
+    }
+
+    public void intialization()
+    {
+        appdate = apptdate.getText().toString();
+        myName = patientname.getText().toString();
+        myAge = age.getText().toString();
+        myMobile = patientmobileno.getText().toString();
+        myEmail = mail.getText().toString();
+        myAadhar_num = aadharnum.getText().toString();
+        myreason = reason.getText().toString();
+        myAadhar_num = aadharnum.getText().toString();
+
+        System.out.println("reason"+myreason);
+
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+        if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
+        {
+            patientmobileno.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(myMobile.length()<10 || myMobile.length()>10)
+        {
+            patientmobileno.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        if(myEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(myEmail).matches())
+        {
+            mail.setError("please enter valid email id");
+            validate=false;
+        }
+
+        if(appdate.isEmpty())
+        {
+            apptdate.setError("please enter appointment date");
+            validate=false;
+        }
+
+        if(myAadhar_num.isEmpty())
+        {
+            aadharnum.setError("please enter aadhaar number");
+            validate=false;
+        }
+
+        if(myreason.isEmpty())
+        {
+            reason.setError("please enter reason");
+            validate=false;
+        }
+        return validate;
     }
 
 }

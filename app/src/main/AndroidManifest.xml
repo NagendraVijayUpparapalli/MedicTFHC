@@ -358,7 +358,6 @@
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@drawable/symb"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -480,6 +479,7 @@
         </activity>
         <activity
             android:name=".common.ChangePassword"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.DoctorEditProfile"
@@ -500,14 +500,17 @@
         <activity
             android:name=".doctor.AddAddress.DoctorAddAddress"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.AddAddress.DiagnosticAddAddress"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.DiagnosticEditProfile"
             android:label="@string/Edit_profile"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.DashBoardCalendar.DiagnosticDashboard"
@@ -525,6 +528,7 @@
         <activity
             android:name=".diagnostic.AddAddress.DiagnosticAddAddressFromMaps"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".common.MapsActivity"
@@ -533,18 +537,22 @@
         <activity
             android:name=".doctor.ManageAddress.DoctorUpdateAddress"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"
             android:label="Book Doctor"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.ManageAddress.DoctorUpdateAddressFromMaps"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDoctorsList.GetCurrentDoctorsList"
@@ -560,6 +568,7 @@
         <activity
             android:name=".doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor"
             android:label="View Appointment"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.MyDoctorAppointments.PatientMyDoctorAppointments"
@@ -568,6 +577,7 @@
         <activity
             android:name=".patient.MyDoctorAppointments.ViewPatientMyDoctorAppointment"
             android:label="View MyDoctorAppointment"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient"
@@ -584,6 +594,7 @@
         <activity
             android:name=".doctor.TodaysAppointments.DoctorTodaysAppointment"
             android:label="View Todays Appointments"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".subscriptionPlan.Subscription_for_Rural"
@@ -601,10 +612,12 @@
         <activity
             android:name=".diagnostic.ManageAddress.DiagnosticsUpdateAddress"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.ManageAddress.DiagnosticUpdateAddressFromMaps"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewDiagnosticsList.GetCurrentDiagnosticsList"
@@ -612,6 +625,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.BookAppointment.PatientBookAppointmentToDiagnostics"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.MedicalShopDashboard"
@@ -621,6 +635,7 @@
         <activity
             android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsTotalDataInDiagnostics"
             android:label="View Appointment"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsListInDiagnostics"
@@ -644,14 +659,17 @@
         <activity
             android:name=".medicalShop.MedicalShopEditProfile"
             android:label="@string/Edit_profile"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.AddAddress.MedicalShopAddAddress"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.AddAddress.MedicalShopAddAddressFromMaps"
             android:label="Add Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.ManageAddress.MedicalShopManageAddress"
@@ -660,10 +678,12 @@
         <activity
             android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddress"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.ManageAddress.MedicalShopUpdateAddressFromMaps"
             android:label="Update Address"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalShop.ManageAddress.MedicalShopDeleteAddress"
@@ -675,9 +695,11 @@
         <activity
             android:name=".patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments"
             android:label="My Diagnostic Appointments"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.MyDiagnosticAppointments.ViewPatientMyDiagnosticAppointments"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewMedicalShopsList.ViewMedicalShop"

@@ -120,13 +120,17 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             }
         });
 
+        //phone call
         phonenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone_no = phonenumber.getText().toString();
-                System.out.println("phone number" + phone_no);
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:8465887420"));
+
+                String phn = phonenumber.getText().toString();
+
+                System.out.println("phone no in my diag..."+phn);
+
+                Intent callintent = new Intent(Intent.ACTION_CALL);
+                callintent.setData(Uri.parse("tel:"+phn));
                 if (ActivityCompat.checkSelfPermission(ViewPatientMyDoctorAppointment.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -137,7 +141,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                startActivity(callIntent);
+                startActivity(callintent);
             }
         });
 

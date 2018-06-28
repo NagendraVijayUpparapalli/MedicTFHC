@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -395,21 +396,51 @@
 
             </LinearLayout>
 
+            <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <Button
-                    android:id="@+id/submit"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:textColor="#fff"
-                    android:background="@drawable/round_button"
-                    android:text="@string/submit" />
+                android:layout_height="wrap_content">
 
+                <com.andexert.library.RippleView
+                    android:id="@+id/rippleView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    ripple:rv_type="rectangle"
+                    ripple:rv_zoom="true">
+
+                    <TextView
+                        android:id="@+id/rect_child"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:text="@string/submit"
+                        android:background="#f938a72f"/>
+
+                </com.andexert.library.RippleView>
             </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent">-->
+                <!--<Button-->
+                    <!--android:id="@+id/submit"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:ems="10"-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:background="@drawable/round_button"-->
+                    <!--android:text="@string/submit" />-->
+
+            <!--</LinearLayout>-->
 
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
