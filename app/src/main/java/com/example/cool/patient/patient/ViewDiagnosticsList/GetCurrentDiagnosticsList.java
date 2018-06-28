@@ -77,6 +77,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 //    Dialog MyDialog;
 //    Dialog MyDialoganother;
 //    Button okBtn,cancelBtn;
+
     AlertDialog alertDialog1;
 
     private static SeekBar seek_bar;
@@ -1128,7 +1129,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText(progress+"Km") ;
+                distance.setText(progress+" Km") ;
 
             }
 
@@ -1139,7 +1140,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText(progress_value+"Km");
+                distance.setText(progress_value+" Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -1148,7 +1149,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             }
         });
 
-        distance.setText(seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+" Km");
 
 //        String js = specialityBasedFormatDataAsJson();
 //        uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";

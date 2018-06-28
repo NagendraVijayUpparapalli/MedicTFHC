@@ -14,35 +14,35 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/dummyimage"
-        android:layout_width="50dp"
-        android:layout_height="80dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dummyimage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
 
-        android:layout_marginStart="10dp"
-        android:contentDescription="@string/share"
-
-
-        android:src="@drawable/noimage11"
-        app:civ_border_width="0.5dp"
-        app:civ_border_color="#FF000000"
-        app:layout_constraintHorizontal_bias="0.502"
-        tools:ignore="NotSibling" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/centerImage"
-        android:layout_width="50dp"
-        android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/share"
 
 
-        android:layout_marginStart="10dp"
-        android:contentDescription="@string/share"
-        android:layout_marginTop="1dp"
-        android:src="@drawable/noimage11"
-        app:civ_border_width="0.5dp"
-        app:civ_border_color="#FF000000"
-        app:layout_constraintHorizontal_bias="0.502"
-        tools:ignore="NotSibling" />
+            android:src="@drawable/noimage11"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintHorizontal_bias="0.502"
+            tools:ignore="NotSibling" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/centerImage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+
+
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/share"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/noimage11"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintHorizontal_bias="0.502"
+            tools:ignore="NotSibling" />
     </RelativeLayout>
 
     <LinearLayout
@@ -86,47 +86,79 @@
         </LinearLayout>
 
         <LinearLayout
+
+
+            android:id="@+id/linlay1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
+            android:layout_height="wrap_content"
+
+
             android:orientation="horizontal">
-            <TextView
-                android:textColor="#2C5E83"
-                android:textSize="12dp"
-                android:id="@+id/phone"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Phone Number : " />
+                android:layout_weight="1">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:textSize="13dp"
-                android:id="@+id/mobileNumber"
-                android:layout_width="wrap_content"
+                    <TextView
+                        android:textColor="#2C5E83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:text="Phone No : "/>
+                    <TextView
+                        android:id="@+id/mobileNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:text="83414958888"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
 
-                android:text="8341495888" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#2C5E83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:text="@string/distance"/>
+                    <TextView
+                        android:id="@+id/distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:padding="2dp"
+                        android:text="25.5 km"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_gravity="right"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#2C5E83"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:text="Distance : "/>
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0 Km"/>
 
 
-        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,78 +222,4 @@
 
 
 </LinearLayout>
-
-
-
-
-
-    <!--<LinearLayout-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:background="#f938a72f"-->
-    <!--android:layout_height="25dp">-->
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/phonenum"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:visibility="gone"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:textColor="#fde402"-->
-    <!--android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/centerImage1"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:visibility="gone"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:textColor="#fde402"-->
-    <!--android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/addressId"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:visibility="gone"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:textColor="#fde402"-->
-    <!--android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/diagid"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:visibility="gone"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:textColor="#fde402"-->
-    <!--android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/userid"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:visibility="gone"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:textColor="#fde402"-->
-    <!--android:textSize="18sp" />-->
-
-
-
-
-    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/Book_Appointment"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:textAlignment="center"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:textColor="#FFFFFF"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:paddingTop="3dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:text="Book Appointment"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:textSize="14dp"/>&ndash;&gt;-->
-
-    <!--</LinearLayout>-->
-
 

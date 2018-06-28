@@ -219,11 +219,6 @@ public class DoctorDashboard extends AppCompatActivity
         email = (TextView) headerLayout.findViewById(R.id.emailId);
         profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
-
-//        name = (TextView) navigationView. findViewById(R.id.name);
-//        email = (TextView) navigationView.findViewById(R.id.emailId);
-//        profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
-
         //calendar item variables
         imageView = (ImageView) findViewById(R.id.img1);
         pending_count = (TextView) findViewById(R.id.count_pending);

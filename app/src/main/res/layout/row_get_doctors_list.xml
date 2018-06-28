@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:padding="2dp"
                 android:text="@string/qualification" />
 
             <TextView
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:padding="2dp"
                 android:text="@string/speciality" />
 
             <TextView
@@ -127,6 +129,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
+                        android:padding="2dp"
                         android:text="@string/consultance_fee"/>
                     <TextView
                         android:id="@+id/consultationFee"
@@ -156,13 +159,15 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
+                        android:padding="2dp"
                         android:text="@string/distance"/>
                     <TextView
                         android:id="@+id/distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:text="25.5 km"/>
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:text="0 km"/>
                 </LinearLayout>
 
             </RelativeLayout>

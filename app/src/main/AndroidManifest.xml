@@ -542,8 +542,7 @@
         <activity
             android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"
             android:label="Book Doctor"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait" />
+            android:hardwareAccelerated="false" />
         <activity
             android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"
             android:label="Add Address"

@@ -168,7 +168,7 @@
 
                                 android:layout_marginTop="10dp"
                                 android:text="Note :"
-                                android:textSize="15sp"
+                                android:textSize="13sp"
                                 android:textColor="#e40c0c"
                                 android:textStyle="bold" />
                             <TextView
@@ -179,8 +179,8 @@
                                 android:layout_marginStart="7dp"
                                 android:layout_marginTop="10dp"
                                 android:text="Range (0Km - 100Km)"
-                                android:textSize="15sp"
-                                android:textColor="#fff"
+                                android:textSize="13sp"
+                                android:textColor="#63C9FF"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -213,9 +213,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:text="Distance : "
                                 android:textColor="#fff"
-
-
-                                android:textSize="16dp"
+                                android:textSize="13dp"
                                 android:textStyle="bold" />
                             <TextView
                                 android:id="@+id/DistanceRange"
@@ -223,11 +221,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
 
-                                android:text="24 Km"
+                                android:text="0"
                                 android:textColor="#fff"
-
-
-
                                 android:textSize="17dp"
                                 android:textStyle="bold" />
 
@@ -268,7 +263,6 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:text="Diseases : "
-
                             android:textStyle="bold"
                             android:textColor="#fff"
                             android:textSize="16sp" />
@@ -318,11 +312,12 @@
                 xmlns:android="http://schemas.android.com/apk/res/android">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="#fff"
                     android:layout_height="wrap_content"
                     android:text="Availability : "/>
+
                 <TextView
                     android:id="@+id/availability"
                     android:layout_width="wrap_content"
@@ -330,8 +325,8 @@
                     android:textSize="17sp"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
-                    android:textColor="#fff"
-                    android:text="-"/>
+                    android:textColor="#28ff02"
+                    android:text="0"/>
 
 
 

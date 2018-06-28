@@ -1183,7 +1183,7 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText(progress+"Km") ;
+                distance.setText(progress+" Km") ;
 
 //                bw_dist.setText("Distance :"+progress+"Km");
 
@@ -1197,7 +1197,7 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText(progress_value+"Km");
+                distance.setText(progress_value+" Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -1214,7 +1214,7 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
             }
         });
 
-        distance.setText(seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+" Km");
 
         uploadServerUrl = baseUrl.getUrl()+"GetBloodBankDetails?Latitude="+lattitude+"&Longitude="+longitude+"&Distance="+dis;
         new GetBloodBankDetails().execute(uploadServerUrl);

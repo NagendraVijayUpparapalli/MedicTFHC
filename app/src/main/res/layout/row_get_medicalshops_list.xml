@@ -11,33 +11,33 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/dummyimage"
-        android:layout_width="50dp"
-        android:layout_height="80dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dummyimage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
 
-        android:layout_marginStart="10dp"
-        android:contentDescription="@string/share"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/share"
 
 
-        android:src="@drawable/noimage11"
-        app:civ_border_width="0.5dp"
-        app:civ_border_color="#FF000000"
-        app:layout_constraintHorizontal_bias="0.502"
-        tools:ignore="NotSibling" />
+            android:src="@drawable/noimage11"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintHorizontal_bias="0.502"
+            tools:ignore="NotSibling" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/docImage"
-        android:layout_width="50dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="10dp"
-        android:contentDescription="@string/share"
-        android:layout_marginTop="1dp"
-        android:src="@drawable/noimage11"
-        app:civ_border_width="0.5dp"
-        app:civ_border_color="#FF000000"
-        app:layout_constraintHorizontal_bias="0.502"
-        tools:ignore="NotSibling" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/docImage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/share"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/noimage11"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintHorizontal_bias="0.502"
+            tools:ignore="NotSibling" />
 
     </RelativeLayout>
 
@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="12sp"
-                android:text="@string/cntpersn" />
+                android:padding="2dp"
+                android:text="@string/contactperson" />
 
             <TextView
                 android:id="@+id/ContactPerson"
@@ -81,48 +82,80 @@
                 android:text="Udaya sri prabhakararaju " />
         </LinearLayout>
 
+
         <LinearLayout
+
+
+            android:id="@+id/linlay1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
+            android:layout_height="wrap_content"
+
+
             android:orientation="horizontal">
-            <TextView
-                android:textColor="#2C5E83"
-                android:textSize="12sp"
-                android:id="@+id/phone"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/mobile_number_patient" />
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#2C5E83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:padding="2dp"
+                        android:text="Phone No : "/>
+                    <TextView
+                        android:id="@+id/phonenum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:text="83414958888"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#2C5E83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:padding="2dp"
+                        android:text="@string/distance"/>
+                    <TextView
+                        android:id="@+id/distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:padding="2dp"
+                        android:text="25.5 km"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
 
-            <TextView
-                android:textSize="13sp"
-                android:id="@+id/phonenum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8341495888" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_gravity="right"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#2C5E83"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:text="@string/distance"/>
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="25.5 Km"/>
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -189,5 +222,3 @@
 
     </LinearLayout>
 </LinearLayout>
-
-

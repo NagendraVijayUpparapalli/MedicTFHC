@@ -876,7 +876,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
                 System.out.println("progress...."+progress);
-                distance.setText(progress+"Km") ;
+                distance.setText(progress+" Km") ;
 
             }
 
@@ -887,7 +887,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText(progress_value+"Km");
+                distance.setText(progress_value+" Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
                 System.out.println("dis.."+dis);
@@ -911,7 +911,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
             }
         });
 
-        distance.setText(seek_bar.getProgress()+"Km");
+        distance.setText(seek_bar.getProgress()+" Km");
 
     }
 

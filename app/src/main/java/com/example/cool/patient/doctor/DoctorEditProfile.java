@@ -38,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.app.AlertDialog;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andexert.library.RippleView;
@@ -115,7 +116,6 @@ public class DoctorEditProfile extends AppCompatActivity
 //    static String mySpeciality,mySpecialityid;
 
     static String getUserId,mobile_number;
-    static String uploadServerUrl = null;
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,
             myQualification, myAddress1, myAddress2, myGender,myExperience,
             myregistrationNumber,myuploadCertificate,myadharimage,mydoctorImage,myAadhar_num;
@@ -148,12 +148,15 @@ public class DoctorEditProfile extends AppCompatActivity
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail;
+    ImageView sidenavProfileImage;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_edit_profile);
 
         baseUrl = new ApiBaseUrl();
-        uploadServerUrl = baseUrl.getUrl()+"GetDoctorByID";
 
 
         mobile_number = getIntent().getStringExtra("mobile");
@@ -162,9 +165,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
         new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
-        new GetDoctorDetails().execute(uploadServerUrl+"?id="+getUserId);
-
-
+        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -292,6 +293,12 @@ public class DoctorEditProfile extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        DoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -619,6 +626,10 @@ public class DoctorEditProfile extends AppCompatActivity
                 }
 
                 salutation.setText(newName+mySurname+" "+myName);
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
+
             }
             else {
 //                checkNewUser = "Yes";
@@ -651,6 +662,9 @@ public class DoctorEditProfile extends AppCompatActivity
 
                 newName ="";
                 salutation.setText(newName+mySurname+" "+myName);
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
             }
 
 

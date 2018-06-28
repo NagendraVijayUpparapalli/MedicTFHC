@@ -179,7 +179,7 @@
                                 android:layout_marginTop="10dp"
                                 android:text="Range (0Km - 100Km)"
                                 android:textSize="15sp"
-                                android:textColor="#fff"
+                                android:textColor="#63C9FF"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -213,20 +213,16 @@
                                 android:textColor="#fff"
 
 
-                                android:textSize="16dp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
                             <TextView
                                 android:id="@+id/DistanceRange"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-
-                                android:text="24 Km"
+                                android:text="0"
                                 android:textColor="#fff"
-
-
-
-                                android:textSize="17dp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -247,7 +243,7 @@
                 xmlns:android="http://schemas.android.com/apk/res/android">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="#fff"
                     android:layout_height="wrap_content"
@@ -259,8 +255,8 @@
                     android:textSize="17sp"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
-                    android:textColor="#fff"
-                    android:text="-"/>
+                    android:textColor="#28ff02"
+                    android:text="0"/>
 
 
 
@@ -284,37 +280,37 @@
 </RelativeLayout>
 
 
-<android.support.design.widget.NavigationView
+    <android.support.design.widget.NavigationView
 
 
-android:id="@+id/nav_view"
+    android:id="@+id/nav_view"
 
-android:layout_width="wrap_content"
-android:layout_height="match_parent"
-android:layout_gravity="start"
-app:headerLayout="@layout/nav_header_main"
-android:fitsSystemWindows="true">
-
-<ExpandableListView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:id="@+id/expandableListView"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:layout_marginTop="179dp"
-    android:choiceMode="singleChoice"
-    android:divider="#000"
-    android:dividerHeight="0.2dp"
+    app:headerLayout="@layout/nav_header_main"
+    android:fitsSystemWindows="true">
 
-    android:groupIndicator="@null"
-    android:alpha="255"
-    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-    >
-</ExpandableListView>
-</android.support.design.widget.NavigationView>
+    <ExpandableListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
 
-    </android.support.v4.widget.DrawerLayout>
-    </LinearLayout>
+        android:id="@+id/expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="179dp"
+        android:choiceMode="singleChoice"
+        android:divider="#000"
+        android:dividerHeight="0.2dp"
+
+        android:groupIndicator="@null"
+        android:alpha="255"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        >
+    </ExpandableListView>
+    </android.support.design.widget.NavigationView>
+
+        </android.support.v4.widget.DrawerLayout>
+        </LinearLayout>
 
 
