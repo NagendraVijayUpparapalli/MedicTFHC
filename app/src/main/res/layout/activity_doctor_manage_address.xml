@@ -25,6 +25,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways" >
 
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/home"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:layout_marginEnd="10dp"-->
+
+                <!--app:srcCompat="@drawable/ic_home_black_24dp" />-->
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -82,8 +91,8 @@
 
         android:fitsSystemWindows="true">
 
-        <include
-            layout="@layout/nav_header_doctor_dashboard" />
+        <!--<include-->
+            <!--layout="@layout/nav_header_doctor_dashboard" />-->
 
 
         <ExpandableListView

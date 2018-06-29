@@ -177,6 +177,9 @@ public class PatientEditProfile extends AppCompatActivity
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,8 +193,6 @@ public class PatientEditProfile extends AppCompatActivity
 
         baseUrl = new ApiBaseUrl();
 
-        uploadServerUrl = baseUrl.getUrl()+"GetPatientByID";
-
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
 
         new GetAllStates().execute(baseUrl.getUrl()+"GetAllState");
@@ -200,7 +201,7 @@ public class PatientEditProfile extends AppCompatActivity
 
         new GetAllBloodGroups().execute(baseUrl.getUrl()+"GetAllBloodGroup");
 
-        new GetPatientDetails().execute(uploadServerUrl+"?ID="+getUserId);
+        new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -395,6 +396,14 @@ public class PatientEditProfile extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -1114,6 +1123,22 @@ public class PatientEditProfile extends AppCompatActivity
                 }
 
                 name.setText(newName+" "+mySurname+" "+myName);
+
+//                TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+
+                long lng = myCity;
+                int i = (int) lng;
+                String getCityName = String.valueOf(myCitiesList.get(myCity));
+
+                long lng1 = myState;
+                int i1 = (int) lng1;
+                String getStateName = String.valueOf(statesList.get(i1));
+
+                sidenavName.setText(mySurname+" "+myName);
+                sidenavMobile.setText(myMobile);
+                sidenavAddress.setText(myAddress1+","+myAddress2+", "+getCityName+", "+getStateName+", "+myPincode);
+                sidenavEmail.setText(myEmail);
+
             }
             else
             {
@@ -1142,6 +1167,11 @@ public class PatientEditProfile extends AppCompatActivity
                 myDistrict =  js.getString("District");
                 myAge = js.getLong("Age");
                 name.setText(mySurname+" "+myName);
+
+                sidenavName.setText(mySurname+" "+myName);
+                sidenavMobile.setText(myMobile);
+                sidenavEmail.setText(myEmail);
+
             }
 
             if(myGender.equals("Male"))

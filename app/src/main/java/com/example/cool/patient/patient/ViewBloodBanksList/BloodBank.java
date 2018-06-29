@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -124,11 +125,12 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
     ApiBaseUrl baseUrl;
 
     // expandable list view
-
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    FloatingActionButton homebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,6 +384,19 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
 //                }
 //
 //        );
+
+
+        //home button
+        homebutton = (FloatingActionButton) findViewById(R.id.home);
+        homebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BloodBank.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile);
+                startActivity(intent);
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

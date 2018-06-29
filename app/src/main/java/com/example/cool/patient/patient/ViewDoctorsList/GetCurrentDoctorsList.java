@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,6 +44,8 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
+import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -132,10 +135,12 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    FloatingActionButton homebutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_current_doctors_list);
+        setContentView(R.layout.appbar_doctorlist);
 
         baseUrl = new ApiBaseUrl();
 
@@ -188,6 +193,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
             getLocation();
         }
 
+
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
@@ -221,6 +227,18 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        //home button
+        homebutton = (FloatingActionButton) findViewById(R.id.home);
+        homebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetCurrentDoctorsList.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
             }
         });
 

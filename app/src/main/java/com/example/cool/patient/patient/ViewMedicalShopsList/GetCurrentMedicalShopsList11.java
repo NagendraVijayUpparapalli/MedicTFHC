@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,6 +39,7 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -100,7 +102,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
 
     static String selectedlocation=null;
 
-    String addressline,mobile,email,pincode,city,state;
+    String addressline,email,pincode,city,state;
     TextView current_city;
 
     private RecyclerView recyclerView;
@@ -128,10 +130,12 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    FloatingActionButton homebutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_current_medical_shops_list11);
+        setContentView(R.layout.appbar_medicalshoplist);
 
         baseUrl = new ApiBaseUrl();
 
@@ -154,7 +158,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
                 Intent i = new Intent(GetCurrentMedicalShopsList11.this,SelectCity.class);
                 i.putExtra("module","medicalList");
                 i.putExtra("userId",getUserId);
-                i.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                i.putExtra("mobile",usermobileNumber);
                 startActivity(i);
             }
         });
@@ -226,8 +230,20 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
             }
         });
 
-        //side navigation
 
+        //home button
+        homebutton = (FloatingActionButton) findViewById(R.id.home);
+        homebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetCurrentMedicalShopsList11.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",usermobileNumber);
+                startActivity(intent);
+            }
+        });
+
+        //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -267,6 +283,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
                     // call some activity here
                     Intent editProfile = new Intent(GetCurrentMedicalShopsList11.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",usermobileNumber);
                     startActivity(editProfile);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
@@ -325,14 +342,14 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
 
                         Intent i = new Intent(GetCurrentMedicalShopsList11.this,GetCurrentDoctorsList.class);
                         i.putExtra("userId",getUserId);
-                        i.putExtra("mobile",mobile);
+                        i.putExtra("mobile",usermobileNumber);
                         startActivity(i);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_2) {
                         Intent i = new Intent(GetCurrentMedicalShopsList11.this,GetCurrentDiagnosticsList.class);
                         i.putExtra("userId",getUserId);
-                        i.putExtra("mobile",mobile);
+                        i.putExtra("mobile",usermobileNumber);
                         startActivity(i);
 
                     }
@@ -370,7 +387,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
 
                         // call activity here
                         Intent intent = new Intent(GetCurrentMedicalShopsList11.this,ChangePassword.class);
-                        intent.putExtra("mobile",mobile);
+                        intent.putExtra("mobile",usermobileNumber);
                         startActivity(intent);
 
 
@@ -389,14 +406,14 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
                         // call activity here
 
                         Intent intent = new Intent(GetCurrentMedicalShopsList11.this,PatientMyDoctorAppointments.class);
-                        intent.putExtra("mobile",mobile);
+                        intent.putExtra("mobile",usermobileNumber);
                         intent.putExtra("id",getUserId);
                         startActivity(intent);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM2_2) {
                         Intent intent = new Intent(GetCurrentMedicalShopsList11.this,PatientMyDiagnosticAppointments.class);
-                        intent.putExtra("mobile",mobile);
+                        intent.putExtra("mobile",usermobileNumber);
                         intent.putExtra("id",getUserId);
                         startActivity(intent);
 

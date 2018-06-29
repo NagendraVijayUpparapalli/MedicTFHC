@@ -36,6 +36,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andexert.library.RippleView;
@@ -115,6 +116,9 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,13 +126,12 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_medical_shop_edit_profile);
 
         baseUrl = new ApiBaseUrl();
-        uploadServerUrl = baseUrl.getUrl()+"MedicalShopByID";
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
         System.out.print("medical id in profile....."+getUserId+"...mobile.."+mobile_number);
 
-        new GetMedicalDetails().execute(uploadServerUrl+"?id="+getUserId);
+        new GetMedicalDetails().execute(baseUrl.getUrl()+"MedicalShopByID"+"?id="+getUserId);
 
         name = (EditText) findViewById(R.id.name);
         email = (EditText) findViewById(R.id.email);
@@ -216,6 +219,13 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+//        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.emailId);
+        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -337,12 +347,14 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                         Intent about = new Intent(MedicalShopEditProfile.this,MedicalShopAddAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
                     else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_2) {
                         Intent about = new Intent(MedicalShopEditProfile.this,MedicalShopManageAddress.class);
                         about.putExtra("id",getUserId);
+                        about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
                     }
@@ -431,10 +443,11 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
     }
 
 
+    //home icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.qricon, menu);
+        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -444,6 +457,15 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(MedicalShopEditProfile.this,MedicalShopDashboard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+        }
 //
 //        if(id==R.id.qricon)
 //        {
@@ -577,10 +599,16 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                 {
 //                    checkNewUser = "Yes";
                     name.setText(mySurname+" "+myName);
+
+                    sidenavName.setText(myName+" "+mySurname);
+                    sidenavEmail.setText(myEmail);
                 }
                 else {
 //                    checkNewUser = "No";
                     name.setText(newName + mySurname + " " + myName);
+
+                    sidenavName.setText(myName+" "+mySurname);
+
                 }
 
             }
@@ -605,6 +633,9 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 //                mypay_paym         =  (boolean) js.get("Paytm");
 
                 name.setText(mySurname+" "+myName);
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
             }
 
             System.out.println("hand.."+mycash_on_hand);
@@ -638,6 +669,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                 System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
+            sidenavEmail.setText(myEmail);
             cash_on_hand.setChecked(mycash_on_hand);
             swipe_card.setChecked(myswipe_card);
             net_banking.setChecked(mynet_banking);
@@ -668,7 +700,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
     }
 
-    private class GetAadharImageTask extends AsyncTask<String, Void, Bitmap> {
+    public class GetAadharImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
         public GetAadharImageTask(ImageView bmImage) {
@@ -1145,6 +1177,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 //                        dialog.cancel();
                         Intent intent = new Intent(MedicalShopEditProfile.this,MedicalShopDashboard.class);
                         intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
                     }
                 });

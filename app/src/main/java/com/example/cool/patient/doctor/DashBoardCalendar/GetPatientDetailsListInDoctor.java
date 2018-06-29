@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -225,15 +226,6 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
-
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        expandableListTitle.get(groupPosition)
-//                                + " -> "
-//                                + expandableListDetail.get(
-//                                expandableListTitle.get(groupPosition)).get(
-//                                childPosition), Toast.LENGTH_SHORT
-//                ).show();
                 if (groupPosition == DoctorSideNavigationExpandableListAdapter.Services) {
                     if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_1) {
 
@@ -302,6 +294,33 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
             }
         });
 
+    }
+
+    //home icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(GetPatientDetailsListInDoctor.this,DoctorDashboard.class);
+            intent.putExtra("id",DoctorId);
+            intent.putExtra("mobile",doctorMobile);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

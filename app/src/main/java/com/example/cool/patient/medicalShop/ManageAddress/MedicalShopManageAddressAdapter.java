@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
+import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 
 import java.io.InputStream;
 import java.util.List;
@@ -49,6 +50,11 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
 //    EditText reason_Todelete;
 
     public MedicalShopManageAddressAdapter(MedicalShopManageAddress medicalManageAddress, List<MedicalShopManageAddressClass> manageAddressClassList) {
+        this.context = medicalManageAddress;
+        this.medicalManageAddressClassArrayList = manageAddressClassList;
+    }
+
+    public MedicalShopManageAddressAdapter(MedicalShopDashboard medicalManageAddress, List<MedicalShopManageAddressClass> manageAddressClassList) {
         this.context = medicalManageAddress;
         this.medicalManageAddressClassArrayList = manageAddressClassList;
     }

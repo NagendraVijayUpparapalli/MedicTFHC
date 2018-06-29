@@ -34,7 +34,7 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
-import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddressAdapter11;
+import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddressAdapter;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddressClass;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ReachUs;
@@ -62,7 +62,7 @@ public class MedicalShopDashboard extends AppCompatActivity
     LinearLayoutManager layoutManager;
     List<MedicalShopManageAddressClass> myList;
     ListView listview;
-    MedicalShopManageAddressAdapter11 adapter;
+    MedicalShopManageAddressAdapter adapter;
 
     //api url
     static String regMobile;
@@ -148,7 +148,7 @@ public class MedicalShopDashboard extends AppCompatActivity
         myList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
-        adapter = new MedicalShopManageAddressAdapter11(this, myList);
+        adapter = new MedicalShopManageAddressAdapter(this, myList);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -304,7 +304,6 @@ public class MedicalShopDashboard extends AppCompatActivity
             }
         });
 
-
     }
 
 //    @Override
@@ -447,7 +446,6 @@ public class MedicalShopDashboard extends AppCompatActivity
         {
             JSONObject js = new JSONObject(result);
 
-//            (String) js.get("DoctorID");
             if(js.has("ShopImage")) {
                 myProfileImage = (String) js.get("ShopImage");
 

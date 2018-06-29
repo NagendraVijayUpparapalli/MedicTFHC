@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -30,6 +31,7 @@ import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
 import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticManageAddress;
+import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticsUpdateAddress;
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
@@ -271,7 +273,33 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
             }
         });
 
+    }
 
+    //home icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(DiagnosticsTodaysAppointments.this,DiagnosticDashboard.class);
+            intent.putExtra("id",diagId);
+            intent.putExtra("mobile",diagMobile);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

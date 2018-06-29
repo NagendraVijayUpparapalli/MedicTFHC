@@ -36,6 +36,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andexert.library.RippleView;
@@ -125,6 +126,9 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,6 +231,13 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.imageView);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -372,6 +383,33 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
     }
 
+    //home icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(DiagnosticEditProfile.this,DiagnosticDashboard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void validateEditProfile()
     {
         intialization();
@@ -445,41 +483,6 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         return validate;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.qricon, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-//        if(id==R.id.qricon)
-//        {
-////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-//
-//            IntentIntegrator integrator = new IntentIntegrator(activity);
-//            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//            integrator.setPrompt("Scan");
-//            integrator.setCameraId(0);
-//            integrator.setBeepEnabled(false);
-//            integrator.setBarcodeImageEnabled(false);
-//            integrator.initiateScan();
-//            return true;
-////                CameraManager a = new CameraManager();
-////                }
-////            });
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -589,7 +592,11 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                 {
                     newName = "Mrs.";
                 }
+
                 name.setText(newName+mySurname+" "+myName);
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
             }
             else {
 
@@ -616,12 +623,17 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                 {
 //                    checkNewUser = "Yes";
                     name.setText(mySurname+" "+myName);
+                    sidenavName.setText(myName+" "+mySurname);
+                    sidenavEmail.setText(myEmail);
                 }
 
                 else
                 {
 //                    checkNewUser = "No";
                     name.setText(newName + mySurname + " " + myName);
+
+                    sidenavName.setText(myName+" "+mySurname);
+                    sidenavEmail.setText(myEmail);
                 }
 
             }
@@ -669,6 +681,9 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
 //            salutation.setTextColor(this.getResources().getColor(R.color.colorPrimary));
 //            surname.setText(mySurname);
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavEmail.setText(myEmail);
 
             mobileNumber.setText(myMobile);
             email.setText(myEmail);

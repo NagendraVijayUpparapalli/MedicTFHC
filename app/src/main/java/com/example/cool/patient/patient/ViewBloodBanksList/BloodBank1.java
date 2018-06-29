@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -97,6 +98,8 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    FloatingActionButton homebutton;
 
 
     @Override
@@ -222,8 +225,20 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 //
 //        );
 
-        // side naavigation
 
+        //home button
+        homebutton = (FloatingActionButton) findViewById(R.id.home);
+        homebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BloodBank1.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile);
+                startActivity(intent);
+            }
+        });
+
+        // side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

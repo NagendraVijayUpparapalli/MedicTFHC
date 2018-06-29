@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,6 +39,7 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -131,15 +133,18 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    FloatingActionButton homebutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_current_diagnostics_list11);
+        setContentView(R.layout.appbar_diagnosticlist);
 
         baseUrl = new ApiBaseUrl();
 
         getUserId = getIntent().getStringExtra("userId");
         getcity = getIntent().getStringExtra("city");
+        mobile = getIntent().getStringExtra("mobile");
 
         System.out.print("userid in getdiag list....."+getUserId);
 
@@ -157,7 +162,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 Intent i = new Intent(GetCurrentDiagnosticsList11.this,SelectCity.class);
                 i.putExtra("module","diagList");
                 i.putExtra("userId",getUserId);
-                i.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                i.putExtra("mobile",mobile);
                 startActivity(i);
             }
         });
@@ -230,8 +235,20 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
             }
         });
 
-        //side navigation
+        //home button
+        homebutton = (FloatingActionButton) findViewById(R.id.home);
+        homebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetCurrentDiagnosticsList11.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile);
+                startActivity(intent);
+            }
+        });
 
+
+        //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -271,6 +288,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     // call some activity here
                     Intent editProfile = new Intent(GetCurrentDiagnosticsList11.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",mobile);
                     startActivity(editProfile);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {

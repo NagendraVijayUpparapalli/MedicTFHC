@@ -52,6 +52,8 @@ import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
 import com.example.cool.patient.doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient;
+import com.example.cool.patient.patient.PatientDashBoard;
+import com.example.cool.patient.patient.PatientEditProfile;
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -150,7 +152,6 @@ public class DoctorEditProfile extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail;
-    ImageView sidenavProfileImage;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -474,7 +475,7 @@ public class DoctorEditProfile extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.qricon, menu);
+        getMenuInflater().inflate(R.menu.qricon, menu);
         return true;
     }
 
@@ -485,12 +486,18 @@ public class DoctorEditProfile extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-//        if(id==R.id.qricon)
-//        {
-////            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-//
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+
+//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+
 //            IntentIntegrator integrator = new IntentIntegrator(activity);
 //            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
 //            integrator.setPrompt("Scan");
@@ -499,10 +506,10 @@ public class DoctorEditProfile extends AppCompatActivity
 //            integrator.setBarcodeImageEnabled(false);
 //            integrator.initiateScan();
 //            return true;
-////                CameraManager a = new CameraManager();
-////                }
-////            });
-//        }
+//                CameraManager a = new CameraManager();
+//                }
+//            });
+        }
 
         return super.onOptionsItemSelected(item);
     }
