@@ -151,7 +151,7 @@ public class DoctorEditProfile extends AppCompatActivity
     HashMap<String, List<String>> expandableListDetail;
 
     //sidenav fields
-    TextView sidenavName,sidenavEmail;
+    TextView sidenavName,sidenavEmail,sidenavMobile;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,6 +299,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
         sidenavName = (TextView) headerLayout.findViewById(R.id.name);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
         DoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -636,6 +637,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
                 sidenavName.setText(myName+" "+mySurname);
                 sidenavEmail.setText(myEmail);
+                sidenavMobile.setText(myMobile);
 
             }
             else {
@@ -672,6 +674,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
                 sidenavName.setText(myName+" "+mySurname);
                 sidenavEmail.setText(myEmail);
+                sidenavMobile.setText(myMobile);
             }
 
 

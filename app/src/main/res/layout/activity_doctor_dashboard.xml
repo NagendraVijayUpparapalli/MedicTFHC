@@ -18,12 +18,13 @@
 
         <!--layout="@layout/nav_header_doctor_dashboard"/>-->
 
+    <!--app:headerLayout="@layout/nav_header_doctor_dashboard"-->
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-
         android:fitsSystemWindows="true">
 
         <ExpandableListView
@@ -33,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:layout_marginTop="179dp"
+            android:layout_marginTop="199dp"
             android:choiceMode="singleChoice"
             android:divider="#000"
             android:dividerHeight="0.2dp"

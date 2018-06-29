@@ -17,28 +17,39 @@
         android:layout_width="100dp"
         android:layout_below="@+id/spaceId"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:src="@drawable/noimage11" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profileImageId"
-        android:text="Android Studio" />
-
-    <TextView
-        android:id="@+id/mobile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="xxxxxxxx"
+        android:textColor="#1a237e"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/personicon"
+        android:drawablePadding="5dp"
+        android:text="xxxxxxxxxx"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/emailId"
-        android:layout_below="@+id/name"
+        android:id="@+id/mobile"
+        android:textColor="#2C5E83"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="android.studio@android.com" />
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/sidenavphoneicon"
+        android:drawablePadding="5dp"
+        android:textSize="12sp"
+        android:text=" xxxxxxxxxxx"/>
+
+    <TextView
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:id="@+id/emailId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/sidenavemailicon"
+        android:drawablePadding="5dp"
+        android:text="xxxxxxxxxxx@gmail.com" />
 
 </LinearLayout>

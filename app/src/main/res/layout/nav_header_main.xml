@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="178dp"
     android:background="@drawable/toolbar_gradient"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -12,12 +13,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/imageView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
-        <!--android:src="@drawable/noimage11" />-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/noimage11" />
 
     <TextView
         android:id="@+id/name"
@@ -26,8 +29,12 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textColor="#1a237e"
         android:textStyle="bold"
-        android:text="xxxxxx"
+        android:drawableLeft="@drawable/personicon"
+        android:drawablePadding="5dp"
+        android:text="xxxxxxxxxx"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
 
     <TextView
         android:id="@+id/address"
@@ -35,30 +42,81 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:visibility="gone"
-        android:text="xxxxxxxxx"
+        android:text="XXXXX"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/mobile"
+    <LinearLayout
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:id="@+id/linlay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="xxxxxxxx"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mobile"
+                    android:textColor="#2C5E83"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/sidenavphoneicon"
+                    android:drawablePadding="5dp"
+                    android:textSize="12sp"
+                    android:text=" xxxxxxxxxxx"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:id="@+id/bloodgroup"
+                    android:layout_width="wrap_content"
+                    android:drawableLeft="@drawable/bloodgroupicon"
+                    android:drawablePadding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:text=" B+"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/bloodgroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="xxxxxxxx"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="xxxxxxxxx" />
+        android:drawableLeft="@drawable/sidenavemailicon"
+        android:drawablePadding="5dp"
+        android:text="xxxxxxxxxxx@gmail.com" />
 
 
 </LinearLayout>

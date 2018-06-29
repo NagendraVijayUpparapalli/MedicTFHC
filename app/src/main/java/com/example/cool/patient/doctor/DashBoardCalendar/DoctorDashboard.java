@@ -113,7 +113,7 @@ public class DoctorDashboard extends AppCompatActivity
 
 
     ImageView imageView,profileImage;
-    TextView name,email;
+    TextView name,email,mobile;
     Bitmap mIcon11;
 
     TextView pending_count, Accept_count, Reschedule_count, Reject_count;
@@ -217,6 +217,7 @@ public class DoctorDashboard extends AppCompatActivity
 
         name = (TextView) headerLayout.findViewById(R.id.name);
         email = (TextView) headerLayout.findViewById(R.id.emailId);
+        mobile = (TextView) headerLayout.findViewById(R.id.mobile);
         profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         //calendar item variables
@@ -892,11 +893,13 @@ public class DoctorDashboard extends AppCompatActivity
                 String myFirstName = (String) js.get("FirstName");
                 String myLastName = (String) js.get("LastName");
                 String mydoctorImage = (String) js.get("DoctorImage");
+                String myMobile = (String) js.get("MobileNumber");
 
                 System.out.println("name.."+myFirstName+".."+myLastName+".."+myEmail+".."+mydoctorImage);
 
                 name.setText(myFirstName+" "+myLastName);
                 email.setText(myEmail);
+                mobile.setText(myMobile);
 
             new GetProfileImageTask(profileImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 

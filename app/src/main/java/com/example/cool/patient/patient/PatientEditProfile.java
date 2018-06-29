@@ -178,7 +178,7 @@ public class PatientEditProfile extends AppCompatActivity
     HashMap<String, List<String>> expandableListDetail;
 
     //sidenav fields
-    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -403,9 +403,11 @@ public class PatientEditProfile extends AppCompatActivity
         sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
         sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+
+                expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new PatientSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
@@ -1136,8 +1138,9 @@ public class PatientEditProfile extends AppCompatActivity
 
                 sidenavName.setText(mySurname+" "+myName);
                 sidenavMobile.setText(myMobile);
-                sidenavAddress.setText(myAddress1+","+myAddress2+", "+getCityName+", "+getStateName+", "+myPincode);
+//                sidenavAddress.setText(myAddress1+","+myAddress2+", "+getCityName+", "+getStateName+", "+myPincode);
                 sidenavEmail.setText(myEmail);
+                sidenavBloodgroup.setText(myBlood_group);
 
             }
             else

@@ -211,7 +211,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/txt"
                                 android:layout_marginBottom="10dp"
-                                android:text="Distance : "
+                                android:padding="5dp"
+                                android:text="Distance :"
                                 android:textColor="#fff"
                                 android:textSize="13dp"
                                 android:textStyle="bold" />
@@ -308,6 +309,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
                 android:orientation="horizontal"
                 xmlns:android="http://schemas.android.com/apk/res/android">
                 <TextView
@@ -315,15 +317,16 @@
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="#fff"
+                    android:padding="5dp"
                     android:layout_height="wrap_content"
-                    android:text="Availability : "/>
+                    android:text="Availability :"/>
 
                 <TextView
                     android:id="@+id/availability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
-                    android:layout_marginEnd="10dp"
+
                     android:textStyle="bold"
                     android:textColor="#28ff02"
                     android:text="0"/>
