@@ -116,6 +116,10 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+    ImageView sidenavDoctorImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -255,6 +259,13 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -574,19 +585,55 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
     private void getProfileDetails(String result) {
         try
         {
-            JSONObject js = new JSONObject(result);
+            JSONObject object = new JSONObject(result);
 
-//            String myEmail = (String) js.get("EmailID");
-//            String myFirstName = (String) js.get("FirstName");
-//            String myLastName = (String) js.get("LastName");
 
-            mydoctorImage = (String) js.get("DoctorImage");
+            mydoctorImage = (String) object.get("DoctorImage");
+
+            String myMobile = (String) object.get("MobileNumber");
+            String myEmail = (String) object.get("EmailID");
+            String myName = (String) object.get("FirstName");
+            String mySurname = (String) object.get("LastName");
+
+            String mydoctorImage = (String) object.get("DoctorImage");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavEmail.setText(myEmail);
+            sidenavMobile.setText(myMobile);
+
+            new GetProfileImageTask(sidenavDoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 
 
         }
         catch (JSONException e)
         {
             e.printStackTrace();
+        }
+
+    }
+
+    private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            sidenavDoctorImage.setImageBitmap(result);
         }
 
     }

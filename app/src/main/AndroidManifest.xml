@@ -562,7 +562,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.DashBoardCalendar.GetPatientDetailsListInDoctor"
-            android:label="Patients"
+            android:label="My Appointments"
             android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor"

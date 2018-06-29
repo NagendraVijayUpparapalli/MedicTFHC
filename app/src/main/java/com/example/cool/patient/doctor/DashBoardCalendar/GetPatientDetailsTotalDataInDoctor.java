@@ -117,6 +117,10 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+    ImageView sidenavDoctorImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -307,6 +311,13 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
@@ -450,6 +461,33 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
     }
 
+
+    private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            sidenavDoctorImage.setImageBitmap(result);
+        }
+
+    }
+
     //home icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -499,44 +537,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         return false;
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (requestCode == REQUEST_CODE_GALLERY1) {
-////            onSelectFromGalleryResult(data);
-////             Make sure the request was successful
-//            Log.d("hello","I'm out.");
-//            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-//
-//                selectedLicenceImageUri = data.getData();
-//                BufferedWriter out=null;
-//                try {
-//                    selectedLicenceImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedLicenceImageUri);
-//
-//                    //licence base64
-//                    final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
-//                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    byte[] b = baos.toByteArray();
-//                    encodedLicenceImage = Base64.encodeToString(b, Base64.DEFAULT);
-//                }
-//                catch (IOException e)
-//                {
-//                    System.out.println("Exception ");
-//
-//                }
-//                image.setImageBitmap(selectedLicenceImageBitmap);
-//                Log.d("hello","I'm in.");
-//
-//            }
-//        }
-//
-//        else {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-//    }
 
     //get doctor details based on id from api call
     private class GetDoctorDetails extends AsyncTask<String, Void, String> {
@@ -592,6 +592,19 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
             mydoctorname = object.getString("FirstName");
             mydoctormobile = object.getString("MobileNumber");
+
+            String myMobile = (String) object.get("MobileNumber");
+            String myEmail = (String) object.get("EmailID");
+            String myName = (String) object.get("FirstName");
+            String mySurname = (String) object.get("LastName");
+
+            String mydoctorImage = (String) object.get("DoctorImage");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavEmail.setText(myEmail);
+            sidenavMobile.setText(myMobile);
+
+            new GetProfileImageTask(sidenavDoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 
             System.out.println("doc name...."+mydoctorname);
             System.out.println("doc mobile...."+mydoctormobile);
