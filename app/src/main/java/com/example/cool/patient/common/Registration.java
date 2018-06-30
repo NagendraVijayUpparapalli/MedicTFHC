@@ -465,27 +465,52 @@ public class Registration extends AppCompatActivity {
 
         AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage("You selected type is"+userType)
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        relativeLayout.setVisibility(View.VISIBLE);
+        if(userType==null)
+        {
+            a_builder.setMessage("Please select user type for registration")
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getUserType();
+                        }
+                    });
+//            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int i) {
+//
+//                }
+//            });
+            AlertDialog alert = a_builder.create();
+            alert.setTitle("Type of Registration");
+            alert.show();
+        }
+        else
+        {
+            a_builder.setMessage("You selected type is"+userType)
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            relativeLayout.setVisibility(View.VISIBLE);
 //                        Intent i2 = new Intent(Registration.this, Login.class);
 //                        startActivity(i2);
-                    }
-                });
-        a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                Intent i2 = new Intent(Registration.this, Registration.class);
-                startActivity(i2);
+                        }
+                    });
+            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    Intent i2 = new Intent(Registration.this, Registration.class);
+                    startActivity(i2);
 //                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
-            }
-        });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Type of Registration");
-        alert.show();
+                }
+            });
+            AlertDialog alert = a_builder.create();
+            alert.setTitle("Type of Registration");
+            alert.show();
+        }
+
+
 
     }
 
@@ -496,11 +521,12 @@ public class Registration extends AppCompatActivity {
         {
 //            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
         }
+
         else
         {
             String js = formatDataAsJson();
             System.out.println("params...."+js.toString());
-//            new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
+            new SendRegistrationDetails().execute(uploadServerUrl,js.toString());
         }
     }
 

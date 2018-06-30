@@ -7,10 +7,14 @@ package com.example.cool.patient.patient.MyDoctorAppointments;
 public class PatientMyDoctorAppointmentDetailsClass {
 
     String doctorId,appointmentID,UserId,mobileNumber;
-    String appointmentDate,doctorName,prescription,timeslot,patientName,appointmentStatus,reason,doctorComment,paymentmode,amount,date;
+    String appointmentDate,doctorName,prescription,timeslot,patientName,appointmentStatus,reason,
+            doctorComment,paymentmode,amount,date;
 
     //parameterised constructor
-    PatientMyDoctorAppointmentDetailsClass(String UserId,String mobileNumber,String appointmentID,String doctorId, String appointmentDate, String doctorName, String prescription, String timeslot, String patientName, String appointmentStatus, String reason, String doctorComment, String paymentmode, String amount, String date) {
+    PatientMyDoctorAppointmentDetailsClass(String UserId,String mobileNumber,String appointmentID,String doctorId,
+                                           String appointmentDate, String doctorName, String prescription, String timeslot,
+                                           String patientName, String appointmentStatus, String reason, String doctorComment,
+                                           String paymentmode, String amount, String date) {
 
         this.UserId = UserId;
         this.mobileNumber = mobileNumber;

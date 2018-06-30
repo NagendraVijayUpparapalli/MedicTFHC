@@ -57,6 +57,7 @@ class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter
         holder.Comment.setText(my_data.get(position).getComment());
         holder.appointmentId.setText(my_data.get(position).getAppointmentID());
         holder.userId.setText(my_data.get(position).getUserId());
+        holder.appointmentdate.setText(my_data.get(position).getRequestDate());
         mobileNumber = my_data.get(position).getMobileNumber();
         DiagAddressId = my_data.get(position).getDiagAddressId();
 
@@ -69,7 +70,8 @@ class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView userId,appointmentId,PatientName,Timeslot,Centername,Testname,Diagnosticstatus,DiagnosticReport,PaymentMode,Amount,Comment;
+        public TextView userId,appointmentId,PatientName,Timeslot,Centername,Testname,Diagnosticstatus,
+                DiagnosticReport,PaymentMode,Amount,Comment,appointmentdate;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -83,6 +85,7 @@ class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter
             Comment = (TextView) itemView.findViewById(R.id.comment);
             appointmentId = (TextView) itemView.findViewById(R.id.appointmentid);
             userId = (TextView) itemView.findViewById(R.id.userid);
+            appointmentdate = (TextView) itemView.findViewById(R.id.appointmentdate);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,6 +98,7 @@ class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter
                     intent.putExtra("appointmentId",appointmentId.getText().toString());
                     intent.putExtra("patientname", PatientName.getText().toString());
                     intent.putExtra("status", Diagnosticstatus.getText().toString());
+                    intent.putExtra("appointmentdate", appointmentdate.getText().toString());
 
                     intent.putExtra("centername", Centername.getText().toString());
                     intent.putExtra("testname", Testname.getText().toString());

@@ -378,8 +378,8 @@
     <string name="appointment_time">Appointment Time</string>
     <string name="reason_inpatient">Reason</string>
     <string name="amount_in_patient">Amount</string>
-    <string name="cancel_appointmnet">Cancel Appointmnet</string>
-    <string name="reschedule_appointment">Reschedule Appointment</string>
+    <string name="cancel_appointmnet">Cancel</string>
+    <string name="reschedule_appointment">Reschedule</string>
     <string name="doctor_comments_suggestions">Doctor Comments/Suggestions</string>
     <string name="click_to_view">Click to View</string>
     <string name="not_paid">Not Paid</string>
@@ -488,5 +488,13 @@
 
     <string name="select_time">Select Time : </string>
     <string name="age1">Age</string>
+
+    <string name="status1">Status</string>
+    <string name="mode_of_payment">Mode of payment</string>
+    <string name="payment_status">Payment Status</string>
+    <string name="test_name1">Tset Name</string>
+
+    <string name="DiagnosticCommentsSuggestions">Diagnostic Comments/Suggestions</string>
+    <string name="DiagnosticPrescription"> Diagnostic Prescription</string>
 
 </resources>

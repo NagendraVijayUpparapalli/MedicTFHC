@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:background="#FFF"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content">
 
         <TextView
@@ -21,6 +24,7 @@
             android:textAlignment="center"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
+            android:textColor="#FFF"
             android:textStyle="bold"
             android:background="@drawable/timingcircular_text"
             android:text="12:30" />
@@ -38,12 +42,12 @@
 
             <TextView
                 android:id="@+id/Patient_name"
-                android:textColor="#000080"
+                android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sudarsana Rao "
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -74,7 +78,10 @@
                         android:drawableLeft="@drawable/phone"
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
-                        android:text=" 83414958888"/>
+                        android:textStyle="bold"
+                        android:drawablePadding="10dp"
+                        android:textColor="#000"
+                        android:text="83414958888"/>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -83,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right">
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -93,18 +100,20 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="#2C5E83"
+                        android:textColor="#000"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
+
                         android:text="Status : "/>
                     <TextView
                         android:id="@+id/Status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
-                        android:text="Reject"/>
+                        android:textColor="#008000"
+                        android:text="Reshudule"/>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -172,3 +181,5 @@
 
     </LinearLayout>
 </LinearLayout>
+
+

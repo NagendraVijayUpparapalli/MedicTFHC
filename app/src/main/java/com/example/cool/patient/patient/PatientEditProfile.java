@@ -406,8 +406,7 @@ public class PatientEditProfile extends AppCompatActivity
         sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
 
-
-                expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new PatientSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);

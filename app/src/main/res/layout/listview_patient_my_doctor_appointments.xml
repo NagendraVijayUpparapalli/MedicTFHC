@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical"
-    >
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:background="#FFF"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/patientname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sudarsana Rao"
+            android:id="@+id/time_slot"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_below="@+id/button"
             android:textAlignment="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="#FFF"
             android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:textColor="#000080"
-            android:transitionName="patient_name_transtion"
-            android:textSize="17dp"
-            />
-
+            android:background="@drawable/timingcircular_text"
+            android:text="12:30" />
         <TextView
             android:id="@+id/doctorId"
             android:layout_width="match_parent"
@@ -39,6 +42,33 @@
             android:textSize="17dp"
             />
 
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/patientname"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sudarsana Rao "
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
         <LinearLayout
 
 
@@ -49,139 +79,118 @@
 
             android:orientation="horizontal">
 
+
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:gravity="center">
 
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center"
-
                     android:layout_height="wrap_content"
-                    tools:ignore="Orientation">
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+
+                        android:text="Status : "/>
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
-
-
-                        android:textColor="#02a486"
                         android:layout_height="wrap_content"
-                        android:text="Intial pending"
-                        android:textSize="15dp"/>
-
-
-
+                        android:textSize="15sp"
+                        android:textColor="#008000"
+                        android:text="Reshudule"/>
                 </LinearLayout>
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center"
-
-                    android:layout_height="wrap_content"
-                    tools:ignore="Orientation">
-
-
-                    <TextView
-                        android:id="@+id/time_slot"
-                        android:layout_width="wrap_content"
-                        android:paddingLeft="3dp"
-                        android:layout_height="wrap_content"
-                        android:text="  23:00 "
-
-                        android:textColor="#03a654"
-                        android:drawableLeft="@drawable/ic_access_time_black_24dp"
-                        android:textSize="15dp"/>
-
-                </LinearLayout>
             </RelativeLayout>
 
 
         </LinearLayout>
 
-        <View
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#c7c7c7" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#c7c7c7" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comments"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amount"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/modeofpayment"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorname"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reason"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/prescription"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userId"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/appointmentId"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mobileNumber"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/appointmentdate"
+            />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/t"
 
-        android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/arrow_forward"
-        android:textSize="15dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/comments"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/amount"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/modeofpayment"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorname"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/reason"
-        android:visibility="gone"/>
+</LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/prescription"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userId"
-        android:visibility="gone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/appointmentId"
-        android:visibility="gone"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mobileNumber"
-        android:visibility="gone"/>
-
-</RelativeLayout>

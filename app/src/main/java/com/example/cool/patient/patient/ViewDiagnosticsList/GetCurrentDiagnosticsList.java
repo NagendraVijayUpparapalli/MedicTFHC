@@ -141,6 +141,9 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
+
     FloatingActionButton homebutton;
 
     @Override
@@ -159,6 +162,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
         getUserId = getIntent().getStringExtra("userId");
         mobile = getIntent().getStringExtra("mobile");
         System.out.print("userid in getdiag list....."+getUserId);
+
+        new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
         myList = new ArrayList<DiagnosticsClass>();
 
@@ -260,6 +265,14 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -481,6 +494,86 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 //        MyDialog.setCancelable(false);
 //        MyDialog.setCanceledOnTouchOutside(false);
 //        MyDialog.show();
+    }
+
+
+
+    //Get patient list based on id from api call
+    private class GetPatientDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+
+        }
+    }
+
+    private void getProfileDetails(String result) {
+
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myAddress1 = (String) js.get("Address1");
+            String myAddress2 = (String) js.get("Address2");
+            String myBlood_group = (String) js.get("BloodGroup");
+
+//                TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+
+            sidenavName.setText(mySurname+" "+myName);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+            sidenavBloodgroup.setText(myBlood_group);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     private String specialityBasedFormatDataAsJson()

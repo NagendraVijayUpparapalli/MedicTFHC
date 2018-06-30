@@ -2,6 +2,7 @@ package com.example.cool.patient.patient;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -21,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +39,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import android.widget.ListView;
 
+import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
@@ -48,7 +52,16 @@ import com.example.cool.patient.patient.ViewMedicalShopsList.GetCurrentMedicalSh
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ReachUs;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,11 +113,18 @@ public class PatientDashBoard extends AppCompatActivity
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    ProgressDialog progressDialog;
+
     private static long back_pressed;
 
     int backButtonCount = 0;
 
     boolean doubleBackToExitPressedOnce = false;
+
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
+
+    ApiBaseUrl baseUrl;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -139,10 +159,13 @@ public class PatientDashBoard extends AppCompatActivity
         setContentView(R.layout.activity_patient_dashboard);
 
         Criteria criteria = new Criteria();
+        baseUrl = new ApiBaseUrl();
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
         System.out.print("userid in mainactivity....."+getUserId);
+
+        new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
 //        System.out.print("city....."+city);
 
@@ -161,6 +184,29 @@ public class PatientDashBoard extends AppCompatActivity
         //change icon colors  in navigation
 //        ArcNavigationView anv=(ArcNavigationView) findViewById(R.id.nav_view);
 //        anv.setItemIconTintList(null);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Dashboard");
+
+        //side navigation
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -669,10 +715,6 @@ public class PatientDashBoard extends AppCompatActivity
                 startActivity(in);
             }
         });
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-      //  getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        setTitle("Dashboard");
 
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -684,14 +726,101 @@ public class PatientDashBoard extends AppCompatActivity
 //            }
 //        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    //Get patient list based on id from api call
+    private class GetPatientDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(PatientDashBoard.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading..");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
+            getProfileDetails(result);
+
+        }
+    }
+
+    private void getProfileDetails(String result) {
+
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myAddress1 = (String) js.get("Address1");
+            String myAddress2 = (String) js.get("Address2");
+            String myBlood_group = (String) js.get("BloodGroup");
+
+//                TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+
+            sidenavName.setText(mySurname+" "+myName);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+            sidenavBloodgroup.setText(myBlood_group);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 

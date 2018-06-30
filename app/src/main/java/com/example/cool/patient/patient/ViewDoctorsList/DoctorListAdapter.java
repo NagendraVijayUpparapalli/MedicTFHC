@@ -1,5 +1,6 @@
 package com.example.cool.patient.patient.ViewDoctorsList;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +13,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.patient.BookAppointment.PatientBookAppointmentToDoctor;
 import com.example.cool.patient.R;
 
@@ -34,9 +38,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         List<DoctorClass> doctorClassList;
         Context context;
         AlertDialog alertDialog1;
+        TextView closeIcon;
+        Dialog MyDialog;
         String address,lati,longi,consultationFee,comments,emergencyContact;
         String patientId;
         boolean emergencyService;
+
+        ImageView  newUser,oldUser;
 
     String doctorname,hospitalname,doornum,city,state,payment,mobile,navigaton;
 
@@ -92,14 +100,31 @@ class ViewHolder extends RecyclerView.ViewHolder{
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                recyclerView.clearFocus();
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("Do you want to take Appointment for Register user?");
-                //  alert.show();
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                MyDialog  = new Dialog(context);
+                MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                MyDialog.setContentView(R.layout.custom_popup);
+
+                closeIcon = (TextView) MyDialog.findViewById(R.id.closeIcon);
+                oldUser = (ImageView)MyDialog.findViewById(R.id.oldUser);
+                newUser = (ImageView)MyDialog.findViewById(R.id.newUser);
+
+                oldUser.setEnabled(true);
+                newUser.setEnabled(true);
+
+                closeIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context,GetCurrentDoctorsList.class);
+                        intent.putExtra("userId",userId.getText().toString());
+                        intent.putExtra("mobile",doctorphonenum.getText().toString());// patient mobile
+                        context.startActivity(intent);
+                    }
+                });
+
+                oldUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                         intent.putExtra("user","Yes");
                         intent.putExtra("userId",userId.getText().toString());
@@ -113,10 +138,10 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         context.startActivity(intent);
                     }
                 });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                newUser.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
+                    public void onClick(View v) {
                         Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                         intent.putExtra("user","No");
                         intent.putExtra("userId",userId.getText().toString());
@@ -130,10 +155,50 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         context.startActivity(intent);
                     }
                 });
-                alert.setCancelable(false);
-                alertDialog1 = alert.create();
-                alertDialog1.setCanceledOnTouchOutside(false);
-                alert.show();
+
+                MyDialog.show();
+
+//                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+//                alert.setTitle("Do you want to take Appointment for Register user?");
+//                //  alert.show();
+//                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int i) {
+//                        Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+//                        intent.putExtra("user","Yes");
+//                        intent.putExtra("userId",userId.getText().toString());
+//                        intent.putExtra("doctorName",doctorName.getText().toString());
+//                        intent.putExtra("addressId",addressId.getText().toString());
+//                        intent.putExtra("doctorId",doctorId.getText().toString());
+//                        intent.putExtra("lat",lati);
+//                        intent.putExtra("long",longi);
+//                        intent.putExtra("mobile",doctorphonenum.getText().toString());
+//                        intent.putExtra("fee",fee.getText().toString());
+//                        context.startActivity(intent);
+//                    }
+//                });
+//                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int i) {
+//                        Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+//                        intent.putExtra("user","No");
+//                        intent.putExtra("userId",userId.getText().toString());
+//                        intent.putExtra("doctorName",doctorName.getText().toString());
+//                        intent.putExtra("addressId",addressId.getText().toString());
+//                        intent.putExtra("doctorId",doctorId.getText().toString());
+//                        intent.putExtra("lat",lati);
+//                        intent.putExtra("long",longi);
+//                        intent.putExtra("mobile",doctorphonenum.getText().toString());
+//                        intent.putExtra("fee",fee.getText().toString());
+//                        context.startActivity(intent);
+//                    }
+//                });
+//                alert.setCancelable(false);
+//                alertDialog1 = alert.create();
+//                alertDialog1.setCanceledOnTouchOutside(false);
+//                alert.show();
             }
         });
 

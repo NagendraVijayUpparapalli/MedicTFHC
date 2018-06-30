@@ -77,6 +77,7 @@ import java.util.List;
 public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     TextView aadharnumber,mobilenumber,timeslot,patientname;
+    RippleView rippleView;
     Spinner spinner;
     ProgressDialog progressDialog;
 
@@ -84,7 +85,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     static String doctorMobile,doctorId,patientId,appointmentDate,AppointmentID,DoctorComment,Approved,Amount,Prescrition,Payment=null;
     int AppointmentID1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    public static String[] status = {"---Status---","Accept","Reschedule","Reject"};
+
+    List<String> statusList;
 
     String encodedLicenceImage;
     final int REQUEST_CODE_GALLERY1 = 999;
@@ -145,6 +147,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         mobilenumber=(TextView)findViewById(R.id.mobilenumber);
         timeslot=(TextView)findViewById(R.id.time_slot);
         patientname=(TextView)findViewById(R.id.Patient_name);
+        rippleView = (RippleView) findViewById(R.id.rippleView);
+
 
         myPatientname = getIntent().getStringExtra("patientname");
         aadhar = getIntent().getStringExtra("aadharnumber");
@@ -158,6 +162,199 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         appointmentDate = getIntent().getStringExtra("appointmentDate");
         patientId = Integer.toString(getIntent().getIntExtra("patientID",1));
 
+        statusList = new ArrayList<>();
+        statusList.add("Select Status");
+        statusList.add("Accept");
+        statusList.add("Reschedule");
+        statusList.add("Reject");
+
+        if(status1.equals("Pending"))
+        {
+            amount.setFocusable(true);
+            amount.setFocusableInTouchMode(true);
+            amount.setClickable(true);
+
+            comment.setFocusable(true);
+            comment.setFocusableInTouchMode(true);
+            comment.setClickable(true);
+
+            spinner.setFocusable(true);
+            spinner.setFocusableInTouchMode(true);
+            spinner.setClickable(true);
+
+
+            camaraicon.setFocusable(true);
+            camaraicon.setFocusableInTouchMode(true);
+            camaraicon.setClickable(true);
+
+            licenceicon.setFocusable(true);
+            licenceicon.setFocusableInTouchMode(true);
+            licenceicon.setClickable(true);
+
+            rippleView.setFocusable(true);
+            rippleView.setFocusableInTouchMode(true);
+            rippleView.setClickable(true);
+
+            netbanking.setFocusable(true);
+            netbanking.setFocusableInTouchMode(true);
+            netbanking.setClickable(true);
+
+            cashonhand.setFocusable(true);
+            cashonhand.setFocusableInTouchMode(true);
+            cashonhand.setClickable(true);
+            cashonhand.setChecked(true);
+
+            swipe_card.setFocusable(true);
+            swipe_card.setFocusableInTouchMode(true);
+            swipe_card.setClickable(true);
+
+            netbanking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(netbanking.isChecked())
+                    {
+                        Payment="Net Banking";
+                        cashonhand.setEnabled(false);
+                        swipe_card.setEnabled(false);
+                    }
+                    else
+                    {
+                        cashonhand.setEnabled(true);
+                        swipe_card.setEnabled(true);
+                    }
+
+                }
+            });
+
+            cashonhand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(cashonhand.isChecked())
+                    {
+                        Payment="Cash On Hand";
+                        swipe_card.setEnabled(false);
+                        netbanking.setEnabled(false);
+                    }
+                    else
+                    {
+                        swipe_card.setEnabled(true);
+                        netbanking.setEnabled(true);
+                    }
+                }
+            });
+
+
+            swipe_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(swipe_card.isChecked())
+                    {
+                        Payment="Credit/Debit Card";
+                        netbanking.setEnabled(false);
+                        cashonhand.setEnabled(false);
+                    }
+
+                    else
+                    {
+                        netbanking.setEnabled(true);
+                        cashonhand.setEnabled(true);
+                    }
+
+                }
+            });
+
+
+
+            rippleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    System.out.println("doctor comment..."+comment.getText().toString().trim());
+
+                    System.out.println("Amount..."+amount.getText().toString());
+
+                    System.out.println("status btn..."+spinner.getSelectedItem().toString());
+
+                    String json=formatDataAsJson();
+                    new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
+                }
+            });
+
+            licenceicon.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ActivityCompat.requestPermissions(
+                                    GetPatientDetailsTotalDataInDoctor.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    REQUEST_CODE_GALLERY1
+                            );
+
+                        }
+                    });
+
+            camaraicon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, MY_CAMERA_REQUEST_CODE);
+                    }
+                }
+            });
+
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_CAMERA_REQUEST_CODE);
+            }
+
+            DoctorComment = comment.getText().toString().trim();
+            Amount = amount.getText().toString();
+        }
+
+        else
+        {
+            amount.setFocusable(false);
+            amount.setFocusableInTouchMode(false);
+            amount.setClickable(false);
+
+            comment.setFocusable(false);
+            comment.setFocusableInTouchMode(false);
+            comment.setClickable(false);
+
+            spinner.setFocusable(false);
+            spinner.setFocusableInTouchMode(false);
+            spinner.setClickable(false);
+            spinner.setEnabled(false);
+
+
+            camaraicon.setFocusable(false);
+            camaraicon.setFocusableInTouchMode(false);
+            camaraicon.setClickable(false);
+
+            licenceicon.setFocusable(false);
+            licenceicon.setFocusableInTouchMode(false);
+            licenceicon.setClickable(false);
+
+            rippleView.setFocusable(false);
+            rippleView.setFocusableInTouchMode(false);
+            rippleView.setClickable(false);
+
+            netbanking.setFocusable(false);
+            netbanking.setFocusableInTouchMode(false);
+            netbanking.setClickable(false);
+
+            cashonhand.setFocusable(false);
+            cashonhand.setFocusableInTouchMode(false);
+            cashonhand.setClickable(false);
+
+            swipe_card.setFocusable(false);
+            swipe_card.setFocusableInTouchMode(false);
+            swipe_card.setClickable(false);
+        }
 
         System.out.println("mobile number"+mobilenum);
 
@@ -178,26 +375,41 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+doctorId);
 
-        statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, status);
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-        spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
+//        {"Select Status","Accept","Reschedule","Reject"};
+
+        if(status1.equals("Pending"))
+        {
+            statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
+        }
+        else if(status1.equals("Accept"))
+        {
+            statusList.add(0,"Accept");
+            statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
+        }
+        else if(status1.equals("Reschedule"))
+        {
+            statusList.add(0,"Reschedule");
+            statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
+        }
+        else if(status1.equals("Reject"))
+        {
+            statusList.add(0,"Reject");
+            statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
+        }
 
 
-        DoctorComment = comment.getText().toString().trim();
-        Amount = amount.getText().toString();
 
-        licenceicon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(
-                                GetPatientDetailsTotalDataInDoctor.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_CODE_GALLERY1
-                        );
 
-                    }
-                });
+
+
 
 //        paytm.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -211,72 +423,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 //            }
 //        });
 
-        netbanking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Payment="Net Banking";
-                cashonhand.setEnabled(false);
-                swipe_card.setEnabled(false);
-//                paytm.setEnabled(false);
-            }
-        });
-        cashonhand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Payment="Cash On Hand";
-                swipe_card.setEnabled(false);
-//                paytm.setEnabled(false);
-                netbanking.setEnabled(false);
-            }
-        });
-
-
-        swipe_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Payment="Credit/Debit Card";
-//                paytm.setEnabled(false);
-                netbanking.setEnabled(false);
-                cashonhand.setEnabled(false);
-
-            }
-        });
-
-        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
-
-        rippleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                System.out.println("doctor comment..."+comment.getText().toString().trim());
-
-                System.out.println("Amount..."+amount.getText().toString());
-
-                System.out.println("status btn..."+spinner.getSelectedItem().toString());
-
-                String json=formatDataAsJson();
-                new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
-            }
-        });
-
-        camaraicon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, MY_CAMERA_REQUEST_CODE);
-                }
-            }
-        });
-
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    MY_CAMERA_REQUEST_CODE);
-        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -757,6 +904,21 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     private class SendAppointmentDetailsToUpdate extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDoctor.this);
+            // Set progressdialog title
+//            mProgressDialog.setTitle("Image");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -823,6 +985,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+            progressDialog.dismiss();
 
             JSONObject js;
 

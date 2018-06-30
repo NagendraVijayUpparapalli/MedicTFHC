@@ -92,8 +92,10 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
-
     ProgressDialog progressDialog;
+
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
 
 
     @Override
@@ -246,7 +248,9 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         System.out.println("prescription..."+prescription);
 
-        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID"+addressId);
+        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+diagnosticId);
+
+        new GetDiagnosticCenterbyAdressByIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID"+addressId);
 
         speciality=getIntent().getStringArrayListExtra("testname");
 
@@ -296,6 +300,12 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -438,6 +448,76 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
             }
         });
+
+    }
+
+
+    //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
+    //get diagnostic details based on id from api call
+    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -744,8 +824,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
     }
 
-    //Get patient details  based on doctor id and appointment date
-    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+    //Get diagnostic center by AdressByIDDetails
+    private class GetDiagnosticCenterbyAdressByIDDetails extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {

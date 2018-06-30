@@ -10,10 +10,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,13 +42,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
-    String DiagAddressId,diagLat,diagLongi,diagCenterImage,diagMobile,userId,mobileNumber,appointmentId,Patientname, centername, testname, diagnoticstatus, diagnosticreport, paymentmode, amount, comment;
+    String DiagAddressId,diagLat,diagLongi,diagCenterImage,diagMobile,userId,mobileNumber,appointmentId,Patientname,
+            centername, testname, diagnoticstatus, diagnosticreport, paymentmode, amount, comment,appointmentdate;
 
-    TextView paname, centename, ttname, diastatus, paymode, amnt, cmment,cancel,reschedule,phonenumber,navigation;
+    TextView paname, centename, ttname, diastatus, paymode, amnt, cmment,cancel,reschedule,phonenumber,navigation,close;
     ImageView centerImage;
     ZoomageView diagreport;
 
@@ -82,7 +88,8 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
         reschedule = (TextView) findViewById(R.id.Reschedule);
 
         DiagAddressId = getIntent().getStringExtra("DiagAddressId");
-//        userId = getIntent().getStringExtra("userId");
+        userId = getIntent().getStringExtra("userId");
+        appointmentdate = getIntent().getStringExtra("appointmentdate");
         mobileNumber = getIntent().getStringExtra("mobile");
         appointmentId = getIntent().getStringExtra("appointmentId");
         Patientname = getIntent().getStringExtra("patientname");
@@ -96,7 +103,47 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
         new GetDiagnosticCenterbyAddressIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID?AddressID="+DiagAddressId);
 
-        System.out.println("user id my doc.."+getIntent().getStringExtra("userId")+"...."+getIntent().getStringExtra("mobile"));
+        System.out.println("user id my doc.."+userId+"...."+mobileNumber);
+
+        // get current date and time to disable cancel and reschedule links
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+
+        System.out.println("appoint date in my diag.."+appointmentdate+"....current date..."+formattedDate);
+
+        if(appointmentdate.equals(formattedDate))
+        {
+            cancel.setClickable(true);
+            reschedule.setClickable(true);
+            paymode.setClickable(true);
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    new sendAppointmentCancellationDetails().execute(baseUrl.getUrl()+"CancelDiagAppointment?AppointmentID="+appointmentId);
+
+                }
+            });
+
+            reschedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    new sendAppointmentRescheduleDetails().execute(baseUrl.getUrl()+"CancelDiagAppointment?AppointmentID="+appointmentId);
+
+                }
+            });
+        }
+        else
+        {
+            cancel.setClickable(false);
+            reschedule.setClickable(false);
+            paymode.setClickable(false);
+        }
 
         prescription.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +181,28 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             }
         });
 
+        close=(TextView)findViewById(R.id.close) ;
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(ViewPatientMyDiagnosticAppointments.this,PatientMyDiagnosticAppointments.class);
+                intent.putExtra("id",getIntent().getStringExtra("userId"));
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
+            }
+        });
+
+        final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        //  collapsingToolbarLayout.setTitle("My Toolbar");
+        collapsingToolbarLayout.setTitleEnabled(false);
+
 
         System.out.println("diagnosticreport....."+diagnosticreport);
 
@@ -163,23 +232,6 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             paymode.setVisibility(View.VISIBLE);
         }
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                new sendAppointmentCancellationDetails().execute(baseUrl.getUrl()+"CancelDiagAppointment?AppointmentID="+appointmentId);
-
-            }
-        });
-
-        reschedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                new sendAppointmentRescheduleDetails().execute(baseUrl.getUrl()+"CancelDiagAppointment?AppointmentID="+appointmentId);
-
-            }
-        });
 
         //phone call
         phonenumber.setOnClickListener(new View.OnClickListener() {

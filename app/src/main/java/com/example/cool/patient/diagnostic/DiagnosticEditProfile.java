@@ -139,6 +139,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
+
         System.out.print("diag id in profile....."+getUserId+"...mobile.."+mobile_number);
 
         new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
@@ -491,7 +492,6 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
 
     //get diagnostic details based on id from api call
-
     private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
 
         @Override
@@ -596,6 +596,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                 name.setText(newName+mySurname+" "+myName);
 
                 sidenavName.setText(myName+" "+mySurname);
+                sidenavMobile.setText(myMobile);
                 sidenavEmail.setText(myEmail);
             }
             else {
@@ -624,6 +625,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 //                    checkNewUser = "Yes";
                     name.setText(mySurname+" "+myName);
                     sidenavName.setText(myName+" "+mySurname);
+                    sidenavMobile.setText(myMobile);
                     sidenavEmail.setText(myEmail);
                 }
 
@@ -633,6 +635,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                     name.setText(newName + mySurname + " " + myName);
 
                     sidenavName.setText(myName+" "+mySurname);
+                    sidenavMobile.setText(myMobile);
                     sidenavEmail.setText(myEmail);
                 }
 
@@ -683,6 +686,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 //            surname.setText(mySurname);
 
             sidenavName.setText(myName+" "+mySurname);
+            sidenavMobile.setText(myMobile);
             sidenavEmail.setText(myEmail);
 
             mobileNumber.setText(myMobile);

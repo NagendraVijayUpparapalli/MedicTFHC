@@ -59,6 +59,9 @@ public class PatientMyDoctorAppointmentsHistoryAdapter extends RecyclerView.Adap
         holder.UserId.setText(my_data.get(position).getUserId());
         holder.mobileNumber.setText(my_data.get(position).getMobileNumber());
         holder.appointmentID.setText(my_data.get(position).getAppointmentID());
+        holder.appointmentdate.setText(my_data.get(position).getDate());
+
+        System.out.println("user app date in my doc.."+my_data.get(position).getAppointmentDate());
 
     }
 
@@ -70,7 +73,7 @@ public class PatientMyDoctorAppointmentsHistoryAdapter extends RecyclerView.Adap
     public  class ViewHolder extends  RecyclerView.ViewHolder{
 
         public TextView UserId,appointmentID,mobileNumber,PatientName,Timeslot,Status,doctorId,doctorcomments,
-                amount,modeofpayment,doctorname,reason,prescription;;
+                amount,modeofpayment,doctorname,reason,prescription, appointmentdate;
 
 
         public ViewHolder(final View itemView) {
@@ -90,8 +93,9 @@ public class PatientMyDoctorAppointmentsHistoryAdapter extends RecyclerView.Adap
             UserId =(TextView)itemView.findViewById(R.id.userId);
             appointmentID = (TextView)itemView.findViewById(R.id.appointmentId);
             mobileNumber = (TextView)itemView.findViewById(R.id.mobileNumber);
+            appointmentdate = (TextView)itemView.findViewById(R.id.appointmentdate);
 
-            System.out.println("user id my doc.."+UserId.getText().toString()+"...."+mobileNumber.getText().toString());
+            System.out.println("user id my doc.."+UserId.getText().toString()+"...."+mobileNumber.getText().toString()+"..app date.."+appointmentdate.getText().toString().trim());
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +107,7 @@ public class PatientMyDoctorAppointmentsHistoryAdapter extends RecyclerView.Adap
                     intent.putExtra("mobile",mobileNumber.getText().toString());
                     intent.putExtra("appointmentId",appointmentID.getText().toString());
                     intent.putExtra("doctorId",doctorId.getText().toString());
+                    intent.putExtra("appointmentdate",appointmentdate.getText().toString());
                     intent.putExtra("patientname",PatientName.getText().toString());
                     intent.putExtra("timeslot",Timeslot.getText().toString());
                     intent.putExtra("status",Status.getText().toString());

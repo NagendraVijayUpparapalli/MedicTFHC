@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="wrap_content"
     android:background="@drawable/toolbar_gradient"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -24,23 +24,24 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textColor="#1a237e"
+        android:textColor="#fff"
         android:textStyle="bold"
-        android:drawableLeft="@drawable/personicon"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/sidenavpersonicon"
         android:drawablePadding="5dp"
         android:text="xxxxxxxxxx"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/mobile"
-        android:textColor="#2C5E83"
+        android:textSize="15dp"
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:drawableLeft="@drawable/sidenavphoneicon"
         android:drawablePadding="5dp"
-        android:textSize="12sp"
         android:text=" xxxxxxxxxxx"/>
 
     <TextView
@@ -50,6 +51,8 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/sidenavemailicon"
         android:drawablePadding="5dp"
+        android:textSize="15dp"
+        android:textColor="#000"
         android:text="xxxxxxxxxxx@gmail.com" />
 
 </LinearLayout>

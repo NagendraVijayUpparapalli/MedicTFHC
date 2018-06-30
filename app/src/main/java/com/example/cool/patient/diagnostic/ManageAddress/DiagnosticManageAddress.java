@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
@@ -37,6 +38,7 @@ import com.example.cool.patient.diagnostic.TodaysAppointments.DiagnosticsTodaysA
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -60,7 +62,7 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
 
     //api url
     static String getUserId,regMobile;
-    static String uploadServerUrl = null,myProfileImage;
+
     ApiBaseUrl baseUrl;
 
     MultiAutoCompleteTextView reason_Todelete;
@@ -73,6 +75,9 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,12 +88,10 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
         regMobile = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
         System.out.print("doctorid in manage address....."+getUserId);
-//
-        uploadServerUrl = baseUrl.getUrl()+"DiagnosticGetAllAddress?ID="+getUserId;
-//
-//        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
-//
-        new GetDiagnosticsAllAddressDetails().execute(uploadServerUrl);
+
+        new GetDiagnosticsAllAddressDetails().execute(baseUrl.getUrl()+"DiagnosticGetAllAddress?ID="+getUserId);
+
+        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
 //
         myList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -129,6 +132,12 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -273,6 +282,75 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
             }
         });
 
+    }
+
+
+    //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
+    //get diagnostic details based on id from api call
+    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 

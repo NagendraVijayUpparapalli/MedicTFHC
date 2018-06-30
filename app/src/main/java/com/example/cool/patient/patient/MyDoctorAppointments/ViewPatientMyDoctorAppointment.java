@@ -9,16 +9,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -40,22 +43,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
 
     TextView navigation,doctorspeciality,appointmentdate, doctorname, Timeslot, patientname, status,
-            reason, amount, comment, payment, phonenumber,cancel,reschedule;
-    CheckBox cashonhand, paytm, netbanking, creditcard;
-    String date,appointmentId, appdate, dtname, tmslot, paname, statuss, reson, amnt, coment, prescript, paymentmde;
-    //    PatientAppointmentDetails patient;
+            reason, amount, comment, payment, phonenumber,cancel,reschedule,close;
+
     Bitmap mIcon11;
     Button prescription, paymode,backButton;
     ImageView imageView;
 
     ApiBaseUrl baseUrl;
 
-    String  userId,mobileNumber,myappointmentId,mydoctorID,mydoctorname, myappointmentdate, mypatientname, mytimeslot, mystatus, myreason, mycomment,
+    String  myAppointmentdate,appointmentId,userId,mobileNumber,myappointmentId,mydoctorID,mydoctorname, myappointmentdate, mypatientname, mytimeslot, mystatus, myreason, mycomment,
             myamount, myprescription, mypaymentmode;
 
     ProgressDialog mProgressDialog;
@@ -96,6 +100,29 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
 
         userId = getIntent().getStringExtra("userId");
         mobileNumber = getIntent().getStringExtra("mobile");
+
+        close=(TextView) findViewById(R.id.close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(ViewPatientMyDoctorAppointment.this,PatientMyDoctorAppointments.class);
+                intent.putExtra("id",getIntent().getStringExtra("userId"));
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
+            }
+        });
+
+        final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        //  collapsingToolbarLayout.setTitle("My Toolbar");
+        collapsingToolbarLayout.setTitleEnabled(false);
 
         System.out.println("user id my doc.."+getIntent().getStringExtra("userId")+"...."+getIntent().getStringExtra("mobile"));
 
@@ -146,6 +173,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         });
 
         myappointmentId = getIntent().getStringExtra("appointmentId");
+        myAppointmentdate = getIntent().getStringExtra("appointmentdate");
         mydoctorID = getIntent().getStringExtra("doctorId");
         mydoctorname = getIntent().getStringExtra("doctorname");
         mypatientname = getIntent().getStringExtra("patientname");
@@ -163,6 +191,58 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         System.out.println("mypayment...."+mypaymentmode+"..comments.."+mycomment);
 
         System.out.println("prescript url...."+myprescription);
+
+        // get current date and time to disable cancel and reschedule links
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("M/dd/yyyy");
+        String formattedDate = df.format(c);
+
+//        SimpleDateFormat df1 = new SimpleDateFormat("M/dd/yyyy");
+//        String formattedDate1 = df1.format(c);
+
+//        System.out.println("appoint date in my doc.."+myAppointmentdate+"....current date1..."+formattedDate1);
+
+        System.out.println("appoint date in my doc.."+myAppointmentdate+"....current date..."+formattedDate);
+
+        if(myAppointmentdate.equals(formattedDate))
+        {
+            cancel.setClickable(true);
+            reschedule.setClickable(true);
+            paymode.setClickable(true);
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // https://meditfhc.com/mapi/CancelAppointment?AppointmentID=1865
+
+                    Toast.makeText(getApplicationContext(),"You cancelling this appointment",Toast.LENGTH_SHORT).show();
+
+                new sendAppointmentCancellationDetails().execute(baseUrl.getUrl()+"CancelAppointment?AppointmentID="+appointmentId);
+
+                }
+            });
+
+            reschedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // https://meditfhc.com/mapi/CancelAppointment?AppointmentID=1865
+
+                new sendAppointmentRescheduleDetails().execute(baseUrl.getUrl()+"CancelAppointment?AppointmentID="+appointmentId);
+
+                }
+            });
+
+        }
+        else
+        {
+            cancel.setClickable(false);
+            reschedule.setClickable(false);
+            paymode.setClickable(false);
+        }
 
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+mydoctorID);
 
@@ -207,28 +287,6 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
                     zoomageView.setVisibility(View.VISIBLE);
                     new DownloadPrescription().execute(baseUrl.getImageUrl()+myprescription);
                 }
-
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // https://meditfhc.com/mapi/CancelAppointment?AppointmentID=1865
-
-                new sendAppointmentCancellationDetails().execute(baseUrl.getUrl()+"CancelAppointment?AppointmentID="+appointmentId);
-
-            }
-        });
-
-        reschedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // https://meditfhc.com/mapi/CancelAppointment?AppointmentID=1865
-
-                new sendAppointmentRescheduleDetails().execute(baseUrl.getUrl()+"CancelAppointment?AppointmentID="+appointmentId);
 
             }
         });

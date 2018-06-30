@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cool.patient.R;
+import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
@@ -66,7 +67,7 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
     String patientid;
     TextView count;
-    String url,d;
+    String d;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
@@ -86,10 +87,16 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+    ApiBaseUrl baseUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_patient_history_in_diagnostics);
+
+        baseUrl = new ApiBaseUrl();
 
         calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
@@ -116,10 +123,12 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
             }
         });
 
-        url="https://meditfhc.com/mapi/DiagPatientHistory";
-        new GetPatientDetails().execute(url+"?PatientID="+patientid);
 
-        System.out.println("diag id main his patient.."+getIntent().getStringExtra("diagId")+"...."+getIntent().getStringExtra("diagMobile"));
+        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+diagId);
+
+        new GetPatientDetails().execute(baseUrl.getUrl()+"DiagPatientHistory"+"?PatientID="+patientid);
+
+        System.out.println("diag id main his patient.."+diagId+"...."+diagMobile);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -152,6 +161,12 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -294,6 +309,77 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
 
             }
         });
+
+    }
+
+
+
+    //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
+    //get diagnostic details based on id from api call
+    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -465,7 +551,7 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
                     d = m+"/"+date.getDay()+"/"+date.getYear();
                     System.out.println("length.."+data_list.size());
 
-                    new GetPatientDetails().execute(url+"?PatientId="+patientid);
+                    new GetPatientDetails().execute(baseUrl.getUrl()+"DiagPatientHistory"+"?PatientId="+patientid);
 //
                     adapter=new DiagnosticsPatientHistoryAdapter(getApplicationContext(),data_list,d);
                     recyclerView.setLayoutManager(layoutManager);

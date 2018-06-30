@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="179dp"
+                android:layout_marginTop="139dp"
                 android:choiceMode="singleChoice"
                 android:divider="#000"
                 android:dividerHeight="0.2dp"

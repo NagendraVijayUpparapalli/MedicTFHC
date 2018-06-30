@@ -105,7 +105,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
     HashMap<String, List<String>> expandableListDetail;
 
     //sidenav fields
-    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +178,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
         sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -532,12 +533,14 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 String myEmail = (String) js.get("EmailID");
                 String myAddress1 = (String) js.get("Address1");
                 String myAddress2 = (String) js.get("Address2");
+                String myBlood_group = (String) js.get("BloodGroup");
 
 //                TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
 
                 sidenavName.setText(mySurname+" "+myName);
                 sidenavMobile.setText(myMobile);
                 sidenavEmail.setText(myEmail);
+                sidenavBloodgroup.setText(myBlood_group);
 
 
         }
@@ -641,7 +644,10 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 Comment=(String) js.get("Comment");
                 String arr[]=RequestDate.split(" ");
                 date=arr[0];
-                PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics=new PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,paymentmode,Amount,Comment,date);
+                PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+                        PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+                        AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+                        paymentmode,Amount,Comment,date);
 
                 //System.out.println("testname"+TestName);
                 if(date.equals(d))

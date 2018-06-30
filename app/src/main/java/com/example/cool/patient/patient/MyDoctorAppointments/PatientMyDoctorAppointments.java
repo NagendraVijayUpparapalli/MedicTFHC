@@ -124,7 +124,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
     HashMap<String, List<String>> expandableListDetail;
 
     //sidenav fields
-    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
+    TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +198,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
         sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
         sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -394,22 +395,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
     //Get patient list based on id from api call
     private class GetPatientDetails extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientMyDoctorAppointments.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading..");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
-
         @Override
         protected String doInBackground(String... params) {
 
@@ -450,7 +435,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
             getProfileDetails(result);
 
         }
@@ -468,12 +452,14 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             String myEmail = (String) js.get("EmailID");
             String myAddress1 = (String) js.get("Address1");
             String myAddress2 = (String) js.get("Address2");
+            String myBlood_group = (String) js.get("BloodGroup");
 
 //                TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile;
 
             sidenavName.setText(mySurname+" "+myName);
             sidenavMobile.setText(myMobile);
             sidenavEmail.setText(myEmail);
+            sidenavBloodgroup.setText(myBlood_group);
 
 
         }
@@ -665,7 +651,10 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                 String arr[]=AppointmentDate.split(" ");
                 date=arr[0];
 
-                PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails=new PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,DoctorComment,paymentmode,Amount,date);
+                PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails = new
+                        PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,
+                        AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,
+                        DoctorComment,paymentmode,Amount,date);
 
                 if(date.equals(d))
                 {

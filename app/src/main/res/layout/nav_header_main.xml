@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="178dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/toolbar_gradient"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -13,44 +13,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/noimage11" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textColor="#1a237e"
+        android:textColor="#fff"
         android:textStyle="bold"
-        android:drawableLeft="@drawable/personicon"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/sidenavpersonicon"
         android:drawablePadding="5dp"
         android:text="xxxxxxxxxx"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
 
 
     <TextView
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:visibility="gone"
         android:text="XXXXX"
+        android:textSize="15dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
     <LinearLayout
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:id="@+id/linlay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -66,13 +57,12 @@
 
                 <TextView
                     android:id="@+id/mobile"
-                    android:textColor="#2C5E83"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:drawableLeft="@drawable/sidenavphoneicon"
                     android:drawablePadding="5dp"
-                    android:textSize="12sp"
+                    android:textSize="15dp"
+                    android:textColor="#000"
                     android:text=" xxxxxxxxxxx"/>
 
             </LinearLayout>
@@ -99,7 +89,8 @@
                     android:drawableLeft="@drawable/bloodgroupicon"
                     android:drawablePadding="5dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13sp"
+                    android:textSize="15dp"
+                    android:textColor="#000"
                     android:text=" B+"/>
             </LinearLayout>
 
@@ -116,7 +107,9 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/sidenavemailicon"
         android:drawablePadding="5dp"
-        android:text="xxxxxxxxxxx@gmail.com" />
+        android:text="xxxxxxxxxxx@gmail.com"
+        android:textSize="15dp"
+        android:textColor="#000"/>
 
 
 </LinearLayout>

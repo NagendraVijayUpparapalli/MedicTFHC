@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +18,7 @@ import com.example.cool.patient.R;
 
 public class ViewPatientHistoryInDiagnosticsTodaysAppointments extends AppCompatActivity {
 
-    TextView centername,patientname,aadharnumber,mobilenumber,comments,testname;
+    TextView centername,patientname,aadharnumber,mobilenumber,comments,testname,close;
 //    Button button;
 
     String centname,patname,aadharnum,mobilenum,coments,tstname,patientid;
@@ -33,6 +35,7 @@ public class ViewPatientHistoryInDiagnosticsTodaysAppointments extends AppCompat
         mobilenumber=(TextView)findViewById(R.id.phonenum);
         comments=(TextView)findViewById(R.id.comments);
         testname=(TextView)findViewById(R.id.testname);
+        close=(TextView)findViewById(R.id.close);
 //        button = (Button)findViewById(R.id.okbutton);
 
 
@@ -49,6 +52,26 @@ public class ViewPatientHistoryInDiagnosticsTodaysAppointments extends AppCompat
         System.out.println("patient id in view history.."+patientid);
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(ViewPatientHistoryInDiagnosticsTodaysAppointments.this,MainPatientHistoryInDiagnostics.class);
+                intent.putExtra("patientid",patientid);
+                intent.putExtra("diagId",diagId);
+                intent.putExtra("diagMobile",diagMobile);
+                startActivity(intent);
+            }
+        });
+
+        final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        //  collapsingToolbarLayout.setTitle("My Toolbar");
+        collapsingToolbarLayout.setTitleEnabled(false);
 
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override

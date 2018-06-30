@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 
 public class ViewPatientHistoryInDoctor extends AppCompatActivity {
 
-    TextView Doctorname,speciality,patientname,aadharnumber,mobilenumber,appointmentdate,reason,doctorcomment;
+    TextView Doctorname,speciality,patientname,aadharnumber,mobilenumber,appointmentdate,reason,doctorcomment,close;
     ZoomageView zoomageView;
     Button prescription,ok;
     String date;
@@ -60,6 +62,8 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
 
         doctorImage = (ImageView) findViewById(R.id.doctor_image);
 
+        close=(TextView) findViewById(R.id.close);
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +75,28 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(ViewPatientHistoryInDoctor.this,PatientHistoryInDoctor.class);
+                intent.putExtra("patientId", getIntent().getStringExtra("patientId"));
+                intent.putExtra("doctorImageUrl",getIntent().getStringExtra("doctorImageUrl"));
+                intent.putExtra("doctorMobile",getIntent().getStringExtra("doctorMobile"));
+                intent.putExtra("id",getIntent().getStringExtra("id"));
+                startActivity(intent);
+            }
+        });
+
+
+        final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        //  collapsingToolbarLayout.setTitle("My Toolbar");
+        collapsingToolbarLayout.setTitleEnabled(false);
 
 //        prescription.setOnClickListener(new View.OnClickListener() {
 //            @Override

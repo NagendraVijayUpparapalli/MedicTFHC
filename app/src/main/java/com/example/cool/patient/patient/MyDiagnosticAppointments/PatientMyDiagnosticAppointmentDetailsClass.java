@@ -6,7 +6,8 @@ package com.example.cool.patient.patient.MyDiagnosticAppointments;
 
 class PatientMyDiagnosticAppointmentDetailsClass {
     String appointmentID,DiagAddressId;
-    String userId,mobileNumber,requestDate,patientName,centerName,testName,diagnosticsStatus,diagnosticReport,paymentmode,amount,comment,date;
+    String userId,mobileNumber,requestDate,patientName,centerName,testName,diagnosticsStatus,diagnosticReport,
+            paymentmode,amount,comment,date;
 
     public PatientMyDiagnosticAppointmentDetailsClass(String DiagAddressId,String userId,String mobileNumber,String appointmentID, String requestDate, String patientName, String centerName, String testName, String diagnosticsStatus, String diagnosticReport, String paymentmode, String amount, String comment, String date) {
 

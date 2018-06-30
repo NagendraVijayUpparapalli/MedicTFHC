@@ -31,10 +31,11 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content">-->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="30dp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -53,18 +54,18 @@
                         app:civ_border_color="@color/colorAccent"
                         app:civ_border_width="3dp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
 
-                    android:src="@drawable/noimage11"
-                    app:civ_border_color="@color/colorAccent"
-                    app:civ_border_width="3dp" />
+                        android:src="@drawable/noimage11"
+                        app:civ_border_color="@color/colorAccent"
+                        app:civ_border_width="3dp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -81,47 +82,53 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:text="Municpal apollo hosipaptal"
-                    android:textColor="#ff0000"
+                    android:textColor="#ff0004"
                     android:textSize="21dp"
                     android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/Address"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:textSize="17dp"
-                    android:textColor="#000"
-                    android:text="D.No:3-30/A, Balabbavari Thopu(Vill)"
-                    />
+
+                    >
+                    <TextView
+                        android:id="@+id/Address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:drawableLeft="@drawable/street_icons"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="8dp"
+                        android:layout_weight="1"
+                        android:textSize="17dp"
+
+                        android:text="D.No:3-30/A, Balabbavari Thopu(Vill)"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:weightSum="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
+                    android:layout_marginStart="45dp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
+                    >
 
                     <TextView
                         android:id="@+id/city"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Vishakapatanum "
-                        android:textColor="#000"
-                        android:textSize="17dp" />
 
-                    <!--<android.support.v4.widget.Space-->
-                    <!--android:layout_width="30dp"-->
-                    <!--android:layout_height="wrap_content" />-->
+                        android:textSize="17dp" />
                     <TextView
                         android:layout_width="13dp"
                         android:layout_height="wrap_content"
-
-                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:text="-"
+                        android:layout_weight="1"
                         android:textSize="20dp"/>
+
 
                     <TextView
                         android:id="@+id/pincode"
@@ -129,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:text="533003"
                         android:layout_weight="1"
-                        android:textColor="#000"
+
                         android:textSize="17dp"
                         />
                 </LinearLayout>
@@ -137,10 +144,11 @@
 
                 <LinearLayout
                     android:weightSum="1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginStart="45dp"
+
+                    >
 
                     <TextView
                         android:layout_weight="1"
@@ -148,7 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="East Godavari District"
-                        android:textColor="#000"
+
                         android:textSize="17dp"
 
                         />
@@ -157,10 +165,11 @@
 
                 <LinearLayout
                     android:weightSum="1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="45dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginTop="5dp">
+
+                    >
 
                     <TextView
                         android:layout_weight="1"
@@ -168,70 +177,64 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Andhra Pradesh"
-                        android:textColor="#000"
                         android:textSize="17dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:weightSum="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginTop="5dp">
+
+
+                    >
 
                     <TextView
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:id="@+id/contact_person_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Amudula"
-                        android:textColor="#2C5E83"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:textColor="#202bce"
                         android:textSize="17dp" />
 
-                    <!--<TextView-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:layout_width="13dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:text="-"-->
-                        <!--android:textSize="20dp"/>-->
 
-                    <!--<TextView-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:id="@+id/phone_number"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="9492862167"-->
-                        <!--android:textColor="#000"-->
-                        <!--android:textSize="17dp" />-->
 
                 </LinearLayout>
-            <LinearLayout
-                android:weightSum="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:layout_marginTop="5dp">
-                <TextView
-                android:layout_weight="1"
-                android:id="@+id/phone_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="9492862167"
-                android:textColor="#000"
-                android:textSize="17dp" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                    android:weightSum="2"
+                <LinearLayout
+                    android:weightSum="3"
                     android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginStart="140dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
+
+                    >
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/phone_number"
+                        android:drawablePadding="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/phone"
+                        android:text="9492862167"
+                        android:textSize="17dp" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -249,7 +252,7 @@
                         android:textColor="#000"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginEnd="10dp"
+
                         android:hint="comment for Reason"
                         android:paddingLeft="5dp"
                         android:background="@drawable/edittext_button"
@@ -263,20 +266,21 @@
                 <LinearLayout
                     android:weightSum="3"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_height="match_parent">
+
                     <Button
                         android:id="@+id/Edit"
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:stateListAnimator="@null"
-                        android:elevation="10dp"
+                        android:layout_weight="1"
                         android:background="#202bce"
+                        android:elevation="10dp"
+                        android:stateListAnimator="@null"
                         android:text="EDIT"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold" />
@@ -286,8 +290,8 @@
                         android:layout_width="3dp"
                         android:layout_height="wrap_content" />
                     <Button
-                        android:id="@+id/InActive"
                         android:layout_weight="1"
+                        android:id="@+id/InActive"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:elevation="10dp"

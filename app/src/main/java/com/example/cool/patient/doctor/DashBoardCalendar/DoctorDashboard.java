@@ -109,7 +109,7 @@ public class DoctorDashboard extends AppCompatActivity
 
     String  StatusID, Status, TotalCount;
     int Dstatus;
-    String  date2,geturl,todaydate;
+    String  date2=null,geturl,todaydate;
 
 
     ImageView imageView,profileImage;
@@ -240,12 +240,29 @@ public class DoctorDashboard extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
-                intent.putExtra("doctorId",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status","Pending");
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                System.out.println("date.."+date2+"...today date..."+todaydate);
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status","Pending");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
+                else
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status","Pending");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
+
             }
         });
 
@@ -253,12 +270,26 @@ public class DoctorDashboard extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
-                intent.putExtra("doctorId",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status","Accept");
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status","Accept");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status","Accept");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -266,12 +297,26 @@ public class DoctorDashboard extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
-                intent.putExtra("doctorId",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status","Reschedule");
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status","Reschedule");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status","Reschedule");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -279,12 +324,26 @@ public class DoctorDashboard extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
-                intent.putExtra("doctorId",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status","Reject");
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status","Reject");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DoctorDashboard.this,GetPatientDetailsListInDoctor.class);
+                    intent.putExtra("doctorId",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status","Reject");
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 

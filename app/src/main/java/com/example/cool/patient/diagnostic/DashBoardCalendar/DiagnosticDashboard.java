@@ -114,7 +114,11 @@ public class DiagnosticDashboard extends AppCompatActivity
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
     ApiBaseUrl baseUrl;
+
 
     private static long back_pressed;
 
@@ -159,6 +163,8 @@ public class DiagnosticDashboard extends AppCompatActivity
         getUserId = getIntent().getStringExtra("id");
         System.out.print("id in diagdashboard....."+getUserId);
 
+        new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
 
         current_city = (TextView) findViewById(R.id.select_city);
 
@@ -187,48 +193,104 @@ public class DiagnosticDashboard extends AppCompatActivity
         pendingCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status",0);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status",0);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status",0);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
         initiatedCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status",1);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status",1);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status",1);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
         progressCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status",2);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status",2);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status",2);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
         finishedCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("date",date2);
-                intent.putExtra("status",3);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                if(date2==null)
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",todaydate);
+                    intent.putExtra("status",3);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(DiagnosticDashboard.this,GetPatientDetailsListInDiagnostics.class);
+                    intent.putExtra("id",getUserId);
+                    intent.putExtra("date",date2);
+                    intent.putExtra("status",3);
+                    intent.putExtra("mobile",mobile_number);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -317,6 +379,12 @@ public class DiagnosticDashboard extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -463,6 +531,76 @@ public class DiagnosticDashboard extends AppCompatActivity
 
             }
         });
+
+    }
+
+    //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
+    //get diagnostic details based on id from api call
+    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavMobile.setText(myMobile);
+            sidenavEmail.setText(myEmail);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
