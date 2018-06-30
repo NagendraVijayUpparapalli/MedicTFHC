@@ -68,7 +68,6 @@
                     android:src="@drawable/no"
                     android:layout_gravity="center"
                     android:textColor="#f938a72f" />
-
             </LinearLayout>
 
         </RelativeLayout>

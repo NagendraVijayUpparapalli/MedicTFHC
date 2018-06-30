@@ -1,90 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/toolappbar"
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:background="@drawable/toolbar_gradient"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways" >
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/home"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:layout_marginEnd="10dp"-->
-
-                <!--app:srcCompat="@drawable/ic_home_black_24dp" />-->
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:openDrawer="start">
-
-<android.support.constraint.ConstraintLayout
+    tools:openDrawer="start"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:focusedByDefault="false"
-    android:keyboardNavigationCluster="true"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout android:id="@+id/relative"
+    <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:focusedByDefault="false"
         android:keyboardNavigationCluster="true"
-        android:orientation="vertical"
-        xmlns:tools="http://schemas.android.com/tools">
+        android:orientation="vertical">
 
-        <!--<android.support.design.widget.AppBarLayout-->
-            <!--android:id="@+id/appbarcool"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+        <RelativeLayout android:id="@+id/relative"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:focusedByDefault="false"
+            android:keyboardNavigationCluster="true"
+            android:orientation="vertical"
+            xmlns:tools="http://schemas.android.com/tools">
 
-            <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/toolbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@drawable/toolbar_gradient"-->
-                <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
-                <!--app:layout_scrollFlags="scroll|enterAlways" >-->
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/toolappbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-            <!--</android.support.v7.widget.Toolbar>-->
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/toolbar_gradient"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:layout_scrollFlags="scroll|enterAlways" >
 
-        <!--</android.support.design.widget.AppBarLayout>-->
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.AppBarLayout>
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -707,22 +671,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <!--<br.com.bloder.magic.view.MagicButton-->
-                <!--android:id="@+id/btn_addAddress"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--app:button_icon="@drawable/login_icon"-->
-                <!--app:button_icon_height="25dp"-->
-                <!--app:button_icon_width="23dp"-->
-                <!--app:expandable_area_color="#4796C2"-->
-                <!--app:hide_text="@string/submit"-->
-                <!--app:hide_text_color="@android:color/white"-->
-                <!--app:hide_text_size="8sp"-->
-                <!--app:icon_button_color="#df760e"-->
-                <!--app:magic_button_size="50dp" />-->
-
                 <com.andexert.library.RippleView
                     android:id="@+id/rippleView"
                     android:layout_width="wrap_content"
@@ -752,38 +700,29 @@
 </android.support.constraint.ConstraintLayout>
 
             <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true">
-
-            <!--<include-->
-                <!--layout="@layout/nav_header_doctor_dashboard" />-->
-
-
-            <ExpandableListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_below="@+id/nav_view"
-                android:id="@+id/expandableListView1"
-                android:layout_width="match_parent"
+                android:id="@+id/nav_view"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="199dp"
-                android:choiceMode="singleChoice"
-                android:divider="#000"
-                android:dividerHeight="0.2dp"
+                android:fitsSystemWindows="true">
 
-                android:groupIndicator="@null"
-                android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
-            </ExpandableListView>
-            <!--</RelativeLayout>-->
+                <ExpandableListView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_below="@+id/nav_view"
+                    android:id="@+id/expandableListView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="199dp"
+                    android:choiceMode="singleChoice"
+                    android:divider="#000"
+                    android:dividerHeight="0.2dp"
+                    android:groupIndicator="@null"
+                    android:alpha="255"
+                    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                    >
+                </ExpandableListView>
 
             </android.support.design.widget.NavigationView>
 
-
-
-    </android.support.v4.widget.DrawerLayout>
-    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -123,7 +123,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
                                 android:autoLink="phone"
-                                android:text="xxxxxxxx"
+                                android:text="-------"
                                 android:textColorLink="#fff"
                                 android:textColor="#fff"
                                 android:textSize="22sp" />
@@ -172,10 +172,11 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/mytoolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 app:layout_collapseMode="parallax">
 
             </android.support.v7.widget.Toolbar>

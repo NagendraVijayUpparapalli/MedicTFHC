@@ -23,7 +23,7 @@
                 android:id="@+id/Patient_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="xxxxxxxxx"
+                android:text="----------"
                 android:textAlignment="center"
                 android:textColor="#760061"
                 android:textSize="25dp"
