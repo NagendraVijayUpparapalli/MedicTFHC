@@ -60,6 +60,7 @@
                 android:orientation="vertical"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:layout_marginTop="40dp"
                 android:padding="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -330,29 +331,35 @@
                         android:textSize="16sp"
                         android:text="@string/google_location" />
 
+
                 </LinearLayout>
 
-                <!--<LinearLayout-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <!--<TextView-->
-                <!--android:id="@+id/textView"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:elevation="5dp"-->
-                <!--android:gravity="center"-->
-                <!--android:background="@drawable/edittext_button"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textColor="#00801F"-->
-                <!--android:textSize="16dp"-->
-                <!--android:text="Click Here for Google Map View" />-->
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="#ff0000"
+                        android:text="Note :"/>
 
-
-                <!--</LinearLayout>-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="#ff0000"
+                        android:text="If you know latitude,longitude please enter otherwise click below link to get latitude and longitude"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:weightSum="1"
@@ -553,7 +560,7 @@
                 android:textStyle="bold"
                 android:textColor="#2c5e83"
                 android:layout_marginBottom="5dp"
-                android:text="@string/booking_appointment_timing" />
+                android:text="@string/select_the_day_for_choose_timings" />
 
             <TextView
                 android:id="@+id/Note"
@@ -562,7 +569,6 @@
                 android:textAlignment="center"
                 android:textSize="16sp"
                 android:layout_weight="1"
-                android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:textColor="#ff0000"
                 android:text="@string/note_in_every_slot_of_30min_the_maximum_appointments_that_can_be_4" />
@@ -671,21 +677,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <!--<br.com.bloder.magic.view.MagicButton-->
-                <!--android:id="@+id/btn_addAddress"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--app:button_icon="@drawable/login_icon"-->
-                <!--app:button_icon_height="25dp"-->
-                <!--app:button_icon_width="23dp"-->
-                <!--app:expandable_area_color="#4796C2"-->
-                <!--app:hide_text="@string/submit"-->
-                <!--app:hide_text_color="@android:color/white"-->
-                <!--app:hide_text_size="8sp"-->
-                <!--app:icon_button_color="#df760e"-->
-                <!--app:magic_button_size="50dp" />-->
 
                 <com.andexert.library.RippleView
                     android:id="@+id/rippleView"
@@ -720,8 +711,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true">
-
-
 
             <ExpandableListView
                 xmlns:android="http://schemas.android.com/apk/res/android"

@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,6 +127,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
     HashMap<String, String> mySpecialitiesList = new HashMap<String, String>();
     ArrayAdapter<String > specialityAdapter;
     SearchableSpinner Speciality;
+    ImageView funnelIcon;
 
     String cur_addressId,mydoctorId,myaddressId,mydocName,myhospitalName,myaddress,mycity,mystate,myfee,mypaymentMode,myphone,myLati,myLongi,myImage;
 
@@ -199,6 +201,40 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         }
 
 
+        funnelIcon = (ImageView) findViewById(R.id.funnelIcon);
+
+        funnelIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        String js = specialityBasedFormatDataAsJson();
+                        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                        myList = new ArrayList<DoctorClass>();
+
+                        adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
+                        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
+
+                        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                        recyclerView.setHasFixedSize(true);
+
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
@@ -208,32 +244,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         rangeBar();
 
 
-        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = specialityBasedFormatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-
-                adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         //home button
         homebutton = (FloatingActionButton) findViewById(R.id.home);

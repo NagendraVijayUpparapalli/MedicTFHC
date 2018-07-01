@@ -803,6 +803,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         else
         {
             String js = formatDataAsJson();
+
+            System.out.println("my diag update from maps json..."+ js.toString());
             new sendDiagnosticsUpdateAdressDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAddress",js.toString());
         }
     }
@@ -1332,6 +1334,21 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
     public class GetPreviousSpecialityBasedonAddressID extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticUpdateAddressFromMaps.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -1371,6 +1388,7 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
             super.onPostExecute(result);
 
             Log.e("TAG result prev spec", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getPreviousSpeciality(result);
 
         }

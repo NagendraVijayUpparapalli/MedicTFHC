@@ -172,7 +172,6 @@
             android:id="@+id/aadharNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout3"
             android:layout_marginStart="210dp"
             android:textAlignment="center"
             android:textColor="#0c13e4"

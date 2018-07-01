@@ -113,9 +113,7 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
 
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+doctorId);
 
-        new GetPatientDetails().execute(baseUrl.getUrl()+"DocPatientHistory"+"?PatientID="+patientId);
-
-
+        new GetPatientHistoryDetails().execute(baseUrl.getUrl()+"DocPatientHistory"+"?PatientID="+patientId);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -504,8 +502,7 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
         return false;
     }
 
-    private class GetPatientDetails extends AsyncTask<String, Void, String> {
-
+    private class GetPatientHistoryDetails extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -513,7 +510,7 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
             // Create a progressdialog
             progressDialog = new ProgressDialog(PatientHistoryInDoctor.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

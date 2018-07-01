@@ -1317,6 +1317,21 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
     public class GetPreviousSpecialityBasedonAddressID extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticsUpdateAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -1355,7 +1370,8 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            Log.e("TAG result prev timings", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            Log.e("TAG result prev spec", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getPreviousSpeciality(result);
 
         }
@@ -1364,18 +1380,24 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
     private void getPreviousSpeciality(String result) {
         try
         {
-            JSONArray jsonArr = new JSONArray(result);
-            prevSpecialityItemsList = new ArrayList<>();
+            JSONObject js = new JSONObject(result);
 
 
-            for (int i = 0; i < jsonArr.length(); i++) {
+            if(js.has("SpecialityLst"))
+            {
+                JSONArray jsonArr = new JSONArray(js.getString("SpecialityLst"));
 
-                org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
+                prevSpecialityItemsList = new ArrayList<>();
 
-                Long dayNameId = jsonObj.getLong("DayName");
-                if(dayNameId==0)
-                {
-                    prevSpecialityItemsList.add(jsonObj.getString("TimeSlots"));
+                System.out.println("inside try");
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+
+                    System.out.println("inside for");
+
+                    org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
+
+                    prevSpecialityItemsList.add(jsonObj.getString("Speciality"));
 
                     String[] stockArr = new String[prevSpecialityItemsList.size()];
 
@@ -1383,8 +1405,10 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
                     checkPrevSpecialityItems = new boolean[allPrevSpecialityItems.length];
 
-
                 }
+            }
+            else
+            {
 
             }
 

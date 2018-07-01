@@ -117,7 +117,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                     public void onClick(View v) {
                         Intent intent = new Intent(context,GetCurrentDoctorsList.class);
                         intent.putExtra("userId",userId.getText().toString());
-                        intent.putExtra("mobile",doctorphonenum.getText().toString());// patient mobile
+                        intent.putExtra("mobile",doctorphonenum.getText().toString());// change to patient mobile
                         context.startActivity(intent);
                     }
                 });

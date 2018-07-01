@@ -19,40 +19,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Amudula prabaharakar Raju Udaya sri"
-            android:textAlignment="center"
-            android:textStyle="bold"
+            android:textColor="#000"
             android:layout_marginTop="5dp"
-            android:textColor="#000080"
-            android:transitionName="patient_name_transtion"
-            android:textSize="17dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             tools:ignore="Orientation">
             <TextView
                 android:id="@+id/phonenumber"
                 android:layout_width="wrap_content"
-                android:paddingLeft="100dp"
-                android:textColor="#02a486"
-                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/phone"
-                android:text="8341495888"
-                android:textSize="15dp"/>
-            <android.support.v4.widget.Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
-            <!--<TextView-->
-            <!--android:id="@+id/testname"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:paddingLeft="3dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="abc"-->
-            <!--android:textColor="#03a654"-->
-            <!--android:drawableLeft="@drawable/ic_note_add_black_24dp"-->
-            <!--android:textSize="15dp"/>-->
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:drawablePadding="10dp"
+                android:textColor="#000"
+                android:text="83414958888"/>
+
+
 
         </LinearLayout>
 
@@ -67,7 +57,7 @@
 
     <TextView
         android:id="@+id/t"
-        android:layout_marginStart="310dp"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"

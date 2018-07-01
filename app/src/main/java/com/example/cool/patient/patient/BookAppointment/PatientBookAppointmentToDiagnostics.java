@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
@@ -120,6 +122,8 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
     ArrayAdapter<String > stateAdapter,cityAdapter;
     HashMap<Long, String> myCitiesList = new HashMap<Long, String>();
     HashMap<Long, String> myStatesList = new HashMap<Long, String>();
+
+    RippleView rippleView,rippleView1;
 
 
     String mydiagaddress, mydiagcity,mydiagmobile, mydiagStateName,mydiagLongitude,mydiagLatitude,
@@ -243,9 +247,10 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         imagelayout=(RelativeLayout)findViewById(R.id.uploadlayout);
         mainlayout=(RelativeLayout) findViewById(R.id.rellay1);
         addresslayout=(RelativeLayout)findViewById(R.id.addresslayout);
-        button=(Button)findViewById(R.id.submit);
-        submit=(Button) findViewById(R.id.submit1);
-
+        // button=(Button)findViewById(R.id.submit);
+        rippleView=(RippleView) findViewById(R.id.rippleView);
+        // submit=(Button) findViewById(R.id.submit1);
+        rippleView1=(RippleView) findViewById(R.id.rippleView1);
         contactPerson = (EditText) findViewById(R.id.contact_person);
         mobileNumber = (EditText) findViewById(R.id.mobilenumber);
         emailId = (EditText) findViewById(R.id.email);
@@ -257,10 +262,19 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
         new GetDiagnosticsAllAddressDetails().execute(baseUrl.getUrl()+"DiagnosticGetAllAddress?ID="+mydiagnosticId);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showpopup();
+                if(prescription.getDrawable()==null)
+                {
+
+                    shoalertdialog();
+
+                }
+                else {
+                    showpopup();
+                }
+
             }
         });
 
@@ -330,6 +344,17 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         });
     }
 
+    private void shoalertdialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDiagnostics.this);
+        builder.setTitle("you have to upload prescription");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+    }
 
 
     //get diagnostic details based on id from api call
@@ -402,27 +427,27 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         {
             JSONObject js = new JSONObject(result);
 
-                mycash_on_hand     =  (boolean) js.get("CashOnHand");
-                mydebit_card       =  (boolean) js.get("CreditDebit");
-                mynet_banking      =  (boolean) js.get("Netbanking");
-                mypay_paytm         =   (boolean) js.get("Paytm");
+            mycash_on_hand     =  (boolean) js.get("CashOnHand");
+            mydebit_card       =  (boolean) js.get("CreditDebit");
+            mynet_banking      =  (boolean) js.get("Netbanking");
+            mypay_paytm         =   (boolean) js.get("Paytm");
 
-                if(mycash_on_hand == true && mydebit_card == true || mynet_banking ==true ||  mypay_paytm == true)
-                {
-                    myPayment = "Cash on Hand "+","+"Online Banking";
-                }
+            if(mycash_on_hand == true && mydebit_card == true || mynet_banking ==true ||  mypay_paytm == true)
+            {
+                myPayment = "Cash on Hand "+","+"Online Banking";
+            }
 
-                else if(mycash_on_hand == true)
-                {
-                    myPayment = "Cash on Hand ";
-                }
+            else if(mycash_on_hand == true)
+            {
+                myPayment = "Cash on Hand ";
+            }
 
-                else
-                {
-                    myPayment = "-";
-                }
+            else
+            {
+                myPayment = "-";
+            }
 
-                PaymentMode.setText(myPayment);
+            PaymentMode.setText(myPayment);
 
         }
         catch (JSONException e)
@@ -948,18 +973,86 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
         }
 
-
-
-        submit.setOnClickListener(new View.OnClickListener() {
+        rippleView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acknowledgepopup();
+                validation();
                 MyDialog.cancel();
             }
         });
 
     }
+    public void validation()
+    {
+        intialization();
+        if(!validate())
+        {
+            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            acknowledgepopup();
+        }
+    }
 
+    public void intialization()
+    {
+        myContactPerson = contactPerson.getText().toString();
+        mymobileNumber = mobileNumber.getText().toString();
+        myaddress1 = address.getText().toString();
+        mystateName = state.getSelectedItem().toString();
+        mycityName = city.getSelectedItem().toString();
+        mypincode = pincode.getText().toString();
+        myAadhaarNumber = aadhaarNumber.getText().toString();
+
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+        if(mymobileNumber.isEmpty() || !Patterns.PHONE.matcher(mymobileNumber).matches())
+        {
+            mobileNumber.setError("please enter the mobile number");
+            validate=false;
+        }
+
+        else if(mymobileNumber.length()<10 || mymobileNumber.length()>10)
+        {
+            mobileNumber.setError(" Invalid mobile number ");
+            validate=false;
+        }
+
+        if(myContactPerson.isEmpty())
+        {
+            contactPerson.setError("please enter contact person");
+            validate=false;
+        }
+
+        if(myaddress1.isEmpty())
+        {
+            address.setError("please enter address");
+            validate=false;
+        }
+        if(mypincode.isEmpty())
+        {
+            pincode.setError("please enter pincode");
+            validate=false;
+        }
+//        if(mystateName.isEmpty())
+//        {
+//            state.setError("please enter aadhaar number");
+//            validate=false;
+//        }
+
+
+//        if(mycityName.isEmpty())
+//        {
+//            city.setError("please enter reason");
+//            validate=false;
+//        }
+        return validate;
+    }
     private void acknowledgepopup() {
 
         acknowledgedialog = new Dialog(PatientBookAppointmentToDiagnostics.this);
@@ -1090,24 +1183,24 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
                 System.out.println("map values..."+map);
 
-                    String a[] = new String[getSelectedSpecialityItemsList.size()];
+                String a[] = new String[getSelectedSpecialityItemsList.size()];
 
                 System.out.println("length.... "+a.length);
 
-                    //Loop index size()
+                //Loop index size()
 
-                    for(int index = 0; index < a.length; index++) {
+                for(int index = 0; index < a.length; index++) {
 
-                        String lis = values.get(i);
-                        a = lis.split(",");
-                        List mylist = new ArrayList<>();
-                        mylist.addAll(Arrays.asList(a));
+                    String lis = values.get(i);
+                    a = lis.split(",");
+                    List mylist = new ArrayList<>();
+                    mylist.addAll(Arrays.asList(a));
 
-                        String specKey = (String) getSpecialityKeyFromValue(AllDiagSpecialityList,mylist.get(index));
+                    String specKey = (String) getSpecialityKeyFromValue(AllDiagSpecialityList,mylist.get(index));
 
-                        System.out.println("spec key idss.... "+specKey);
+                    System.out.println("spec key idss.... "+specKey);
 
-                        stringBuilder.append(specKey+",");
+                    stringBuilder.append(specKey+",");
 
                 }
                 System.out.println("spec idss.for.. "+stringBuilder.toString());
@@ -1115,26 +1208,26 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
             System.out.println("spec idss. outside map.. "+stringBuilder.toString());
 
-                data.put("Comments",comments.getText().toString().trim());
-                data.put("PatientID",mypatientId);
-                data.put("EmailID", emailId.getText().toString());
-                data.put("AddressID",myaddressId);
-                data.put("HomeSample",myHomeSample);
-                data.put("ContactPerson",contactPerson.getText().toString());
-                data.put("MobileNo", mymobileNumber);
-                data.put("Address1",new String(myaddress1));
+            data.put("Comments",comments.getText().toString().trim());
+            data.put("PatientID",mypatientId);
+            data.put("EmailID", emailId.getText().toString());
+            data.put("AddressID",myaddressId);
+            data.put("HomeSample",myHomeSample);
+            data.put("ContactPerson",contactPerson.getText().toString());
+            data.put("MobileNo", mymobileNumber);
+            data.put("Address1",new String(myaddress1));
 
-                data.put("CityID",getCityKeyFromValue(myCitiesList,mycityName));
-                data.put("StateID",getStateKeyFromValue(myStatesList,mystateName));
-                data.put("PinCode",pincode.getText().toString());
-                data.put("PatientSameUser", myPatientSameUser);
-                data.put("EnableHistory",myEnableHistory);
-                data.put("AppointmentDatestring", myAppointmentDate);
-                data.put("Aadharnumber", aadhaarNumber.getText().toString());
-                data.put("Prescription",encodedPrescriptionImage);
-                data.put("TestID", stringBuilder.toString());
+            data.put("CityID",getCityKeyFromValue(myCitiesList,mycityName));
+            data.put("StateID",getStateKeyFromValue(myStatesList,mystateName));
+            data.put("PinCode",pincode.getText().toString());
+            data.put("PatientSameUser", myPatientSameUser);
+            data.put("EnableHistory",myEnableHistory);
+            data.put("AppointmentDatestring", myAppointmentDate);
+            data.put("Aadharnumber", aadhaarNumber.getText().toString());
+            data.put("Prescription",encodedPrescriptionImage);
+            data.put("TestID", stringBuilder.toString());
 
-                return data.toString();
+            return data.toString();
 
         }
         catch (Exception e)
@@ -1386,16 +1479,16 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
             myContactPerson = "Sudarsana Rao";
 
-                mymobileNumber = (String) js.get("MobileNumber");
-                myemailId = (String) js.get("EmailID");
-                myaddress1 = (String) js.get("Address1")+","+(String) js.get("Address2");
-                myAadhaarNumber = (String) js.get("AadharNumber");
+            mymobileNumber = (String) js.get("MobileNumber");
+            myemailId = (String) js.get("EmailID");
+            myaddress1 = (String) js.get("Address1")+","+(String) js.get("Address2");
+            myAadhaarNumber = (String) js.get("AadharNumber");
 
-                mystateId = js.getLong("State");
-                mycityId = js.getLong("City");
-                mypincode = (String) js.get("ZipCode");
+            mystateId = js.getLong("State");
+            mycityId = js.getLong("City");
+            mypincode = (String) js.get("ZipCode");
 
-                System.out.println("city key.."+mycityId);
+            System.out.println("city key.."+mycityId);
             System.out.println("state key.."+mystateId);
 
         }

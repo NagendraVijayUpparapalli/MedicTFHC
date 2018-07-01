@@ -1583,7 +1583,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         intialization();
         if(!validate())
         {
-            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
         }
         else
         {

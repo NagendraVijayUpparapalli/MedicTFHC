@@ -140,7 +140,19 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMessage();
+                if(comments==null || !encodedPrescriptionImage.equals("null"))
+                {
+                    showMessage();
+                }
+                else if(comments!=null || encodedPrescriptionImage.equals("null"))
+                {
+                    showMessage();
+                }
+                else
+                {
+                    showOptionMessage();
+                }
+
             }
         });
 
@@ -203,6 +215,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
         age.setText(patientage);
         name.setText(patientname);
+        name.setEnabled(false);
         reason.setText(appointmentreason);
 
         viewhistory.setOnClickListener(new View.OnClickListener() {
@@ -217,18 +230,6 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                 startActivity(i);
             }
         });
-
-//        refer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (refer.isChecked())
-//                {
-//                    relativeLayout.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -638,6 +639,31 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     }
 
+
+
+    public void showOptionMessage(){
+
+        final AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage("Please fill comments or prescription, otherwise fill both")
+                .setCancelable(false)
+                .setNegativeButton("Yes",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        a_builder.setCancelable(true);
+                    }
+                })
+                .setPositiveButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        a_builder.setCancelable(true);
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Optional functionality");
+        alert.show();
+
+    }
 
 
     // alert to show suucessfull

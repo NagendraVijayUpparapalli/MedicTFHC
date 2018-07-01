@@ -275,6 +275,12 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             paymode.setVisibility(View.INVISIBLE);
         }
 
+        if(mystatus.equals("Reschedule"))
+        {
+            paymode.setBackgroundColor(getResources().getColor(R.color.reschedule));
+            paymode.setVisibility(View.INVISIBLE);
+        }
+
         prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -394,8 +400,6 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             super.onPreExecute();
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
-            // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
 

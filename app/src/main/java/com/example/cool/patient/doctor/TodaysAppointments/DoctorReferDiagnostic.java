@@ -6,19 +6,39 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorEditProfile;
+import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
+import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
+import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
@@ -40,7 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DoctorReferDiagnostic extends AppCompatActivity {
+public class DoctorReferDiagnostic extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context context;
     private ReferDiagRecyclerViewAdapter adapter;
@@ -66,6 +86,19 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
 
     String referStatus;
 
+    // expandable list view
+
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<String>> expandableListDetail;
+
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+    ImageView sidenavDoctorImage;
+
+    String doctorId,doctorMobile;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_refer_diagnostic);
@@ -75,6 +108,9 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
         appointmentId = getIntent().getStringExtra("aid");
 
         referStatus = getIntent().getStringExtra("refer");
+
+        doctorMobile = getIntent().getStringExtra("mobile");
+        doctorId = getIntent().getStringExtra("id");
 
         if(referStatus.equals("Yes"))
         {
@@ -90,22 +126,234 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
         }
 
         selectButton = (Button) findViewById(R.id.select_button);
+
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Check the current text of Select Button
+                if (selectButton.getText().toString().equals(getResources().getString(R.string.select_all))) {
+
+                    //If Text is Select All then loop to all array List items and check all of them
+                    for (int i = 0; i < arrayList.size(); i++)
+                        adapter.checkCheckBox(i, true);
+
+                    //After checking all items change button text
+                    selectButton.setText(getResources().getString(R.string.deselect_all));
+                } else {
+                    //If button text is Deselect All remove check from all items
+                    adapter.removeSelection();
+
+                    //After checking all items change button text
+                    selectButton.setText(getResources().getString(R.string.select_all));
+                }
+            }
+        });
+
 //        populateRecyclerView();
         onClickEvent();
 
-
-
         spinner = (SearchableSpinner) findViewById(R.id.spinner);
 
-        // Initializing a String Array
-        String[] plants = new String[]{
-                "Black birch",
-                "Bolean birch",
-                "Canoe birch",
-                "Cherry birch",
-                "European weeping birch"
-        };
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
+        toolbar.setTitle("Refer Diagnostic");
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
+        expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new DoctorSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                boolean retVal = true;
+
+                if (groupPosition == DoctorSideNavigationExpandableListAdapter.Services) {
+                    retVal = false;
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.Address) {
+                    retVal = false;
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM3) {
+                    retVal = false;
+
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM4) {
+                    // call some activity here
+                    Intent contact = new Intent(DoctorReferDiagnostic.this,DoctorEditProfile.class);
+                    contact.putExtra("id",doctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
+                    // call some activity here
+                    Intent i = new Intent(DoctorReferDiagnostic.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",doctorId);
+                    i.putExtra("module","doc");
+                    startActivity(i);
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
+                    // call some activity here
+                    Intent contact = new Intent(DoctorReferDiagnostic.this,AboutUs.class);
+                    startActivity(contact);
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(DoctorReferDiagnostic.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM8) {
+                    // call some activity here
+                    Intent contact = new Intent(DoctorReferDiagnostic.this,Login.class);
+                    startActivity(contact);
+
+                }
+
+                return retVal;
+            }
+        });
+
+//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
+//
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//                boolean retVal = true;
+//
+//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
+//                    retVal = false;
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
+//
+//                    // call some activity here
+//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
+//                    // call some activity here
+//
+//                }
+//                return retVal;
+//            }
+//        });
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        expandableListTitle.get(groupPosition)
+//                                + " -> "
+//                                + expandableListDetail.get(
+//                                expandableListTitle.get(groupPosition)).get(
+//                                childPosition), Toast.LENGTH_SHORT
+//                ).show();
+                if (groupPosition == DoctorSideNavigationExpandableListAdapter.Services) {
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                        Intent i = new Intent(DoctorReferDiagnostic.this,DoctorDashboard.class);
+                        i.putExtra("id",doctorId);
+                        i.putExtra("mobile",doctorMobile);
+                        startActivity(i);
+
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_2) {
+
+                        // call activity here
+
+                        Intent i = new Intent(DoctorReferDiagnostic.this,DoctorTodaysAppointmentsForPatient.class);
+                        i.putExtra("id",doctorId);
+                        i.putExtra("mobile",doctorMobile);
+                        startActivity(i);
+
+                    }
+//                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM1_3) {
+//
+//                        // call activity here
+//
+//                    }
+
+
+                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM3) {
+
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                        // call activity here
+
+                        Intent about = new Intent(DoctorReferDiagnostic.this,ChangePassword.class);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                        // call activity here
+
+                    }
+
+                } else if(groupPosition == DoctorSideNavigationExpandableListAdapter.Address) {
+                    if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+
+                        Intent about = new Intent(DoctorReferDiagnostic.this,DoctorAddAddress.class);
+                        about.putExtra("id",doctorId);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+                    else if (childPosition == DoctorSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                        Intent about = new Intent(DoctorReferDiagnostic.this,DoctorManageAddress.class);
+                        about.putExtra("id",doctorId);
+                        about.putExtra("mobile",doctorMobile);
+                        startActivity(about);
+
+                    }
+
+                }
+                return true;
+
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
 
@@ -405,27 +653,27 @@ public class DoctorReferDiagnostic extends AppCompatActivity {
 //        });
 
 
-        selectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Check the current text of Select Button
-                if (selectButton.getText().toString().equals(getResources().getString(R.string.select_all))) {
-
-                    //If Text is Select All then loop to all array List items and check all of them
-                    for (int i = 0; i < arrayList.size(); i++)
-                        adapter.checkCheckBox(i, true);
-
-                    //After checking all items change button text
-                    selectButton.setText(getResources().getString(R.string.deselect_all));
-                } else {
-                    //If button text is Deselect All remove check from all items
-                    adapter.removeSelection();
-
-                    //After checking all items change button text
-                    selectButton.setText(getResources().getString(R.string.select_all));
-                }
-            }
-        });
+//        selectButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //Check the current text of Select Button
+//                if (selectButton.getText().toString().equals(getResources().getString(R.string.select_all))) {
+//
+//                    //If Text is Select All then loop to all array List items and check all of them
+//                    for (int i = 0; i < arrayList.size(); i++)
+//                        adapter.checkCheckBox(i, true);
+//
+//                    //After checking all items change button text
+//                    selectButton.setText(getResources().getString(R.string.deselect_all));
+//                } else {
+//                    //If button text is Deselect All remove check from all items
+//                    adapter.removeSelection();
+//
+//                    //After checking all items change button text
+//                    selectButton.setText(getResources().getString(R.string.select_all));
+//                }
+//            }
+//        });
     }
 
 

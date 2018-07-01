@@ -20,11 +20,10 @@
         android:layout_height="wrap_content"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginTop="15dp"
-        android:drawableLeft="@drawable/sidenavpersonicon"
-        android:drawablePadding="5dp"
-        android:text="xxxxxxxxxx"
+        android:text="Amudala Prabhakar Raju Udayasri"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
@@ -33,8 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:text="XXXXX"
-        android:textSize="15dp"
+        android:text="-------"
+        android:textSize="15sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <LinearLayout
@@ -61,9 +60,9 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/sidenavphoneicon"
                     android:drawablePadding="5dp"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000"
-                    android:text=" xxxxxxxxxxx"/>
+                    android:text=" ----------------"/>
 
             </LinearLayout>
 
@@ -89,9 +88,9 @@
                     android:drawableLeft="@drawable/bloodgroupicon"
                     android:drawablePadding="5dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000"
-                    android:text=" B+"/>
+                    android:text="---"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -107,8 +106,8 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/sidenavemailicon"
         android:drawablePadding="5dp"
-        android:text="xxxxxxxxxxx@gmail.com"
-        android:textSize="15dp"
+        android:text="---------------"
+        android:textSize="15sp"
         android:textColor="#000"/>
 
 
