@@ -42,7 +42,7 @@ public class PatientSideNavigationExpandableSubList {
         expandableListDetail.put("Settings", company);
         expandableListDetail.put("Edit Profile", EditProfile);
 
-        expandableListDetail.put("About us", Aboutus);
+        expandableListDetail.put("Offers", Aboutus);
         expandableListDetail.put("Contact us",Contactus);
         expandableListDetail.put("Logout", menu4);
         return expandableListDetail;

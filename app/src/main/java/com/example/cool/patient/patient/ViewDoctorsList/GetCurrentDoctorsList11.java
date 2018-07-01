@@ -855,7 +855,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 String firstName = object.getString("FirstName");
                 String lastName = object.getString("LastName");
 
-                String Name = "Dr. "+firstName+" "+lastName;
+                String Name = firstName+" "+lastName;
 
                 String qualification = object.getString("Qualification");
                 String specialityName = object.getString("SpecialityName");

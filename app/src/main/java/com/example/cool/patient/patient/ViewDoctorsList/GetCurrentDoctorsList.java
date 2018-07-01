@@ -201,39 +201,39 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         }
 
 
-        funnelIcon = (ImageView) findViewById(R.id.funnelIcon);
-
-        funnelIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                        String js = specialityBasedFormatDataAsJson();
-                        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-                        myList = new ArrayList<DoctorClass>();
-
-                        adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
-                        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
-
-                        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                        recyclerView.setHasFixedSize(true);
-
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-            }
-        });
+//        funnelIcon = (ImageView) findViewById(R.id.funnelIcon);
+//
+//        funnelIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                        String js = specialityBasedFormatDataAsJson();
+//                        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//                        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                        myList = new ArrayList<DoctorClass>();
+//
+//                        adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
+//                        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
+//
+//                        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                        recyclerView.setHasFixedSize(true);
+//
+//                        recyclerView.setLayoutManager(layoutManager);
+//                        recyclerView.setAdapter(adapter);
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                    }
+//                });
+//            }
+//        });
 
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
@@ -242,6 +242,33 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         seek_bar.setProgress(dis);
 
         rangeBar();
+
+        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String js = specialityBasedFormatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+
+                adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
 
@@ -1032,7 +1059,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 String firstName = object.getString("FirstName");
                 String lastName = object.getString("LastName");
 
-                String Name = "Dr. "+firstName+" "+lastName;
+                String Name = firstName+" "+lastName;
 
                 String qualification = object.getString("Qualification");
                 String specialityName = object.getString("SpecialityName");

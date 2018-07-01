@@ -96,11 +96,7 @@
                             android:foreground="#1C00ffff"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
                             app:cardCornerRadius="4dp"
-
-
                             app:cardBackgroundColor="@android:color/transparent"
                             app:cardElevation="10dp">
 
@@ -118,7 +114,7 @@
                                 app:mcv_calendarMode="month"
                                 app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                                 app:mcv_headerTextAppearance="@style/CustomTextAppearance1"
-                                app:mcv_selectionColor="#BDBC96"
+                                app:mcv_selectionColor="#1d8005"
                                 app:mcv_tileHeight="40dp"
                                 app:mcv_tileWidth="45dp"
                                 app:mcv_weekDayTextAppearance="@style/weekdaytext" />

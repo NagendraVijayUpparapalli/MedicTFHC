@@ -62,7 +62,7 @@
                         app:mcv_calendarMode="month"
                         app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                         app:mcv_headerTextAppearance="@style/CustomTextAppearance1"
-                        app:mcv_selectionColor="#BDBC96"
+                        app:mcv_selectionColor="#1d8005"
                         app:mcv_tileHeight="40dp"
                         app:mcv_tileWidth="45dp"
                         app:mcv_weekDayTextAppearance="@style/weekdaytext" />
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="199dp"
+                android:layout_marginTop="270dp"
                 android:choiceMode="singleChoice"
                 android:divider="#000"
                 android:dividerHeight="0.2dp"

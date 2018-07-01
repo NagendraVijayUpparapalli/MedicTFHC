@@ -339,9 +339,59 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
                 }
 
                 System.out.println("selected date in diag book..." + myAppointmentDate);
-                showalert();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                Date strDate = null;
+                try {
+                    strDate = sdf.parse(myAppointmentDate);
+
+                    if (System.currentTimeMillis() > strDate.getTime()) {
+                        showalert();
+                    }
+                    else{
+                        showPreviousdatealert();
+                    }
+
+//                    if (new Date().after(strDate)) {
+//                        showalert();
+//                    }
+//                    else{
+//                        showPreviousdatealert();
+//                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
+    }
+
+    private void showPreviousdatealert()
+    {
+        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        a_builder.setMessage("Don't select previous date to take appointment?")
+                .setCancelable(false)
+                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(PatientBookAppointmentToDiagnostics.this,PatientBookAppointmentToDiagnostics.class);
+                        intent.putExtra("patientId",mypatientId);
+                        intent.putExtra("diagid",mydiagnosticId);
+                        intent.putExtra("centerName",mycenterName);
+                        intent.putExtra("addressId",myaddressId);
+                    }
+                });
+//            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int i) {
+//
+//                }
+//            });
+        android.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Selected date");
+        alert.show();
     }
 
     private void shoalertdialog() {
@@ -355,6 +405,8 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     //get diagnostic details based on id from api call
@@ -987,7 +1039,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         intialization();
         if(!validate())
         {
-            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
         }
         else
         {

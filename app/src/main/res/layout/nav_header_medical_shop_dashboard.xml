@@ -28,21 +28,20 @@
         android:textStyle="bold"
         android:textSize="20dp"
         android:layout_marginTop="15dp"
-        android:drawableLeft="@drawable/sidenavpersonicon"
+        android:textAlignment="center"
         android:drawablePadding="5dp"
-        android:text="xxxxxxxxxx"
+        android:text="---------"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:textSize="15dp"
         android:textColor="#000"
         android:drawableLeft="@drawable/sidenavphoneicon"
         android:drawablePadding="5dp"
-        android:text=" xxxxxxxxxxx"/>
+        android:text=" ----------"/>
 
     <TextView
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -53,6 +52,6 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/sidenavemailicon"
         android:drawablePadding="5dp"
-        android:text="xxxxxxxxxxx@gmail.com" />
+        android:text="----------" />
 
 </LinearLayout>

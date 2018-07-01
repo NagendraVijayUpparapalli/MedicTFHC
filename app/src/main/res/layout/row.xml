@@ -50,10 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
-
-
-
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -65,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="M/s . Government Headquarters Hospital Blood Bank"
                     android:textSize="18sp"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
             </LinearLayout>
 

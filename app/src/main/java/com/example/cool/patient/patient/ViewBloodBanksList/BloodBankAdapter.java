@@ -27,6 +27,15 @@ public class BloodBankAdapter extends ArrayAdapter<BloodBankClass> {
     int Resource;
     ViewHolder holder;
 
+
+    TextView address,mobile,email,name,navigate,person_name,sms;
+    ImageView image;
+    Bitmap mIcon11;
+    String latitude,longitude;
+    String phone,bloodbank_name,city,area,contact_name,location,uri=null,userMobile,userId;
+    String arr[];
+    String mainUrl=null;
+
     public BloodBankAdapter(Context context, int resource, ArrayList<BloodBankClass> objects) {
         super(context, resource, objects);
         vi = (LayoutInflater) context

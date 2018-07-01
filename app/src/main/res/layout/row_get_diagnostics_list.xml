@@ -60,6 +60,7 @@
                 android:textColor="#000080"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAllCaps="true"
                 android:text="Appolo Medical Hospital From "
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -147,8 +148,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
+                        android:textStyle="bold"
                         android:padding="2dp"
-                        android:text="25.5 km"/>
+                        android:text="0 km"/>
                 </LinearLayout>
 
             </RelativeLayout>

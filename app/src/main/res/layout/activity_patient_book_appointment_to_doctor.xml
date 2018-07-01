@@ -4,11 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto"
-    android:focusable="true"
-    android:fitsSystemWindows="true"
-    android:focusableInTouchMode="true">
+    android:layout_height="match_parent"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -23,8 +20,8 @@
 
             <RelativeLayout
                 android:id="@+id/rellay1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
                 android:fitsSystemWindows="true">
                 <RelativeLayout
@@ -35,12 +32,23 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:clickable="true"
+                        android:layout_marginEnd="10dp"
+                        android:drawableLeft="@drawable/close_white_icon"/>
+
+                    <TextView
                         android:id="@+id/Doctor_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-light"
                         android:textAlignment="center"
+
                         android:textColor="#ffffff"
                         android:paddingBottom="10dp"
                         android:textSize="22sp" />
@@ -52,6 +60,15 @@
                         android:layout_marginStart="5dp"
                         android:layout_below="@+id/Doctor_name"
                         android:background="@drawable/circle_border">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/dummyimage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_margin="9dp"
+                            android:background="@drawable/circle1"
+                            android:padding="3dp"
+                            android:src="@drawable/noimage11" />
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/doctor_image"
@@ -74,8 +91,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#fff"
-                            android:drawableLeft="@drawable/ic_home_black_24dp"
-                            />
+                            android:drawableLeft="@drawable/home_white" />
                         <TextView
                             android:id="@+id/hospital_name"
                             android:layout_width="wrap_content"
@@ -187,7 +203,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
                                 android:autoLink="phone"
-                                android:text="xxxxxxxx"
+                                android:text="--------"
                                 android:textColorLink="#fff"
                                 android:textColor="#fff"
                                 android:textSize="22sp" />
@@ -259,7 +275,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:paddingTop="24dp"
+            android:layout_marginTop="10dp"
             android:paddingBottom="70dp"
             android:orientation="vertical">
 
@@ -495,9 +511,6 @@
                     android:textSize="15dp" />
 
             </LinearLayout>
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -527,8 +540,5 @@
                 </com.andexert.library.RippleView>
             </LinearLayout>
         </LinearLayout>
-
-
-        <!--</ScrollView>-->
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

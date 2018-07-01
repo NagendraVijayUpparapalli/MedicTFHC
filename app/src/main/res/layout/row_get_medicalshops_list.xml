@@ -56,8 +56,9 @@
                 android:textColor="#000080"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Appolo Medical Hospital From "
+                android:text="Appolo Medical Hospital"
                 android:textSize="18sp"
+                android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout
@@ -148,7 +149,8 @@
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
                         android:padding="2dp"
-                        android:text="25.5 km"/>
+                        android:textStyle="bold"
+                        android:text="0 km"/>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -213,6 +215,15 @@
 
         <TextView
             android:id="@+id/userid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#fde402"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/usermobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"

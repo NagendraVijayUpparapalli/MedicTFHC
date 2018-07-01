@@ -343,8 +343,6 @@ public class ViewMedicalShop extends AppCompatActivity {
     }
 
 
-    ////Patient booking appointment successfull sms////
-
     private class Mytask extends AsyncTask<Void, Void,Void>
     {
 

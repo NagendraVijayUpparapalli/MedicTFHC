@@ -44,9 +44,10 @@
                     android:textAlignment="center"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:text="Municpal apollo hosipaptal"
+                    android:text="Municpal apollo hospital"
                     android:textColor="#ff0004"
                     android:textSize="21dp"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
                 <LinearLayout
                     android:weightSum="1"

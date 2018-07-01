@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/grad"
                     android:paddingBottom="10dp">
+
                     <TextView
                         android:id="@+id/close"
                         android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
                         android:layout_marginTop="10dp"
                         android:clickable="true"
                         android:layout_marginEnd="10dp"
-                        android:drawableLeft="@drawable/close_black_icon"/>
+                        android:drawableLeft="@drawable/close_white_icon"/>
 
                     <TextView
                         android:id="@+id/diagnosticCenter_name"
@@ -44,6 +45,7 @@
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-light"
                         android:textAlignment="center"
+                        android:textAllCaps="true"
                         android:text="-----------------------------------"
                         android:textColor="#ffffff"
                         android:paddingBottom="10dp"
@@ -74,9 +76,7 @@
                             android:background="@drawable/circle1"
                             android:padding="3dp"
                             android:src="@drawable/noimage11" />
-
                     </RelativeLayout>
-
 
                     <TextView
                         android:id="@+id/textaddress"
@@ -85,8 +85,7 @@
                         android:layout_below="@+id/diagnosticCenter_name"
                         android:layout_marginStart="150dp"
                         android:textColor="#fff"
-                        android:drawableLeft="@drawable/ic_home_black_24dp"
-                        />
+                        android:drawableLeft="@drawable/home_white" />
 
                     <TextView
                         android:id="@+id/dr_no"
@@ -120,7 +119,7 @@
                         android:layout_below="@+id/state"
                         android:layout_marginStart="150dp"
                         android:textColor="#fff"
-                        android:drawableLeft="@drawable/ic_timer_white"
+                        android:drawableLeft="@drawable/ic_timer_black_24dp"
                         />
 
                     <TextView
@@ -294,7 +293,7 @@
                     app:mcv_calendarMode="month"
                     app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                     app:mcv_headerTextAppearance="@style/CustomTextAppearance1"
-                    app:mcv_selectionColor="#BDBC96"
+                    app:mcv_selectionColor="#1d8005"
                     app:mcv_tileHeight="40dp"
                     app:mcv_tileWidth="45dp"
                     app:mcv_weekDayTextAppearance="@style/weekdaytext" />
@@ -583,6 +582,7 @@
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
                             android:inputType="textPersonName" />
+
                     </android.support.design.widget.TextInputLayout>
 
 

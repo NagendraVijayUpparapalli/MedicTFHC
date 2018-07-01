@@ -216,7 +216,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.doctorName.setText(doctorClassList.get(i).getName());
+        viewHolder.doctorName.setText("Dr. "+doctorClassList.get(i).getName());
         viewHolder.qualification.setText(doctorClassList.get(i).getQualification());
         viewHolder.speciality.setText(doctorClassList.get(i).getSpecialityName());
 

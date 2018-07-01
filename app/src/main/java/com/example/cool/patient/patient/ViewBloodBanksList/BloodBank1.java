@@ -1,13 +1,18 @@
 package com.example.cool.patient.patient.ViewBloodBanksList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,9 +25,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ListView;
@@ -48,6 +55,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -55,11 +63,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -105,6 +115,17 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
     FloatingActionButton homebutton;
 
+
+    //view particular blood bank details fields
+    Dialog MyDialog;
+    TextView myaddress,mymobile,myname,mynavigate,myperson_name,mysms,mycancel;
+    ImageView image;
+    Bitmap mIcon11;
+
+
+    String myPhone,myBloodbank_name,myCity,myArea,contact_name,location,uri=null,userMobile,userId;
+    String arr[];
+    String mainUrl=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,8 +185,6 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 return obj1.getDistance().compareTo(obj2.getDistance());
             }
         });
-//        adapter1.notifyDataSetChanged();
-
 
         adapter1 = new BloodBankAdapter(getApplicationContext(), R.layout.row, arrayList);
 
@@ -179,30 +198,76 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long id) {
                 // TODO Auto-generated method stub
-//                Toast.makeText(getApplicationContext(), arrayList.get(position).getName(), Toast.LENGTH_LONG).show();
-                Intent i = new Intent(BloodBank1.this,ViewBloodBank.class);
 
                 lat = Double.parseDouble(arrayList.get(position).getLati());
                 lng = Double.parseDouble(arrayList.get(position).getLongi());
 
-                System.out.println("lattttt...."+lat);
-                System.out.println("lattttt...."+lng);
                 getaddress(lat,lng);
-                String lt = String.valueOf(lat);
-                String lg = String.valueOf(lng);
 
-                i.putExtra("image",arrayList.get(position).getImage());
-                i.putExtra("name",arrayList.get(position).getName());
-                i.putExtra("lati",lt);
-                i.putExtra("longi",lg);
-                i.putExtra("city",arrayList.get(position).getLocation());
-                i.putExtra("person_name",arrayList.get(position).getContact_person());
-                i.putExtra("phone",arrayList.get(position).getMobile());
-                i.putExtra("email","NA");
-                i.putExtra("addressline",addressline);
-                i.putExtra("mobile",mobile);
-                i.putExtra("id",getUserId);
-                startActivity(i);
+                MyDialog =  new Dialog(BloodBank1.this);
+                MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                MyDialog.setContentView(R.layout.bloodbank_view);
+
+                image = (ImageView) MyDialog.findViewById(R.id.imageView);
+                myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
+                mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
+                myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
+                mymobile = (TextView) MyDialog.findViewById(R.id.phone);
+//                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
+                mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+
+                mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+                String addressarea = addressline;
+                arr= addressarea.split(",");
+
+                myname.setText(arrayList.get(position).getName());
+                myaddress.setText(addressarea);
+                mymobile.setText(arrayList.get(position).getMobile());
+//                myemail.setText("Not Available");
+                myperson_name.setText(arrayList.get(position).getContact_person());
+
+                myBloodbank_name = myname.getText().toString();
+                myArea = myaddress.getText().toString();
+                myPhone = mymobile.getText().toString();
+//                mycontact_name = myperson_name.getText().toString();
+
+                new GetImageTask(image).execute(arrayList.get(position).getImage());
+
+
+                mysms.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new Mytask().execute();
+                    }
+                });
+
+
+                mycancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyDialog.cancel();
+                    }
+                });
+
+                mynavigate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String lt = String.valueOf(lat);
+                        String lg = String.valueOf(lng);
+
+                        uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lt+","+lg+"("+myname.getText().toString()+")");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(intent);
+                    }
+                });
+
+
+                MyDialog.setCancelable(false);
+                MyDialog.setCanceledOnTouchOutside(false);
+                MyDialog.show();
 
             }
         });
@@ -654,36 +719,77 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                             long id) {
                         // TODO Auto-generated method stub
-//                        Toast.makeText(getApplicationContext(), arrayList.get(position).getName(), Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(BloodBank1.this,ViewBloodBank.class);
-                        Bundle bundle = new Bundle();
 
                         lat = Double.parseDouble(arrayList.get(position).getLati());
                         lng = Double.parseDouble(arrayList.get(position).getLongi());
 
-                        System.out.println("lattttt...."+lat);
-                        System.out.println("longiii...."+lng);
-
-//                        Toast.makeText(getApplicationContext(), String.valueOf(lat), Toast.LENGTH_LONG).show();
                         getaddress(lat,lng);
 
-                        String lt = String.valueOf(lat);
-                        String lg = String.valueOf(lng);
+                        MyDialog =  new Dialog(BloodBank1.this);
+                        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        MyDialog.setContentView(R.layout.bloodbank_view);
 
-//                        bundle.putInt("image", arrayList.get(position).getImage());
-                        i.putExtra("image",arrayList.get(position).getImage());
-                        i.putExtra("name",arrayList.get(position).getName());
-                        i.putExtra("person_name",arrayList.get(position).getContact_person());
-                        i.putExtra("lati",lt);
-                        i.putExtra("longi",lg);
-                        i.putExtra("phone",arrayList.get(position).getMobile());
-                        i.putExtra("city",arrayList.get(position).getLocation());
-                        i.putExtra("email","medic@gmail.com");
-                        i.putExtra("mobile",mobile);
-                        i.putExtra("id",getUserId);
-                        i.putExtra("addressline",addressline);
-//                        i.putExtras(bundle);
-                        startActivity(i);
+                        image = (ImageView) MyDialog.findViewById(R.id.imageView);
+                        myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
+                        mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                        myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
+                        myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
+                        mymobile = (TextView) MyDialog.findViewById(R.id.phone);
+//                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
+                        mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+
+                        mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+                        String addressarea = addressline;
+                        arr= addressarea.split(",");
+
+                        myname.setText(arrayList.get(position).getName());
+                        myaddress.setText(addressarea);
+                        mymobile.setText(arrayList.get(position).getMobile());
+//                myemail.setText("Not Available");
+                        myperson_name.setText(arrayList.get(position).getContact_person());
+
+                        myBloodbank_name = myname.getText().toString();
+                        myArea = myaddress.getText().toString();
+                        myPhone = mymobile.getText().toString();
+//                mycontact_name = myperson_name.getText().toString();
+
+                        new GetImageTask(image).execute(arrayList.get(position).getImage());
+
+
+                        mysms.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new Mytask().execute();
+                            }
+                        });
+
+
+                        mycancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                MyDialog.cancel();
+                            }
+                        });
+
+                        mynavigate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                String lt = String.valueOf(lat);
+                                String lg = String.valueOf(lng);
+
+                                uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lt+","+lg+"("+myname.getText().toString()+")");
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                                startActivity(intent);
+                            }
+                        });
+
+
+                        MyDialog.setCancelable(false);
+                        MyDialog.setCanceledOnTouchOutside(false);
+                        MyDialog.show();
+
                     }
                 });
 
@@ -791,7 +897,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 JSONObject object = jarray.getJSONObject(i);
                 BloodBankClass bb = new BloodBankClass();
 
-                bb.setName(object.getString("BloodBankName"));
+                bb.setName(object.getString("BloodBankName").substring(5));
                 bb.setMobile(object.getString("MobileNumber"));
                 bb.setLocation(getcity);
                 bb.setContact_person(object.getString("ContactPerson"));
@@ -804,19 +910,6 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 arrayList.add(bb);
             }
 
-//            adapter1 = new BloodBankAdapter(getApplicationContext(), R.layout.row, arrayList);
-//                 listview.setAdapter(adapter1);
-//                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                    @Override
-//                    public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-//                                            long id) {
-//                        // TODO Auto-generated method stub
-//                        Toast.makeText(getApplicationContext(), arrayList.get(position).getName(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
-
-
         }
         catch (Exception e)
         {
@@ -826,9 +919,6 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
     public void rangeBar()
     {
-
-//        bw_dist.setText("Distance :"+dis+"Km");
-//        bw_dist.setText("Distance :"+seek_bar.getProgress()+"Km");
 
         seek_bar.setProgress(dis);
 
@@ -898,33 +988,190 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long id) {
                 // TODO Auto-generated method stub
-//                Toast.makeText(getApplicationContext(), arrayList.get(position).getName(), Toast.LENGTH_LONG).show();
-                Intent i = new Intent(BloodBank1.this,ViewBloodBank.class);
 
                 lat = Double.parseDouble(arrayList.get(position).getLati());
                 lng = Double.parseDouble(arrayList.get(position).getLongi());
 
-                System.out.println("lattttt...."+lat);
-                System.out.println("lattttt...."+lng);
                 getaddress(lat,lng);
-                String lt = String.valueOf(lat);
-                String lg = String.valueOf(lng);
 
-                i.putExtra("image",arrayList.get(position).getImage());
-                i.putExtra("name",arrayList.get(position).getName());
-                i.putExtra("lati",lt);
-                i.putExtra("longi",lg);
-                i.putExtra("city",arrayList.get(position).getLocation());
-                i.putExtra("person_name",arrayList.get(position).getContact_person());
-                i.putExtra("phone",arrayList.get(position).getMobile());
-                i.putExtra("email","NA");
-                i.putExtra("addressline",addressline);
-                i.putExtra("mobile",mobile);
-                i.putExtra("id",getUserId);
-                startActivity(i);
+                MyDialog =  new Dialog(BloodBank1.this);
+                MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                MyDialog.setContentView(R.layout.bloodbank_view);
+
+                image = (ImageView) MyDialog.findViewById(R.id.imageView);
+                myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
+                mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
+                myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
+                mymobile = (TextView) MyDialog.findViewById(R.id.phone);
+//                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
+                mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+
+                mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+                String addressarea = addressline;
+                arr= addressarea.split(",");
+
+                myname.setText(arrayList.get(position).getName());
+                myaddress.setText(addressarea);
+                mymobile.setText(arrayList.get(position).getMobile());
+//                myemail.setText("Not Available");
+                myperson_name.setText(arrayList.get(position).getContact_person());
+
+                myBloodbank_name = myname.getText().toString();
+                myArea = myaddress.getText().toString();
+                myPhone = mymobile.getText().toString();
+//                mycontact_name = myperson_name.getText().toString();
+
+                new GetImageTask(image).execute(arrayList.get(position).getImage());
+
+
+                mysms.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new Mytask().execute();
+                    }
+                });
+
+
+                mycancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyDialog.cancel();
+                    }
+                });
+
+                mynavigate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String lt = String.valueOf(lat);
+                        String lg = String.valueOf(lng);
+
+                        uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lt+","+lg+"("+myname.getText().toString()+")");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(intent);
+                    }
+                });
+
+
+                MyDialog.setCancelable(false);
+                MyDialog.setCanceledOnTouchOutside(false);
+                MyDialog.show();
+
 
             }
         });
 
     }
+
+    //view particular blood bank
+
+
+    private class GetImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            image.setImageBitmap(result);
+        }
+
+    }
+
+    private class Mytask extends AsyncTask<Void, Void,Void>
+    {
+
+        URL myURL=null;
+        HttpURLConnection myURLConnection=null;
+        BufferedReader reader=null;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                // HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
+                //HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
+
+                String contact_person="Admin";
+                String phone1=myPhone;
+                String link="http://meditfhc.com/";
+
+                String message="Blood Bank Details: -"+myBloodbank_name+", "+"Contact Details: "+contact_person+"-"+phone1+", "+"Address: "+myArea+". Click here for navigate: "+link+". \n"+"Regards MEDIC TFHC.";
+                mainUrl="http://www.mgage.solutions/SendSMS/sendmsg.php?";
+                String uname="MedicTr";
+                String password="X!g@c$R2";
+                String sender="MEDICC";
+                String destination = mobile;
+
+                String encode_message= URLEncoder.encode(message, "UTF-8");
+                StringBuilder stringBuilder=new StringBuilder(mainUrl);
+                stringBuilder.append("uname="+URLEncoder.encode(uname, "UTF-8"));
+                stringBuilder.append("&pass="+URLEncoder.encode(password, "UTF-8"));
+                stringBuilder.append("&send="+URLEncoder.encode(sender, "UTF-8"));
+                stringBuilder.append("&dest="+URLEncoder.encode(destination, "UTF-8"));
+                stringBuilder.append("&msg="+encode_message);
+
+                mainUrl=stringBuilder.toString();
+                System.out.println("mainurl "+mainUrl);
+                myURL=new URL(mainUrl);
+
+                myURLConnection=(HttpURLConnection) myURL.openConnection();
+                myURLConnection.connect();
+                reader=new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
+                String response;
+                while ((response = reader.readLine()) != null) {
+                    Log.d("RESPONSE", "" + response);
+                }
+                reader.close();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            showMessageSuccessfullSent();
+            super.onPreExecute();
+        }
+    }
+
+    public void showMessageSuccessfullSent(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(BloodBank1.this);
+        a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
+                .setCancelable(false)
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Successfully Sent");
+        alert.show();
+
+    }
+
 }

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
@@ -29,6 +31,7 @@ import com.example.cool.patient.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,6 +39,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
@@ -79,7 +83,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         public int currentItem;
         public ImageView profileImage;
         public TextView ContactPerson,Shopname,qualification,speciality,fee,medicalphonenum,addressId,medicalShopeID,
-                userId,centerImage,lati,longi,distance;
+                userId,centerImage,lati,longi,distance,usermobile;
 
 
 
@@ -103,6 +107,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
             longi=(TextView) itemView.findViewById(R.id.lngi);
             distance  = (TextView) itemView.findViewById(R.id.distance);
             centerImage=(TextView) itemView.findViewById(R.id.image);
+            usermobile = (TextView) itemView.findViewById(R.id.usermobile);
 
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
 
@@ -145,13 +150,18 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
                     mySMS.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            new Mytask().execute();
+                            new Mytask().execute();
                         }
                     });
                     mynavigation.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lati.getText().toString()+","+longi.getText().toString()+"("+Shopname.getText().toString()+")");
+
+                            String lt = lati.getText().toString();
+                            String lg = longi.getText().toString();
+                            String medicalShopName = myshopname.getText().toString().trim();
+
+                            uri = String.format(Locale.ENGLISH, "geo:0,0?q="+lt+","+lg+"("+medicalShopName+")");
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                             context.startActivity(intent);
                         }
@@ -167,7 +177,6 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
                     System.out.println("shop name.."+Shopname.getText().toString());
                     System.out.println("addres id.."+addressId.getText().toString());
 
-//                    System.out.println("fee.."+myfee);
                     System.out.println("phone.."+medicalphonenum.getText().toString());
 //                    Intent intent = new Intent(context,ViewMedicalShop.class);
 //                    intent.putExtra("userId",patientId);
@@ -198,6 +207,8 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+        viewHolder.usermobile.setText(medicalClassList.get(i).getUsermobileNumber());
         viewHolder.Shopname.setText(medicalClassList.get(i).getShopName());
         viewHolder.ContactPerson.setText(medicalClassList.get(i).getContactPerson());
 
@@ -209,10 +220,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         viewHolder.centerImage.setText(medicalClassList.get(i).getMedicImage());
         viewHolder.distance.setText(medicalClassList.get(i).getDistance());
 
-
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+medicalClassList.get(i).getMedicImage());
-
-
 
         patientMobileNumber = medicalClassList.get(i).getUsermobileNumber();
 
@@ -258,24 +266,6 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
     private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
-
-
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(context);
-//            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
-
         public GetProfileImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
@@ -300,6 +290,62 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
     }
 
+    private class Mytask extends AsyncTask<Void, Void,Void>
+    {
+
+        URL myURL=null;
+        HttpURLConnection myURLConnection=null;
+        BufferedReader reader=null;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                // HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
+                //HttpURLConnection conn = (HttpURLConnection) new URL("https://www.mgage.solutions/SendSMS/sendmsg.php?uname=MedicTr&pass=X!g@c$R2&send=MEDICC&dest=8465887420&msg=Hi%20Gud%20Morning").openConnection();
+                String shopname = myshopname.getText().toString();
+                String ContactPersonname = myContactPersonname.getText().toString();
+                String shopphonenum = myshopphonenum.getText().toString();
+                String area = mydoornum.getText().toString();
+                String link="https://www.medictfhc.com";
+
+                String message="Medical store details: -"+shopname+", "+"Contact Details: "+ContactPersonname+"-"+shopphonenum+", "+"Address: "+area+". Click here for navigate: "+link+". \n"+"Regards MEDIC TFHC.";
+                String mainUrl = baseUrl.getSmsUrl();
+                String uname="MedicTr";
+                String password="X!g@c$R2";
+                String sender="MEDICC";
+                String destination = patientMobileNumber;
+                String encode_message= URLEncoder.encode(message, "UTF-8");
+                StringBuilder stringBuilder=new StringBuilder(mainUrl);
+                stringBuilder.append("uname="+URLEncoder.encode(uname, "UTF-8"));
+                stringBuilder.append("&pass="+URLEncoder.encode(password, "UTF-8"));
+                stringBuilder.append("&send="+URLEncoder.encode(sender, "UTF-8"));
+                stringBuilder.append("&dest="+URLEncoder.encode(destination, "UTF-8"));
+                stringBuilder.append("&msg="+encode_message);
+                mainUrl=stringBuilder.toString();
+                System.out.println("smsUrl..."+mainUrl);
+                myURL=new URL(mainUrl);
+                myURLConnection=(HttpURLConnection) myURL.openConnection();
+                myURLConnection.connect();
+                reader=new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
+                String response;
+                while ((response = reader.readLine()) != null) {
+                    Log.d("RESPONSE", "" + response);
+                }
+                reader.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            return null;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
+
 
     //Get all addresses for doctor list from api call
     private class GetMeidcalAllAddressDetails extends AsyncTask<String, Void, String> {
@@ -311,7 +357,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
             // Create a progressdialog
             progressDialog = new ProgressDialog(context);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 
