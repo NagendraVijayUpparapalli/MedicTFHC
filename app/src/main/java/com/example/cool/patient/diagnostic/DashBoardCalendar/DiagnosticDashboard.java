@@ -877,7 +877,6 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                 if(StatusID.equals("0"))
                 {
-
                     pending_count.setText(TotalCount);
                 }
                 else if(StatusID.equals("1"))

@@ -54,7 +54,8 @@
                 android:textColor="#000080"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Amudula prabharkara raju udaysri"
+                android:textAlignment="center"
+                android:text="Dr. Amudula prabharkar raju udayasri"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -63,11 +64,11 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <TextView
-                android:textColor="#2C5E83"
                 android:id="@+id/Qualification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:textColor="#2C5E83"
                 android:textSize="12sp"
                 android:padding="2dp"
                 android:text="@string/qualification" />

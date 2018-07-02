@@ -100,7 +100,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
         new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+diagID);
 
-        new GetPatientDetails().execute(baseUrl.getUrl()+"APIGetDiagnosticAppointToAccept"+"?id="+diagID+"&AppointmentDate="+date);
+        new GetPatientAppointmentDetails().execute(baseUrl.getUrl()+"APIGetDiagnosticAppointToAccept"+"?id="+diagID+"&AppointmentDate="+date);
 
         gridLayoutManager = new GridLayoutManager(this,2);
         layoutManager=new LinearLayoutManager(this);
@@ -394,7 +394,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
 
     //Get patient details  based on doctor id and appointment date
-    private class GetPatientDetails extends AsyncTask<String, Void, String> {
+    private class GetPatientAppointmentDetails extends AsyncTask<String, Void, String> {
 
 
         @Override

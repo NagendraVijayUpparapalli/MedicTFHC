@@ -75,6 +75,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import android.widget.ListView;
 
 public class GetCurrentDiagnosticsList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -90,6 +92,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
     static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
+    ProgressDialog progressDialog1;
+
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
@@ -222,10 +226,10 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = specialityBasedFormatDataAsJson();
+                String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 
-                new GetDiagnostics_N_ListbasedonSpeciality().execute(uploadServerUrl,js.toString());
+                new GetDiagnostics_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
 
                 myList = new ArrayList<DiagnosticsClass>();
 //
@@ -765,21 +769,21 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                 System.out.print("longi...."+longitude);
 
 
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+                String js = formatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+
+                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DiagnosticsClass>();
 //
-//                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DiagnosticsClass>();
-////
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//
-//                adapter = new DiagnosticsListAdapter(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+
+                adapter = new DiagnosticsListAdapter(this, myList);
+                layoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
 
                 geocoder=new Geocoder(getApplicationContext());
 
@@ -946,9 +950,23 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
         return null;
     }
 
-    //Get diagnostics list from api call
-    private class GetDiagnostics_N_ListbasedonSpeciality extends AsyncTask<String, Void, String> {
+    //Get diagnostics list Based on Speciality from api call
+    private class GetDiagnostics_N_ListBasedonSpeciality extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog1 = new ProgressDialog(GetCurrentDiagnosticsList.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog1.setMessage("Loading...");
+
+            progressDialog1.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog1.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -1022,7 +1040,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
 
             try
             {
@@ -1059,6 +1077,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
         try {
 
             JSONArray jarray = new JSONArray(result);
+            int count =0;
 
             availabilityCount = jarray.length();
             System.out.println("diag availabilityCount...."+availabilityCount);
@@ -1069,57 +1088,84 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             {
                 JSONObject object = jarray.getJSONObject(i);
 
-                String mobile = object.getString("MobileNumber");
-                String diagId = object.getString("DiagnosticsID");
+                JSONArray jsonArray1=new JSONArray((object.getString("KV_DiagSpeciality")));
 
-                System.out.println("d idds..."+diagId);
-
-                String centerName = object.getString("CenterName");
-
-                String cashOnHand = object.getString("CashOnHand");
-                String creditDebit = object.getString("CreditDebit");
-                String netBanking = object.getString("Netbanking");
-                String paytm = object.getString("Paytm");
-
-                String landLineNumber = object.getString("LandlineNo");
-                String contactPerson = object.getString("ContactPerson");
-
-                String mylatii = object.getString("Latitude");
-                String mylongii = object.getString("Longitude");
-                String emergencyService = "";
-
-                if(object.has("EmergencyService"))
+                for(int j=0;j<jsonArray1.length();j++)
                 {
-                    emergencyService = object.getString("EmergencyService");
+
+                    JSONObject jsonObject=jsonArray1.getJSONObject(j);
+                    int SpecialityID=jsonObject.getInt("Key");
+                    String testName =jsonObject.getString("Value");
+
+                    if(Speciality.getSelectedItem().toString().equals(testName))
+                    {
+                        count  = count+1;
+
+                        String mobile = object.getString("MobileNumber");
+                        String diagId = object.getString("DiagnosticsID");
+
+                        System.out.println("d idds..."+diagId);
+
+                        String centerName = object.getString("CenterName");
+
+                        String cashOnHand = object.getString("CashOnHand");
+                        String creditDebit = object.getString("CreditDebit");
+                        String netBanking = object.getString("Netbanking");
+                        String paytm = object.getString("Paytm");
+
+                        String landLineNumber = object.getString("LandlineNo");
+                        String contactPerson = object.getString("ContactPerson");
+
+                        String mylatii = object.getString("Latitude");
+                        String mylongii = object.getString("Longitude");
+                        String emergencyService = "";
+
+                        if(object.has("EmergencyService"))
+                        {
+                            emergencyService = object.getString("EmergencyService");
+                        }
+
+                        else
+                        {
+                            emergencyService = "";
+                        }
+
+
+                        double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                        System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                        double dis = Math.round(myDistances*1000)/1000.000;
+                        myDistance = String.format("%.1f", dis)+" km";
+                        System.out.println("dist decimal round...."+myDistance);
+
+                        String addressId = object.getString("AddressID");
+                        String centerImage = object.getString("CenterImage");
+
+                        DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                                creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+
+                        myList.add(diagnosticsClass);
+                        availability.setText(Integer.toString(count));
+                    }
+
                 }
 
-                else
-                {
-                    emergencyService = "";
-                }
-
-
-                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                double dis = Math.round(myDistances*1000)/1000.000;
-                myDistance = String.format("%.1f", dis)+" km";
-                System.out.println("dist decimal round...."+myDistance);
-
-                String addressId = object.getString("AddressID");
-                String centerImage = object.getString("CenterImage");
-
-                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
-                        creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
-
-                myList.add(diagnosticsClass);
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    public static Object getPharmacyKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
     }
 
     //Get diagnostics list from api call

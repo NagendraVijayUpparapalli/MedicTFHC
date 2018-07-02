@@ -1049,24 +1049,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
         System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 
-//        String js = formatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<DoctorClass>();
-//
-//        adapter = new DoctorListAdapter11(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-
-
     }
 
     private String specialityBasedFormatDataAsJson()
@@ -1317,22 +1299,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 selectedCitylong = l1.get(0).longitude;
 
                 System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
-
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DoctorClass>();
-//
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//                adapter = new DoctorListAdapter(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
 
 
             } catch (IOException e) {

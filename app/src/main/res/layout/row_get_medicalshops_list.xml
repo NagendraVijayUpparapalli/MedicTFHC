@@ -149,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
                         android:padding="2dp"
+                        android:textColor="#000"
                         android:textStyle="bold"
                         android:text="0 km"/>
                 </LinearLayout>

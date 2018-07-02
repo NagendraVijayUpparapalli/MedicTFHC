@@ -137,10 +137,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="#2C5E83"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:textColor="#2C5E83"
                         android:textSize="12sp"
                         android:text="@string/distance"/>
                     <TextView
@@ -149,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
                         android:textStyle="bold"
+                        android:textColor="#000"
                         android:padding="2dp"
                         android:text="0 km"/>
                 </LinearLayout>

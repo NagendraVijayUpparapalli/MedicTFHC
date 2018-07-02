@@ -448,7 +448,7 @@
                                     android:layout_width="80dp"
                                     android:layout_height="wrap_content"
                                     android:gravity="center|bottom"
-                                    android:text="pending"
+                                    android:text="Pending"
                                     android:textColor="#fff"/>
                             </LinearLayout>
 
@@ -485,7 +485,7 @@
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
                                 <TextView
-                                    android:id="@+id/inprogress"
+                                    android:id="@+id/count_initiated"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-light"
@@ -495,7 +495,6 @@
                                     android:textColor="#fff"
                                     android:textSize="25sp" />
                                 <TextView
-                                    android:id="@+id/Accept"
                                     android:layout_width="80dp"
                                     android:layout_height="wrap_content"
                                     android:gravity="center|bottom"
@@ -563,7 +562,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/finished"
+                                    android:id="@+id/inprogress"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-light"
@@ -614,7 +613,7 @@
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
                                 <TextView
-                                    android:id="@+id/count_initiated"
+                                    android:id="@+id/finished"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-light"

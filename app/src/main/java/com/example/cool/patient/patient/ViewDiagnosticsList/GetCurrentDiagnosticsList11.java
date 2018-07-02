@@ -71,6 +71,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import android.widget.ListView;
 
 public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -85,6 +87,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
     static int progress_value,dis = 20,availabilityCount;
 
     ProgressDialog progressDialog;
+    ProgressDialog progressDialog1;
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
@@ -177,24 +180,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
-        toolbar.setTitle("Diagnostics List");
-
-//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(GetCurrentDiagnosticsList11.this,PatientDashBoard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//
-//        );
+        toolbar.setTitle("Diagnostics");
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -210,8 +196,6 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         availability = (TextView) findViewById(R.id.availability);
         seek_bar.setProgress(dis);
 
-        rangeBar();
-
 
         adapter = new DiagnosticsListAdapter(this, myList);
         layoutManager = new LinearLayoutManager(this);
@@ -220,10 +204,10 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = specialityBasedFormatDataAsJson();
+                String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 
-                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+                new GetDiagnostics_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
 
                 myList = new ArrayList<DiagnosticsClass>();
 //
@@ -255,6 +239,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
             }
         });
 
+        rangeBar();
 
         //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -762,7 +747,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[1]);
+                System.out.println("params..diag11..."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -918,6 +903,222 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         }
     }
 
+    //Get diagnostics list Based on Speciality from api call
+    private class GetDiagnostics_N_ListBasedonSpeciality extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog1 = new ProgressDialog(GetCurrentDiagnosticsList11.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog1.setMessage("Loading...");
+
+            progressDialog1.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog1.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params...diag11 spec.."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            progressDialog1.dismiss();
+
+            try
+            {
+                JSONObject jsono = new JSONObject(result);
+                String ss = (String) jsono.get("Message");
+                if(ss.equals("No data found."))
+                {
+                    showMessage();
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+                    Log.e("Api response if.....", result);
+                }
+                else
+                {
+                    getDataBasedonSpeciality(result);
+                    adapter.notifyDataSetChanged();
+                    Log.e("Api response else.....", result);
+                }
+            }
+            catch (Exception e)
+            {}
+            getDataBasedonSpeciality(result);
+
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+
+        }
+    }
+
+    private void getDataBasedonSpeciality(String result) {
+        try {
+
+            JSONArray jarray = new JSONArray(result);
+            int count =0;
+
+            availabilityCount = jarray.length();
+            System.out.println("diag availabilityCount...."+availabilityCount);
+
+            for (int i = 0; i < jarray.length(); i++)
+            {
+                JSONObject object = jarray.getJSONObject(i);
+
+                JSONArray jsonArray1=new JSONArray((object.getString("KV_DiagSpeciality")));
+
+                for(int j=0;j<jsonArray1.length();j++)
+                {
+
+                    JSONObject jsonObject=jsonArray1.getJSONObject(j);
+                    int SpecialityID=jsonObject.getInt("Key");
+                    String testName =jsonObject.getString("Value");
+
+                    if(Speciality.getSelectedItem().toString().equals(testName))
+                    {
+                        count  = count+1;
+
+                        String mobile = object.getString("MobileNumber");
+                        String diagId = object.getString("DiagnosticsID");
+
+                        System.out.println("d idds..."+diagId);
+
+                        String centerName = object.getString("CenterName");
+
+                        String cashOnHand = object.getString("CashOnHand");
+                        String creditDebit = object.getString("CreditDebit");
+                        String netBanking = object.getString("Netbanking");
+                        String paytm = object.getString("Paytm");
+
+                        String landLineNumber = object.getString("LandlineNo");
+                        String contactPerson = object.getString("ContactPerson");
+
+                        String mylatii = object.getString("Latitude");
+                        String mylongii = object.getString("Longitude");
+                        String emergencyService = "";
+
+                        if(object.has("EmergencyService"))
+                        {
+                            emergencyService = object.getString("EmergencyService");
+                        }
+
+                        else
+                        {
+                            emergencyService = "";
+                        }
+
+                        double myDistances  = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
+
+                        System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                        double dis = Math.round(myDistances*1000)/1000.000;
+                        myDistance = String.format("%.1f", dis)+" km";
+                        System.out.println("dist decimal round...."+myDistance);
+
+                        String addressId = object.getString("AddressID");
+                        String centerImage = object.getString("CenterImage");
+
+                        DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                                creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+
+                        myList.add(diagnosticsClass);
+                        availability.setText(Integer.toString(count));
+                    }
+
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static Object getPharmacyKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -982,59 +1183,6 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         alert.show();
     }
 
-//    public void anotheralert()
-//    {
-//
-//        MyDialoganother =  new Dialog(GetCurrentDiagnosticsList11.this);
-//        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialoganother.setContentView(R.layout.range_layout);
-//
-//        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-//        seek_bar.setProgress(dis);
-//
-//        rangeBar();
-//
-//        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-//
-//        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//
-//                String js = specialityBasedFormatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
-//
-//                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DiagnosticsClass>();
-////
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-//
-//                MyDialog.dismiss();
-//                MyDialoganother.dismiss();
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MyDialog.dismiss();
-//
-//            }
-//        });
-//        MyDialoganother.setCancelable(false);
-//        MyDialoganother.setCanceledOnTouchOutside(false);
-//        MyDialoganother.show();
-//    }
-
     public void rangeBar()
     {
 
@@ -1065,7 +1213,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 System.out.println("dis.."+dis);
 //                getlatlng();
 
-                String js = specialityBasedFormatDataAsJson();
+                String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 
                 new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
@@ -1107,25 +1255,6 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 }
                 selectedCitylat = l1.get(0).latitude;
                 selectedCitylong = l1.get(0).longitude;
-
-//                adapter = new DiagnosticsListAdapter(this, myList);
-//                layoutManager = new LinearLayoutManager(this);
-//
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
-//
-//                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DiagnosticsClass>();
-////
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-
-//                getaddress(selectedCitylat,selectedCitylong);
-
 
             } catch (IOException e) {
                 e.printStackTrace();
