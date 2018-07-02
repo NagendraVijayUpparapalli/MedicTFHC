@@ -142,6 +142,9 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,6 +317,13 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -931,7 +941,6 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
             byte[] b = baos.toByteArray();
             encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
-
 
             data.put("MedicalShopID",medicalId);
             data.put("ShopName",myMedicalName);

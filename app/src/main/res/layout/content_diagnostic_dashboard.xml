@@ -30,7 +30,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:background="@drawable/toolbar_gradient"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_scrollFlags="scroll|enterAlways" >
@@ -44,6 +44,7 @@
                     android:layout_marginEnd="10dp"
                     android:textSize="17dp"
                     android:textColor="#fff"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:text="Location"/>
 
@@ -363,7 +364,7 @@
                             app:mcv_calendarMode="month"
                             app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                             app:mcv_headerTextAppearance="@style/CustomTextAppearance1"
-                            app:mcv_selectionColor="#BDBC96"
+                            app:mcv_selectionColor="#1d8005"
                             app:mcv_tileHeight="40dp"
                             app:mcv_tileWidth="45dp"
                             app:mcv_weekDayTextAppearance="@style/weekdaytext" />

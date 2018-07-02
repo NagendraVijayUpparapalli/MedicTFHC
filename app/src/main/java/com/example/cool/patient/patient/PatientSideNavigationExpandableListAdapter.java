@@ -32,6 +32,7 @@ public class PatientSideNavigationExpandableListAdapter extends BaseExpandableLi
     public static int ITEM5 = 4;
     public static int ITEM6 = 5;
     public static int ITEM7 = 6;
+    public static int ITEM8 = 7;
 
 
     public static int SUBITEM1_1 = 0;
@@ -191,15 +192,19 @@ public class PatientSideNavigationExpandableListAdapter extends BaseExpandableLi
             listTitleTextIconView.setImageResource(R.drawable.ic_edit_black_24dp);
         else if (listPosition == ITEM5)
             // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));
-            listTitleTextIconView.setImageResource(R.drawable.symb)
+            listTitleTextIconView.setImageResource(R.drawable.noimage11)
                     ;
         else if (listPosition == ITEM6)
             // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));
-            listTitleTextIconView.setImageResource(R.drawable.contant_us);
+            listTitleTextIconView.setImageResource(R.drawable.symb);
         // set arrow icons for relevant items
         else if (listPosition == ITEM7)
             // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));
+            listTitleTextIconView.setImageResource(R.drawable.contant_us);
+        else if (listPosition == ITEM8)
+            // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));
             listTitleTextIconView.setImageResource(R.drawable.shutdown);
+
         if (listPosition == ITEM1 ||  listPosition == ITEM3 || listPosition == ITEM2) {
             if (!isExpanded)
                 listTitleTextArrowView.setText(context.getResources().getString(R.string.fa_chevron_right));

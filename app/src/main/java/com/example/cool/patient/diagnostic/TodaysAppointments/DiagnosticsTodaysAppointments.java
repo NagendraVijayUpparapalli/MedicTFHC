@@ -97,7 +97,6 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
 
         new GetPatientDetails().execute(baseUrl.getUrl()+"DiagnosticGetTodayAppointments"+"?id="+diagId);
 
-
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 

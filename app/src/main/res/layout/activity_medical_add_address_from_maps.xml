@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="true"
-        android:layout_below="@+id/appbarcool"
+        android:layout_below="@+id/appbar1"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
         <RelativeLayout
@@ -695,7 +695,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="179dp"
+                android:layout_marginTop="139dp"
                 android:choiceMode="singleChoice"
                 android:divider="#000"
                 android:dividerHeight="0.2dp"

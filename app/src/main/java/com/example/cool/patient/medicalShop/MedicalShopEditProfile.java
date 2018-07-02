@@ -117,7 +117,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
     HashMap<String, List<String>> expandableListDetail;
 
     //sidenav fields
-    TextView sidenavName,sidenavEmail;
+    TextView sidenavName,sidenavEmail,sidenavMobile;
 
 
     @Override
@@ -224,7 +224,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
         sidenavName = (TextView) headerLayout.findViewById(R.id.name);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-//        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
         adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
@@ -602,12 +602,15 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                     sidenavName.setText(myName+" "+mySurname);
                     sidenavEmail.setText(myEmail);
+                    sidenavMobile.setText(myMobile);
                 }
                 else {
 //                    checkNewUser = "No";
                     name.setText(newName + mySurname + " " + myName);
 
                     sidenavName.setText(myName+" "+mySurname);
+
+                    sidenavMobile.setText(myMobile);
 
                 }
 
@@ -636,6 +639,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                 sidenavName.setText(myName+" "+mySurname);
                 sidenavEmail.setText(myEmail);
+                sidenavMobile.setText(myMobile);
             }
 
             System.out.println("hand.."+mycash_on_hand);
@@ -670,6 +674,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
             }
 
             sidenavEmail.setText(myEmail);
+            sidenavMobile.setText(myMobile);
             cash_on_hand.setChecked(mycash_on_hand);
             swipe_card.setChecked(myswipe_card);
             net_banking.setChecked(mynet_banking);

@@ -46,13 +46,16 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
+import com.example.cool.patient.patient.MyFamily;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.SelectCity;
 import com.example.cool.patient.patient.PatientEditProfile;
 import com.example.cool.patient.patient.PatientSideNavigationExpandableListAdapter;
 import com.example.cool.patient.patient.PatientSideNavigationExpandableSubList;
+import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank;
 import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
+import com.example.cool.patient.patient.ViewMedicalShopsList.GetCurrentMedicalShopsList;
 import com.google.android.gms.maps.model.LatLng;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
@@ -222,7 +225,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                 String js = specialityBasedFormatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 
-                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+                new GetDiagnostics_N_ListbasedonSpeciality().execute(uploadServerUrl,js.toString());
 
                 myList = new ArrayList<DiagnosticsClass>();
 //
@@ -307,20 +310,28 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                     editProfile.putExtra("mobile",mobile);
                     startActivity(editProfile);
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,MyFamily.class);
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,ReachUs.class);
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
                     startActivity(contact);
 
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM8) {
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentDiagnosticsList.this,Login.class);
@@ -378,27 +389,35 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
                         // call activity here
 
-//                        Intent in = new Intent(PatientDashBoard.this,GetCurrentMedicalShopsList.class);
-//                        in.putExtra("userId",getUserId);
-//                        in.putExtra("mobile",mobile_number);
-//                        startActivity(in);
+                        Intent in = new Intent(GetCurrentDiagnosticsList.this,GetCurrentMedicalShopsList.class);
+                        in.putExtra("userId",getUserId);
+                        in.putExtra("mobile",mobile);
+                        startActivity(in);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
 
                         // call activity here
-//                        Intent bloodbank = new Intent(PatientDashBoard.this,BloodBank.class);
-//                        startActivity(bloodbank);
+                        Intent bloodbank = new Intent(GetCurrentDiagnosticsList.this,BloodBank.class);
+                        bloodbank.putExtra("userId",getUserId);
+                        bloodbank.putExtra("mobile",mobile);
+                        startActivity(bloodbank);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
 
@@ -926,8 +945,184 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
         return null;
     }
-    //Get diagnostics list from api call
 
+    //Get diagnostics list from api call
+    private class GetDiagnostics_N_ListbasedonSpeciality extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params....."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            progressDialog.dismiss();
+
+            try
+            {
+                JSONObject jsono = new JSONObject(result);
+                String ss = (String) jsono.get("Message");
+                if(ss.equals("No data found."))
+                {
+                    showMessage();
+                    availabilityCount = 0;
+                    System.out.println("medical availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+                    Log.e("Api response if.....", result);
+                }
+                else
+                {
+                    getDataBasedonSpeciality(result);
+                    adapter.notifyDataSetChanged();
+                    Log.e("Api response else.....", result);
+                }
+            }
+            catch (Exception e)
+            {}
+            getDataBasedonSpeciality(result);
+
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+
+        }
+    }
+
+    private void getDataBasedonSpeciality(String result) {
+        try {
+
+            JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("diag availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
+
+            for (int i = 0; i < jarray.length(); i++)
+            {
+                JSONObject object = jarray.getJSONObject(i);
+
+                String mobile = object.getString("MobileNumber");
+                String diagId = object.getString("DiagnosticsID");
+
+                System.out.println("d idds..."+diagId);
+
+                String centerName = object.getString("CenterName");
+
+                String cashOnHand = object.getString("CashOnHand");
+                String creditDebit = object.getString("CreditDebit");
+                String netBanking = object.getString("Netbanking");
+                String paytm = object.getString("Paytm");
+
+                String landLineNumber = object.getString("LandlineNo");
+                String contactPerson = object.getString("ContactPerson");
+
+                String mylatii = object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String addressId = object.getString("AddressID");
+                String centerImage = object.getString("CenterImage");
+
+                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                        creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+
+                myList.add(diagnosticsClass);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Get diagnostics list from api call
     private class GetDiagnostics_N_List extends AsyncTask<String, Void, String> {
 
 

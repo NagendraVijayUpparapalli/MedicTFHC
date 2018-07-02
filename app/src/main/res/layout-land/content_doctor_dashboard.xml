@@ -35,7 +35,7 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="match_parent"
                     android:background="@drawable/toolbar_gradient"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:layout_scrollFlags="scroll|enterAlways" >

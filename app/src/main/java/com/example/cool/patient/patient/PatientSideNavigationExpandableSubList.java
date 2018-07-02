@@ -17,6 +17,7 @@ public class PatientSideNavigationExpandableSubList {
         List<String> Aboutus = new ArrayList<String>();
         List<String> Contactus = new ArrayList<String>();
         List<String> EditProfile = new ArrayList<String>();
+        List<String> AddMyFamily = new ArrayList<String>();
         List<String> list1 = new ArrayList<String>();
         list1.add("Doctor Appointment");
         list1.add("Diagnostic center");
@@ -28,10 +29,10 @@ public class PatientSideNavigationExpandableSubList {
         List<String> list2 = new ArrayList<String>();
         list2.add("My Doctor Appointment");
         list2.add("My Diagnostic center");
-        list2.add("My Medical store");
-        list2.add("Find Hospital");
-        list2.add("Blood Bank");
-        list2.add("Ambulance Services");
+//        list2.add("My Medical store");
+//        list2.add("Find Hospital");
+//        list2.add("Blood Bank");
+//        list2.add("Ambulance Services");
 
         List<String> company = new ArrayList<String>();
         company.add("Change password");
@@ -41,6 +42,7 @@ public class PatientSideNavigationExpandableSubList {
         expandableListDetail.put("History", list2);
         expandableListDetail.put("Settings", company);
         expandableListDetail.put("Edit Profile", EditProfile);
+        expandableListDetail.put("Add My Family", AddMyFamily);
 
         expandableListDetail.put("Offers", Aboutus);
         expandableListDetail.put("Contact us",Contactus);

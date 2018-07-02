@@ -41,6 +41,7 @@ import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
+import com.example.cool.patient.patient.MyFamily;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.SelectCity;
@@ -49,6 +50,7 @@ import com.example.cool.patient.patient.PatientSideNavigationExpandableListAdapt
 import com.example.cool.patient.patient.PatientSideNavigationExpandableSubList;
 import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
 import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
+import com.example.cool.patient.patient.ViewMedicalShopsList.GetCurrentMedicalShopsList;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -359,20 +361,28 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                     editProfile.putExtra("id",getUserId);
                     startActivity(editProfile);
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent contact = new Intent(BloodBank1.this,AboutUs.class);
+                    Intent contact = new Intent(BloodBank1.this,MyFamily.class);
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(BloodBank1.this,ReachUs.class);
+                    Intent contact = new Intent(BloodBank1.this,AboutUs.class);
                     startActivity(contact);
 
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(BloodBank1.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM8) {
                     // call some activity here
 
                     Intent contact = new Intent(BloodBank1.this,Login.class);
@@ -430,27 +440,35 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                         // call activity here
 
-//                        Intent in = new Intent(PatientDashBoard.this,GetCurrentMedicalShopsList.class);
-//                        in.putExtra("userId",getUserId);
-//                        in.putExtra("mobile",mobile_number);
-//                        startActivity(in);
+                        Intent in = new Intent(BloodBank1.this,GetCurrentMedicalShopsList.class);
+                        in.putExtra("userId",getUserId);
+                        in.putExtra("mobile",mobile);
+                        startActivity(in);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(BloodBank1.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
 
                         // call activity here
-//                        Intent bloodbank = new Intent(PatientDashBoard.this,BloodBank.class);
-//                        startActivity(bloodbank);
+                        Intent bloodbank = new Intent(BloodBank1.this,BloodBank.class);
+                        bloodbank.putExtra("userId",getUserId);
+                        bloodbank.putExtra("mobile",mobile);
+                        startActivity(bloodbank);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(BloodBank1.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
 

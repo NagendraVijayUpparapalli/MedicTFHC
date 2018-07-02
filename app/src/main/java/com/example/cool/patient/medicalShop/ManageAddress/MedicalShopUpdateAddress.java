@@ -136,6 +136,9 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +156,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         regMobile = getIntent().getStringExtra("regMobile");
         System.out.print("diagid in add address....."+getUserId);
 
-        diagnosticName = (EditText) findViewById(R.id.Diagnostic_Name);
+        diagnosticName = (EditText) findViewById(R.id.shopName);
         address = (EditText) findViewById(R.id.Address);
         Experience =(EditText) findViewById(R.id.Experence);
         city = (SearchableSpinner) findViewById(R.id.cityId);
@@ -191,7 +194,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         myLatitude = getIntent().getStringExtra("lati");
         myLongitude = getIntent().getStringExtra("longi");
 
-        myDiagnosticName = getIntent().getStringExtra("diagName");
+        myDiagnosticName = getIntent().getStringExtra("shopName");
         myAddress = getIntent().getStringExtra("address");
         myExperience = getIntent().getStringExtra("Experience");
         myEmergencyContact= getIntent().getStringExtra("emergencyContact");
@@ -207,9 +210,11 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         myFromTime = getIntent().getStringExtra("FromTime");
         myToTime =  getIntent().getStringExtra("ToTime");
         myAvailableService = getIntent().getBooleanExtra("emergencyService",myAvailableService);
-        System.out.print("diagid in add address comments....."+myComments);
+        System.out.print("medicalid in update address comments....."+myComments);
 
-        System.out.print("diagid in add address....."+getUserId);
+        System.out.print("medicalid in update address....."+getUserId);
+
+        System.out.print("shopname in update address....."+myDiagnosticName);
 
         diagnosticName.setText(myDiagnosticName);
         address.setText(myAddress);
@@ -344,6 +349,13 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);

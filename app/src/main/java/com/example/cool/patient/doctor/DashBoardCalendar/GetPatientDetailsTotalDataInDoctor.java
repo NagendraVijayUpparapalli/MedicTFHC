@@ -162,6 +162,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         appointmentDate = getIntent().getStringExtra("appointmentDate");
         patientId = Integer.toString(getIntent().getIntExtra("patientID",1));
 
+        System.out.println("my status..."+status1);
+
         statusList = new ArrayList<>();
         statusList.add("Select Status");
         statusList.add("Accept");
@@ -264,8 +266,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
                 }
             });
-
-
 
             rippleView.setOnClickListener(new View.OnClickListener() {
                 @Override

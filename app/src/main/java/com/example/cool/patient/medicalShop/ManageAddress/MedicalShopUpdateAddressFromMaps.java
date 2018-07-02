@@ -136,6 +136,9 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,7 +155,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         regMobile = getIntent().getStringExtra("regMobile");
         System.out.println("medicalid in update from map address....."+getUserId);
 
-        diagnosticName = (EditText) findViewById(R.id.Diagnostic_Name);
+        diagnosticName = (EditText) findViewById(R.id.shopName);
         address = (EditText) findViewById(R.id.Address);
         Experience =(EditText) findViewById(R.id.Experence);
         city = (SearchableSpinner) findViewById(R.id.cityId);
@@ -341,6 +344,12 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();

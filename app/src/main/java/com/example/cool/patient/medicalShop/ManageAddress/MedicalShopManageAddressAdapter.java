@@ -106,7 +106,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
                     intent.putExtra("addressId",AddressID.getText().toString());
                     intent.putExtra("pharmacyId",Pharmacytype.getText().toString());
 
-                    intent.putExtra("diagName",hospitalName.getText().toString());
+                    intent.putExtra("shopName",hospitalName.getText().toString());
                     intent.putExtra("address",address.getText().toString());
                     intent.putExtra("Lindlineno",landlineNo.getText().toString());
                     intent.putExtra("city",city.getText().toString());
@@ -156,7 +156,6 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
         return viewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         viewHolder.hospitalName.setText(medicalManageAddressClassArrayList.get(i).getHospitalName());
@@ -182,6 +181,8 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
 
         reasonToDelete = reason_Todelete.getText().toString();
         phone = viewHolder.regMobile.getText().toString();
+
+        System.out.println("shop name.."+viewHolder.hospitalName.getText().toString());
 
 
 

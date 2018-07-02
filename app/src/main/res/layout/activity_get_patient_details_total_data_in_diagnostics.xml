@@ -81,13 +81,11 @@
                     android:textSize="15sp"
                     />
                 <TextView
-
                     android:id="@+id/aadhaarNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="993412564789"
                     android:textAlignment="center"
-                    android:textStyle="bold"
                     android:textSize="17sp"
                     android:layout_marginStart="19dp"
 
@@ -114,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:text="9492862167"
                     android:textAlignment="center"
-                    android:textStyle="bold"
+
                     android:transitionName="patient_phone_transtion"
                     android:textSize="17dp"
                     android:layout_marginStart="20dp" />
@@ -142,7 +140,6 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAlignment="center"
-                    android:textStyle="bold"
                     android:textSize="17sp"
                     android:transitionName="patient_time_transtion"
                     android:layout_marginStart="60dp"/>
@@ -201,7 +198,6 @@
                     android:layout_marginEnd="30dp"
                     android:background="@drawable/edittext_button"
                     android:layout_weight="2"
-                    android:textStyle="bold"
                     android:textSize="15sp"
                     />
 
@@ -223,6 +219,7 @@
                     android:textAlignment="center"
                     android:text="@string/payment_mode"
                     android:textColor="#2C5E83"/>
+
                 <LinearLayout
 
                     android:weightSum="3"

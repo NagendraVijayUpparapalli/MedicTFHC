@@ -71,6 +71,9 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +132,13 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);

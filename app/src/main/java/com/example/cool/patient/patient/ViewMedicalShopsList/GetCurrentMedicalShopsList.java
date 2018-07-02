@@ -46,12 +46,14 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
+import com.example.cool.patient.patient.MyFamily;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.SelectCity;
 import com.example.cool.patient.patient.PatientEditProfile;
 import com.example.cool.patient.patient.PatientSideNavigationExpandableListAdapter;
 import com.example.cool.patient.patient.PatientSideNavigationExpandableSubList;
+import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank;
 import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
 import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
 import com.google.android.gms.maps.model.LatLng;
@@ -301,20 +303,28 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                     editProfile.putExtra("mobile",usermobileNumber);
                     startActivity(editProfile);
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,AboutUs.class);
+                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,MyFamily.class);
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,ReachUs.class);
+                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,AboutUs.class);
                     startActivity(contact);
 
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
+                    // call some activity here
+
+                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,ReachUs.class);
+                    startActivity(contact);
+
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM8) {
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentMedicalShopsList.this,Login.class);
@@ -372,27 +382,35 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
                         // call activity here
 
-//                        Intent in = new Intent(PatientDashBoard.this,GetCurrentMedicalShopsList.class);
-//                        in.putExtra("userId",getUserId);
-//                        in.putExtra("mobile",mobile_number);
-//                        startActivity(in);
+                        Intent in = new Intent(GetCurrentMedicalShopsList.this,GetCurrentMedicalShopsList.class);
+                        in.putExtra("userId",getUserId);
+                        in.putExtra("mobile",usermobileNumber);
+                        startActivity(in);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(GetCurrentMedicalShopsList.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
 
                         // call activity here
-//                        Intent bloodbank = new Intent(PatientDashBoard.this,BloodBank.class);
-//                        startActivity(bloodbank);
+                        Intent bloodbank = new Intent(GetCurrentMedicalShopsList.this,BloodBank.class);
+                        bloodbank.putExtra("userId",getUserId);
+                        bloodbank.putExtra("mobile",usermobileNumber);
+                        startActivity(bloodbank);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
+                        // call activity here
+                        Intent contact = new Intent(GetCurrentMedicalShopsList.this,AboutUs.class);
+                        startActivity(contact);
 
                     }
 
