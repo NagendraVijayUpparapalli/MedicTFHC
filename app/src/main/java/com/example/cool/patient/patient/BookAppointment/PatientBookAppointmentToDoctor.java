@@ -294,6 +294,15 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                             myselecteddate =year+"/"+mm+"/"+dayOfMonth;
                         }
 
+                        if(dayOfMonth<day || monthOfYear<month)
+                        {
+                            showalertdialog();
+                        }
+                        else
+                        {
+                            System.out.println("selected current date");
+                        }
+
                         String datte =year+"/"+monthOfYear+"/"+dayOfMonth;
 
                         System.out.println("myselecteddate value.."+myselecteddate);
@@ -364,7 +373,20 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     }
 
+    private void showalertdialog() {
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDoctor.this);
+        builder.setMessage("you are selected previous date");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int id) {
+
+
+                dialogInterface.cancel();
+            }
+        });
+
+        builder.show();
+    }
 
     private void slideDown(View myview) {
 

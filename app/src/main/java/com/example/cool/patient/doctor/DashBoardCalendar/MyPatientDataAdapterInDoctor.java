@@ -60,6 +60,9 @@ public void onBindViewHolder(ViewHolder holder, int position) {
         holder.patientId.setText(my_data.get(position).getPatientID());
         holder.AppoinmentID.setText(my_data.get(position).getAppointmentID());
         holder.appointmentDate.setText(my_data.get(position).getAppointmentDate());
+        holder.prescription.setText(my_data.get(position).getPrescription());
+        holder.amount.setText(my_data.get(position).getAmount());
+        holder.paymentmode.setText(my_data.get(position).getPaymentMode());
 
 //        mypatientId = my_data.get(position).getPatientID();
 
@@ -99,7 +102,7 @@ public int getItemCount() {
 public  class ViewHolder extends  RecyclerView.ViewHolder{
 
     public TextView PatientName,mobileNumber,Timeslot,Status,aadhar,
-            doctorId,DoctorAddressId,doctorMobile,appointmentDate,AppoinmentID,patientId;
+            doctorId,DoctorAddressId,doctorMobile,appointmentDate,AppoinmentID,patientId,prescription,amount,paymentmode;
 
     public ViewHolder(final View itemView) {
         super(itemView);
@@ -115,6 +118,9 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
         appointmentDate = (TextView)itemView.findViewById(R.id.appointmentDate);
         AppoinmentID = (TextView)itemView.findViewById(R.id.AppoinmentID);
         patientId = (TextView)itemView.findViewById(R.id.patientId);
+        prescription = (TextView)itemView.findViewById(R.id.prescription);
+        amount = (TextView)itemView.findViewById(R.id.amount);
+        paymentmode = (TextView)itemView.findViewById(R.id.paymentmode);
 
         System.out.println("this is size..."+my_data.size());
 
@@ -134,6 +140,9 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
                 intent.putExtra("doctorAddressID",DoctorAddressId.getText().toString());
                 intent.putExtra("patientID",patientId.getText().toString());
                 intent.putExtra("appointmentDate",appointmentDate.getText().toString());
+                intent.putExtra("prescription",prescription.getText().toString());
+                intent.putExtra("amount",amount.getText().toString());
+                intent.putExtra("paymentmode",paymentmode.getText().toString());
                 itemView.getContext().startActivity(intent);
                 //itemView.getContext().startActivity(new Intent(itemView.getContext(),Getpatientdetailstotaldata.class));
             }

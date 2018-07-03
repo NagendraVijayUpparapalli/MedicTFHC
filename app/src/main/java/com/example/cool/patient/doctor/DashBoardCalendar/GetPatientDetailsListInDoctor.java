@@ -58,7 +58,8 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
     String date,geturl;
     static String DoctorId,DoctorAddressId,doctorMobile,status;
 
-    String DStatus,Status1,PatientName,EmailID,MobileNo,ReasonAppointments,Comments,TimeSlots,AadharNumber,Prescription;
+    String DStatus,Status1,PatientName,EmailID,MobileNo,ReasonAppointments,Comments,TimeSlots,AadharNumber,Prescription,
+            Amount,PaymentMode;
     int Dstatus;
     String PatientID,AppointmentID;
 
@@ -104,7 +105,7 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
 
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+DoctorId);
 
-        new GetPatientDetails().execute(baseUrl.getUrl()+"GetDoctorAppointToAccept"+"?id="+DoctorId+"&AppointmentDate="+date);
+        new GetPatientAppointmentDetails().execute(baseUrl.getUrl()+"GetDoctorAppointToAccept"+"?id="+DoctorId+"&AppointmentDate="+date);
 
         gridLayoutManager = new GridLayoutManager(this,2);
         layoutManager=new LinearLayoutManager(this);
@@ -463,7 +464,7 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
     }
 
     //Get patient details  based on doctor id and appointment date
-    private class GetPatientDetails extends AsyncTask<String, Void, String> {
+    private class GetPatientAppointmentDetails extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -545,15 +546,17 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
                     PatientName=(String)js.get("PatientName");
                     EmailID = (String) js.get("EmailID");
                     MobileNo=(String) js.get("MobileNo");
-                    Prescription=(String) js.get("Prescription");
                     PatientID= js.getString("PatientID");
                     Comments=(String) js.get("Comments");
                     ReasonAppointments=(String) js.get("ReasonAppointments");
                     AadharNumber=(String) js.get("Aadharnumber");
                     TimeSlots=(String) js.get("TimeSlots");
+                    Prescription=(String) js.get("Prescription");
+                    Amount = js.getString("Amount");
+                    PaymentMode = js.getString("Payment");
 
                     MyPatientDataClassInDoctor myPatientDataClassInDoctor = new MyPatientDataClassInDoctor(DoctorId,doctorMobile,
-                            DoctorAddressId,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,Prescription,PatientID,
+                            DoctorAddressId,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,Prescription,Amount,PaymentMode,PatientID,
                             Comments,ReasonAppointments,AadharNumber,TimeSlots,date);
 
                     data_list.add(myPatientDataClassInDoctor);

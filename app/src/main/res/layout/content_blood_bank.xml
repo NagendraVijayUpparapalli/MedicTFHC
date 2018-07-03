@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
-    android:id="@+id/drawer_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolappbar"
@@ -238,36 +230,6 @@
     </ListView>
 
 </RelativeLayout>
-
-
-    <android.support.design.widget.NavigationView
-
-
-    android:id="@+id/nav_view"
-
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:fitsSystemWindows="true">
-
-    <ExpandableListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/expandableListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_marginTop="139dp"
-        android:choiceMode="singleChoice"
-        android:divider="#000"
-        android:dividerHeight="0.2dp"
-        android:groupIndicator="@null"
-        android:alpha="255"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        >
-    </ExpandableListView>
-    </android.support.design.widget.NavigationView>
-
-</android.support.v4.widget.DrawerLayout>
 
 
 

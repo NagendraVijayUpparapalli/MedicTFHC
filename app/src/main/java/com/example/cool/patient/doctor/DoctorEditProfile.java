@@ -2,6 +2,7 @@ package com.example.cool.patient.doctor;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -152,6 +154,9 @@ public class DoctorEditProfile extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+
+    Dialog MyDialog;
+    TextView message,oklink;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1156,25 +1161,49 @@ public class DoctorEditProfile extends AppCompatActivity
         }
     }
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DoctorEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        new Mytask().execute();
-                        Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        new Mytask().execute();
+//                        Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
     }
 
     public void showErrorMessage(String message){
@@ -1225,21 +1254,46 @@ public class DoctorEditProfile extends AppCompatActivity
 
     public void showMessage(){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage("Your details are successfully updated")
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        MyDialog  = new Dialog(DoctorEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("Your profile details are successfully updated");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage("Your details are successfully updated")
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",mobile_number);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
     }
 
     private class GetAadharImageTask extends AsyncTask<String, Void, Bitmap> {

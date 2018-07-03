@@ -1,0 +1,7 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/time_error_icon"
+        android:width="120dp"
+        android:height="120dp"
+        />
+</layer-list>

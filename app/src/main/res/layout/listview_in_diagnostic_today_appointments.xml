@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Amudula prabaharakar Raju Udaya sri"
             android:textColor="#000"
+            android:textAllCaps="true"
             android:layout_marginTop="5dp"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -59,7 +60,7 @@
         android:id="@+id/t"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/arrow_forward"
         android:textSize="15dp"/>

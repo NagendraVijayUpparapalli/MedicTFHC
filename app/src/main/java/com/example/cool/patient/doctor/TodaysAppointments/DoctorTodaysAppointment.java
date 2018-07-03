@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -81,7 +82,6 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
     TextView age,reason,viewhistory;
 //    Button submitBtn;
 
-    FloatingActionButton camaraicon;
     CheckBox refer;
     RelativeLayout relativeLayout;
 
@@ -103,6 +103,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     ImageView prescription,center_image;
     FloatingActionButton addPrescriptionGalleryFloatingButton,addPrescriptionCameraFloatingButton;
+    String imageViewStatus = null;
     Bitmap mIcon11;
     static String encodedPrescriptionImage = null;
     Uri selectedImageUri ;
@@ -140,25 +141,13 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comments==null || !encodedPrescriptionImage.equals("null"))
-                {
-                    showMessage();
-                }
-                else if(comments!=null || encodedPrescriptionImage.equals("null"))
-                {
-                    showMessage();
-                }
-                else
-                {
-                    showOptionMessage();
-                }
-
+                validateImageAndComments();
             }
         });
 
 //        diagnostic_centers = (Spinner)findViewById(R.id.diagnostic_centers);
 
-        camaraicon=(FloatingActionButton) findViewById(R.id.camera_icon);
+//        camaraicon=(FloatingActionButton) findViewById(R.id.camera_icon);
         prescription = (ImageView) findViewById(R.id.prescription);
 
         addPrescriptionGalleryFloatingButton = (FloatingActionButton) findViewById(R.id.gallery_icon);
@@ -168,6 +157,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        imageViewStatus = "Yes";
                         ActivityCompat.requestPermissions(
                                 DoctorTodaysAppointment.this,
                                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -181,6 +171,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        imageViewStatus = "Yes";
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(intent, MY_CAMERA_REQUEST_CODE);
@@ -439,6 +430,62 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     }
 
+    private  void validateImageAndComments()
+    {
+//        if(!validate())
+//        {
+//
+//        }
+//        else
+//        {}
+
+        if(comments.getText().toString().isEmpty() && imageViewStatus == null)
+        {
+            System.out.println("this is if..");
+            showOptionMessage();
+        }
+//                else if(prescription.getDrawable() == null)
+        else if(!comments.getText().toString().isEmpty() && imageViewStatus !=null)
+        {
+            System.out.println("this is else if1..");
+            showMessage();
+        }
+        else if(!comments.getText().toString().isEmpty() && imageViewStatus ==null)
+        {
+            System.out.println("this is else if2..");
+            showMessage();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Sorry..",Toast.LENGTH_SHORT).show();
+//                    showOptionMessage();
+        }
+    }
+
+    public boolean validate()
+    {
+        boolean validate = true;
+
+//        if(comments.getText().toString().equals(null) || !encodedPrescriptionImage.equals("null"))
+            if(comments.getText().toString().equals(null) && imageViewStatus == null)
+            {
+                showOptionMessage();
+            }
+//                else if(prescription.getDrawable() == null)
+            else if(comments.getText().toString().equals(null) && imageViewStatus !=null)
+            {
+                showMessage();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry..",Toast.LENGTH_SHORT).show();
+//                    showOptionMessage();
+            }
+            return validate;
+    }
+
+
+
     //home icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -523,6 +570,15 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
         {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             prescription.setImageBitmap(thumbnail);
+
+            prescription.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedPrescriptionImage = Base64.encodeToString(b1, Base64.DEFAULT);
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -639,21 +695,13 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     }
 
-
-
     public void showOptionMessage(){
 
         final AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
 
         a_builder.setMessage("Please fill comments or prescription, otherwise fill both")
                 .setCancelable(false)
-                .setNegativeButton("Yes",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        a_builder.setCancelable(true);
-                    }
-                })
-                .setPositiveButton("No",new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         a_builder.setCancelable(true);
@@ -710,7 +758,7 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                         intent.putExtra("reason",myComments);
                         intent.putExtra("mobile",doctorMobile);
                         intent.putExtra("id",doctorId);
-                        intent.putExtra("prescription","");
+                        intent.putExtra("prescription",encodedPrescriptionImage);
                         startActivity(intent);
                     }
                 });

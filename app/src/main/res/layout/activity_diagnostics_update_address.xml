@@ -1,34 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<LinearLayout-->
-<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="match_parent"-->
-<!--xmlns:tools="http://schemas.android.com/tools"-->
-<!--android:fitsSystemWindows="true"-->
-<!--android:orientation="vertical">-->
-
-<!--<android.support.design.widget.AppBarLayout-->
-<!--android:id="@+id/toolappbar"-->
-<!--android:layout_width="match_parent"-->
-
-<!--android:layout_height="wrap_content"-->
-<!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-<!--<android.support.v7.widget.Toolbar-->
-<!--android:id="@+id/toolbar"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="match_parent"-->
-
-<!--android:background="@drawable/toolbar_gradient"-->
-<!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
-<!--app:layout_scrollFlags="scroll|enterAlways" >-->
-
-<!--</android.support.v7.widget.Toolbar>-->
-
-<!--</android.support.design.widget.AppBarLayout>-->
-
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -62,7 +33,7 @@
             xmlns:tools="http://schemas.android.com/tools">
 
             <android.support.design.widget.AppBarLayout
-                android:id="@+id/appbarcool"
+                android:id="@+id/toolappbar"
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"
@@ -85,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:isScrollContainer="true"
-                android:layout_below="@+id/appbarcool"
+                android:layout_below="@+id/toolappbar"
                 xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto">
                 <RelativeLayout
@@ -359,7 +330,7 @@
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="16sp"
-                                android:layout_marginStart="10dp"
+                                android:layout_marginStart="4dp"
                                 android:layout_weight="1"
                                 android:textStyle="bold"
                                 android:layout_marginBottom="5dp"
@@ -373,7 +344,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginBottom="5dp"
                                 android:textColor="#ff0000"
-                                android:text="If you know latitude,longitude please enter otherwise click below link to get latitude and longitude"/>
+                                android:text="Enetr lat, long or otherwise click below."/>
                         </LinearLayout>
 
 
@@ -392,7 +363,8 @@
                                 android:layout_marginEnd="60dp"
                                 android:textAlignment="center"
                                 android:layout_marginTop="10dp"
-                                android:background="@drawable/diag_google_map_link"
+                                android:padding="7dp"
+                                android:background="@drawable/google_map_link"
                                 android:text="@string/click_here_to_get_your_location"
                                 android:textColor="#fff"
                                 android:textSize="15sp"
@@ -544,7 +516,6 @@
                                 android:layout_marginEnd="20dp"
                                 android:background="@drawable/edittext_button"
                                 android:layout_weight="2"
-                                android:textStyle="bold"
                                 android:textSize="15sp"
                                 />
 
@@ -718,6 +689,7 @@
 
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -736,10 +708,11 @@
             android:choiceMode="singleChoice"
             android:divider="#000"
             android:dividerHeight="0.2dp"
+
             android:groupIndicator="@null"
             android:alpha="255"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft">
-
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
         </ExpandableListView>
         <!--</RelativeLayout>-->
 

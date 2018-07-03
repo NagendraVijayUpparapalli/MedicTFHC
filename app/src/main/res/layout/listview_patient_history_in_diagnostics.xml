@@ -22,6 +22,8 @@
             android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:textColor="#000080"
+            android:text="Hello"
+            android:textAllCaps="true"
             android:transitionName="patient_name_transtion"
             android:textSize="17dp"
             />

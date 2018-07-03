@@ -1,5 +1,6 @@
 package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
@@ -72,11 +74,13 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     List<String> speciality;
     private String fullScreenInd;
     TextView patintname,aadhar,mobile,testname;
+    RippleView rippleView;
     Spinner status;
+    ArrayAdapter<String> adapter;
     static String selectedItemText,payment,comment,ammnt;
     EditText comments;
     CheckBox cashonhand,netbanking,swipe_card;
-    public static final CharSequence[] states = {"---Status---", "Initiated", "In Progress", "Finished"};
+
     EditText amnt;
     ImageView prescrption;
     Bitmap mIcon11;
@@ -96,6 +100,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+    List<String> statusList;
 
 
     @Override
@@ -118,12 +123,65 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         swipe_card=(CheckBox)findViewById(R.id.swipe_card);
         status=(Spinner)findViewById(R.id.status);
         prescrption=(ImageView)findViewById(R.id.prescription);
-//        submit=(Button) findViewById(R.id.submit);
+        rippleView = (RippleView) findViewById(R.id.rippleView);
+
+
+        diagmobile = getIntent().getStringExtra("diagmobile");
+        diagnosticId = getIntent().getStringExtra("diagnosticId");
+        centerName = getIntent().getStringExtra("centerName");
+        addressId = getIntent().getStringExtra("addressId");
+        patientname=getIntent().getStringExtra("Patientname");
+        mobilenumber=getIntent().getStringExtra("mobilenumber");
+        Aadharnumber=getIntent().getStringExtra("Aadharnumber");
+        statuss=getIntent().getStringExtra("status");
+        comments1=getIntent().getStringExtra("comments");
+        prescription=getIntent().getStringExtra("Prescription");
+        amount=getIntent().getStringExtra("Amount");
+        payment = getIntent().getStringExtra("paymode");
+        rdid=getIntent().getIntExtra("rdid",rdid);
+        appointmentDate = getIntent().getStringExtra("date");
+
+        System.out.println("appointmentDate....in view data.."+appointmentDate+"..status.."+statuss+"..payment mode..."+payment);
+
         builder=new StringBuilder();
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, states);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-        status.setAdapter(adapter);
+//        Finished, Initiated, In Progress
+
+        statusList = new ArrayList<>();
+        statusList.add("Select Status");
+        statusList.add("Initiated");
+        statusList.add("In Progress");
+        statusList.add("Finished");
+
+        if(statuss.equals("Pending"))
+        {
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            status.setAdapter(adapter);
+        }
+        else if(statuss.equals("Initiated"))
+        {
+            statusList.add(0,"Initiated");
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            status.setAdapter(adapter);
+        }
+        else if(statuss.equals("In Progress"))
+        {
+            statusList.add(0,"In Progress");
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            status.setAdapter(adapter);
+        }
+        else if(statuss.equals("Finished"))
+        {
+            statusList.add(0,"Finished");
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+            status.setAdapter(adapter);
+        }
+
+
 
         status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -154,94 +212,169 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         });
 
-        diagmobile = getIntent().getStringExtra("diagmobile");
-        diagnosticId = getIntent().getStringExtra("diagnosticId");
-        centerName = getIntent().getStringExtra("centerName");
-        addressId = getIntent().getStringExtra("addressId");
-        patientname=getIntent().getStringExtra("Patientname");
-        mobilenumber=getIntent().getStringExtra("mobilenumber");
-        Aadharnumber=getIntent().getStringExtra("Aadharnumber");
-        statuss=getIntent().getStringExtra("status");
-        comments1=getIntent().getStringExtra("comments");
-        prescription=getIntent().getStringExtra("Prescription");
-        amount=getIntent().getStringExtra("Amount");
-        pamode=getIntent().getStringExtra("paymode");
-        rdid=getIntent().getIntExtra("rdid",rdid);
-        appointmentDate = getIntent().getStringExtra("date");
 
-        System.out.println("appointmentDate....in view data.."+appointmentDate);
+        if(!prescription.equals(""))
+        {
+            new DownloadImage().execute(baseUrl.getImageUrl()+prescription);
+        }
 
-        cashonhand.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view) {
+        if(statuss.equals("Pending"))
+        {
+            amnt.setText(amount);
+            amnt.setFocusable(true);
+            amnt.setFocusableInTouchMode(true);
+            amnt.setClickable(true);
 
-                if(cashonhand.isChecked())
-                {
-                    payment="Cash on Hand";
+            comments.setFocusable(true);
+            comments.setFocusableInTouchMode(true);
+            comments.setClickable(true);
+
+            status.setFocusable(true);
+            status.setFocusableInTouchMode(true);
+            status.setClickable(true);
+
+            rippleView.setFocusable(true);
+//            rippleView.setFocusableInTouchMode(true);
+//            rippleView.setClickable(true);
+
+            netbanking.setFocusable(true);
+            netbanking.setFocusableInTouchMode(true);
+            netbanking.setClickable(true);
+
+            cashonhand.setFocusable(true);
+            cashonhand.setFocusableInTouchMode(true);
+            cashonhand.setClickable(true);
+            cashonhand.setChecked(true);
+
+            swipe_card.setFocusable(true);
+            swipe_card.setFocusableInTouchMode(true);
+            swipe_card.setClickable(true);
+
+            netbanking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(netbanking.isChecked())
+                    {
+                        payment="OnlineBanking";
+                        cashonhand.setEnabled(false);
+                        swipe_card.setEnabled(false);
+                    }
+                    else
+                    {
+                        cashonhand.setEnabled(true);
+                        swipe_card.setEnabled(true);
+                    }
+
                 }
-            }
-        });
+            });
 
-//        paytm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(paytm.isChecked()){
-//
-//                    payment="Pay with Paytm";
-//                }
-//            }
-//        });
+            cashonhand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        netbanking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(netbanking.isChecked())
-                {
-                    payment="OnlineBanking";
+                    if(cashonhand.isChecked())
+                    {
+                        payment="CashOnHand";
+                        swipe_card.setEnabled(false);
+                        netbanking.setEnabled(false);
+                    }
+                    else
+                    {
+                        swipe_card.setEnabled(true);
+                        netbanking.setEnabled(true);
+                    }
                 }
+            });
 
-            }
-        });
 
-        swipe_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            swipe_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(swipe_card.isChecked())
+                    {
+                        payment="Debit/CreditcardSwipe";
+                        netbanking.setEnabled(false);
+                        cashonhand.setEnabled(false);
+                    }
 
-                if(swipe_card.isChecked())
-                {
-                    payment="Debit/CreditcardSwipe";
+                    else
+                    {
+                        netbanking.setEnabled(true);
+                        cashonhand.setEnabled(true);
+                    }
+
                 }
-            }
-        });
+            });
+        }
 
-        final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
+
+        else
+        {
+            amnt.setText(amount);
+            amnt.setFocusable(false);
+            amnt.setFocusableInTouchMode(false);
+            amnt.setClickable(false);
+
+            comments.setFocusable(false);
+            comments.setFocusableInTouchMode(false);
+            comments.setClickable(false);
+
+            status.setFocusable(false);
+            status.setFocusableInTouchMode(false);
+            status.setClickable(false);
+            status.setEnabled(false);
+
+            rippleView.setFocusable(false);
+//            rippleView.setFocusableInTouchMode(true);
+//            rippleView.setClickable(true);
+
+            netbanking.setFocusable(false);
+            netbanking.setFocusableInTouchMode(false);
+            netbanking.setClickable(false);
+
+            cashonhand.setFocusable(false);
+            cashonhand.setFocusableInTouchMode(false);
+            cashonhand.setClickable(false);
+            cashonhand.setChecked(false);
+
+            swipe_card.setFocusable(false);
+            swipe_card.setFocusableInTouchMode(false);
+            swipe_card.setClickable(false);
+
+            if(payment.equals("CashonHand"))
+            {
+                cashonhand.setChecked(true);
+            }
+            else if(payment.equals("OnlineBanking"))
+            {
+                netbanking.setChecked(true);
+            }
+            else if(payment.equals("Debit/CreditcardSwipe"))
+            {
+                swipe_card.setChecked(true);
+            }
+        }
 
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String json=formatDataAsJson();
+
 //                System.out.println("js data.getpatient details in diag."+json.toString());
-//                new SendDetails().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment",json.toString());
+                if(statuss.equals("Pending"))
+                {
+                    comment=comments.getText().toString();
+                    ammnt=amnt.getText().toString();
 
-                comment=comments.getText().toString();
-                ammnt=amnt.getText().toString();
+                    new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
 
-//                if(netbanking.isChecked())
-//                {`
-//                    payment = "Online Banking";
-//                }
-//
-//                if(cashonhand.isChecked())
-//                {
-//                    payment="Cash on Hand";
-//                }
-//
-//                if(swipe_card.isChecked())
-//                {
-//                    payment="Debit/Credit card Swipe";
-//                }
-                new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -250,7 +383,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+diagnosticId);
 
-        new GetDiagnosticCenterbyAdressByIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID"+addressId);
+        new GetDiagnosticCenterbyAdressByIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID="+addressId);
 
         speciality=getIntent().getStringArrayListExtra("testname");
 
@@ -262,13 +395,21 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         }
 
-        testname.setText(builder.toString());
+        testname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMessage(builder.toString());
+            }
+        });
+
+//        testname.setText(builder.toString());
+
         patintname.setText(patientname);
         aadhar.setText(Aadharnumber);
         mobile.setText(mobilenumber);
         comments.setText(comments1);
         amnt.setText(amount);
-        new DownloadImage().execute(baseUrl.getImageUrl()+prescription);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -736,6 +877,24 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             }
 
         }
+    }
+
+    public void showMessage(String s){
+
+        final AlertDialog.Builder a_builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+
+        a_builder.setMessage(s)
+                .setCancelable(false)
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Requested Diagnostic Tests...");
+        alert.show();
+
     }
 
     private String formatDataAsJson()

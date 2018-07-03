@@ -115,10 +115,12 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 closeIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context,GetCurrentDoctorsList.class);
-                        intent.putExtra("userId",userId.getText().toString());
-                        intent.putExtra("mobile",doctorphonenum.getText().toString());// change to patient mobile
-                        context.startActivity(intent);
+
+                        MyDialog.cancel();
+//                        Intent intent = new Intent(context,GetCurrentDoctorsList.class);
+//                        intent.putExtra("userId",userId.getText().toString());
+//                        intent.putExtra("mobile",doctorphonenum.getText().toString());// change to patient mobile
+//                        context.startActivity(intent);
                     }
                 });
 

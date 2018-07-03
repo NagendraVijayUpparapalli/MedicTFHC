@@ -192,7 +192,7 @@ public class PatientSideNavigationExpandableListAdapter extends BaseExpandableLi
             listTitleTextIconView.setImageResource(R.drawable.ic_edit_black_24dp);
         else if (listPosition == ITEM5)
             // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));
-            listTitleTextIconView.setImageResource(R.drawable.noimage11)
+            listTitleTextIconView.setImageResource(R.drawable.myfamily)
                     ;
         else if (listPosition == ITEM6)
             // listTitleTextIconView.setText(context.getResources().getString(R.string.fa_envelope_o));

@@ -2,6 +2,7 @@ package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
     private List<MyPatientDataClassInDiagnostics> my_data;
     Context context;
     List<String> speciality=new ArrayList<>();
+    StringBuilder builder;
+    String test;
 
     String testname;
     public MyPatientDataAdapterInDiagnostics(Context context, List<MyPatientDataClassInDiagnostics> data_list) {
@@ -52,7 +55,44 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
         holder.diagnosticId.setText(my_data.get(position).getDiagnosticId());
         holder.diagmobile.setText(my_data.get(position).getDiagmobile());
         holder.appointmentDate.setText(my_data.get(position).getAppointmentDate());
+        holder.myspeciality.setText(builder.toString());
         speciality=my_data.get(position).getSpeciality();
+
+        builder=new StringBuilder();
+
+        for(int i=0;i<speciality.size();i++)
+        {
+            System.out.println("testname"+speciality.get(i));
+            test=speciality.get(i);
+            builder.append(test+"\n");
+
+        }
+
+//        Finished, Initiated, In Progress
+
+        if(my_data.get(position).getStatus().equals("Initiated"))
+        {
+
+            holder.status.setTextColor(Color.MAGENTA);
+
+        }
+        else if(my_data.get(position).getStatus().equals("Finished"))
+        {
+
+            holder.status.setTextColor(Color.GREEN);
+        }
+
+        else if(my_data.get(position).getStatus().equals("Pending"))
+        {
+
+            holder.status.setTextColor(Color.CYAN);
+        }
+        else if(my_data.get(position).getStatus().equals("In Progress"))
+        {
+
+            holder.status.setTextColor(Color.MAGENTA);
+
+        }
 
     }
 
@@ -63,7 +103,7 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView Patientname,mobilenumber,status,Aadharnumber,Amount,Prescription,comments,paymode,RDID,
-                addressId,centerName,diagnosticId,diagmobile,appointmentDate;
+                addressId,centerName,diagnosticId,diagmobile,appointmentDate,myspeciality;
         public ViewHolder(final View itemView) {
             super(itemView);
 
@@ -81,6 +121,7 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
             diagnosticId = (TextView) itemView.findViewById(R.id.diagnosticId);
             diagmobile = (TextView) itemView.findViewById(R.id.diagmobile);
             appointmentDate = (TextView) itemView.findViewById(R.id.appointmentDate);
+            myspeciality = (TextView) itemView.findViewById(R.id.speciality);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +144,7 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
                     i.putExtra("diagmobile",diagmobile.getText().toString());
                     i.putExtra("date",appointmentDate.getText().toString());
                     i.putExtra("rdid",Integer.parseInt(RDID.getText().toString()));
-                    i.putStringArrayListExtra("testname",(ArrayList<String>)speciality);
+                    i.putStringArrayListExtra("testname", (ArrayList<String>) speciality);
                     itemView.getContext().startActivity(i);
 
                 }

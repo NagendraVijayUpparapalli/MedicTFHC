@@ -52,6 +52,7 @@
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
+            android:layout_below="@+id/toolappbar"
             android:layout_height="match_parent">
             <LinearLayout
                 android:id="@+id/details"
@@ -60,7 +61,7 @@
                 android:orientation="vertical"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:layout_marginTop="40dp"
+
                 android:padding="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -358,7 +359,7 @@
                         android:layout_weight="1"
                         android:layout_marginBottom="5dp"
                         android:textColor="#ff0000"
-                        android:text="If you know latitude,longitude please enter otherwise click below link to get latitude and longitude"/>
+                        android:text="Enetr lat, long or otherwise click below."/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -372,6 +373,7 @@
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="7dp"
                         android:layout_marginStart="60dp"
                         android:layout_marginEnd="60dp"
                         android:textAlignment="center"

@@ -29,7 +29,7 @@
             android:textColor="#FFF"
             android:textStyle="bold"
             android:background="@drawable/timingcircular_text"
-            android:text="12:30" />
+            android:text="00:00" />
         <TextView
             android:id="@+id/doctorId"
             android:layout_width="match_parent"
@@ -63,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sudarsana Rao "
+                android:textAllCaps="true"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold" />

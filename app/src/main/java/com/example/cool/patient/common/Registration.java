@@ -3,6 +3,7 @@ package com.example.cool.patient.common;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -57,6 +59,8 @@ import br.com.bloder.magic.view.MagicButton;
 public class Registration extends AppCompatActivity {
 
     ProgressDialog progressDialog;
+    Dialog MyDialog;
+    TextView message,oklink;
 
     Spinner spinner;
     ImageView Image;
@@ -419,27 +423,33 @@ public class Registration extends AppCompatActivity {
 
     public void showMessage(String responsemessage){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(Registration.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.success_alert);
 
-        a_builder.setMessage("Successfully Completed")
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new Mytask().execute();
-                        String js = emailFormatDataAsJson();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
 
-                        System.out.println("registration email json data..."+js.toString());
+        message.setEnabled(true);
+        oklink.setEnabled(true);
 
-                        new sendEmailRegistrationDetails().execute(baseUrl.getEmailUrl(),js.toString());
+        message.setText("Registration Successfully Completed");
 
-                        Intent i2 = new Intent(Registration.this, Login.class);
-                        startActivity(i2);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Registration");
-        alert.show();
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Mytask().execute();
+                String js = emailFormatDataAsJson();
+
+                System.out.println("registration email json data..."+js.toString());
+
+                new sendEmailRegistrationDetails().execute(baseUrl.getEmailUrl(),js.toString());
+
+                Intent i2 = new Intent(Registration.this, Login.class);
+                startActivity(i2);
+            }
+        });
+        MyDialog.show();
 
     }
 

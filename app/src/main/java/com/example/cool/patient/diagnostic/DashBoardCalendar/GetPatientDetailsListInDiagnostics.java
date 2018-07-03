@@ -55,7 +55,8 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
     String date,diagID,diagmobile;
 
-    String addressId,Payment,PatientName,CenterName,EmailID,MobileNo,Comments,Prescription,Amount,Aadharnumber,Specialitylist,Speciality;
+    String addressId,Payment,PatientName,CenterName,EmailID,MobileNo,Comments,Prescription,Amount,
+            Aadharnumber,Specialitylist,Speciality,Paymentmode;
     int Dstatus,RDTestID,SpecialityID;
 
     String status;
@@ -481,6 +482,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                     Prescription=(String) js.get("Prescription");
                     Amount=(String)js.get("Amount");
                     Aadharnumber=(String) js.get("Aadharnumber");
+                    Paymentmode=(String) js.get("Payment");
 
                     if(Dstatus==1)
                     {
@@ -509,9 +511,9 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                         speciality.add(Speciality);
                     }
 
-                    MyPatientDataClassInDiagnostics myPatientData=new MyPatientDataClassInDiagnostics(diagID,diagmobile,addressId,Dstatus,Payment,
-                            RDTestID,PatientName,Comments,CenterName,EmailID,MobileNo,Prescription,Amount,Aadharnumber,speciality,
-                            status,date);
+                    MyPatientDataClassInDiagnostics myPatientData=new MyPatientDataClassInDiagnostics(diagID,diagmobile,
+                            addressId,Dstatus,Payment,RDTestID,PatientName,Comments,CenterName,EmailID,MobileNo,Prescription,
+                            Amount,Aadharnumber,speciality,status,date);
 
                     data_list.add(myPatientData);
                 }

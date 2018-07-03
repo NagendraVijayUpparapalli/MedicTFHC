@@ -82,7 +82,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     ProgressDialog progressDialog;
 
     String myPatientname,aadhar,mobilenum,timeslt,str,url,status1;
-    static String doctorMobile,doctorId,patientId,appointmentDate,AppointmentID,DoctorComment,Approved,Amount,Prescrition,Payment=null;
+    static String doctorMobile,doctorId,patientId,appointmentDate,AppointmentID,DoctorComment,Approved,
+            Amount,prescription,Payment=null;
     int AppointmentID1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
@@ -161,8 +162,20 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         addressID=getIntent().getStringExtra("doctorAddressID");
         appointmentDate = getIntent().getStringExtra("appointmentDate");
         patientId = Integer.toString(getIntent().getIntExtra("patientID",1));
+        prescription = getIntent().getStringExtra("prescription");
+        Amount = getIntent().getStringExtra("amount");
+        Payment = getIntent().getStringExtra("paymentmode");
+
+        if(!prescription.equals(""))
+
+        {
+            new GetImageTask(image).execute(baseUrl.getImageUrl()+prescription);
+        }
+
 
         System.out.println("my status..."+status1);
+
+        System.out.println("my prescript url..."+prescription);
 
         statusList = new ArrayList<>();
         statusList.add("Select Status");
@@ -172,6 +185,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         if(status1.equals("Pending"))
         {
+            amount.setText(Amount);
             amount.setFocusable(true);
             amount.setFocusableInTouchMode(true);
             amount.setClickable(true);
@@ -194,8 +208,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             licenceicon.setClickable(true);
 
             rippleView.setFocusable(true);
-            rippleView.setFocusableInTouchMode(true);
-            rippleView.setClickable(true);
+//            rippleView.setFocusableInTouchMode(true);
+//            rippleView.setClickable(true);
 
             netbanking.setFocusable(true);
             netbanking.setFocusableInTouchMode(true);
@@ -267,20 +281,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                 }
             });
 
-            rippleView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    System.out.println("doctor comment..."+comment.getText().toString().trim());
-
-                    System.out.println("Amount..."+amount.getText().toString());
-
-                    System.out.println("status btn..."+spinner.getSelectedItem().toString());
-
-                    String json=formatDataAsJson();
-                    new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
-                }
-            });
 
             licenceicon.setOnClickListener(
                     new View.OnClickListener() {
@@ -317,6 +318,22 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         else
         {
+
+            amount.setText(Amount);
+
+            if(Payment.equals("Cash on Hand"))
+            {
+                cashonhand.setChecked(true);
+            }
+            else if(Payment.equals("Online Banking"))
+            {
+                netbanking.setChecked(true);
+            }
+            else if(Payment.equals("Debit/Credit card Swipe"))
+            {
+                swipe_card.setChecked(true);
+            }
+
             amount.setFocusable(false);
             amount.setFocusableInTouchMode(false);
             amount.setClickable(false);
@@ -329,7 +346,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             spinner.setFocusableInTouchMode(false);
             spinner.setClickable(false);
             spinner.setEnabled(false);
-
 
             camaraicon.setFocusable(false);
             camaraicon.setFocusableInTouchMode(false);
@@ -356,6 +372,29 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             swipe_card.setClickable(false);
         }
 
+        rippleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(status1.equals("Pending"))
+                {
+                    System.out.println("doctor comment..."+comment.getText().toString().trim());
+
+                    System.out.println("Amount..."+amount.getText().toString());
+
+                    System.out.println("status btn..."+spinner.getSelectedItem().toString());
+
+                    String json=formatDataAsJson();
+                    new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         System.out.println("mobile number"+mobilenum);
 
         uploadServerUrl = baseUrl.getUrl()+"DoctorGetAllAddress?ID="+doctorId;
@@ -379,12 +418,14 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         if(status1.equals("Pending"))
         {
+//            amount.setText(Amount);
             statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
             spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
         }
         else if(status1.equals("Accept"))
         {
+//            amount.setText(Amount);
             statusList.add(0,"Accept");
             statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -392,6 +433,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         }
         else if(status1.equals("Reschedule"))
         {
+//            amount.setText(Amount);
             statusList.add(0,"Reschedule");
             statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -399,6 +441,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         }
         else if(status1.equals("Reject"))
         {
+            amount.setText(Amount);
             statusList.add(0,"Reject");
             statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -605,6 +648,33 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
             }
         });
+
+    }
+
+
+    private class GetImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            image.setImageBitmap(result);
+        }
 
     }
 

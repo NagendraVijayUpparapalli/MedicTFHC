@@ -112,6 +112,8 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
         doctorMobile = getIntent().getStringExtra("mobile");
         doctorId = getIntent().getStringExtra("id");
 
+        System.out.println("precript.."+getIntent().getStringExtra("prescription"));
+
         if(referStatus.equals("Yes"))
         {
             new GetAllDiagSpeciality().execute(baseUrl.getUrl()+"GetDiagSpeciality");

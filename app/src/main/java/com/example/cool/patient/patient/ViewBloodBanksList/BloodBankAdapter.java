@@ -80,7 +80,7 @@ public class BloodBankAdapter extends ArrayAdapter<BloodBankClass> {
 
         double dis = Math.round(d1*1000)/1000.0;
 
-        holder.dist.setText("Distance : "+String.format("%.1f", dis)+" km");
+        holder.dist.setText(String.format("%.1f", dis)+" km");
 
         return v;
 

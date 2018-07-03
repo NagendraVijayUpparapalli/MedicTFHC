@@ -23,9 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
         tools:replace="android:icon">
+
         <activity
             android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +39,7 @@
             android:name=".common.Language_Optional"
             android:label="@string/app_name_Select_language"
             android:parentActivityName=".patient.PatientDashBoard"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -58,14 +61,17 @@
         <activity
             android:name=".common.Login"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.Registration"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".common.ForgotPassword"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".patient.PatientEditProfile"
@@ -80,7 +86,8 @@
         <activity
             android:name=".common.ContactUs"
             android:label="@string/Contactus"
-            android:parentActivityName=".patient.PatientDashBoard">
+            android:parentActivityName=".patient.PatientDashBoard"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -88,7 +95,8 @@
         <activity
             android:name=".common.ReachUs"
             android:label="@string/Reachus"
-            android:parentActivityName=".patient.PatientDashBoard">
+            android:parentActivityName=".patient.PatientDashBoard"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -101,7 +109,8 @@
         <activity
             android:name=".patient.ViewBloodBanksList.BloodBank"
             android:label="@string/title_activity_blood_bank"
-            android:parentActivityName=".patient.PatientDashBoard">
+            android:parentActivityName=".patient.PatientDashBoard"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
@@ -109,7 +118,8 @@
         <activity
             android:name=".patient.ViewBloodBanksList.ViewBloodBank"
             android:label="View BloodBank"
-            android:parentActivityName=".patient.ViewBloodBanksList.BloodBank">
+            android:parentActivityName=".patient.ViewBloodBanksList.BloodBank"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.ViewBloodBanksList.BloodBank" />
@@ -123,7 +133,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
-        <activity android:name=".common.SelectCity" />
+        <activity android:name=".common.SelectCity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".patient.ViewBloodBanksList.BloodBank1"
             android:label="@string/title_activity_blood_bank"
@@ -198,7 +209,8 @@
         <activity
             android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"
             android:hardwareAccelerated="false"
-            android:label="Book Doctor" />
+            android:label="Book Doctor"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"
             android:hardwareAccelerated="false"
@@ -366,8 +378,10 @@
             android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList11"
             android:label="MedicalShops"
             android:screenOrientation="portrait" />
-        <activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress" />
-        <activity android:name=".patient.MyFamily"></activity>
+        <activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".patient.MyFamily"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -132,7 +132,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blood_bank1);
+        setContentView(R.layout.activity_blood_bank);
 
         baseUrl = new ApiBaseUrl();
 

@@ -7,10 +7,13 @@ package com.example.cool.patient.doctor.DashBoardCalendar;
 class MyPatientDataClassInDoctor {
     int dstatus;
 
-    String   appointmentID,patientID,DoctorId,doctorMobile,DoctorAddressId,status1,patientName,emailID,mobileNo,prescription,comments,
-            reasonAppointments,aadharNumber,timeSlots,appointmentDate;
+    String  appointmentID,patientID,DoctorId,doctorMobile,DoctorAddressId,status1,patientName,emailID,mobileNo,prescription,comments,
+            reasonAppointments,aadharNumber,timeSlots,appointmentDate,Amount,PaymentMode;
 
-    public MyPatientDataClassInDoctor(String DoctorId,String doctorMobile,String DoctorAddressId,int dstatus, String status1, String appointmentID, String patientName, String emailID, String mobileNo, String prescription, String patientID, String comments, String reasonAppointments, String aadharNumber, String timeSlots,String appointmentDate) {
+    public MyPatientDataClassInDoctor(String DoctorId,String doctorMobile,String DoctorAddressId,int dstatus,
+                                      String status1, String appointmentID, String patientName, String emailID,
+                                      String mobileNo, String prescription,String Amount,String PaymentMode, String patientID, String comments,
+                                      String reasonAppointments, String aadharNumber, String timeSlots,String appointmentDate) {
 
               this.doctorMobile = doctorMobile;
               this.DoctorAddressId = DoctorAddressId;
@@ -23,12 +26,30 @@ class MyPatientDataClassInDoctor {
               this.emailID=emailID;
               this.mobileNo=mobileNo;
               this.prescription=prescription;
+              this.Amount = Amount;
+              this.PaymentMode = PaymentMode;
               this.patientID=patientID;
               this.comments=comments;
               this.reasonAppointments=reasonAppointments;
               this.aadharNumber=aadharNumber;
               this.timeSlots=timeSlots;
 
+    }
+
+    public String getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(String amount) {
+        Amount = amount;
+    }
+
+    public String getPaymentMode() {
+        return PaymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        PaymentMode = paymentMode;
     }
 
     public String getDoctorMobile() {
