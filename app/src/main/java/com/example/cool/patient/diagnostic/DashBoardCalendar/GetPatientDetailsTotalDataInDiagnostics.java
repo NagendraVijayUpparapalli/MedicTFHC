@@ -1,6 +1,7 @@
 package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,6 +46,7 @@ import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableLis
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
 import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticManageAddress;
 import com.example.cool.patient.diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments;
+import com.example.cool.patient.doctor.DashBoardCalendar.GetPatientDetailsTotalDataInDoctor;
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
@@ -86,7 +89,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     Bitmap mIcon11;
     ProgressDialog mProgressDialog;
     StringBuilder builder;
-//    Button submit;
+    //    Button submit;
     ApiBaseUrl baseUrl;
 
     String diagmobilenumber, diagaddress;
@@ -101,7 +104,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     List<String> statusList;
-
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -372,6 +376,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                 }
                 else
                 {
+                    timeerroralert();
+
                     Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
                 }
 
@@ -589,6 +595,34 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
             }
         });
+
+    }
+
+    private void timeerroralert() {
+
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
+
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText("Sorry you can't edit");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,GetPatientDetailsListInDiagnostics.class);
+                intent.putExtra("id",diagnosticId);
+                intent.putExtra("mobile",diagmobile);
+                intent.putExtra("date",appointmentDate);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
 
     }
 
@@ -945,41 +979,86 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
     public void showSuccessMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        new Mytask().execute();
-                        Intent intent = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticDashboard.class);
-                        intent.putExtra("id",diagnosticId);
-                        intent.putExtra("mobile",diagmobilenumber);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Appointment");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticDashboard.class);
+                intent.putExtra("id",diagnosticId);
+                intent.putExtra("mobile",diagmobilenumber);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        new Mytask().execute();
+//                        Intent intent = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticDashboard.class);
+//                        intent.putExtra("id",diagnosticId);
+//                        intent.putExtra("mobile",diagmobilenumber);
+//                        startActivity(intent);
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Your Appointment");
+//        alert.show();
     }
 
     public void showErrorMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Updating Your Appointment");
-        alert.show();
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
+
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Updating Your Appointment");
+//        alert.show();
 
     }
 

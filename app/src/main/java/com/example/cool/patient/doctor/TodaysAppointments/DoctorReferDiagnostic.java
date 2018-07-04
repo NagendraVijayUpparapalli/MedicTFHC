@@ -1,6 +1,7 @@
 package com.example.cool.patient.doctor.TodaysAppointments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,6 +99,9 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
     ImageView sidenavDoctorImage;
 
     String doctorId,doctorMobile;
+
+    Dialog MyDialog;
+    TextView message,oklink;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

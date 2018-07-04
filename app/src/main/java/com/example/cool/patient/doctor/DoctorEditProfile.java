@@ -1206,21 +1206,41 @@ public class DoctorEditProfile extends AppCompatActivity
 //        alert.show();
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DoctorEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
 
     }
 

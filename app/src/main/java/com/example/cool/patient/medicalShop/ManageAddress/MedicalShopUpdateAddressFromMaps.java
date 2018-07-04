@@ -2,6 +2,7 @@ package com.example.cool.patient.medicalShop.ManageAddress;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -139,6 +141,9 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
 
+    Dialog MyDialog;
+    TextView message,oklink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +159,8 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         getUserId = getIntent().getStringExtra("medicalId");
         regMobile = getIntent().getStringExtra("regMobile");
         System.out.println("medicalid in update from map address....."+getUserId);
+
+        new GetMedicalDetails().execute(baseUrl.getUrl()+"MedicalShopByID"+"?id="+getUserId);
 
         diagnosticName = (EditText) findViewById(R.id.shopName);
         address = (EditText) findViewById(R.id.Address);
@@ -490,6 +497,78 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
     }
 
+    //get medical details based on id from api call
+
+    private class GetMedicalDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...." + params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result medicprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+//            progressDialog.dismiss();
+            getProfileDetails(result);
+        }
+
+    }
+
+    private void getProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavEmail.setText(myEmail);
+            sidenavMobile.setText(myMobile);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
     //home icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -732,43 +811,86 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     }
 
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(MedicalShopUpdateAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage("Updated Successfully")
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(MedicalShopUpdateAddressFromMaps.this,MedicalShopDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",regMobile);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Address");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("Address Updated Successfully");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicalShopUpdateAddressFromMaps.this,MedicalShopDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",regMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage("Updated Successfully")
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(MedicalShopUpdateAddressFromMaps.this,MedicalShopDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",regMobile);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Address");
+//        alert.show();
 
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(MedicalShopUpdateAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
 
     }
 

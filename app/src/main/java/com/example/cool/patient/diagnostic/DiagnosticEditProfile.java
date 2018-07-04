@@ -3,6 +3,7 @@ package com.example.cool.patient.diagnostic;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -93,6 +95,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
     CheckBox cash_on_hand, swipe_card, net_banking;
     MagicButton gen_btn;
 
+
     RippleView rippleView;
     RadioButton female,male;
     List<String>districtsList;
@@ -129,6 +132,8 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1178,39 +1183,82 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
     }
     public void showSuccessMessage(String message){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(DiagnosticEditProfile.this,DiagnosticDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiagnosticEditProfile.this,DiagnosticDashboard.class);
+                intent.putExtra("id",getUserId);
+                startActivity(intent);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(DiagnosticEditProfile.this,DiagnosticDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
     }
 
     public void showErrorMessage(String message){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
 
     }
 

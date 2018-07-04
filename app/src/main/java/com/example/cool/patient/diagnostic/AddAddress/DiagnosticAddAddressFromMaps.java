@@ -2,6 +2,7 @@ package com.example.cool.patient.diagnostic.AddAddress;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -122,7 +124,7 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
     HashMap<Long, String> myPmTimeSlotsList = new HashMap<Long, String>();
     List<String> myDistrictsList = new ArrayList<String>();
 
-// base64 image variables
+    // base64 image variables
     final int REQUEST_CODE_GALLERY1 = 999;
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
@@ -155,7 +157,8 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
-
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1182,41 +1185,85 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
     public void showSuccessMessage(String message){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticAddAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(DiagnosticAddAddressFromMaps.this,DiagnosticDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",regMobile);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Add Address");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DiagnosticAddAddressFromMaps.this,DiagnosticDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",regMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+//
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(DiagnosticAddAddressFromMaps.this,DiagnosticDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",regMobile);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Add Address");
+//        alert.show();
 
     }
 
     public void showErrorMessage(String message){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticAddAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Add Address");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Add Address");
+//        alert.show();
 
     }
 

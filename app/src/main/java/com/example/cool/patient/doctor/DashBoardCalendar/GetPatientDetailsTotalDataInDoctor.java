@@ -1,6 +1,7 @@
 package com.example.cool.patient.doctor.DashBoardCalendar;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -123,6 +125,9 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ImageView sidenavDoctorImage;
+
+    Dialog MyDialog;
+    TextView message,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,7 +394,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
+                    showTimeErrorMessage("Sorry!! You can't edit");
                 }
 
             }
@@ -1081,42 +1087,113 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         }
     }
 
-    public void showSuccessMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+    public void showTimeErrorMessage(String result){
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        new MyTask().execute();
-                        Intent intent = new Intent(GetPatientDetailsTotalDataInDoctor.this,DoctorDashboard.class);
-                        intent.putExtra("id",doctorId);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Appointment");
-        alert.show();
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDoctor.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.timeexceed_alert);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GetPatientDetailsTotalDataInDoctor.this,GetPatientDetailsListInDoctor.class);
+                intent.putExtra("doctorId",doctorId);
+                intent.putExtra("date",appointmentDate);
+                intent.putExtra("doctorMobile",doctorMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
     }
 
-    public void showErrorMessage(String message){
+    public void showSuccessMessage(String result){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDoctor.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Updating Your Appointment");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyTask().execute();
+                Intent intent = new Intent(GetPatientDetailsTotalDataInDoctor.this,DoctorDashboard.class);
+                intent.putExtra("id",doctorId);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        new MyTask().execute();
+//                        Intent intent = new Intent(GetPatientDetailsTotalDataInDoctor.this,DoctorDashboard.class);
+//                        intent.putExtra("id",doctorId);
+//                        startActivity(intent);
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Your Appointment");
+//        alert.show();
+    }
+
+    public void showErrorMessage(String result){
+
+        MyDialog  = new Dialog(GetPatientDetailsTotalDataInDoctor.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Updating Your Appointment");
+//        alert.show();
 
     }
 

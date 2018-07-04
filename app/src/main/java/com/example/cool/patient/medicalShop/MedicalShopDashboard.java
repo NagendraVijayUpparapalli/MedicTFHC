@@ -24,8 +24,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cool.patient.common.aboutUs.AboutUs;
@@ -98,6 +100,9 @@ public class MedicalShopDashboard extends AppCompatActivity
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
 
+    //sidenav fields
+    TextView sidenavName,sidenavEmail,sidenavMobile;
+
     private static long back_pressed;
 
     int backButtonCount = 0;
@@ -165,6 +170,12 @@ public class MedicalShopDashboard extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
+        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -435,7 +446,7 @@ public class MedicalShopDashboard extends AppCompatActivity
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            Log.e("TAG result profile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             getProfileDetails(result);
         }
 
@@ -450,6 +461,14 @@ public class MedicalShopDashboard extends AppCompatActivity
                 myProfileImage = (String) js.get("ShopImage");
 
                 System.out.println("doc profile image url.." + myProfileImage);
+                String myMobile = (String) js.get("MobileNumber");
+                String myEmail = (String) js.get("EmailID");
+                String myName = (String) js.get("FirstName");
+                String mySurname = (String) js.get("LastName");
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
+                sidenavMobile.setText(myMobile);
 
             }
 

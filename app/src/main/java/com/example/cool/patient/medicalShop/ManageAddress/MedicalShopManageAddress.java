@@ -279,6 +279,8 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
         });
     }
 
+
+
     //home icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -368,6 +370,15 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
 
                 System.out.println("doc profile image url.." + myProfileImage);
 
+                String myMobile = (String) js.get("MobileNumber");
+                String myEmail = (String) js.get("EmailID");
+                String myName = (String) js.get("FirstName");
+                String mySurname = (String) js.get("LastName");
+
+                sidenavName.setText(myName+" "+mySurname);
+                sidenavEmail.setText(myEmail);
+                sidenavMobile.setText(myMobile);
+
             }
 
         }
@@ -388,7 +399,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
             // Create a progressdialog
             progressDialog = new ProgressDialog(MedicalShopManageAddress.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

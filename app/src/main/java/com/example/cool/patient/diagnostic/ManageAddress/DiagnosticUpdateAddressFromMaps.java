@@ -1,6 +1,7 @@
 package com.example.cool.patient.diagnostic.ManageAddress;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -159,7 +161,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
-
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -991,48 +994,48 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 //                String key = entry.getKey();
 //                List<String> values = entry.getValue();
 
-                String a[] = new String[getmUserItems.size()];
+            String a[] = new String[getmUserItems.size()];
 
-                System.out.println("spec seleted  map values.."+getmUserItems.toString());
+            System.out.println("spec seleted  map values.."+getmUserItems.toString());
 
-                System.out.println("spec seleted items.."+getmUserItems);
+            System.out.println("spec seleted items.."+getmUserItems);
 
-                System.out.println("spec seleted items sizezzz.."+getmUserItems.size());
+            System.out.println("spec seleted items sizezzz.."+getmUserItems.size());
 
-                int i = 0;
+            int i = 0;
 
-                //Loop index size()
-                for(int index = 0; index < a.length; index++) {
+            //Loop index size()
+            for(int index = 0; index < a.length; index++) {
 
-                    String lis = getmUserItems.toString();
-                    a = lis.split(", ");
+                String lis = getmUserItems.toString();
+                a = lis.split(", ");
 
-                    String s = a[0];
-                    String last = a[a.length-1];
+                String s = a[0];
+                String last = a[a.length-1];
 
-                    if(index == 0)
-                    {
-                        s = s.substring(1);
-                        System.out.println("a first value.."+s);
-                        a[index] = s;
-                    }
-
-                    if(index == a.length-1)
-                    {
-                        last = last.substring(0,last.length()-1);
-                        System.out.println("a last value.."+last);
-                        a[index] = last;
-                    }
-
-                    System.out.println("a 1st value.."+a[index]);
-                    List mylist = new ArrayList<>();
-                    mylist.addAll(Arrays.asList(a));
-
-                    JSONObject eachData = new JSONObject();
-                    eachData.put("SpecialityID",getSpecialityKeyFromValue(mySpecialityList,mylist.get(index)));
-                    allDataArray.add(eachData);
-
+                if(index == 0)
+                {
+                    s = s.substring(1);
+                    System.out.println("a first value.."+s);
+                    a[index] = s;
                 }
+
+                if(index == a.length-1)
+                {
+                    last = last.substring(0,last.length()-1);
+                    System.out.println("a last value.."+last);
+                    a[index] = last;
+                }
+
+                System.out.println("a 1st value.."+a[index]);
+                List mylist = new ArrayList<>();
+                mylist.addAll(Arrays.asList(a));
+
+                JSONObject eachData = new JSONObject();
+                eachData.put("SpecialityID",getSpecialityKeyFromValue(mySpecialityList,mylist.get(index)));
+                allDataArray.add(eachData);
+
+            }
 
 //            }
 
@@ -1276,41 +1279,85 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
     public void showSuccessMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticUpdateAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage("Updated Successfully")
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(DiagnosticUpdateAddressFromMaps.this,DiagnosticDashboard.class);
-                        intent.putExtra("id",mydiagnosticId);
-                        intent.putExtra("mobile",regMobile);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Address");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiagnosticUpdateAddressFromMaps.this,DiagnosticDashboard.class);
+                intent.putExtra("id",mydiagnosticId);
+                intent.putExtra("mobile",regMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage("Updated Successfully")
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(DiagnosticUpdateAddressFromMaps.this,DiagnosticDashboard.class);
+//                        intent.putExtra("id",mydiagnosticId);
+//                        intent.putExtra("mobile",regMobile);
+//                        startActivity(intent);
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Address");
+//        alert.show();
     }
 
 
     public void showErrorMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticUpdateAddressFromMaps.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Update Address");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Update Address");
+//        alert.show();
     }
 
     public void showalert() {

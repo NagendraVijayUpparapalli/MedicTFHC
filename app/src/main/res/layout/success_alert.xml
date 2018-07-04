@@ -68,25 +68,13 @@
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <!--<TextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/phone_number"-->
-                <!--android:drawablePadding="10dp"-->
-                <!--android:paddingTop="15dp"-->
-                <!--android:textAllCaps="true"-->
-                <!--android:textStyle="bold"-->
-                <!--android:layout_marginStart="60dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Cancel"-->
-                <!--android:textSize="17dp" />-->
                 <TextView
                     android:id="@+id/ok"
                     android:layout_weight="1"
                     android:drawablePadding="10dp"
-                    android:layout_marginStart="150dp"
                     android:textStyle="bold"
                     android:paddingTop="15dp"
                     android:textAllCaps="true"

@@ -3,6 +3,7 @@ package com.example.cool.patient.medicalShop;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -46,6 +48,7 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -118,6 +121,9 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+
+    Dialog MyDialog;
+    TextView message,oklink;
 
 
     @Override
@@ -225,7 +231,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         sidenavName = (TextView) headerLayout.findViewById(R.id.name);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
         sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
-        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -609,7 +615,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                     name.setText(newName + mySurname + " " + myName);
 
                     sidenavName.setText(myName+" "+mySurname);
-
+                    sidenavEmail.setText(myEmail);
                     sidenavMobile.setText(myMobile);
 
                 }
@@ -1170,42 +1176,85 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
         }
     }
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(MedicalShopEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(MedicalShopEditProfile.this,MedicalShopDashboard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",mobile_number);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicalShopEditProfile.this,MedicalShopDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(MedicalShopEditProfile.this,MedicalShopDashboard.class);
+//                        intent.putExtra("id",getUserId);
+//                        intent.putExtra("mobile",mobile_number);
+//                        startActivity(intent);
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(MedicalShopEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = a_builder.create();
+//        alert.setTitle("Edit Profile");
+//        alert.show();
 
     }
 

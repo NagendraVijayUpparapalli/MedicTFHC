@@ -1,6 +1,7 @@
 package com.example.cool.patient.diagnostic.TodaysAppointments;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -97,6 +99,8 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -649,6 +653,59 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
         });
         builder.show();
     }
+
+//    public void showSuccessMessage(String message){
+//
+//        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
+//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialog.setContentView(R.layout.edit_success_alert);
+//
+//        message1 = (TextView) MyDialog.findViewById(R.id.message);
+//        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+//
+//        message1.setEnabled(true);
+//        oklink.setEnabled(true);
+//
+//        message1.setText(message);
+//
+//        oklink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticDashboard.class);
+//                intent.putExtra("id",getUserId);
+//                startActivity(intent);
+//                startActivity(intent);
+//            }
+//        });
+//        MyDialog.show();
+//
+//
+//    }
+//
+//    public void showErrorMessage(String message){
+//
+//        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
+//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        MyDialog.setContentView(R.layout.server_error_alert);
+//
+//        message1 = (TextView) MyDialog.findViewById(R.id.message);
+//        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+//
+//        message1.setEnabled(true);
+//        oklink.setEnabled(true);
+//
+//        message1.setText(message);
+//
+//        oklink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MyDialog.cancel();
+//            }
+//        });
+//        MyDialog.show();
+//
+//
+//    }
 
 
     //Get patient details  based on doctor id and appointment date

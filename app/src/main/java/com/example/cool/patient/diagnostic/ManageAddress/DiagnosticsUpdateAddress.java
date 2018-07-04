@@ -2,6 +2,7 @@ package com.example.cool.patient.diagnostic.ManageAddress;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -160,6 +162,9 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+
+    Dialog MyDialog;
+    TextView message1,oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1170,41 +1175,86 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
     public void showSuccessMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
 
-        a_builder.setMessage("Updated Successfully")
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        Intent intent = new Intent(DiagnosticsUpdateAddress.this,DiagnosticDashboard.class);
-                        intent.putExtra("id",mydiagnosticId);
-                        intent.putExtra("mobile",regMobile);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Address");
-        alert.show();
+        MyDialog  = new Dialog(DiagnosticsUpdateAddress.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
+
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiagnosticsUpdateAddress.this,DiagnosticDashboard.class);
+                intent.putExtra("id",mydiagnosticId);
+                intent.putExtra("mobile",regMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage("Updated Successfully")
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//                        Intent intent = new Intent(DiagnosticsUpdateAddress.this,DiagnosticDashboard.class);
+//                        intent.putExtra("id",mydiagnosticId);
+//                        intent.putExtra("mobile",regMobile);
+//                        startActivity(intent);
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Address");
+//        alert.show();
     }
 
 
     public void showErrorMessage(String message){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(DiagnosticsUpdateAddress.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Update Address");
-        alert.show();
+        message1 = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+
+        message1.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message1.setText(message);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Update Address");
+//        alert.show();
     }
 
     public void validateFullAddress()

@@ -1,5 +1,7 @@
 package com.example.cool.patient.doctor.ManageAddress;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -76,6 +78,8 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ImageView sidenavDoctorImage;
+
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -457,6 +461,22 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
     private class GetDoctorAllAddressDetails extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DoctorManageAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -493,6 +513,7 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.e("Api response.....", result);
+            progressDialog.dismiss();
             try
             {
                 JSONObject jsono = new JSONObject(result);
