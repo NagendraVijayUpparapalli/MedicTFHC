@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -51,6 +52,7 @@ import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddressFromMa
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.R;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -162,7 +164,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message1;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -500,6 +503,7 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
                     // call some activity here
                     Intent subscript = new Intent(DiagnosticUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
                     subscript.putExtra("id",mydiagnosticId);
+                    subscript.putExtra("mobile",regMobile);
                     subscript.putExtra("module","diag");
                     startActivity(subscript);
 
@@ -512,6 +516,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticUpdateAddressFromMaps.this,ReachUs.class);
+                    contact.putExtra("id",mydiagnosticId);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -566,7 +572,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticUpdateAddressFromMaps.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticUpdateAddressFromMaps.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",mydiagnosticId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -601,6 +608,16 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -1284,7 +1301,7 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -1326,10 +1343,10 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
         MyDialog  = new Dialog(DiagnosticUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.edit_fail_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);

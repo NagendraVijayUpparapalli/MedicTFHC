@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -205,6 +207,9 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
                     // call some activity here
 
                     Intent contact = new Intent(GetPatientDetailsListInDoctor.this,ReachUs.class);
+                    contact.putExtra("id",DoctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -277,7 +282,8 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
 
                         // call activity here
 
-                        Intent about = new Intent(GetPatientDetailsListInDoctor.this,ChangePassword.class);
+                        Intent about = new Intent(GetPatientDetailsListInDoctor.this,DoctorChangePassword.class);
+                        about.putExtra("id",DoctorId);
                         about.putExtra("mobile",doctorMobile);
                         startActivity(about);
 
@@ -312,6 +318,16 @@ public class GetPatientDetailsListInDoctor extends AppCompatActivity implements 
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

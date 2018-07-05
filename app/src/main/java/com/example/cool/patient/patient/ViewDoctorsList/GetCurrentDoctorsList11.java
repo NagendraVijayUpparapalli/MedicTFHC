@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -62,6 +63,7 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -90,6 +92,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
     ProgressDialog progressDialog;
     ProgressDialog progressDialog1;
+    ProgressDialog progressDialog2;
     //lat,long
     static String uploadServerUrl = null;
 //    static String getcity=null;
@@ -100,6 +103,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
     List<Address> addresses;
     List<Address> fulladdress;
     private static final int REQUEST_LOCATION = 1;
+
+    static int myRangeDistance =0;
 
 
     static double selectedCitylat;
@@ -147,6 +152,9 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
     FloatingActionButton homebutton;
 
+    TextView searchSpeciality;
+    int jsondataCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +163,14 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         baseUrl = new ApiBaseUrl();
 
         current_city = (TextView) findViewById(R.id.select_city);
+
+//        searchSpeciality.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchSpeciality.setVisibility(View.GONE);
+//                Speciality.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
@@ -208,7 +224,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
             getlatlng();
         }
 
-
         Speciality = (SearchableSpinner) findViewById(R.id.speciality);
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
@@ -216,25 +231,29 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         seek_bar.setProgress(dis);
 
 
+//
         Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+                if(!Speciality.getSelectedItem().toString().equals("---Select Speciality---"))
+                {
+                    String js = formatDataAsJson();
+                    uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
 
-                new GetDoctors_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
+                    new GetDoctors_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
 
-                myList = new ArrayList<DoctorClass>();
+                    myList = new ArrayList<DoctorClass>();
 
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
+                    adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+                    layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
 
-                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+                    recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                    recyclerView.setHasFixedSize(true);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override
@@ -335,6 +354,9 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentDoctorsList11.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -433,6 +455,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
                         // call activity here
                         Intent intent = new Intent(GetCurrentDoctorsList11.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
@@ -490,36 +513,16 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
             }
         });
 
+    }
 
-//        MyDialog =  new Dialog(GetCurrentDoctorsList11.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.speciality_based_layout);
-//
-//        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
-//
-//
-//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//                anotheralert();
-//
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                anotheralert();
-//            }
-//        });
-//        MyDialog.setCancelable(false);
-//        MyDialog.setCanceledOnTouchOutside(false);
-//        MyDialog.show();
-
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -747,6 +750,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog2 = new ProgressDialog(GetCurrentDoctorsList11.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog2.setMessage("Loading...");
+
+            progressDialog2.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog2.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -763,7 +781,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params...doclist11...."+params[1]);
+                System.out.println("params....."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -818,50 +836,52 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+            progressDialog2.dismiss();
+            String data = result;
 
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+//                    {
                     availabilityCount = 0;
-                    System.out.println("medical availabilityCount...."+availabilityCount);
+                    System.out.println("doctors availabilityCount...."+availabilityCount);
 
                     availability.setText(Integer.toString(availabilityCount));
 
                     showMessage();
+
                     Log.e("Api response if.....", result);
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getData(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
+
             }
             catch (Exception e)
-            {}
-            getData(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            {
+                e.printStackTrace();
+            }
 
         }
     }
 
     private void getData(String result) {
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
 
             availabilityCount = jarray.length();
-            System.out.println("doctors availabilityCount...."+availabilityCount);
-
-            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
@@ -883,17 +903,18 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 String mylatii= object.getString("Latitude");
                 String mylongii = object.getString("Longitude");
 
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
 
-//                System.out.println("lati value city....."+currentlongi+"longi value city....."+currentlongi);
-                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
-
-                double myDistances  = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
-
-                System.out.println("distance from current to ur selected location.in doc..."+myDistances);
+                System.out.println("distance from current in doc to ur location...."+myDistances);
 
                 double dis = Math.round(myDistances*1000)/1000.000;
+
+                System.out.println("double dis..."+dis);
+
                 myDistance = String.format("%.1f", dis)+" km";
+
                 System.out.println("dist decimal round...."+myDistance);
+
                 String emergencyService = "";
 
                 if(object.has("EmergencyService"))
@@ -907,7 +928,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 }
 
 
-
                 String consultationFee = object.getString("ConsultationFee");
                 String consultationPrice = object.getString("ConsultationFee");
 
@@ -917,160 +937,39 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 String paytm = object.getString("Paytm");
 
 
-                DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                        doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,
-                        cashonHand,creditDebit,netBanking,paytm);
+                double myDis = Integer.parseInt(String.format("%.0f", dis));
 
-                myList.add(doctorClass);
+                System.out.println("remove decimal dis..."+myDis);
+
+                if(dis <= myRangeDistance)
+                {
+                    count +=1;
+                    DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+
+                    myList.add(doctorClass);
+
+                    System.out.println("doctors distance based availabilityCount...."+count);
+
+                    availability.setText(Integer.toString(count));
+                }
+
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-    }
 
-    private double distance(double lat1, double lon1, double lat2, double lon2) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1))
-                * Math.sin(deg2rad(lat2))
-                + Math.cos(deg2rad(lat1))
-                * Math.cos(deg2rad(lat2))
-                * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        double mydist = dist/0.62137;
-        return (mydist);
-    }
-
-    private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-    }
-
-    private double rad2deg(double rad) {
-        return (rad * 180.0 / Math.PI);
-    }
-
-
-    public void showMessage(){
-
-        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDoctorsList11.this);
-        a_builder.setMessage("Doctors are not available for selected city")
-                .setCancelable(false)
-                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.support.v7.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Doctors Records");
-        alert.show();
-    }
-
-
-    public void showalert()
-    {
-        AlertDialog.Builder alert = new AlertDialog.Builder(GetCurrentDoctorsList11.this);
-        alert.setTitle("Do you want to take Appointment for Register user?");
-        //  alert.show();
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                Toast.makeText(GetCurrentDoctorsList11.this, "YES", Toast.LENGTH_SHORT).show();
-            }
-        });
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                Toast.makeText(GetCurrentDoctorsList11.this, "NO", Toast.LENGTH_SHORT).show();
-                alertDialog1.cancel();
-            }
-        });
-        alert.setCancelable(false);
-        alertDialog1 = alert.create();
-        alertDialog1.setCanceledOnTouchOutside(false);
-        alert.show();
-    }
-
-    public void rangeBar()
-    {
-
-        seek_bar = (SeekBar) findViewById(R.id.seekbar);
-        distance = (TextView) findViewById(R.id.DistanceRange);
-
-        seek_bar.setProgress(20);
-
-        seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress_value = progress;
-                System.out.println("progress...."+progress);
-                distance.setText(progress+" Km") ;
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-//                Toast.makeText(BloodBank.this,"SeekBar is in StartTracking",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                distance.setText(progress_value+" Km");
-//                bw_dist.setText("Distance stop value :"+progress_value+"Km");
-                dis = progress_value;
-                System.out.println("dis.."+dis);
-//                getlatlng();
-
-
-        String js = formatDataAsJson();
-        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-
-        myList = new ArrayList<DoctorClass>();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-
-        adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
-        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-            }
-        });
-
-        distance.setText(seek_bar.getProgress()+" Km");
-
-        System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
-
-    }
-
-    private String specialityBasedFormatDataAsJson()
-    {
-        JSONObject data = new JSONObject();
-
-        try{
-            data.put("Latitude",selectedCitylat);
-            data.put("Longitude",selectedCitylong);
-            data.put("Distance", dis);
-            data.put("Speciality", Speciality.getSelectedItem().toString());
-            return data.toString();
-//            }
-        }
-        catch (Exception e)
+        if(count == 0)
         {
-            Log.d("JSON","Can't format JSON");
+            availability.setText(Integer.toString(0));
         }
-
-        return null;
+        else
+        {
+            availability.setText(Integer.toString(count));
+        }
     }
-
 
     //Get doctors list based on speciality from api call
     private class GetDoctors_N_ListBasedonSpeciality extends AsyncTask<String, Void, String> {
@@ -1164,102 +1063,117 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
             progressDialog1.dismiss();
 
+            String data = result;
+
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+
+                    showMessage();
+//                    {
                     availabilityCount = 0;
                     System.out.println("doctors availabilityCount...."+availabilityCount);
 
                     availability.setText(Integer.toString(availabilityCount));
 
-                    showMessage();
+
 
                     Log.e("Api response if.....", result);
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getDataBasedonSpeciality(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
             }
             catch (Exception e)
-            {}
-            getDataBasedonSpeciality(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+            {
+                e.printStackTrace();
+            }
+//            getDataBasedonSpeciality(result);
+//
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setLayoutManager(layoutManager);
+//            recyclerView.setAdapter(adapter);
 
         }
     }
 
     private void getDataBasedonSpeciality(String result) {
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
-            int count =0;
 
             availabilityCount = jarray.length();
             System.out.println("doctors availabilityCount...."+availabilityCount);
+            int i = 0;
 
-            for (int i = 0; i < jarray.length(); i++) {
+            for (i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
 
+                String doctorId = object.getString("DoctorID");
 
-                if(Speciality.getSelectedItem().toString().equals(object.getString("SpecialityName")))
+                String addressId = object.getString("AddressID");
+
+                String mobile = object.getString("MobileNumber");
+                String firstName = object.getString("FirstName");
+                String lastName = object.getString("LastName");
+
+                String Name = firstName+" "+lastName;
+
+                String qualification = object.getString("Qualification");
+                String specialityName = object.getString("SpecialityName");
+                String doctorImage = object.getString("DoctorImage");
+                String experience = object.getString("Experience");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                String consultationFee = object.getString("ConsultationFee");
+                String consultationPrice = object.getString("ConsultationFee");
+
+                String cashonHand = object.getString("CashOnHand");
+                String creditDebit = object.getString("CreditDebit");
+                String netBanking = object.getString("Netbanking");
+                String paytm = object.getString("Paytm");
+
+
+
+                if(Speciality.getSelectedItem().toString().equals(object.getString("SpecialityName")) && dis <= myRangeDistance)
                 {
                     count  = count+1;
 
-                    String doctorId = object.getString("DoctorID");
-
-                    String addressId = object.getString("AddressID");
-
-                    String mobile = object.getString("MobileNumber");
-                    String firstName = object.getString("FirstName");
-                    String lastName = object.getString("LastName");
-
-                    String Name = firstName+" "+lastName;
-
-                    String qualification = object.getString("Qualification");
-                    String specialityName = object.getString("SpecialityName");
-                    String doctorImage = object.getString("DoctorImage");
-                    String experience = object.getString("Experience");
-                    String mylatii= object.getString("Latitude");
-                    String mylongii = object.getString("Longitude");
-
-                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                    System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                    double dis = Math.round(myDistances*1000)/1000.000;
-                    myDistance = String.format("%.1f", dis)+" km";
-                    System.out.println("dist decimal round...."+myDistance);
-
-                    String emergencyService = "";
-
-                    if(object.has("EmergencyService"))
-                    {
-                        emergencyService = object.getString("EmergencyService");
-                    }
-
-                    else
-                    {
-                        emergencyService = "";
-                    }
-
-
-                    String consultationFee = object.getString("ConsultationFee");
-                    String consultationPrice = object.getString("ConsultationFee");
-
-                    String cashonHand = object.getString("CashOnHand");
-                    String creditDebit = object.getString("CreditDebit");
-                    String netBanking = object.getString("Netbanking");
-                    String paytm = object.getString("Paytm");
-
+                    jsondataCount = 1;
 
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
                             doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
@@ -1269,13 +1183,206 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                     System.out.println("doctors  spec availabilityCount...."+count);
                     availability.setText(Integer.toString(count));
                 }
+                else
+                {
+                    jsondataCount = 0;
+                }
 
             }
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+            showSpecialityNotMatchMessage();
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
+        }
+
+//        if(jsondataCount == 0)
+//        {
+//            availability.setText(Integer.toString(0));
+//            showSpecialityNotMatchMessage();
+//        }
+    }
+
+    public void showSpecialityNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDoctorsList11.this);
+        a_builder.setMessage("Your selected speciality has no records.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Doctors Records");
+        alert.show();
+    }
+
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        double mydist = dist/0.62137;
+        return (mydist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+
+    public void showMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDoctorsList11.this);
+        a_builder.setMessage("Doctors are not available for selected city")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Doctors Records");
+        alert.show();
+    }
+
+
+    public void showalert()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(GetCurrentDoctorsList11.this);
+        alert.setTitle("Do you want to take Appointment for Register user?");
+        //  alert.show();
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                Toast.makeText(GetCurrentDoctorsList11.this, "YES", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                Toast.makeText(GetCurrentDoctorsList11.this, "NO", Toast.LENGTH_SHORT).show();
+                alertDialog1.cancel();
+            }
+        });
+        alert.setCancelable(false);
+        alertDialog1 = alert.create();
+        alertDialog1.setCanceledOnTouchOutside(false);
+        alert.show();
+    }
+
+    public void rangeBar()
+    {
+
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+
+        seek_bar.setProgress(20);
+
+        adapter = new DoctorListAdapter(this, myList);
+        layoutManager = new LinearLayoutManager(this);
+
+        seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                myRangeDistance = progress;
+                progress_value = progress;
+                System.out.println("progress...."+progress);
+                distance.setText(progress+" Km") ;
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+//                Toast.makeText(BloodBank.this,"SeekBar is in StartTracking",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                distance.setText(progress_value+" Km");
+//                bw_dist.setText("Distance stop value :"+progress_value+"Km");
+                myRangeDistance = progress_value;
+                dis = progress_value;
+                System.out.println("dis.."+dis);
+
+                System.out.println("myrange dis..."+myRangeDistance);
+                getRangeData();
+            }
+        });
+
+        myRangeDistance = seek_bar.getProgress();
+//        System.out.println("myrange dis..."+myRangeDistance);
+        distance.setText(seek_bar.getProgress()+" Km");
+
+    }
+
+    private String specialityBasedFormatDataAsJson()
+    {
+        JSONObject data = new JSONObject();
+
+        try{
+            data.put("Latitude",selectedCitylat);
+            data.put("Longitude",selectedCitylong);
+            data.put("Distance", dis);
+            data.put("Speciality", Speciality.getSelectedItem().toString());
+            return data.toString();
+//            }
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
+    }
+
+    private void getRangeData()
+    {
+        specialityList = new ArrayList<>();
+
+        specialityList.add(0,"---Select Speciality---");
+
+        new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
+
+        String js = formatDataAsJson();
+        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+        myList = new ArrayList<DoctorClass>();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -1297,6 +1404,23 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 }
                 selectedCitylat = l1.get(0).latitude;
                 selectedCitylong = l1.get(0).longitude;
+
+
+//                String js = formatDataAsJson();
+//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+//
+//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+//
+//                myList = new ArrayList<DoctorClass>();
+//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//                recyclerView.setHasFixedSize(true);
+//
+//                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+//                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+//
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setAdapter(adapter);
+//                adapter.notifyDataSetChanged();
 
                 System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 

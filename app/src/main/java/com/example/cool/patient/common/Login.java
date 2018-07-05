@@ -289,6 +289,16 @@ public class Login extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+
+        startActivity(intent);
+    }
+
     private void managePrefs(){
         if(rem_mobile_aadhaar.isChecked()){
 

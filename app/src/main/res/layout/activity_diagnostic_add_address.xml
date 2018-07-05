@@ -335,7 +335,7 @@
                                 android:textStyle="bold"
                                 android:layout_marginBottom="5dp"
                                 android:textColor="#ff0000"
-                                android:text="Note :"/>
+                                android:text="@string/note"/>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -344,7 +344,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginBottom="5dp"
                                 android:textColor="#ff0000"
-                                android:text="Enetr lat, long or otherwise click below."/>
+                                android:text="@string/enter_lat_long_or_otherwise_click_below"/>
                         </LinearLayout>
 
 
@@ -584,7 +584,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="180dp"
                                     android:scaleType="fitXY"
-                                    android:src="@drawable/noimage11"
+                                    android:src="@drawable/nodiagcenter"
                                     />
 
                             </android.support.design.widget.AppBarLayout>
@@ -595,7 +595,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
                                 android:clickable="true"
-                                android:src="@android:drawable/ic_menu_camera"
+                                android:src="@drawable/ic_camera_alt_black_24dp"
                                 app:fabSize="mini"
                                 app:layout_anchor="@id/appbar"
                                 app:layout_anchorGravity="bottom|right|end" />

@@ -3,6 +3,8 @@ package com.example.cool.patient.common;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +21,9 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -67,8 +71,12 @@ public class ForgotPassword extends AppCompatActivity {
     List<Address> addresses;
     List<Address> fulladdress;
     private static final int REQUEST_LOCATION = 1;
+    ProgressDialog progressDialog;
 
     ApiBaseUrl baseUrl;
+    Dialog MyDialog;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,23 +119,56 @@ public class ForgotPassword extends AppCompatActivity {
         rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ForgotPassword.this,"Button Clicked",Toast.LENGTH_SHORT).show();
-                uploadServerUrl = baseUrl.getUrl()+"ForgetPassword";
-                String js = formatDataAsJson();
-                new GetPassword().execute(uploadServerUrl+"?MobileNumber="+mobile_num.getText().toString());
-
-                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    buildAlertMessageNoGps();
-
-                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    getLocation();
-                }
-//                Intent intent = new Intent(ForgotPassword.this, ForgotPassword.class);
-//                startActivity(intent);
+//                Toast.makeText(ForgotPassword.this,"Button Clicked",Toast.LENGTH_SHORT).show();
+                validateMobileLogin();
 
             }
         });
+    }
+
+
+    public void validateMobileLogin()
+    {
+        System.out.println("phone validate...");
+
+
+        if(!mobileValidate())
+        {
+//            Toast.makeText(this,"Please enter above fields" , Toast.LENGTH_SHORT).show();
+
+//            System.out.println("btn clickable text if condition...");
+        }
+        else
+        {
+            new GetPassword().execute(baseUrl.getUrl()+"ForgetPassword"+"?MobileNumber="+mobile_num.getText().toString());
+
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
+
+            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                getLocation();
+            }
+
+        }
+    }
+
+    public boolean mobileValidate()
+    {
+        boolean validate = true;
+
+        if(mobile_num.getText().toString().isEmpty() || !Patterns.PHONE.matcher(mobile_num.getText().toString()).matches())
+        {
+            mobile_num.setError("please enter mobile number");
+            validate=false;
+        }
+        else if(mobile_num.getText().toString().length()<10 || mobile_num.getText().toString().length()>10)
+        {
+            mobile_num.setError(" Invalid phone number ");
+            validate=false;
+        }
+
+        return validate;
     }
 
     protected void buildAlertMessageNoGps() {
@@ -308,6 +349,24 @@ public class ForgotPassword extends AppCompatActivity {
     private class GetPassword extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(ForgotPassword.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -347,6 +406,7 @@ public class ForgotPassword extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("Api response.....", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getData(result);
 
         }
@@ -439,18 +499,29 @@ public class ForgotPassword extends AppCompatActivity {
 
     public void showMessage(){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-        a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
-                .setCancelable(false)
-                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Successfully Sent");
-        alert.show();
+
+        MyDialog  = new Dialog(ForgotPassword.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.success_alert);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+//        MyDialog.setTitle("Your Doctor Appointment");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("Password sent your registered mobile number");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ForgotPassword.this,Login.class);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
 
     }
 

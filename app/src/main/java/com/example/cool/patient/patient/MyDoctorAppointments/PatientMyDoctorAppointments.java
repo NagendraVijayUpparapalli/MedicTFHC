@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -352,6 +353,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                         // call activity here
                         Intent intent = new Intent(PatientMyDoctorAppointments.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
@@ -409,6 +411,17 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             }
         });
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

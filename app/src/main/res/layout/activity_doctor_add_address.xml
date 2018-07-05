@@ -122,12 +122,12 @@
 
                     <TextView
                         android:id="@+id/select_city"
-                        android:textColor="#2C5E83"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="#2C5E83"
                         android:textSize="16sp"
                         android:text="@string/city" />
 
@@ -350,7 +350,7 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="5dp"
                         android:textColor="#ff0000"
-                        android:text="Note :"/>
+                        android:text="@string/note"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -359,7 +359,7 @@
                         android:layout_weight="1"
                         android:layout_marginBottom="5dp"
                         android:textColor="#ff0000"
-                        android:text="Enetr lat, long or otherwise click below."/>
+                        android:text="@string/enter_lat_long_or_otherwise_click_below"/>
                 </LinearLayout>
 
                 <LinearLayout

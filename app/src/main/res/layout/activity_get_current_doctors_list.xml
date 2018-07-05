@@ -254,6 +254,29 @@
                                 android:visibility="gone"
                                 android:src="@drawable/funnel_icon"/>
 
+                            <!--<Spinner-->
+                                <!--android:id="@+id/speciality"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:visibility="gone"-->
+                                <!--android:backgroundTint="#ffff"-->
+                                <!--android:textSize="15dp"/>-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/searchSpeciality"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@+id/txt"-->
+                                <!--android:layout_marginBottom="10dp"-->
+                                <!--android:padding="5dp"-->
+                                <!--android:textColor="#fff"-->
+                                <!--android:textSize="13dp"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:text="-&#45;&#45;Select Speciality-&#45;&#45;"/>-->
+
                             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                                 android:id="@+id/speciality"
                                 android:layout_weight="1"

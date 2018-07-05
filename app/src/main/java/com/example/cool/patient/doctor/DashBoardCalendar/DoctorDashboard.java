@@ -3,6 +3,7 @@ package com.example.cool.patient.doctor.DashBoardCalendar;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -104,7 +105,8 @@ public class DoctorDashboard extends AppCompatActivity
     String city, mobile_number ;
     TextView current_city;
 
-
+    private static long back_pressed;
+    private Toast toast;
     //calendar fields
 
     String  StatusID, Status, TotalCount;
@@ -132,7 +134,7 @@ public class DoctorDashboard extends AppCompatActivity
 
     ProgressDialog progressDialog;
 
-    private static long back_pressed;
+
 
     int backButtonCount = 0;
 
@@ -475,6 +477,9 @@ public class DoctorDashboard extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(DoctorDashboard.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -556,7 +561,8 @@ public class DoctorDashboard extends AppCompatActivity
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorDashboard.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorDashboard.this,DoctorChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
@@ -996,6 +1002,33 @@ public class DoctorDashboard extends AppCompatActivity
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast =  Toast.makeText(DoctorDashboard.this, "Press back again to Leave!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 
 //    @Override
 //    public void onBackPressed() {
@@ -1019,22 +1052,7 @@ public class DoctorDashboard extends AppCompatActivity
 //    }
 
 
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
 
-            backButtonCount++;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -22,300 +22,300 @@
         android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout android:id="@+id/relative"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:focusedByDefault="false"
-        android:keyboardNavigationCluster="true"
-        android:orientation="vertical"
-        xmlns:tools="http://schemas.android.com/tools">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarcool"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/toolbar_gradient"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways" >
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrool"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:isScrollContainer="true"
-        android:layout_below="@+id/appbarcool">
-        <RelativeLayout
+        <RelativeLayout android:id="@+id/relative"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/appbarcool">
-            <LinearLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:focusedByDefault="false"
+            android:keyboardNavigationCluster="true"
+            android:orientation="vertical"
+            xmlns:tools="http://schemas.android.com/tools">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarcool"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="#fff"
-                android:padding="20dp">
-                <LinearLayout
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:weightSum="1"
-                    android:layout_height="match_parent">
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_salutation"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080">
-                        <EditText
-                            android:id="@+id/name"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/toolbar_gradient"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:layout_scrollFlags="scroll|enterAlways" >
+
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <ScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scrool"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:isScrollContainer="true"
+                android:layout_below="@+id/appbarcool">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/appbarcool">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="#fff"
+                        android:padding="20dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:weightSum="1"
+                            android:layout_height="match_parent">
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_salutation"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080">
+                                <EditText
+                                    android:id="@+id/name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/green"
+                                    android:drawableLeft="@drawable/ic_person_black_24dp"
+                                    android:drawablePadding="5dp"
+                                    android:ems="20"
+                                    android:hint="@string/patient_name"
+                                    android:inputType="textPersonName"
+                                    android:textSize="15sp" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout"
+                            android:layout_gravity="center"
+                            android:weightSum="4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/green"
-                            android:drawableLeft="@drawable/ic_person_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:ems="20"
-                            android:hint="@string/patient_name"
-                            android:inputType="textPersonName"
-                            android:textSize="15sp" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:text="@string/age"/>
+                            <TextView
+                                android:id="@+id/age"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000"
+                                android:text="21"/>
 
-                <LinearLayout
-                    android:id="@+id/layout"
-                    android:layout_gravity="center"
-                    android:weightSum="4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:text="@string/age"/>
-                    <TextView
-                        android:id="@+id/age"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:text="21"/>
+                            <TextView
+                                android:id="@+id/text"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:textColor="#000"
+                                android:text="@string/patient_history"/>
+                            <TextView
+                                android:id="@+id/click"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#6e74e4"
+                                android:text="@string/click_here"/>
 
-                    <TextView
-                        android:id="@+id/text"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#000"
-                        android:text="@string/patient_history"/>
-                    <TextView
-                        android:id="@+id/click"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#6e74e4"
-                        android:text="@string/click_here"/>
-
-                </LinearLayout>
+                        </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_weight="0.1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:text="@string/reason"/>
-                    <TextView
-                        android:layout_weight="0.1"
-                        android:id="@+id/reason"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="fever"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:weightSum="1"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_weight="0.1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000"
+                                android:textStyle="bold"
+                                android:textSize="15sp"
+                                android:text="@string/reason"/>
+                            <TextView
+                                android:layout_weight="0.1"
+                                android:id="@+id/reason"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="fever"/>
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:weightSum="1"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textStyle="bold"
-                        android:text="@string/comments"
-                        android:textColor="#000"/>
-
-                    <MultiAutoCompleteTextView
-                        android:id="@+id/Comments"
-                        android:textColor="#000"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:layout_height="120dp"
-                        android:background="@drawable/edittext_button"
-                        android:layout_weight="1"
-                        android:textSize="15sp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:weightSum="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upload_prescription"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#000"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:weightSum="1"
-                    android:orientation="vertical">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:weightSum="1"
+                            android:orientation="vertical">
 
 
-                    <android.support.design.widget.CoordinatorLayout
-                        android:id="@+id/main"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textStyle="bold"
+                                android:text="@string/comments"
+                                android:textColor="#000"/>
 
-                        <android.support.design.widget.AppBarLayout
-                            android:id="@+id/appbar"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content">
-                            <ImageView
-                                android:id="@+id/prescription"
+                            <MultiAutoCompleteTextView
+                                android:id="@+id/Comments"
+                                android:textColor="#000"
                                 android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/noimage" />
-                        </android.support.design.widget.AppBarLayout>
-
-
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/gallery_icon"
-                            android:layout_width="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_height="120dp"
+                                android:background="@drawable/edittext_button"
+                                android:layout_weight="1"
+                                android:textSize="15sp"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:clickable="true"
-                            android:src="@drawable/ic_camera_black_24dp"
-                            app:fabSize="mini"
-                            app:layout_anchor="@id/appbar"
-                            app:layout_anchorGravity="bottom|right|end" />
-
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/camera_icon"
-                            android:layout_width="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/upload_prescription"
+                                android:textStyle="bold"
+                                android:layout_marginTop="10dp"
+                                android:textColor="#000"
+                                android:textSize="16sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:clickable="true"
-                            android:src="@drawable/ic_camera_black_24dp"
-                            app:fabSize="mini"
-                            app:layout_anchor="@id/appbar"
-                            app:layout_anchorGravity="bottom|left|end" />
+                            android:layout_marginTop="10dp"
+                            android:weightSum="1"
+                            android:orientation="vertical">
 
-                    </android.support.design.widget.CoordinatorLayout>
-                </LinearLayout>
 
-                <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                            <android.support.design.widget.CoordinatorLayout
+                                android:id="@+id/main"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp">
 
-                    <com.andexert.library.RippleView
-                        android:id="@+id/rippleView"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        ripple:rv_type="rectangle"
-                        ripple:rv_zoom="true">
+                                <android.support.design.widget.AppBarLayout
+                                    android:id="@+id/appbar"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content">
+                                    <ImageView
+                                        android:id="@+id/prescription"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="250dp"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/noprescription" />
+                                </android.support.design.widget.AppBarLayout>
 
-                        <TextView
-                            android:id="@+id/rect_child"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:textColor="#fff"
-                            android:textSize="18sp"
-                            android:gravity="center"
-                            android:text="@string/submit"
-                            android:background="#f938a72f"/>
 
-                    </com.andexert.library.RippleView>
-                </LinearLayout>
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/gallery_icon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:clickable="true"
+                                    android:src="@drawable/ic_camera_black_24dp"
+                                    app:fabSize="mini"
+                                    app:layout_anchor="@id/appbar"
+                                    app:layout_anchorGravity="bottom|right|end" />
 
-            </LinearLayout>
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/camera_icon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:clickable="true"
+                                    android:src="@drawable/ic_camera_black_24dp"
+                                    app:fabSize="mini"
+                                    app:layout_anchor="@id/appbar"
+                                    app:layout_anchorGravity="bottom|left|end" />
+
+                            </android.support.design.widget.CoordinatorLayout>
+                        </LinearLayout>
+
+                        <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->
+                        <LinearLayout
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <com.andexert.library.RippleView
+                                android:id="@+id/rippleView"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content"
+                                ripple:rv_type="rectangle"
+                                ripple:rv_zoom="true">
+
+                                <TextView
+                                    android:id="@+id/rect_child"
+                                    android:layout_width="150dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerInParent="true"
+                                    android:textColor="#fff"
+                                    android:textSize="18sp"
+                                    android:gravity="center"
+                                    android:text="@string/submit"
+                                    android:background="#f938a72f"/>
+
+                            </com.andexert.library.RippleView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </ScrollView>
         </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
-</RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
+        <ExpandableListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/expandableListView1"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true">
+            android:layout_marginTop="270dp"
+            android:choiceMode="singleChoice"
+            android:divider="#000"
+            android:dividerHeight="0.2dp"
 
-            <ExpandableListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/expandableListView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_marginTop="270dp"
-                android:choiceMode="singleChoice"
-                android:divider="#000"
-                android:dividerHeight="0.2dp"
-
-                android:groupIndicator="@null"
-                android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
-            </ExpandableListView>
-        </android.support.design.widget.NavigationView>
+            android:groupIndicator="@null"
+            android:alpha="255"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
+        </ExpandableListView>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,10 +32,13 @@ import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddressFromMaps;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
 import com.example.cool.patient.diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments;
+import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
+import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
@@ -193,6 +197,9 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticManageAddress.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -247,7 +254,8 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticManageAddress.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticManageAddress.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -330,6 +338,17 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     private void getProfileDetails(String result) {
         try

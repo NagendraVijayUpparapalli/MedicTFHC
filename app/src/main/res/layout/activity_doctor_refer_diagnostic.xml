@@ -38,13 +38,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:layout_below="@+id/appbar"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Diagnostic Center"/>
+                android:text="Select Diagnostic Center"
+                android:textStyle="bold"
+                android:textColor="#2C5E83"
+                android:textSize="16sp"/>
 
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/spinner"

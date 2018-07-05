@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -170,7 +172,9 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ImageView sidenavDoctorImage;
 
-    TextView message,oklink;
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
 
     @Override
@@ -423,6 +427,9 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
                     // call some activity here
 
                     Intent contact = new Intent(DoctorAddAddressFromMaps.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -504,7 +511,8 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorAddAddressFromMaps.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorAddAddressFromMaps.this,DoctorChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -540,6 +548,16 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -2237,12 +2255,12 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
 
     public void showSuccessMessage(String result){
 
-        MyDialog  = new Dialog(DoctorAddAddressFromMaps.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.success_alert);
+        MyDialog1  = new Dialog(DoctorAddAddressFromMaps.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.success_alert);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2258,36 +2276,17 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
                 startActivity(intent);
             }
         });
-        MyDialog.show();
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(DoctorAddAddress.this,DoctorDashboard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",mobile);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
-
+        MyDialog1.show();
     }
 
     public void showErrorMessage(String result){
 
-        MyDialog  = new Dialog(DoctorAddAddressFromMaps.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog1  = new Dialog(DoctorAddAddressFromMaps.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.cancel_alertdialog);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2297,68 +2296,12 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDialog.cancel();
+                MyDialog1.cancel();
             }
         });
-        MyDialog.show();
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
-
+        MyDialog1.show();
     }
 
-
-
-//    public void showSuccessMessage(String message){
-//
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(DoctorAddAddressFromMaps.this,DoctorDashboard.class);
-//                        intent.putExtra("id",userId);
-//                        intent.putExtra("mobile",regMobile);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Add Address");
-//        alert.show();
-//
-//    }
-//
-//    public void showErrorMessage(String message){
-//
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Add Address");
-//        alert.show();
-//
-//    }
 
     //Get cities list from api call
     public class GetAllCities extends AsyncTask<String, Void, String> {

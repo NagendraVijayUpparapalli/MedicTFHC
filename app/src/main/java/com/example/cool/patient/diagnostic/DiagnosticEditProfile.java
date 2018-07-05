@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -133,7 +135,8 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message1;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -352,7 +355,8 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticEditProfile.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticEditProfile.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
@@ -559,6 +563,17 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     private void getProfileDetails(String result) {
         try
@@ -1188,12 +1203,12 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
 
-        message1.setText(message);
+        message1.setText("Profile Updated Successfully");
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1231,7 +1246,7 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         MyDialog.setContentView(R.layout.server_error_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);

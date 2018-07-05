@@ -75,7 +75,8 @@ public class MedicalShopDashboard extends AppCompatActivity
     String reasonToDelete = null;
 
     ProgressDialog progressDialog;
-
+    private static long back_pressed;
+    private Toast toast;
 
     //lat,long
     static String uploadServerUrl = null;
@@ -103,7 +104,7 @@ public class MedicalShopDashboard extends AppCompatActivity
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
 
-    private static long back_pressed;
+
 
     int backButtonCount = 0;
 
@@ -140,15 +141,13 @@ public class MedicalShopDashboard extends AppCompatActivity
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
-        System.out.print("id in medical dashboard....."+getUserId);
+        System.out.println("id in medical dashboard....."+getUserId);
 
-        System.out.print("medicalid in manage address....."+getUserId);
-
-        uploadServerUrl = baseUrl.getUrl()+"MSGetAddress?ID="+getUserId;
+        System.out.println("medicalid in manage address....."+getUserId);
 
         new GetMedicalDetails().execute(baseUrl.getUrl()+"MedicalShopByID"+"?id="+getUserId);
 
-        new GetMedicalAllAddressDetails().execute(uploadServerUrl);
+        new GetMedicalAllAddressDetails().execute(baseUrl.getUrl()+"MSGetAddress?ID="+getUserId);
 
         myList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -157,6 +156,7 @@ public class MedicalShopDashboard extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -229,6 +229,9 @@ public class MedicalShopDashboard extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(MedicalShopDashboard.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 }
@@ -281,9 +284,10 @@ public class MedicalShopDashboard extends AppCompatActivity
 
                         // call activity here
 
-                        Intent about = new Intent(MedicalShopDashboard.this,ChangePassword.class);
-                        about.putExtra("mobile",mobile_number);
-                        startActivity(about);
+                        Intent contact = new Intent(MedicalShopDashboard.this,ChangePassword.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        startActivity(contact);
 
                     }
                     else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_2) {
@@ -317,6 +321,33 @@ public class MedicalShopDashboard extends AppCompatActivity
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast =  Toast.makeText(MedicalShopDashboard.this, "Press back again to Leave!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 //    @Override
 //    public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -339,22 +370,7 @@ public class MedicalShopDashboard extends AppCompatActivity
 //    }
 
 
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
 
-            backButtonCount++;
-        }
-    }
 
 
 
@@ -409,6 +425,7 @@ public class MedicalShopDashboard extends AppCompatActivity
     //get medical details based on id from api call
     private class GetMedicalDetails extends AsyncTask<String, Void, String> {
 
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -447,6 +464,7 @@ public class MedicalShopDashboard extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result profile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getProfileDetails(result);
         }
 
@@ -457,20 +475,21 @@ public class MedicalShopDashboard extends AppCompatActivity
         {
             JSONObject js = new JSONObject(result);
 
-            if(js.has("ShopImage")) {
-                myProfileImage = (String) js.get("ShopImage");
+            myProfileImage = "";
 
-                System.out.println("doc profile image url.." + myProfileImage);
-                String myMobile = (String) js.get("MobileNumber");
-                String myEmail = (String) js.get("EmailID");
-                String myName = (String) js.get("FirstName");
-                String mySurname = (String) js.get("LastName");
+            System.out.println("doc profile image url.." + myProfileImage);
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
 
-                sidenavName.setText(myName+" "+mySurname);
-                sidenavEmail.setText(myEmail);
-                sidenavMobile.setText(myMobile);
+            System.out.println("medical shop name.." + myName);
 
-            }
+            sidenavName.setText(myName+" "+mySurname);
+            sidenavEmail.setText(myEmail);
+            sidenavMobile.setText(myMobile);
+
+
 
         }
         catch (JSONException e)
@@ -490,7 +509,7 @@ public class MedicalShopDashboard extends AppCompatActivity
             // Create a progressdialog
             progressDialog = new ProgressDialog(MedicalShopDashboard.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

@@ -22,6 +22,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -160,6 +162,10 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
     TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
 
     FloatingActionButton homebutton;
+
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -497,6 +503,9 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                     // call some activity here
 
                     Intent contact = new Intent(BloodBank.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -596,6 +605,7 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
 
                         // call activity here
                         Intent intent = new Intent(BloodBank.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
@@ -655,6 +665,16 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
 
         rangeBar();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -1689,19 +1709,27 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void showMessageSuccessfullSent(){
+        MyDialog1  = new Dialog(BloodBank.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.sms_alertdialog);
 
-        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(BloodBank.this);
-        a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
-                .setCancelable(false)
-                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.support.v7.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Successfully Sent");
-        alert.show();
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+//        MyDialog1.setTitle("Your Diagnostic Appointment");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("The Message has sent Successfully to your registered mobile number");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
 
     }
 

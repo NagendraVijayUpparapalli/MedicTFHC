@@ -127,14 +127,15 @@ public class PatientSideNavigationExpandableListAdapter extends BaseExpandableLi
                 img.setImageResource(R.drawable.hospitalcircular);
             }
         }
+
         else if(listPosition == ITEM3) {
 
             if(expandedListPosition == SUBITEM3_1 ) {
-                img.setImageResource(R.drawable.setting);
+                img.setImageResource(R.drawable.password_eye_icon);
             }
             else if (expandedListPosition == SUBITEM3_2)
             {
-                img.setImageResource(R.drawable.setting);
+                img.setImageResource(R.drawable.change_mobile_icon);
             }
         }
         return convertView;

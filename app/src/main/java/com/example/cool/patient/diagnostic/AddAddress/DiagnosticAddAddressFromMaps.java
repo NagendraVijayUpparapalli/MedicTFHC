@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,7 @@ import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -158,7 +160,8 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message1;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -495,6 +498,9 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticAddAddressFromMaps.this,ReachUs.class);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -549,7 +555,8 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticAddAddressFromMaps.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticAddAddressFromMaps.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -894,6 +901,16 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 
 
@@ -1190,7 +1207,7 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         MyDialog.setContentView(R.layout.success_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -1233,10 +1250,10 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
         MyDialog  = new Dialog(DiagnosticAddAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.cancel_alertdialog);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);

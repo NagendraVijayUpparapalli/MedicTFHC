@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddressFromMaps;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -193,6 +195,9 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
                     // call some activity here
 
                     Intent contact = new Intent(DoctorTodaysAppointmentsForPatient.this,ReachUs.class);
+                    contact.putExtra("id",docId);
+                    contact.putExtra("module","doc");
+                    contact.putExtra("mobile",docMobile);
                     startActivity(contact);
 
                 }
@@ -274,7 +279,8 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorTodaysAppointmentsForPatient.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorTodaysAppointmentsForPatient.this,DoctorChangePassword.class);
+                        about.putExtra("id",docId);
                         about.putExtra("mobile",docMobile);
                         startActivity(about);
 
@@ -309,6 +315,16 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

@@ -50,607 +50,557 @@
 
             </android.support.design.widget.AppBarLayout>
 
-        <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/scrool"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:isScrollContainer="true"
+            <ScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scrool"
+                android:orientation="vertical"
+                android:layout_below="@+id/toolappbar"
 
-            >
-            <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:isScrollContainer="true"
 
-                android:layout_below="@+id/toolappbar">
-                <LinearLayout
-                    android:weightSum="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:weightSum="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_salutation"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080">
-
-                        <EditText
-                            android:id="@+id/salutation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:drawableLeft="@drawable/ic_person_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:ems="20"
-                            android:textSize="15sp"
-                            android:hint="@string/name"
-                            android:inputType="textPersonName" />
-
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:weightSum="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_Email"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080">
-
-                        <EditText
-                            android:id="@+id/email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:drawableLeft="@drawable/ic_mail_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:ems="20"
-                            android:hint="@string/email"
-                            android:inputType="textEmailAddress" />
-
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/Experience_year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textColorHint="#8c8080"
-                        android:layout_weight="1"
-                        android:editable="false"
-                        >
-
-                        <EditText
-                            android:id="@+id/Experience"
-                            android:layout_width="match_parent"
-                            android:drawableLeft="@drawable/experience_icon"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:textSize="15sp"
-
-                            android:backgroundTint="@color/green"
-                            android:drawablePadding="5dp"
-                            android:hint="@string/experience"
-                            android:inputType="phone" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_Mobile"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080"
-                        android:editable="false"
-                        >
-                        <EditText
-                            android:id="@+id/mobileNumber"
-                            android:layout_width="match_parent"
-                            android:hint="@string/mobileNumber"
-
-                            android:drawablePadding="5dp"
-                            android:textSize="15sp"
-                            android:backgroundTint="@color/green"
-                            android:drawableLeft="@drawable/phone"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="phone" />
-
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-                <LinearLayout
+                >
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:weightSum="3">
 
-                    <TextView
-                        android:id="@+id/textView"
-                        android:paddingRight="16.5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="#2C5E83"
-                        android:text="@string/gender" />
-                    <android.support.v4.widget.Space
-                        android:layout_width="52dp"
-                        android:layout_height="wrap_content" />
-
-                    <RadioGroup
-                        android:id="@+id/gendertype_radio"
-
+                    >
+                    <LinearLayout
                         android:weightSum="2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                        <RadioButton
-                            android:id="@+id/maleRadio"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:buttonTint="@color/green"
-                            android:checked="false"
-                            android:layout_weight="1"
-                            android:text="@string/male" />
-                        <!--<android.support.v4.widget.Space-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:layout_width="5dp"-->
-                        <!--android:layout_height="wrap_content" />-->
-
-                        <RadioButton
-                            android:id="@+id/femaleRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/green"
-                            android:layout_marginTop="15dp"
-                            android:layout_weight="1"
-                            android:checked="false"
-                            android:text="@string/female" />
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="1dp"
-                    android:weightSum="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:textColor="#2c5e83"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/speciality"
-                        android:layout_marginTop="6dp"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                        android:id="@+id/Speciality"
-                        android:layout_width="match_parent"
-                        android:layout_height="46dp"
-                        android:backgroundTint="@color/green"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_Qulification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:textColorHint="#8c8080"
-                        android:layout_weight="1"
-                        android:editable="false"
-                        android:layout_gravity="center">
-
-                        <EditText
-                            android:id="@+id/Qulificationdoctor"
+                        <LinearLayout
+                            android:weightSum="1"
                             android:layout_width="match_parent"
-                            android:drawableLeft="@drawable/experience_icon"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:textSize="15sp"
-                            android:backgroundTint="@color/green"
-                            android:drawablePadding="5dp"
-                            android:hint="@string/qualification1"
-                            android:inputType="phone" />
-                    </android.support.design.widget.TextInputLayout>
+                            android:layout_height="match_parent">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_regestrationNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_salutation"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080">
 
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080"
-                        android:editable="false"
-                        android:layout_gravity="center">
-                        <EditText
-                            android:id="@+id/registrationNumber"
+                                <EditText
+                                    android:id="@+id/salutation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:drawableLeft="@drawable/ic_person_black_24dp"
+                                    android:drawablePadding="5dp"
+                                    android:ems="20"
+                                    android:textSize="15sp"
+                                    android:hint="@string/name"
+                                    android:inputType="textPersonName" />
+
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
                             android:layout_width="match_parent"
-                            android:hint="@string/registration_number"
-                            android:textSize="15sp"
-                            android:drawablePadding="5dp"
-                            android:backgroundTint="@color/green"
-                            android:drawableLeft="@drawable/phone"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="phone" />
+                            android:layout_height="match_parent">
 
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_Email"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
-                    <android.support.design.widget.CoordinatorLayout
-                        android:layout_weight="1"
-                        android:id="@+id/main11"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content">
+                                <EditText
+                                    android:id="@+id/email"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:drawableLeft="@drawable/ic_mail_black_24dp"
+                                    android:drawablePadding="5dp"
+                                    android:ems="20"
+                                    android:hint="@string/email"
+                                    android:inputType="textEmailAddress" />
 
-                        <android.support.design.widget.AppBarLayout
-                            android:id="@+id/appbar11"
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="196dp">
+                            android:layout_weight="2"
+                            android:layout_height="match_parent">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/Experience_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textColorHint="#8c8080"
+                                android:layout_weight="1"
+                                android:editable="false"
+                                >
+
+                                <EditText
+                                    android:id="@+id/Experience"
+                                    android:layout_width="match_parent"
+                                    android:drawableLeft="@drawable/experience_icon"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:textSize="15sp"
+
+                                    android:backgroundTint="@color/green"
+                                    android:drawablePadding="5dp"
+                                    android:hint="@string/experience"
+                                    android:inputType="phone" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_Mobile"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginTop="10dp"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080"
+                                android:editable="false"
+                                >
+                                <EditText
+                                    android:id="@+id/mobileNumber"
+                                    android:layout_width="match_parent"
+                                    android:hint="@string/mobileNumber"
+
+                                    android:drawablePadding="5dp"
+                                    android:textSize="15sp"
+                                    android:backgroundTint="@color/green"
+                                    android:drawableLeft="@drawable/phone"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="phone" />
+
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="3">
 
                             <TextView
-                                android:id="@+id/aadhaarNumber1"
+                                android:id="@+id/textView"
+                                android:paddingRight="16.5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:textColor="#2C5E83"
+                                android:text="@string/gender" />
+                            <android.support.v4.widget.Space
+                                android:layout_width="52dp"
+                                android:layout_height="wrap_content" />
+
+                            <RadioGroup
+                                android:id="@+id/gendertype_radio"
+
+                                android:weightSum="2"
                                 android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:gravity="center"
-                                android:text="@string/doctor_certificate"
-                                android:textColor="#fff" />
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                            <ImageView
-                                android:id = "@+id/uploadCertificate"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/noimage11" />
+                                <RadioButton
+                                    android:id="@+id/maleRadio"
 
-                        </android.support.design.widget.AppBarLayout>
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/addCertificateIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:clickable="true"
-                            app:fabSize="mini"
-                            android:src="@android:drawable/ic_menu_camera"
-                            app:layout_anchor="@id/appbar11"
-                            app:layout_anchorGravity="bottom|right|end" />
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="15dp"
+                                    android:buttonTint="@color/green"
+                                    android:checked="false"
+                                    android:layout_weight="1"
+                                    android:text="@string/male" />
+                                <!--<android.support.v4.widget.Space-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_width="5dp"-->
+                                <!--android:layout_height="wrap_content" />-->
 
-                    </android.support.design.widget.CoordinatorLayout>
+                                <RadioButton
+                                    android:id="@+id/femaleRadio"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/green"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:text="@string/female" />
+                            </RadioGroup>
 
+                        </LinearLayout>
 
-                    <android.support.design.widget.CoordinatorLayout
-                        android:id="@+id/main1"
-                        android:layout_weight="1"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp">
-
-                        <android.support.design.widget.AppBarLayout
-                            android:id="@+id/appbar1"
+                        <LinearLayout
+                            android:layout_marginTop="1dp"
+                            android:weightSum="2"
                             android:layout_width="match_parent"
-                            android:layout_height="196dp">
+                            android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/aadhaarNumber12"
+                                android:id="@+id/textView3"
+                                android:textColor="#2c5e83"
                                 android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:gravity="center"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/speciality"
+                                android:layout_marginTop="6dp"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
 
+                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                android:id="@+id/Speciality"
+                                android:layout_width="match_parent"
+                                android:layout_height="46dp"
+                                android:backgroundTint="@color/green"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:layout_height="match_parent">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_Qulification"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:textColorHint="#8c8080"
+                                android:layout_weight="1"
+                                android:editable="false"
+                                android:layout_gravity="center">
+
+                                <EditText
+                                    android:id="@+id/Qulificationdoctor"
+                                    android:layout_width="match_parent"
+                                    android:drawableLeft="@drawable/experience_icon"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:textSize="15sp"
+                                    android:backgroundTint="@color/green"
+                                    android:drawablePadding="5dp"
+                                    android:hint="@string/qualification1"
+                                    android:inputType="textPersonName" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_regestrationNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080"
+                                android:editable="false"
+                                android:layout_gravity="center">
+                                <EditText
+                                    android:id="@+id/registrationNumber"
+                                    android:layout_width="match_parent"
+                                    android:hint="@string/registration_number"
+                                    android:textSize="15sp"
+                                    android:drawablePadding="5dp"
+                                    android:backgroundTint="@color/green"
+                                    android:drawableLeft="@drawable/phone"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:inputType="phone" />
+
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="15dp"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+                            <android.support.design.widget.CoordinatorLayout
+                                android:layout_weight="1"
+                                android:id="@+id/main11"
+                                android:layout_width="170dp"
+                                android:layout_height="wrap_content">
+
+                                <android.support.design.widget.AppBarLayout
+                                    android:id="@+id/appbar11"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="196dp">
+
+                                    <TextView
+                                        android:id="@+id/aadhaarNumber1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="45dp"
+                                        android:gravity="center"
+                                        android:text="@string/doctor_certificate"
+                                        android:textColor="#fff" />
+
+                                    <ImageView
+                                        android:id = "@+id/uploadCertificate"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/nodoctorcertificate" />
+
+                                </android.support.design.widget.AppBarLayout>
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/addCertificateIcon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:clickable="true"
+                                    app:fabSize="mini"
+                                    android:src="@drawable/ic_camera_alt_black_24dp"
+                                    app:layout_anchor="@id/appbar11"
+                                    app:layout_anchorGravity="bottom|right|end" />
+
+                            </android.support.design.widget.CoordinatorLayout>
+
+
+                            <android.support.design.widget.CoordinatorLayout
+                                android:id="@+id/main1"
+                                android:layout_weight="1"
+                                android:layout_width="170dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp">
+
+                                <android.support.design.widget.AppBarLayout
+                                    android:id="@+id/appbar1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="196dp">
+
+                                    <TextView
+                                        android:id="@+id/aadhaarNumber12"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="45dp"
+                                        android:gravity="center"
+
+                                        android:textAlignment="center"
+                                        android:text="@string/doctor_image"
+                                        android:textColor="#fff" />
+                                    <ImageView
+                                        android:id="@+id/doc_profileimage"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/doctorsquareimage" />
+                                </android.support.design.widget.AppBarLayout>
+
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/addprofileIcon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:clickable="true"
+                                    app:fabSize="mini"
+                                    android:src="@drawable/ic_camera_alt_black_24dp"
+                                    app:layout_anchor="@id/appbar1"
+                                    app:layout_anchorGravity="bottom|right|end" />
+
+                            </android.support.design.widget.CoordinatorLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/upload_aadhaarimage"
+                                android:textStyle="bold"
+                                android:textColor="#2C5E83"
+                                android:layout_marginTop="15dp"
+                                android:textSize="16sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1">
+
+                            <android.support.design.widget.CoordinatorLayout
+                                android:id="@+id/main"
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <android.support.design.widget.AppBarLayout
+                                    android:id="@+id/appbar"
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:id="@+id/doc_aadhar_image"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="180dp"
+
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/noaadhaar" />
+
+                                </android.support.design.widget.AppBarLayout>
+
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/addAadharIcon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:clickable="true"
+                                    android:src="@drawable/ic_camera_alt_black_24dp"
+                                    app:fabSize="mini"
+                                    app:layout_anchor="@id/appbar"
+                                    app:layout_anchorGravity="bottom|right|end" />
+
+                            </android.support.design.widget.CoordinatorLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_aadhaarNumber"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="#8c8080">
+
+                                <EditText
+
+                                    android:id="@+id/aadhaarNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:drawableLeft="@drawable/aadhar_icon"
+                                    android:drawablePadding="5dp"
+                                    android:ems="20"
+                                    android:hint="@string/aadhaarNumber"
+                                    android:inputType="number"
+                                    android:textSize="15dp"/>
+
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="4dp"
+                                android:textStyle="bold"
+                                android:textSize="16dp"
                                 android:textAlignment="center"
-                                android:text="@string/doctor_image"
-                                android:textColor="#fff" />
-                            <ImageView
-                                android:id="@+id/doc_profileimage"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/noimage11" />
-                        </android.support.design.widget.AppBarLayout>
+                                android:text="@string/choose_convenient_payment_mode_for_patient"
+                                android:textColor="#2C5E83"/>
+                        </LinearLayout>
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/addprofileIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:clickable="true"
-                            app:fabSize="mini"
-                            android:src="@android:drawable/ic_menu_camera"
-                            app:layout_anchor="@id/appbar1"
-                            app:layout_anchorGravity="bottom|right|end" />
-
-                    </android.support.design.widget.CoordinatorLayout>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upload_aadhaarimage"
-                        android:textStyle="bold"
-                        android:textColor="#2C5E83"
-                        android:layout_marginTop="15dp"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.CoordinatorLayout
-                        android:id="@+id/main"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <android.support.design.widget.AppBarLayout
-                            android:id="@+id/appbar"
-
+                        <LinearLayout
+                            android:weightSum="3"
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/cash_on_hand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+                                android:text="@string/cash_on_hand" />
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/net_banking"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+                                android:text="@string/online_banking" />
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/swipe_card"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+                                android:text="@string/swipe_cards" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:id="@+id/doc_aadhar_image"
-                                android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/noimage" />
+                            <com.andexert.library.RippleView
+                                android:id="@+id/rippleView"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content"
+                                ripple:rv_type="rectangle"
+                                ripple:rv_zoom="true">
 
-                        </android.support.design.widget.AppBarLayout>
+                                <TextView
+                                    android:id="@+id/rect_child"
+                                    android:layout_width="150dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerInParent="true"
+                                    android:textColor="#fff"
+                                    android:textSize="18sp"
+                                    android:gravity="center"
+                                    android:text="@string/submit"
+                                    android:background="#f938a72f"/>
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/addAadharIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:clickable="true"
-                            android:src="@android:drawable/ic_menu_camera"
-                            app:fabSize="mini"
-                            app:layout_anchor="@id/appbar"
-                            app:layout_anchorGravity="bottom|right|end" />
+                            </com.andexert.library.RippleView>
+                        </LinearLayout>
 
-                    </android.support.design.widget.CoordinatorLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </ScrollView>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:weightSum="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_aadhaarNumber"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#8c8080">
-
-                        <EditText
-
-                            android:id="@+id/aadhaarNumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:drawableLeft="@drawable/aadhar_icon"
-                            android:drawablePadding="5dp"
-                            android:ems="20"
-                            android:hint="@string/aadhaarNumber"
-                            android:inputType="number"
-                            android:textSize="15dp"/>
-
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:weightSum="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="4dp"
-                        android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:textAlignment="center"
-                        android:text="@string/choose_convenient_payment_mode_for_patient"
-                        android:textColor="#2C5E83"/>
-                </LinearLayout>
-
-
-
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<android.support.v7.widget.AppCompatCheckBox-->
-                <!--android:id="@+id/cash_on_hand"-->
-                <!--android:layout_width="140dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:drawableLeft="@drawable/cashonhand_icon"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="13dp"-->
-                <!--android:text="Cash Hand" />-->
-
-                <!--<android.support.v7.widget.AppCompatCheckBox-->
-                <!--android:id="@+id/debit_card"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:drawableLeft="@drawable/creditcard_icon"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="13dp"-->
-
-                <!--android:text="Debit/cridit" />-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<android.support.v7.widget.AppCompatCheckBox-->
-                <!--android:id="@+id/net_banking"-->
-
-                <!--android:layout_width="110dp"-->
-
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:drawableLeft="@drawable/custom_netbanking_icon"-->
-                <!--android:text="Net Banking"-->
-                <!--android:textSize="13dp" />-->
-
-                <!--<android.support.v7.widget.AppCompatCheckBox-->
-                <!--android:id="@+id/pay_paym"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:drawableLeft="@drawable/custom_icon"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="13dp"-->
-                <!--android:text="Paytm" />-->
-                <!--</LinearLayout>-->
-
-                <LinearLayout
-                    android:weightSum="3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/cash_on_hand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:text="@string/cash_on_hand" />
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/net_banking"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:text="@string/online_banking" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/swipe_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:text="@string/swipe_cards" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <com.andexert.library.RippleView
-                        android:id="@+id/rippleView"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        ripple:rv_type="rectangle"
-                        ripple:rv_zoom="true">
-
-                        <TextView
-                            android:id="@+id/rect_child"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:textColor="#fff"
-                            android:textSize="18sp"
-                            android:gravity="center"
-                            android:text="@string/submit"
-                            android:background="#f938a72f"/>
-
-                    </com.andexert.library.RippleView>
-                </LinearLayout>
-
-            </LinearLayout>
         </RelativeLayout>
-    </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 
-</RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
+
+        <ExpandableListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@+id/nav_view"
+            android:id="@+id/expandableListView1"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true">
+            android:layout_marginTop="270dp"
+            android:choiceMode="singleChoice"
+            android:divider="#000"
+            android:dividerHeight="0.2dp"
 
+            android:groupIndicator="@null"
+            android:alpha="255"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
+        </ExpandableListView>
+        <!--</RelativeLayout>-->
 
-            <ExpandableListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_below="@+id/nav_view"
-                android:id="@+id/expandableListView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_marginTop="270dp"
-                android:choiceMode="singleChoice"
-                android:divider="#000"
-                android:dividerHeight="0.2dp"
-
-                android:groupIndicator="@null"
-                android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
-            </ExpandableListView>
-            <!--</RelativeLayout>-->
-
-        </android.support.design.widget.NavigationView>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

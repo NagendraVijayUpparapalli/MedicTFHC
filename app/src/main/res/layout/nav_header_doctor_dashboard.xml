@@ -19,12 +19,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageId"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_gravity="center"
         android:layout_below="@+id/spaceId"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/noimage11" />
+        android:src="@drawable/noprofile" />
 
     <TextView
         android:id="@+id/name"

@@ -22,7 +22,7 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="10dp"
                 android:contentDescription="@string/share"
-                android:src="@drawable/noimage11"
+                android:src="@drawable/nobloodbanks"
                 app:civ_border_width="0.5dp"
                 app:civ_border_color="#FF000000"
                 app:layout_constraintHorizontal_bias="0.502"
@@ -35,7 +35,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="10dp"
             android:contentDescription="@string/share"
-            android:src="@drawable/noimage11"
+            android:src="@drawable/nobloodbanks"
             app:civ_border_width="0.5dp"
             app:civ_border_color="#FF000000"
             app:layout_constraintHorizontal_bias="0.502"
@@ -59,7 +59,8 @@
                     android:textColor="#000080"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="M/s . Government Headquarters Hospital Blood Bank"
+                    android:textAlignment="center"
+                    android:text="Government Headquarters Hospital Blood Bank"
                     android:textSize="18sp"
                     android:textAllCaps="true"
                     android:textStyle="bold" />
@@ -79,6 +80,7 @@
                     android:textColor="#2C5E83"
                     android:text="Distance :"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/between_dist"
                     android:layout_width="wrap_content"

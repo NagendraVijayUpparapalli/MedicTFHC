@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,10 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
 
     ImageView mycenterImage;
     ProgressDialog progressDialog;
+
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
 
     public MedicalShopListAdapter(GetCurrentMedicalShopsList getCurrentMedicalList,List<MedicalShopClass> medicalClassList) {
@@ -342,29 +347,56 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         }
         @Override
         protected void onPreExecute() {
+
+            showMessageSuccessfullSent();
             super.onPreExecute();
         }
+    }
+
+    public void showMessageSuccessfullSent(){
+        MyDialog1  = new Dialog(context);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.sms_alertdialog);
+
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+//        MyDialog1.setTitle("Your Diagnostic Appointment");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("The Message has sent Successfully to your registered mobile number");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new Mytask().execute();
+                MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
+
     }
 
 
     //Get all addresses for doctor list from api call
     private class GetMeidcalAllAddressDetails extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(context);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(context);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -405,7 +437,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
             Log.e("Api response.....", result);
 
             getAllAddress(result);
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
         }
     }
 

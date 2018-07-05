@@ -91,7 +91,7 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
                     intent.putExtra("centerName",diagName.getText().toString());
                     intent.putExtra("addressId",addressId.getText().toString());
 //                    intent.putExtra("contactPerson",contactPerson.getText().toString());
-//                    intent.putExtra("mobileNumber",mobileNumber.getText().toString());
+                    intent.putExtra("mobile",mobileNumber.getText().toString());
                     context.startActivity(intent);
 
                 }

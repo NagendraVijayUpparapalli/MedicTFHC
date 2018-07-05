@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,7 @@ import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
+import com.example.cool.patient.medicalShop.MedicalChangePassword;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
@@ -142,7 +144,8 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     TextView sidenavName,sidenavEmail,sidenavMobile;
 
     Dialog MyDialog;
-    TextView message,oklink;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,6 +412,9 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
                     // call some activity here
 
                     Intent contact = new Intent(MedicalShopUpdateAddressFromMaps.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 }
@@ -461,7 +467,8 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
                         // call activity here
 
-                        Intent about = new Intent(MedicalShopUpdateAddressFromMaps.this,ChangePassword.class);
+                        Intent about = new Intent(MedicalShopUpdateAddressFromMaps.this,MedicalChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -495,6 +502,16 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //get medical details based on id from api call
@@ -818,7 +835,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -860,10 +877,10 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
         MyDialog  = new Dialog(MedicalShopUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.edit_fail_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);

@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
         tools:replace="android:icon">
-
         <activity
             android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
@@ -133,8 +132,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cool.patient.patient.PatientDashBoard" />
         </activity>
-        <activity android:name=".common.SelectCity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".common.SelectCity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".patient.ViewBloodBanksList.BloodBank1"
             android:label="@string/title_activity_blood_bank"
@@ -210,7 +210,7 @@
             android:name=".patient.BookAppointment.PatientBookAppointmentToDoctor"
             android:hardwareAccelerated="false"
             android:label="Book Doctor"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".doctor.AddAddress.DoctorAddAddressFromMaps"
             android:hardwareAccelerated="false"
@@ -378,10 +378,15 @@
             android:name=".patient.ViewMedicalShopsList.GetCurrentMedicalShopsList11"
             android:label="MedicalShops"
             android:screenOrientation="portrait" />
-        <activity android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".patient.MyFamily"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".diagnostic.ManageAddress.DiagnosticDeleteAddress"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".patient.MyFamily"
+            android:screenOrientation="portrait" />
+        <activity android:name=".diagnostic.DiagnosticChangePassword" />
+        <activity android:name=".doctor.DoctorChangePassword" />
+        <activity android:name=".medicalShop.MedicalChangePassword"></activity>
     </application>
 
 </manifest>

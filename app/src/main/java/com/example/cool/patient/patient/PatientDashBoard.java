@@ -86,7 +86,7 @@ public class PatientDashBoard extends AppCompatActivity
     private static final int REQUEST_LOCATION = 1;
     static String selectedlocation=null;
     static String selectedItemText=null;
-
+    private  boolean exit = false;
 
     TextView current_city;
     static double selectedCitylat;
@@ -94,7 +94,8 @@ public class PatientDashBoard extends AppCompatActivity
 
 
     ListView listview;
-
+    private static long back_pressed;
+    private Toast toast;
 
     LinearLayout line1,line2,line3;
     TextView line0;
@@ -115,9 +116,9 @@ public class PatientDashBoard extends AppCompatActivity
 
     ProgressDialog progressDialog;
 
-    private static long back_pressed;
 
-    int backButtonCount = 0;
+
+    private int backButtonCount = 0;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -274,6 +275,9 @@ public class PatientDashBoard extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(PatientDashBoard.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -371,6 +375,7 @@ public class PatientDashBoard extends AppCompatActivity
 
                         // call activity here
                         Intent intent = new Intent(PatientDashBoard.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
@@ -1031,6 +1036,34 @@ public class PatientDashBoard extends AppCompatActivity
     }
 
 
+
+    @Override
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast =  Toast.makeText(PatientDashBoard.this, "Press back again to Leave!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 //    @Override
 //    public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -1069,25 +1102,61 @@ public class PatientDashBoard extends AppCompatActivity
 //        }
 //    }
 
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//    @Override
+//    public void onBackPressed() {
+//
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000);
+//    }
 
-        new Handler().postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
 
+//    @Override
+//    public void onBackPressed() {
+//        Log.d("CDA", "onBackPressed Called");
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//
+//        startActivity(intent);
+//    }
+
+//    public void onBackPressed() {
+//        backButtonCount++;
+//        if (backButtonCount >=1) {
+//
+//            Intent intent = new Intent(Intent.ACTION_MAIN);
+//            intent.addCategory(Intent.CATEGORY_HOME);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(this, "Press back again to Leave!", Toast.LENGTH_SHORT).show();
+//
+//            // resetting the counter in 2s
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    backButtonCount = 0;
+//                }
+//            }, 2000);
+//        }
+//        super.onBackPressed();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

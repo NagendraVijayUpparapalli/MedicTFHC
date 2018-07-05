@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +59,7 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -88,6 +90,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
     ProgressDialog progressDialog;
     ProgressDialog progressDialog1;
+    ProgressDialog progressDialog2;
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
@@ -144,6 +147,8 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
     FloatingActionButton homebutton;
 
+    int jsondataCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,28 +202,33 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         seek_bar.setProgress(dis);
 
 
-        adapter = new DiagnosticsListAdapter(this, myList);
-        layoutManager = new LinearLayoutManager(this);
+        specialitiesList = new ArrayList<>();
+
+        specialitiesList.add(0,"---Select Test---");
 
         Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+                if(!Speciality.getSelectedItem().toString().equals("---Select Test---"))
+                {
+                    String js = formatDataAsJson();
+                    uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
 
-                new GetDiagnostics_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
+                    new GetDiagnostics_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
 
-                myList = new ArrayList<DiagnosticsClass>();
+                    myList = new ArrayList<DiagnosticsClass>();
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
+                    recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                    recyclerView.setHasFixedSize(true);
 
-                adapter = new DiagnosticsListAdapter(GetCurrentDiagnosticsList11.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentDiagnosticsList11.this);
+                    adapter = new DiagnosticsListAdapter(GetCurrentDiagnosticsList11.this, myList);
+                    layoutManager = new LinearLayoutManager(GetCurrentDiagnosticsList11.this);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }
+
             }
 
             @Override
@@ -226,6 +236,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
             }
         });
+
 
         //home button
         homebutton = (FloatingActionButton) findViewById(R.id.home);
@@ -310,6 +321,9 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentDiagnosticsList11.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -409,6 +423,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
                         // call activity here
                         Intent intent = new Intent(GetCurrentDiagnosticsList11.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
@@ -466,34 +481,16 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
             }
         });
 
-//        MyDialog =  new Dialog(GetCurrentDiagnosticsList11.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.speciality_based_layout);
-//
-//        Speciality = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
-//
-//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//                anotheralert();
-//
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                anotheralert();
-//            }
-//        });
-//        MyDialog.setCancelable(false);
-//        MyDialog.setCanceledOnTouchOutside(false);
-//        MyDialog.show();
+    }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -639,6 +636,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
             super.onPostExecute(result);
 
             Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             getSpecialities(result);
 
         }
@@ -648,7 +646,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         try
         {
             JSONArray jsonArr = new JSONArray(result);
-            specialitiesList = new ArrayList<>();
+
             for (int i = 0; i < jsonArr.length(); i++) {
 
                 org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
@@ -715,20 +713,20 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
     private class GetDiagnostics_N_List extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(GetCurrentDiagnosticsList11.this);
-//            // Set progressdialog title
-////            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog1 = new ProgressDialog(GetCurrentDiagnosticsList11.this);
+            // Set progressdialog title
+//            progressDialog1.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog1.setMessage("Loading...");
+
+            progressDialog1.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog1.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -802,35 +800,70 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
+
+            String data = result;
 
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+//                    {
                     showMessage();
                     availabilityCount = 0;
                     System.out.println("medical availabilityCount...."+availabilityCount);
 
                     availability.setText(Integer.toString(availabilityCount));
                     Log.e("Api response if.....", result);
+//                    }
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getData(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
             }
             catch (Exception e)
-            {}
-            getData(result);
+            {
+                e.printStackTrace();
+            }
 
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+
+
+//            try
+//            {
+//                JSONObject jsono = new JSONObject(result);
+//                String ss = (String) jsono.get("Message");
+//                if(ss.equals("No data found."))
+//                {
+//                    showMessage();
+//                    availabilityCount = 0;
+//                    System.out.println("medical availabilityCount...."+availabilityCount);
+//
+//                    availability.setText(Integer.toString(availabilityCount));
+//                    Log.e("Api response if.....", result);
+//                }
+//                else
+//                {
+//                    getData(result);
+//                    adapter.notifyDataSetChanged();
+//                    Log.e("Api response else.....", result);
+//                }
+//            }
+//            catch (Exception e)
+//            {}
+//            getData(result);
+//
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setLayoutManager(layoutManager);
+//            recyclerView.setAdapter(adapter);
 
         }
     }
@@ -910,15 +943,15 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog1 = new ProgressDialog(GetCurrentDiagnosticsList11.this);
+            progressDialog2 = new ProgressDialog(GetCurrentDiagnosticsList11.this);
             // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
+//            progressDialog2.setTitle("Your searching process is");
             // Set progressdialog message
-            progressDialog1.setMessage("Loading...");
+            progressDialog2.setMessage("Loading...");
 
-            progressDialog1.setIndeterminate(false);
+            progressDialog2.setIndeterminate(false);
             // Show progressdialog
-            progressDialog1.show();
+            progressDialog2.show();
         }
 
         @Override
@@ -993,14 +1026,17 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog1.dismiss();
+            progressDialog2.dismiss();
+
+            String data = result;
 
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
                     showMessage();
                     availabilityCount = 0;
                     System.out.println("medical availabilityCount...."+availabilityCount);
@@ -1008,7 +1044,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     availability.setText(Integer.toString(availabilityCount));
                     Log.e("Api response if.....", result);
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
                     getDataBasedonSpeciality(result);
                     adapter.notifyDataSetChanged();
@@ -1016,21 +1052,49 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 }
             }
             catch (Exception e)
-            {}
-            getDataBasedonSpeciality(result);
+            {
+                e.printStackTrace();
+            }
 
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+
+
+//            try
+//            {
+//                JSONObject jsono = new JSONObject(result);
+//                String ss = (String) jsono.get("Message");
+//                if(ss.equals("No data found."))
+//                {
+//                    showMessage();
+//                    availabilityCount = 0;
+//                    System.out.println("medical availabilityCount...."+availabilityCount);
+//
+//                    availability.setText(Integer.toString(availabilityCount));
+//                    Log.e("Api response if.....", result);
+//                }
+//                else
+//                {
+//                    getDataBasedonSpeciality(result);
+//                    adapter.notifyDataSetChanged();
+//                    Log.e("Api response else.....", result);
+//                }
+//            }
+//            catch (Exception e)
+//            {}
+//            getDataBasedonSpeciality(result);
+//
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setLayoutManager(layoutManager);
+//            recyclerView.setAdapter(adapter);
 
         }
     }
 
     private void getDataBasedonSpeciality(String result) {
+        int count =0;
         try {
 
             JSONArray jarray = new JSONArray(result);
-            int count =0;
+
 
             availabilityCount = jarray.length();
             System.out.println("diag availabilityCount...."+availabilityCount);
@@ -1051,6 +1115,8 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     if(Speciality.getSelectedItem().toString().equals(testName))
                     {
                         count  = count+1;
+
+                        jsondataCount = 1;
 
                         String mobile = object.getString("MobileNumber");
                         String diagId = object.getString("DiagnosticsID");
@@ -1099,6 +1165,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                         availability.setText(Integer.toString(count));
                     }
 
+
                 }
 
             }
@@ -1107,6 +1174,28 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         {
             e.printStackTrace();
         }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+            showSpecialityTestNotMatchMessage();
+        }
+    }
+
+    public void showSpecialityTestNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDiagnosticsList11.this);
+        a_builder.setMessage("Your selected test has no records.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Diagnostic Records");
+        alert.show();
     }
 
     public static Object getPharmacyKeyFromValue(Map hm, Object value) {
@@ -1145,7 +1234,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
     public void showMessage(){
 
         android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDiagnosticsList11.this);
-        a_builder.setMessage("Not available for selected city")
+        a_builder.setMessage("No records found for your city")
                 .setCancelable(false)
                 .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
                     @Override
@@ -1205,6 +1294,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 //                Toast.makeText(BloodBank.this,"SeekBar is in StartTracking",Toast.LENGTH_LONG).show();
             }
 
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 distance.setText(progress_value+" Km");
@@ -1212,6 +1302,8 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 dis = progress_value;
                 System.out.println("dis.."+dis);
 //                getlatlng();
+
+                new GetAllDiagSpecialities().execute(baseUrl.getUrl()+"GetDiagSpeciality");
 
                 String js = formatDataAsJson();
                 uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
@@ -1232,7 +1324,6 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         });
 
         distance.setText(seek_bar.getProgress()+" Km");
-
 
     }
 
@@ -1255,6 +1346,21 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                 }
                 selectedCitylat = l1.get(0).latitude;
                 selectedCitylong = l1.get(0).longitude;
+
+                String js = formatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
+
+                new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DiagnosticsClass>();
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                adapter = new DiagnosticsListAdapter(GetCurrentDiagnosticsList11.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDiagnosticsList11.this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
 
             } catch (IOException e) {
                 e.printStackTrace();

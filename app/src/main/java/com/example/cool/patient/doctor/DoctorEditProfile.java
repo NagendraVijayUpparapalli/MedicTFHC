@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.app.AlertDialog;
@@ -92,12 +94,12 @@ public class DoctorEditProfile extends AppCompatActivity
 
     final Activity activity = this;
 
-    ProgressDialog progressDialog;
+
 
     EditText salutation,email,Experience,mobileNumber,qualificationdoctor,registrationNumber,name,aadhar_num;
     SearchableSpinner Speciality;
     Bitmap mIcon11;
-    ImageView uploadCertificate, adharimage, DoctorImage;
+    ImageView uploadCertificate, adharimage, DoctorImage,myDoctorImage;
     List<String> Spaliaty;
     CheckBox cash_on_hand, swipe_card, net_banking, pay_paym;
     MagicButton gen_btn;
@@ -119,7 +121,7 @@ public class DoctorEditProfile extends AppCompatActivity
     ArrayAdapter<String > specialityAdapter;
 //    static String mySpeciality,mySpecialityid;
 
-    static String getUserId,mobile_number;
+
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,
             myQualification, myAddress1, myAddress2, myGender,myExperience,
             myregistrationNumber,myuploadCertificate,myadharimage,mydoctorImage,myAadhar_num;
@@ -154,9 +156,13 @@ public class DoctorEditProfile extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+    ProgressDialog progressDialog;
+
+    static String getUserId,mobile_number;
 
     Dialog MyDialog;
-    TextView message,oklink;
+    TextView message;
+    LinearLayout oklink;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -305,7 +311,7 @@ public class DoctorEditProfile extends AppCompatActivity
         sidenavName = (TextView) headerLayout.findViewById(R.id.name);
         sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
         sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        DoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        myDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -360,6 +366,9 @@ public class DoctorEditProfile extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(DoctorEditProfile.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -441,7 +450,8 @@ public class DoctorEditProfile extends AppCompatActivity
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorEditProfile.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorEditProfile.this,DoctorChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
@@ -476,6 +486,16 @@ public class DoctorEditProfile extends AppCompatActivity
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -596,7 +616,8 @@ public class DoctorEditProfile extends AppCompatActivity
             JSONObject js = new JSONObject(result);
 
 //            (String) js.get("DoctorID");
-            if(js.has("DoctorImage") && js.has("Speciality")) {
+            if(js.has("DoctorImage") && js.has("Speciality")) // no image for all in new user, SpecialityName & AadharNum is null for new user
+            {
 //                checkNewUser = "No";
                 myMobile = (String) js.get("MobileNumber");
                 myEmail = (String) js.get("EmailID");
@@ -643,6 +664,14 @@ public class DoctorEditProfile extends AppCompatActivity
                 sidenavName.setText(myName+" "+mySurname);
                 sidenavEmail.setText(myEmail);
                 sidenavMobile.setText(myMobile);
+
+                new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
+
+                new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+
+                new GetDocProfileImageTask(myDoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+
+                new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
 
             }
             else {
@@ -723,11 +752,7 @@ public class DoctorEditProfile extends AppCompatActivity
             System.out.println("image d url.."+ mydoctorImage);
             System.out.println("image c url.."+ myuploadCertificate);
 
-            new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
 
-            new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
-
-            new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
 
             specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
 
@@ -1168,12 +1193,12 @@ public class DoctorEditProfile extends AppCompatActivity
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
 
-        message.setText(result);
+        message.setText("Profile Updated Successfully");
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1210,10 +1235,10 @@ public class DoctorEditProfile extends AppCompatActivity
 
         MyDialog  = new Dialog(DoctorEditProfile.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.edit_fail_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -1280,7 +1305,7 @@ public class DoctorEditProfile extends AppCompatActivity
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -1394,6 +1419,32 @@ public class DoctorEditProfile extends AppCompatActivity
 
     }
 
+    private class GetDocProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetDocProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            myDoctorImage.setImageBitmap(result);
+        }
+
+    }
+
 
     public void validateEditProfile()
     {
@@ -1466,7 +1517,13 @@ public class DoctorEditProfile extends AppCompatActivity
 
         if(myAadhar_num.isEmpty())
         {
-            aadhar_num.setError("please enter aadhaar number");
+//            aadhar_num.setError("please enter aadhaar number");
+            validate=true;
+        }
+
+        else if(myAadhar_num.length()>12 || myAadhar_num.length()<12)
+        {
+            aadhar_num.setError("please enter valid aadhaar number");
             validate=false;
         }
 

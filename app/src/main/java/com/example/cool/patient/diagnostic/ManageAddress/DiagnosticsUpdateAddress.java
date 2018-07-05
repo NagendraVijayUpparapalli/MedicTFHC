@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,7 @@ import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddressFromMa
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.R;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -164,7 +166,8 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
     TextView sidenavName,sidenavEmail,sidenavMobile;
 
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message1;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -569,7 +572,8 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticsUpdateAddress.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticsUpdateAddress.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",mydiagnosticId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -675,6 +679,16 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //home icon
@@ -1181,7 +1195,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -1198,24 +1212,6 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             }
         });
         MyDialog.show();
-
-//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage("Updated Successfully")
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(DiagnosticsUpdateAddress.this,DiagnosticDashboard.class);
-//                        intent.putExtra("id",mydiagnosticId);
-//                        intent.putExtra("mobile",regMobile);
-//                        startActivity(intent);
-//                    }
-//                });
-//        android.app.AlertDialog alert = a_builder.create();
-//        alert.setTitle("Address");
-//        alert.show();
     }
 
 
@@ -1223,10 +1219,10 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
         MyDialog  = new Dialog(DiagnosticsUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.edit_fail_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -1240,21 +1236,6 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             }
         });
         MyDialog.show();
-
-
-//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        android.app.AlertDialog alert = a_builder.create();
-//        alert.setTitle("Update Address");
-//        alert.show();
     }
 
     public void validateFullAddress()

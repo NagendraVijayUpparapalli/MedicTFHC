@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -259,6 +260,9 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,ReachUs.class);
+                    contact.putExtra("id",diagnosticId);
+                    contact.putExtra("mobile",diagMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -348,6 +352,16 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

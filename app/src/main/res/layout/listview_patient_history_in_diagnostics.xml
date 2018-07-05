@@ -6,8 +6,7 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,24 +19,23 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textStyle="bold"
+            android:text="hello"
             android:layout_marginTop="5dp"
-            android:textColor="#000080"
-            android:text="Hello"
+            android:textColor="#000"
             android:textAllCaps="true"
-            android:transitionName="patient_name_transtion"
             android:textSize="17dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_gravity="center_horizontal"
+
             android:layout_height="wrap_content"
             tools:ignore="Orientation">
             <TextView
                 android:id="@+id/mobilenumber"
                 android:layout_width="wrap_content"
-                android:paddingLeft="45dp"
-                android:textColor="#02a486"
+                android:drawablePadding="5dp"
+                android:textColor="#000"
                 android:layout_height="wrap_content"
                 android:text="8465887420"
                 android:drawableLeft="@drawable/phone"
@@ -48,6 +46,7 @@
             <TextView
                 android:id="@+id/testname"
                 android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
                 android:paddingLeft="0dp"
                 android:layout_height="wrap_content"
                 android:text="Hepatites test"
@@ -66,14 +65,7 @@
             android:background="#c7c7c7" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/t"
-        android:layout_marginStart="310dp"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/arrow_forward"
-        android:textSize="15dp"/>
+
 
     <TextView
         android:id="@+id/aadhaarNumber"

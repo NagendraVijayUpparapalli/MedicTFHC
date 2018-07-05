@@ -15,436 +15,419 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusableInTouchMode="true">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/toolbar_gradient"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:focusableInTouchMode="true">
 
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/Patient_name"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sudarsana Rao"
-                android:textAlignment="center"
-                android:transitionName="patient_name_transtion"
-                android:textColor="#0712e9"
-                android:textStyle="bold"
-                android:textSize="21sp"
-                />
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_height="wrap_content"
-                tools:ignore="Orientation">
-                <TextView
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/aadhar_number_in_patient"
-                    android:textColor="#2C5E83"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    />
-                <TextView
-                    android:id="@+id/aadhaarNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="993412564789"
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:layout_marginStart="19dp" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:background="@drawable/toolbar_gradient"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_height="wrap_content"
-                tools:ignore="Orientation">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#2C5E83"
-                    android:text="@string/mobile_number_patient"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
+                </android.support.v7.widget.Toolbar>
 
-                <TextView
-                    android:id="@+id/mobilenumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="9492862167"
-                    android:textAlignment="center"
-                    android:transitionName="patient_phone_transtion"
-                    android:textSize="17sp"
-                    android:layout_marginStart="20dp" />
+            </android.support.design.widget.AppBarLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-
-                android:layout_marginStart="28dp"
-                android:layout_height="wrap_content"
-                tools:ignore="Orientation">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#2C5E83"
-                    android:text="@string/time_slot"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/time_slot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="00:00"
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:transitionName="patient_time_transtion"
-                    android:layout_marginStart="60dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="28dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="Orientation">
-
-                <TextView
-                    android:id="@+id/select_city"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="#2C5E83"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:text="@string/status" />
-
-                <Spinner
-                    android:id="@+id/status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_marginStart="28dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/Commentss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-
-                    android:text="@string/comments"
-                    android:textColor="#2C5E83"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-
-                <MultiAutoCompleteTextView
-
-                    android:id="@+id/Comments_Others"
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginEnd="28dp"
-                    android:background="@drawable/edittext_button"
-                    android:layout_weight="2"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="4dp"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textAlignment="center"
-                    android:text="@string/payment_mode"
-                    android:textColor="#2C5E83"/>
-                <LinearLayout
-
-                    android:weightSum="3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/cash_on_hand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:text="@string/cash_on_hand" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/net_banking"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-
-                        android:text="Online Banking" />
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/swipe_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:text="Swipe cards" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_weight="1.3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/amount_inr"
-                    android:textColor="#2C5E83"
-                    android:layout_marginTop="25dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_amount"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
-                    android:textColorHint="#8c8080">
-                    <EditText
-                        android:id="@+id/amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_attach_money_black_24dp"
-                        android:ems="10"
-                        android:hint="@string/enter_amount_here"
-                        android:drawablePadding="5dp"
-                        android:backgroundTint="@color/green"
-                        android:textSize="15sp"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:textAlignment="center"
-                    android:text="@string/upload_prescription"
-                    android:textColor="#2C5E83"/>
-                <android.support.design.widget.CoordinatorLayout
-                    android:id="@+id/main1"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp">
-
-                    <android.support.design.widget.AppBarLayout
-                        android:id="@+id/appbar1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id = "@+id/dummyimage"
-                                android:layout_width="match_parent"
-                                android:layout_height="250dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/noprescription" />
-
-                            <ImageView
-                                android:id = "@+id/prescription"
-                                android:layout_width="match_parent"
-                                android:layout_height="250dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/noprescription" />
-
-                        </RelativeLayout>
-                    </android.support.design.widget.AppBarLayout>
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/Licence_ImageIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:clickable="true"
-                        app:fabSize="mini"
-                        android:src="@drawable/ic_camera_black_24dp"
-                        app:layout_anchor="@id/appbar1"
-                        app:layout_anchorGravity="bottom|right|end" />
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/prescription_camaraIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:clickable="true"
-                        app:fabSize="mini"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_camera_alt_black_24dp"
-                        app:layout_anchor="@id/appbar1"
-                        app:layout_anchorGravity="bottom|left|end"/>
-
-                </android.support.design.widget.CoordinatorLayout>
-
-            </LinearLayout>
-
-            <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->
-            <LinearLayout
-                xmlns:ripple="http://schemas.android.com/apk/res-auto"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.andexert.library.RippleView
-                    android:id="@+id/rippleView"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"
-                    ripple:rv_type="rectangle"
-                    ripple:rv_zoom="true">
-
-                    <TextView
-                        android:id="@+id/rect_child"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:layout_centerInParent="true"
-                        android:textColor="#fff"
-                        android:textSize="18sp"
-                        android:gravity="center"
-                        android:text="@string/submit"
-                        android:background="#f938a72f"/>
-
-                </com.andexert.library.RippleView>
-            </LinearLayout>
-
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent">-->
-                <!--<Button-->
-                    <!--android:id="@+id/button"-->
-                    <!--android:layout_width="100dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:ems="10"-->
-
-                    <!--android:textColor="#fff"-->
-                    <!--android:background="@drawable/round_button"-->
-                    <!--android:text="@string/submit"-->
-                    <!--/>-->
-
-            <!--</LinearLayout>-->
-            <android.support.v4.widget.Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
-</android.support.constraint.ConstraintLayout>
-        <android.support.design.widget.NavigationView
-
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true">
-
-            <ExpandableListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/expandableListView1"
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_marginTop="270dp"
-                android:choiceMode="singleChoice"
-                android:divider="#000"
-                android:dividerHeight="0.2dp"
+                android:layout_below="@+id/appbar">
 
-                android:groupIndicator="@null"
-                android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
-            </ExpandableListView>
-        </android.support.design.widget.NavigationView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/Patient_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sudarsana Rao"
+                        android:textAlignment="center"
+                        android:transitionName="patient_name_transtion"
+                        android:textColor="#0712e9"
+                        android:textStyle="bold"
+                        android:textSize="21sp"
+                        />
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_height="wrap_content"
+                        tools:ignore="Orientation">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/aadhar_number_in_patient"
+                            android:textColor="#2C5E83"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            />
+                        <TextView
+                            android:id="@+id/aadhaarNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="993412564789"
+                            android:textAlignment="center"
+                            android:textSize="17sp"
+                            android:layout_marginStart="19dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_height="wrap_content"
+                        tools:ignore="Orientation">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#2C5E83"
+                            android:text="@string/mobile_number_patient"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/mobilenumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="9492862167"
+                            android:textAlignment="center"
+                            android:transitionName="patient_phone_transtion"
+                            android:textSize="17sp"
+                            android:layout_marginStart="20dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+
+                        android:layout_marginStart="28dp"
+                        android:layout_height="wrap_content"
+                        tools:ignore="Orientation">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#2C5E83"
+                            android:text="@string/time_slot"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/time_slot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="00:00"
+                            android:textAlignment="center"
+                            android:textSize="17sp"
+                            android:transitionName="patient_time_transtion"
+                            android:layout_marginStart="60dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="Orientation">
+
+                        <TextView
+                            android:id="@+id/select_city"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#2C5E83"
+                            android:layout_weight="1"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:text="@string/status" />
+
+                        <Spinner
+                            android:id="@+id/status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="28dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/Commentss"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+
+                            android:text="@string/comments"
+                            android:textColor="#2C5E83"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+
+                        <MultiAutoCompleteTextView
+
+                            android:id="@+id/Comments_Others"
+                            android:textColor="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="28dp"
+                            android:layout_marginEnd="28dp"
+                            android:background="@drawable/edittext_button"
+                            android:layout_weight="2"
+                            android:textSize="15sp"
+                            />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="4dp"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textAlignment="center"
+                            android:text="@string/payment_mode"
+                            android:textColor="#2C5E83"/>
+                        <LinearLayout
+
+                            android:weightSum="3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/cash_on_hand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+                                android:text="@string/cash_on_hand" />
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/net_banking"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+
+                                android:text="Online Banking" />
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/swipe_card"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="13sp"
+                                android:text="Swipe cards" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1.3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amount_inr"
+                            android:textColor="#2C5E83"
+                            android:layout_marginTop="25dp"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_amount"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="30dp"
+                            android:textColorHint="#8c8080">
+                            <EditText
+                                android:id="@+id/amount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                                android:ems="10"
+                                android:hint="@string/enter_amount_here"
+                                android:drawablePadding="5dp"
+                                android:backgroundTint="@color/green"
+                                android:textSize="15sp"
+                                android:inputType="number" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:textAlignment="center"
+                            android:text="@string/upload_prescription"
+                            android:textColor="#2C5E83"/>
+                        <android.support.design.widget.CoordinatorLayout
+                            android:id="@+id/main1"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp">
+
+                            <android.support.design.widget.AppBarLayout
+                                android:id="@+id/appbar1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:id = "@+id/dummyimage"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="250dp"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/noprescription" />
+
+                                    <ImageView
+                                        android:id = "@+id/prescription"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="250dp"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/noprescription" />
+
+                                </RelativeLayout>
+                            </android.support.design.widget.AppBarLayout>
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/Licence_ImageIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:clickable="true"
+                                app:fabSize="mini"
+                                android:src="@drawable/ic_camera_black_24dp"
+                                app:layout_anchor="@id/appbar1"
+                                app:layout_anchorGravity="bottom|right|end" />
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/prescription_camaraIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:clickable="true"
+                                app:fabSize="mini"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/ic_camera_alt_black_24dp"
+                                app:layout_anchor="@id/appbar1"
+                                app:layout_anchorGravity="bottom|left|end"/>
+
+                        </android.support.design.widget.CoordinatorLayout>
+
+                    </LinearLayout>
+
+                    <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->
+                    <LinearLayout
+                        xmlns:ripple="http://schemas.android.com/apk/res-auto"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.andexert.library.RippleView
+                            android:id="@+id/rippleView"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="center"
+                            android:layout_height="wrap_content"
+                            ripple:rv_type="rectangle"
+                            ripple:rv_zoom="true">
+
+                            <TextView
+                                android:id="@+id/rect_child"
+                                android:layout_width="150dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:textColor="#fff"
+                                android:textSize="18sp"
+                                android:gravity="center"
+                                android:text="@string/submit"
+                                android:background="#f938a72f"/>
+
+                        </com.andexert.library.RippleView>
+                    </LinearLayout>
+
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+
+        <ExpandableListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/expandableListView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="270dp"
+            android:choiceMode="singleChoice"
+            android:divider="#000"
+            android:dividerHeight="0.2dp"
+
+            android:groupIndicator="@null"
+            android:alpha="255"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            >
+        </ExpandableListView>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

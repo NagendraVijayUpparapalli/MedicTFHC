@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -127,7 +130,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     ImageView sidenavDoctorImage;
 
     Dialog MyDialog;
-    TextView message,oklink;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -567,6 +571,9 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     // call some activity here
 
                     Intent contact = new Intent(GetPatientDetailsTotalDataInDoctor.this,ReachUs.class);
+                    contact.putExtra("id",doctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -620,7 +627,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
                         // call activity here
 
-                        Intent about = new Intent(GetPatientDetailsTotalDataInDoctor.this,ChangePassword.class);
+                        Intent about = new Intent(GetPatientDetailsTotalDataInDoctor.this,DoctorChangePassword.class);
+                        about.putExtra("id",doctorId);
                         about.putExtra("mobile",doctorMobile);
                         startActivity(about);
 
@@ -655,6 +663,16 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -1095,7 +1113,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         MyDialog.setContentView(R.layout.timeexceed_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -1119,10 +1137,10 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         MyDialog  = new Dialog(GetPatientDetailsTotalDataInDoctor.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.edit_success_alert);
+        MyDialog.setContentView(R.layout.success_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -1163,10 +1181,10 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         MyDialog  = new Dialog(GetPatientDetailsTotalDataInDoctor.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.cancel_alertdialog);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -1260,7 +1278,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             data.put("Approved",statusId);
             data.put("Payment",Payment);
             data.put("Amount",amount.getText().toString());
-            data.put("Prescription",encodedLicenceImage);
+            data.put("PrescriptionImage",encodedLicenceImage);
 
             return data.toString();
 

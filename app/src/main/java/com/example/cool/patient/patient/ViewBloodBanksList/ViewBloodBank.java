@@ -230,6 +230,8 @@ public class ViewBloodBank extends AppCompatActivity {
 
     public void showMessage(){
 
+
+
         android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(ViewBloodBank.this);
         a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
                 .setCancelable(false)

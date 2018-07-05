@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -65,6 +66,7 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -93,6 +95,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
     ProgressDialog progressDialog;
     ProgressDialog progressDialog1;
+    ProgressDialog progressDialog2;
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
@@ -106,6 +109,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
     static String myDistance = null;
     double currentlatti,currentlongi;
+    static  int myRangeDistance;
 
 
     static double selectedCitylat;
@@ -146,6 +150,9 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
     FloatingActionButton homebutton;
 
+    TextView searchSpeciality;
+    int jsondataCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +161,13 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         baseUrl = new ApiBaseUrl();
 
         current_city = (TextView) findViewById(R.id.select_city);
+//        searchSpeciality = (TextView) findViewById(R.id.searchSpeciality);
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        availability = (TextView) findViewById(R.id.availability);
+        seek_bar.setProgress(dis);
+
         current_city.setText(city);
 
         current_city.setOnClickListener(new View.OnClickListener() {
@@ -177,24 +191,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         myList = new ArrayList<DoctorClass>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //  setSupportActionBar(toolbar);
         toolbar.setTitle("Doctors");
-
-//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(GetCurrentDoctorsList.this,PatientDashBoard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//        );
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -204,76 +201,57 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
             getLocation();
         }
 
-
-//        funnelIcon = (ImageView) findViewById(R.id.funnelIcon);
-//
-//        funnelIcon.setOnClickListener(new View.OnClickListener() {
+//        searchSpeciality.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                        String js = specialityBasedFormatDataAsJson();
-//                        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                        myList = new ArrayList<DoctorClass>();
-//
-//                        adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
-//                        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
-//
-//                        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                        recyclerView.setHasFixedSize(true);
-//
-//                        recyclerView.setLayoutManager(layoutManager);
-//                        recyclerView.setAdapter(adapter);
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//                    }
-//                });
+//                searchSpeciality.setVisibility(View.GONE);
+//                c = 1;
+//                Speciality.setVisibility(View.VISIBLE);
+//                Speciality.setClickable(false);
 //            }
 //        });
 
-        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
-        seek_bar = (SeekBar) findViewById(R.id.seekbar);
-        distance = (TextView) findViewById(R.id.DistanceRange);
-        availability = (TextView) findViewById(R.id.availability);
-        seek_bar.setProgress(dis);
+//        if(c!=1)
+//        {
+//            Speciality.setClickable(true);
+
+        specialityList = new ArrayList<>();
+
+        specialityList.add(0,"---Select Speciality---");
+//
+            Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    if(!Speciality.getSelectedItem().toString().equals("---Select Speciality---"))
+                    {
+                        String js = formatDataAsJson();
+                        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                        new GetDoctors_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
+
+                        myList = new ArrayList<DoctorClass>();
+
+                        adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
+                        layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
+
+                        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                        recyclerView.setHasFixedSize(true);
+
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+//
+//        }
 
         rangeBar();
-
-        Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-
-                new GetDoctors_N_ListBasedonSpeciality().execute(uploadServerUrl,js.toString());
-
-                myList = new ArrayList<DoctorClass>();
-
-                adapter = new DoctorListAdapter(GetCurrentDoctorsList.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList.this);
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
-
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
 
 
         //home button
@@ -338,6 +316,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
                     // call some activity here
                     Intent editProfile = new Intent(GetCurrentDoctorsList.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",mobile);
                     startActivity(editProfile);
 
                 }
@@ -358,6 +337,9 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentDoctorsList.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -457,6 +439,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
                         // call activity here
                         Intent intent = new Intent(GetCurrentDoctorsList.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
@@ -514,6 +497,17 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
             }
         });
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -659,7 +653,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         super.onPostExecute(result);
 
         Log.e("TAG result specialities", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-//        progressDialog.dismiss();
+        progressDialog.dismiss();
         getSpecialities(result);
 
     }
@@ -670,7 +664,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         try
         {
             JSONArray jsonArr = new JSONArray(result);
-            specialityList = new ArrayList<>();
+
 
             for (int i = 0; i < jsonArr.length(); i++) {
 //                System.out.print("myspeciality for loop in..");
@@ -682,7 +676,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 mySpecialitiesList.put(specialityKey,specialityValue);
                 specialityList.add(jsonObj.getString("Speciality"));
 
-//                specialityList.add(0,"Select Speciality");
+//                specialityList.add(0,"---Select Speciality---");
                 specialityAdapter = new ArrayAdapter<String> (this, R.layout.custom_spinner, specialityList);
                 specialityAdapter.setDropDownViewResource(R.layout.custom_spinner); // Specify the layout to use when the list of choices appears
                 Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
@@ -952,20 +946,20 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
     //Get doctors list from api call
     private class GetDoctors_N_List extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(GetCurrentDoctorsList.this);
-//            // Set progressdialog title
-////            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog2 = new ProgressDialog(GetCurrentDoctorsList.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog2.setMessage("Loading...");
+
+            progressDialog2.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog2.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -1039,14 +1033,18 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
-            progressDialog.dismiss();
+            progressDialog2.dismiss();
+            String data = result;
 
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+//                    {
                     availabilityCount = 0;
                     System.out.println("doctors availabilityCount...."+availabilityCount);
 
@@ -1055,34 +1053,32 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                     showMessage();
 
                     Log.e("Api response if.....", result);
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getData(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
+
             }
             catch (Exception e)
-            {}
-            getData(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+            {
+                e.printStackTrace();
+            }
 
         }
     }
 
     private void getData(String result) {
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
 
             availabilityCount = jarray.length();
-            System.out.println("doctors availabilityCount...."+availabilityCount);
-
-            availability.setText(Integer.toString(availabilityCount));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
@@ -1109,7 +1105,11 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 System.out.println("distance from current in doc to ur location...."+myDistances);
 
                 double dis = Math.round(myDistances*1000)/1000.000;
+
+                System.out.println("double dis..."+dis);
+
                 myDistance = String.format("%.1f", dis)+" km";
+
                 System.out.println("dist decimal round...."+myDistance);
 
                 String emergencyService = "";
@@ -1134,15 +1134,37 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 String paytm = object.getString("Paytm");
 
 
-                DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                        doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                double myDis = Integer.parseInt(String.format("%.0f", dis));
 
-                myList.add(doctorClass);
+                System.out.println("remove decimal dis..."+myDis);
+
+                if(dis <= myRangeDistance)
+                {
+                    count +=1;
+                    DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+
+                    myList.add(doctorClass);
+
+                    System.out.println("doctors distance based availabilityCount...."+count);
+
+                    availability.setText(Integer.toString(count));
+                }
+
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
         }
     }
 
@@ -1238,12 +1260,18 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             progressDialog1.dismiss();
 
+            String data = result;
+
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+//                    {
                     availabilityCount = 0;
                     System.out.println("doctors availabilityCount...."+availabilityCount);
 
@@ -1252,88 +1280,95 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                     showMessage();
 
                     Log.e("Api response if.....", result);
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getDataBasedonSpeciality(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
             }
             catch (Exception e)
-            {}
-            getDataBasedonSpeciality(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+            {
+                e.printStackTrace();
+            }
+//            getDataBasedonSpeciality(result);
+//
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setLayoutManager(layoutManager);
+//            recyclerView.setAdapter(adapter);
 
         }
     }
 
     private void getDataBasedonSpeciality(String result) {
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
-            int count =0;
 
             availabilityCount = jarray.length();
             System.out.println("doctors availabilityCount...."+availabilityCount);
+            int i = 0;
 
-            for (int i = 0; i < jarray.length(); i++) {
+            for (i = 0; i < jarray.length(); i++) {
                 JSONObject object = jarray.getJSONObject(i);
 
+                String doctorId = object.getString("DoctorID");
 
-                if(Speciality.getSelectedItem().toString().equals(object.getString("SpecialityName")))
+                String addressId = object.getString("AddressID");
+
+                String mobile = object.getString("MobileNumber");
+                String firstName = object.getString("FirstName");
+                String lastName = object.getString("LastName");
+
+                String Name = firstName+" "+lastName;
+
+                String qualification = object.getString("Qualification");
+                String specialityName = object.getString("SpecialityName");
+                String doctorImage = object.getString("DoctorImage");
+                String experience = object.getString("Experience");
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                String consultationFee = object.getString("ConsultationFee");
+                String consultationPrice = object.getString("ConsultationFee");
+
+                String cashonHand = object.getString("CashOnHand");
+                String creditDebit = object.getString("CreditDebit");
+                String netBanking = object.getString("Netbanking");
+                String paytm = object.getString("Paytm");
+
+
+
+                if(Speciality.getSelectedItem().toString().equals(object.getString("SpecialityName")) && dis <= myRangeDistance)
                 {
                     count  = count+1;
 
-                    String doctorId = object.getString("DoctorID");
-
-                    String addressId = object.getString("AddressID");
-
-                    String mobile = object.getString("MobileNumber");
-                    String firstName = object.getString("FirstName");
-                    String lastName = object.getString("LastName");
-
-                    String Name = firstName+" "+lastName;
-
-                    String qualification = object.getString("Qualification");
-                    String specialityName = object.getString("SpecialityName");
-                    String doctorImage = object.getString("DoctorImage");
-                    String experience = object.getString("Experience");
-                    String mylatii= object.getString("Latitude");
-                    String mylongii = object.getString("Longitude");
-
-                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                    System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                    double dis = Math.round(myDistances*1000)/1000.000;
-                    myDistance = String.format("%.1f", dis)+" km";
-                    System.out.println("dist decimal round...."+myDistance);
-
-                    String emergencyService = "";
-
-                    if(object.has("EmergencyService"))
-                    {
-                        emergencyService = object.getString("EmergencyService");
-                    }
-
-                    else
-                    {
-                        emergencyService = "";
-                    }
-
-
-                    String consultationFee = object.getString("ConsultationFee");
-                    String consultationPrice = object.getString("ConsultationFee");
-
-                    String cashonHand = object.getString("CashOnHand");
-                    String creditDebit = object.getString("CreditDebit");
-                    String netBanking = object.getString("Netbanking");
-                    String paytm = object.getString("Paytm");
-
+                    jsondataCount = 1;
 
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
                             doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
@@ -1343,14 +1378,52 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                     System.out.println("doctors  spec availabilityCount...."+count);
                     availability.setText(Integer.toString(count));
                 }
+                else
+                {
+                    jsondataCount = 0;
+                }
 
             }
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+            showSpecialityNotMatchMessage();
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
+        }
+
+//        if(jsondataCount == 0)
+//        {
+//            availability.setText(Integer.toString(0));
+//            showSpecialityNotMatchMessage();
+//        }
     }
+
+    public void showSpecialityNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentDoctorsList.this);
+        a_builder.setMessage("Your selected speciality has no records.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Doctors Records");
+        alert.show();
+    }
+
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -1431,6 +1504,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                myRangeDistance = progress;
                 progress_value = progress;
                 System.out.println("progress...."+progress);
                 distance.setText(progress+" Km") ;
@@ -1446,81 +1520,44 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 distance.setText(progress_value+" Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
+                myRangeDistance = progress_value;
                 dis = progress_value;
                 System.out.println("dis.."+dis);
+
+                System.out.println("myrange dis..."+myRangeDistance);
                 getlatlng();
             }
         });
 
+        myRangeDistance = seek_bar.getProgress();
+//        System.out.println("myrange dis..."+myRangeDistance);
         distance.setText(seek_bar.getProgress()+" Km");
-
-//        String js = specialityBasedFormatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<DoctorClass>();
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//
-//        adapter = new DoctorListAdapter(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
 
     }
 
 
     private void getlatlng()
     {
-        if(Geocoder.isPresent())
-        {
-            try {
-                selectedlocation = city;
-                System.out.println("getlatlong method city....."+selectedlocation);
-                Geocoder gc=new Geocoder(this);
-                List<Address> addresses1=gc.getFromLocationName(selectedlocation,5);
-                List<LatLng> l1=new ArrayList<>(addresses1.size());
-                System.out.println("adresses1"+addresses1);
-                for(Address a:addresses1){
-                    if(a.hasLatitude() && a.hasLongitude()){
-                        l1.add(new LatLng(a.getLatitude(),a.getLongitude()));
-                    }
-                }
 
-                lattitude = l1.get(0).latitude;
-                longitude = l1.get(0).longitude;
+        new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
-//                System.out.println("lati value city....."+currentlongi+"longi value city....."+currentlongi);
-//
-//                lattitude = currentlatti;
-//                longitude = currentlongi;
+        String js = formatDataAsJson();
+        uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+        new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
 
-                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+        myList = new ArrayList<DoctorClass>();
 
-                myList = new ArrayList<DoctorClass>();
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
 
 
-                adapter = new DoctorListAdapter(this, myList);
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+        adapter = new DoctorListAdapter(this, myList);
+        layoutManager = new LinearLayoutManager(this);
 
-//                getaddress(selectedCitylat,selectedCitylong);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
     }
 

@@ -215,7 +215,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
 
 //        viewHolder.mobile.setText(medicalManageAddressClassArrayList.get(i).getLandLineNo());
 
-        new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+medicalManageAddressClassArrayList.get(i).getProfileImage());
+//        new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+medicalManageAddressClassArrayList.get(i).getProfileImage());
 
         comments = medicalManageAddressClassArrayList.get(i).getComment();
         emergencyService = medicalManageAddressClassArrayList.get(i).getEmergencyservice();

@@ -3,6 +3,7 @@ package com.example.cool.patient.patient;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -85,6 +88,8 @@ import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
+import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank;
@@ -181,6 +186,10 @@ public class PatientEditProfile extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
+
+    Dialog MyDialog;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -399,13 +408,13 @@ public class PatientEditProfile extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup1);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -459,6 +468,9 @@ public class PatientEditProfile extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(PatientEditProfile.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -557,6 +569,7 @@ public class PatientEditProfile extends AppCompatActivity
 
                         // call activity here
                         Intent intent = new Intent(PatientEditProfile.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
@@ -616,6 +629,19 @@ public class PatientEditProfile extends AppCompatActivity
 
 
     }
+
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     public void validateEditProfile()
     {
@@ -1691,16 +1717,20 @@ public class PatientEditProfile extends AppCompatActivity
         myAddress1 = address1.getText().toString().trim();
         myAddress2 = address2.getText().toString().trim();
 //        myGender = genderradioButton.getText().toString();
+
         if(promotion_diagnostic.isChecked())
         {
             myDiagnosticPromotion = true;
-//            myMedicalPromotion = false;
             System.out.println("diagnos if..."+myDiagnosticPromotion);
             System.out.println("medical if..."+myMedicalPromotion);
 
         }
+        else
+        {
+            myDiagnosticPromotion = false;
+        }
 
-        else if(promotion_diagnostic.isChecked() && promotion_medical.isChecked())
+        if(promotion_diagnostic.isChecked() && promotion_medical.isChecked())
         {
             myDiagnosticPromotion = true;
             myMedicalPromotion = true;
@@ -1708,21 +1738,24 @@ public class PatientEditProfile extends AppCompatActivity
             System.out.println("medical if..."+myMedicalPromotion);
 
         }
-
-        else if(promotion_medical.isChecked())
+        else
         {
-//            myDiagnosticPromotion = false;
+            myDiagnosticPromotion = false;
+            myMedicalPromotion = false;
+        }
+
+        if(promotion_medical.isChecked())
+        {
             myMedicalPromotion = true;
             System.out.println("diagnos else..."+myDiagnosticPromotion);
             System.out.println("medical else..."+myMedicalPromotion);
         }
-//        else
-//        {
-//            myDiagnosticPromotion = false;
-//            myMedicalPromotion = false;
-//            System.out.println("diagnos else..."+myDiagnosticPromotion);
-//            System.out.println("medical else..."+myMedicalPromotion);
-//        }
+        else
+        {
+            myMedicalPromotion = false;
+            System.out.println("diagnos else..."+myDiagnosticPromotion);
+            System.out.println("medical else..."+myMedicalPromotion);
+        }
         if(donor.isChecked())
         {
             myBloodDonor = true;
@@ -2002,44 +2035,59 @@ public class PatientEditProfile extends AppCompatActivity
         }
     }
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(PatientEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-                        new Mytask().execute();
-                        Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",mobile_number);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+//        MyDialog.setTitle("Edit Profile");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("Profile Updated Successfully");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Mytask().execute();
+                Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
 
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(PatientEditProfile.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.server_error_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+//        MyDialog.setTitle("Edit Profile");
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
 
     }
 

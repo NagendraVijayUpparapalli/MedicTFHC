@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -105,7 +108,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     TextView sidenavName,sidenavEmail,sidenavMobile;
     List<String> statusList;
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message1;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -507,6 +511,9 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                     // call some activity here
 
                     Intent contact = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,ReachUs.class);
+                    contact.putExtra("id",diagnosticId);
+                    contact.putExtra("module","diag");
+                    contact.putExtra("mobile",diagmobile);
                     startActivity(contact);
 
                 }
@@ -561,7 +568,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
                         // call activity here
 
-                        Intent about = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,ChangePassword.class);
+                        Intent about = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",diagnosticId);
                         about.putExtra("mobile",diagmobile);
                         startActivity(about);
 
@@ -598,14 +606,24 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void timeerroralert() {
 
         MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.edit_success_alert);
+        MyDialog.setContentView(R.layout.timeexceed_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -981,10 +999,10 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.edit_success_alert);
+        MyDialog.setContentView(R.layout.success_alert);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);
@@ -1028,10 +1046,10 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         MyDialog  = new Dialog(GetPatientDetailsTotalDataInDiagnostics.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.cancel_alertdialog);
 
         message1 = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message1.setEnabled(true);
         oklink.setEnabled(true);

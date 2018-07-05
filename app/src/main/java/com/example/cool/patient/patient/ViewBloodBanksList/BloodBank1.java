@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ListView;
@@ -105,6 +107,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     BloodBankAdapter adapter1;
     ApiBaseUrl baseUrl;
 
+
     // expandable list view
 
     ExpandableListView expandableListView;
@@ -123,6 +126,10 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     TextView myaddress,mymobile,myname,mynavigate,myperson_name,mysms,mycancel;
     ImageView image;
     Bitmap mIcon11;
+
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
 
     String myPhone,myBloodbank_name,myCity,myArea,contact_name,location,uri=null,userMobile,userId;
@@ -379,6 +386,9 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                     // call some activity here
 
                     Intent contact = new Intent(BloodBank1.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -478,6 +488,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                         // call activity here
                         Intent intent = new Intent(BloodBank1.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",mobile);
                         startActivity(intent);
 
@@ -537,6 +548,16 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
         rangeBar();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //Get patient list based on id from api call
@@ -1177,18 +1198,40 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
     public void showMessageSuccessfullSent(){
 
-        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(BloodBank1.this);
-        a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
-                .setCancelable(false)
-                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.support.v7.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Successfully Sent");
-        alert.show();
+        MyDialog1  = new Dialog(BloodBank1.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.sms_alertdialog);
+
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+//        MyDialog1.setTitle("Your Diagnostic Appointment");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText("The Message has sent Successfully to your registered mobile number");
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
+//
+//        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(BloodBank1.this);
+//        a_builder.setMessage("The Message has sent Successfully to your registered mobile number")
+//                .setCancelable(false)
+//                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.support.v7.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Successfully Sent");
+//        alert.show();
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.cool.patient.patient.BookAppointment;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,7 +73,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class PatientBookAppointmentToDoctor extends AppCompatActivity {
-    TextView doctorname, hospitalname, doornum, city, state, fee, payment, doctorphonenum, navigation;
+    TextView doctorname, hospitalname, doornum, city, state, fee, payment, doctorphonenum, navigation,close;
     EditText  patientname, age, patientmobileno, mail, aadharnum, reason;
     TextView appointmentdate,apptdate;
     Button button;
@@ -116,6 +119,14 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     String mydoctorImage, mydoctormobile, mydoctorspeciality, mydoctorEmail;
 
     String bookAppointmentmessage;
+
+    Dialog MyDialog;
+    TextView message;
+    LinearLayout oklink;
+
+    Dialog MyDialog1;
+    ImageView  enableYes,enableNo;
+    TextView Mymessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +180,18 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
         isUp=false;
 
-        //floatingActionButton=(FloatingActionButton) findViewById(R.id.floating_button);
+        close=(TextView)findViewById(R.id.close) ;
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(PatientBookAppointmentToDoctor.this,PatientDashBoard.class);
+                intent.putExtra("id",getIntent().getStringExtra("userId"));
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
+            }
+        });
 
         final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
@@ -232,20 +254,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         }
 
         timings=(Spinner)findViewById(R.id.timings);
-//        timings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-////                https://meditfhc.com/mapi/BookedAppointmentCount?DoctorAddressID=1351&AppointmentDate=06/20/2018&TimeslotID=44
-//
-//                int keyValue = (int) getTimeKeyFromValue(AllTimeSlotsList,timings.getSelectedItem().toString());
-//                new GetAppointmentCount().execute(baseUrl.getUrl()+"BookedAppointmentCount?DoctorAddressID="+cur_addressId+"&AppointmentDate="+appointmentdate.getText().toString()+"&TimeslotID="+keyValue);
-//
-//            }
-//        });
-
-//        button=(Button)findViewById(R.id.submit);
-
 
         rippleView=(RippleView)findViewById(R.id.rippleView);
         rippleView.setOnClickListener(new View.OnClickListener()
@@ -294,14 +302,16 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                             myselecteddate =year+"/"+mm+"/"+dayOfMonth;
                         }
 
-                        if(dayOfMonth<day || monthOfYear<month)
-                        {
-                            showalertdialog();
-                        }
-                        else
-                        {
-                            System.out.println("selected current date");
-                        }
+
+
+//                        if(dayOfMonth<day || monthOfYear<month)
+//                        {
+//                            showalertdialog();
+//                        }
+//                        else
+//                        {
+//                            System.out.println("selected current date");
+//                        }
 
                         String datte =year+"/"+monthOfYear+"/"+dayOfMonth;
 
@@ -328,10 +338,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                         //apptdate.setPaintFlags(apptdate.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                         apptdate.setText(myselecteddate);
 
+
                     }
                 }, year1,month,day);
-                datePickerDialog.show();
 
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-10000);
+                datePickerDialog.show();
 
             }
         });
@@ -353,6 +365,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 appdate=apptdate.getText().toString();
+
                 String dates[]=appdate.split("/");
 
                 String date=dates[1]+"/"+dates[2]+"/"+dates[0];
@@ -789,52 +802,67 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         }
     }
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(PatientBookAppointmentToDoctor.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
-                        new Mytask().execute();
+        MyDialog.setTitle("Your Doctor Appointment");
 
-                        String js = emailFormatDataAsJson();
+        message.setEnabled(true);
+        oklink.setEnabled(true);
 
-                        System.out.println("email json data..."+js.toString());
+        message.setText(result);
 
-                        new sendEmailAppointmentDetailsToDoctor().execute(baseUrl.getEmailUrl(),js.toString());
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Mytask().execute();
 
-                        Intent intent = new Intent(PatientBookAppointmentToDoctor.this,PatientDashBoard.class);
-                        intent.putExtra("id",getUserId);
-                        intent.putExtra("mobile",myMobile);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Doctor Appointment");
-        alert.show();
+                String js = emailFormatDataAsJson();
+
+                System.out.println("email json data..."+js.toString());
+
+                new sendEmailAppointmentDetailsToDoctor().execute(baseUrl.getEmailUrl(),js.toString());
+
+                Intent intent = new Intent(PatientBookAppointmentToDoctor.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",myMobile);
+                startActivity(intent);
+            }
+        });
+        MyDialog.show();
 
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog  = new Dialog(PatientBookAppointmentToDoctor.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.cancel_alertdialog);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+//        MyDialog.setTitle("Edit Profile");
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
+
 
     }
 
@@ -930,29 +958,68 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     private void showalert() {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDoctor.this);
-        builder.setMessage("Do you want enable this appointment in your history?");
-        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int id) {
+        MyDialog1  = new Dialog(PatientBookAppointmentToDoctor.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.custom_popup);
+
+//        closeIcon = (TextView) MyDialog.findViewById(R.id.closeIcon);
+        enableYes = (ImageView)MyDialog1.findViewById(R.id.oldUser);
+        enableNo = (ImageView)MyDialog1.findViewById(R.id.newUser);
+        Mymessage = (TextView) MyDialog1.findViewById(R.id.message);
+
+        Mymessage.setText("Do you want enable this appointment in your history?");
+
+        enableYes.setEnabled(true);
+        enableNo.setEnabled(true);
+
+        enableYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 enableHistory = true;
                 String js = formatDataAsJson();
 
                 System.out.println("json book doc..."+js.toString());
                 new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
-                dialogInterface.cancel();
+                MyDialog1.cancel();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+        enableNo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View v) {
                 enableHistory = false;
                 String js = formatDataAsJson();
                 System.out.println("json book doc..."+js.toString());
                 new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
-                dialogInterface.cancel();
+                MyDialog1.cancel();
             }
         });
-        builder.show();
+
+        MyDialog1.show();
+
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDoctor.this);
+//        builder.setMessage("Do you want enable this appointment in your history?");
+//        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialogInterface, int id) {
+//                enableHistory = true;
+//                String js = formatDataAsJson();
+//
+//                System.out.println("json book doc..."+js.toString());
+//                new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
+//                dialogInterface.cancel();
+//            }
+//        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                enableHistory = false;
+//                String js = formatDataAsJson();
+//                System.out.println("json book doc..."+js.toString());
+//                new sendAppointmentDetailsToDoctor().execute(baseUrl.getUrl()+"InsertDocAppointment",js.toString());
+//                dialogInterface.cancel();
+//            }
+//        });
+//        builder.show();
     }
 
 
@@ -1380,7 +1447,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 String address = myaddress+","+mycity;
                 String link="https://www.medictfhc.com/";
 
-                String message="Hi "+username+", You have successfully sent an appointment request to "+doctorname+"on"+date+"at"+address+".Thank You."+"Click here to Login:"+baseUrl.getLink();
+                String message="Hi "+username+", You have successfully sent an appointment request to "+doctorname+" on "+date+" at "+address+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
 
                 smsUrl = baseUrl.getSmsUrl();
                 String uname = "MedicTr";
@@ -1624,6 +1691,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         myreason = reason.getText().toString();
         myAadhar_num = aadharnum.getText().toString();
 
+
         System.out.println("reason"+myreason);
 
     }
@@ -1632,10 +1700,41 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     {
         boolean validate = true;
 
+
         if(myMobile.isEmpty() || !Patterns.PHONE.matcher(myMobile).matches())
         {
             patientmobileno.setError("please enter the mobile number");
             validate=false;
+        }
+
+        int count = 0, num = Integer.parseInt(myAge);
+
+        while(num != 0)
+        {
+            // num = num/10
+            num /= 10;
+            ++count;
+        }
+
+        System.out.println("Number of digits: " + count);
+
+        if(myAge.isEmpty())
+        {
+            age.setError("please fill age");
+        }
+        else if(count > 3 && myAge.length() < 0)
+        {
+            age.setError("invalid age");
+        }
+
+
+//        if(timings.getSelectedItem().toString().isEmpty())
+//        {
+//            timings
+//        }
+        if(myName.isEmpty())
+        {
+            patientname.setError("please give the name");
         }
 
         else if(myMobile.length()<10 || myMobile.length()>10)

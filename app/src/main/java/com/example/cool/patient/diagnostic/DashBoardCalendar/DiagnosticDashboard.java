@@ -25,6 +25,7 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -89,7 +90,8 @@ public class DiagnosticDashboard extends AppCompatActivity
     CardView finishedCard,pendingCard,progressCard,initiatedCard;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
     MaterialCalendarView calendarView;
-
+    private static long back_pressed;
+    private Toast toast;
 
     //lat,long
     static String str ="";
@@ -120,7 +122,7 @@ public class DiagnosticDashboard extends AppCompatActivity
     ApiBaseUrl baseUrl;
 
 
-    private static long back_pressed;
+
 
     int backButtonCount = 0;
 
@@ -443,6 +445,9 @@ public class DiagnosticDashboard extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticDashboard.this,ReachUs.class);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -497,7 +502,8 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                         // call activity here
 
-                        Intent about = new Intent(DiagnosticDashboard.this,ChangePassword.class);
+                        Intent about = new Intent(DiagnosticDashboard.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",mobile_number);
                         startActivity(about);
 
@@ -901,6 +907,60 @@ public class DiagnosticDashboard extends AppCompatActivity
         }
     }
 
+    //home icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(DiagnosticDashboard.this,DiagnosticDashboard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast =  Toast.makeText(DiagnosticDashboard.this, "Press back again to Leave!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 
 //    @Override
 //    public void onBackPressed() {
@@ -924,45 +984,30 @@ public class DiagnosticDashboard extends AppCompatActivity
 //    }
 
 
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
-
-            backButtonCount++;
-        }
-    }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.diagnostic_dashboard, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.diagnostic_dashboard, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,13 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
@@ -35,6 +38,7 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -100,8 +104,9 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
 
     String doctorId,doctorMobile;
 
-    Dialog MyDialog;
-    TextView message,oklink;
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +242,9 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
                     // call some activity here
 
                     Intent contact = new Intent(DoctorReferDiagnostic.this,ReachUs.class);
+                    contact.putExtra("id",doctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -318,7 +326,8 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorReferDiagnostic.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorReferDiagnostic.this,DoctorChangePassword.class);
+                        about.putExtra("id",doctorId);
                         about.putExtra("mobile",doctorMobile);
                         startActivity(about);
 
@@ -353,8 +362,16 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
             }
         });
 
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -879,45 +896,89 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
         }
     }
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String message1){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog1  = new Dialog(DoctorReferDiagnostic.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.edit_success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
-//                        new Mytask().execute();
-                        Intent intent = new Intent(DoctorReferDiagnostic.this,DoctorDashboard.class);
-                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-                        intent.putExtra("id",getIntent().getStringExtra("id"));
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Appointment");
-        alert.show();
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(message1);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorReferDiagnostic.this,DoctorDashboard.class);
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                intent.putExtra("id",getIntent().getStringExtra("id"));
+                startActivity(intent);
+            }
+        });
+        MyDialog1.show();
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        dialog.cancel();
+//
+////                        new Mytask().execute();
+//                        Intent intent = new Intent(DoctorReferDiagnostic.this,DoctorDashboard.class);
+//                        intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+//                        intent.putExtra("id",getIntent().getStringExtra("id"));
+//                        startActivity(intent);
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Your Appointment");
+//        alert.show();
 
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String message1){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog1  = new Dialog(DoctorReferDiagnostic.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.edit_fail_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Appointment");
-        alert.show();
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(message1);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
+
+
+//        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+//
+//        a_builder.setMessage(message)
+//                .setCancelable(false)
+//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        android.app.AlertDialog alert = a_builder.create();
+//        alert.setTitle("Your Appointment");
+//        alert.show();
 
     }
 

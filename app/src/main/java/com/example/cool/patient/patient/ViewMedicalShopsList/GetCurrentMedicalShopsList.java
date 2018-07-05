@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -62,6 +63,7 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -93,6 +95,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
     ProgressDialog progressDialog;
     ProgressDialog progressDialog1;
+    ProgressDialog progressDialog2;
     //lat,long
     static String uploadServerUrl = null;
     static String getcity=null;
@@ -146,6 +149,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
     FloatingActionButton homebutton;
 
+    int jsondataCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,22 +189,6 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("MedicalShops");
 
-//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(BloodBank.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(GetCurrentMedicalShopsList.this,PatientDashBoard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",usermobileNumber);
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//
-//        );
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -220,21 +209,25 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
+                if(!pharmacyType.getSelectedItem().toString().equals("Select Pharmacy Type"))
+                {
+                    String js = formatDataAsJson();
+                    uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
-                new GetMedicalShops_N_ListBasedonPharmacyType().execute(uploadServerUrl,js.toString());
+                    new GetMedicalShops_N_ListBasedonPharmacyType().execute(uploadServerUrl,js.toString());
 
-                myList = new ArrayList<MedicalShopClass>();
+                    myList = new ArrayList<MedicalShopClass>();
 
-                adapter = new MedicalShopListAdapter(GetCurrentMedicalShopsList.this, myList);
-                layoutManager = new LinearLayoutManager(GetCurrentMedicalShopsList.this);
+                    adapter = new MedicalShopListAdapter(GetCurrentMedicalShopsList.this, myList);
+                    layoutManager = new LinearLayoutManager(GetCurrentMedicalShopsList.this);
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
+                    recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                    recyclerView.setHasFixedSize(true);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }
+
             }
 
             @Override
@@ -324,6 +317,9 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                     // call some activity here
 
                     Intent contact = new Intent(GetCurrentMedicalShopsList.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",usermobileNumber);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -422,6 +418,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
                         // call activity here
                         Intent intent = new Intent(GetCurrentMedicalShopsList.this,ChangePassword.class);
+                        intent.putExtra("id",getUserId);
                         intent.putExtra("mobile",usermobileNumber);
                         startActivity(intent);
 
@@ -479,34 +476,17 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
             }
         });
 
-//        MyDialog =  new Dialog(GetCurrentMedicalShopsList.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.speciality_based_layout);
-//
-//        pharmacyType = (SearchableSpinner)MyDialog.findViewById(R.id.speciality);
-//
-//        okBtn = (Button)MyDialog.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialog.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//                anotheralert();
-//
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                anotheralert();
-//            }
-//        });
-//        MyDialog.setCancelable(false);
-//        MyDialog.setCanceledOnTouchOutside(false);
-//        MyDialog.show();
+    }
 
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //Get patient list based on id from api call
@@ -945,204 +925,6 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
     //Get MedicalShops list from api call
     private class GetMedicalShops_N_List extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(GetCurrentMedicalShopsList.this);
-//            // Set progressdialog title
-////            progressDialog.setTitle("Your searching process is");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading...");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String data = "";
-
-            HttpURLConnection httpURLConnection = null;
-            try {
-                System.out.println("dsfafssss....");
-
-                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
-
-                httpURLConnection.setUseCaches(false);
-                httpURLConnection.setRequestProperty("Accept", "application/json");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                Log.d("Service","Started");
-                httpURLConnection.setDoOutput(true);
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-
-                System.out.println("params....."+params[1]);
-
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-
-                int statuscode = httpURLConnection.getResponseCode();
-
-                System.out.println("status code....."+statuscode);
-
-                InputStream in = null;
-                if (statuscode == 200) {
-
-                    in = httpURLConnection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                    int inputStreamData = inputStreamReader.read();
-                    while (inputStreamData != -1) {
-                        char current = (char) inputStreamData;
-                        inputStreamData = inputStreamReader.read();
-                        data += current;
-                    }
-
-                }
-                else if(statuscode == 404){
-                    in = httpURLConnection.getErrorStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                    int inputStreamData = inputStreamReader.read();
-                    while (inputStreamData != -1) {
-                        char current = (char) inputStreamData;
-                        inputStreamData = inputStreamReader.read();
-                        data += current;
-                    }
-                }
-
-            }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-
-            progressDialog.dismiss();
-
-            try
-            {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
-                {
-                    showMessage();
-                    availabilityCount = 0;
-                    System.out.println("medical availabilityCount...."+availabilityCount);
-
-                    availability.setText(Integer.toString(availabilityCount));
-                    Log.e("Api response if.....", result);
-                }
-                else
-                {
-                    getData(result);
-                    adapter.notifyDataSetChanged();
-                    Log.e("Api response else.....", result);
-                }
-            }
-            catch (Exception e)
-            {}
-            getData(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
-
-        }
-    }
-
-    private void getData(String result) {
-        try {
-
-            JSONArray jarray = new JSONArray(result);
-
-            availabilityCount = jarray.length();
-            System.out.println("medical availabilityCount...."+availabilityCount);
-
-            availability.setText(Integer.toString(availabilityCount));
-
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject object = jarray.getJSONObject(i);
-
-                String  MedicalID = object.getString("MedicalShopID");
-
-
-                System.out.print("MedicalIDshopID....."+MedicalID);
-                String addressId = object.getString("AddressID");
-                System.out.print("addressIDmedicalshop" +addressId );
-
-                String mobile = object.getString("MobileNumber");
-//
-
-                String ShopName = object.getString("ShopName");
-                String ContactPerson = object.getString("ContactPerson");
-
-                String LandlineNo = object.getString("LandlineNo");
-
-                String medicImage = object.getString("ShopImage");
-
-                String mylatii= object.getString("Latitude");
-                String mylongii = object.getString("Longitude");
-
-                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
-
-                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                double dis = Math.round(myDistances*1000)/1000.000;
-                myDistance = String.format("%.1f", dis)+" km";
-                System.out.println("dist decimal round...."+myDistance);
-
-                String emergencyService = "";
-
-                if(object.has("EmergencyService"))
-                {
-                     emergencyService = object.getString("EmergencyService");
-                }
-                else
-                {
-                     emergencyService = "";
-                }
-
-
-                String cashonHand = object.getString("CashOnHand");
-                String creditDebit = object.getString("CreditDebit");
-                String netBanking = object.getString("Netbanking");
-                String paytm = object.getString("Paytm");
-
-
-                MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
-                        medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
-
-                myList.add(medicalClass);
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-
-    //Get MedicalShops list based on Pharmacy Type from api call
-    private class GetMedicalShops_N_ListBasedonPharmacyType extends AsyncTask<String, Void, String> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1232,34 +1014,244 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
             progressDialog1.dismiss();
+            String data = result;
 
             try
             {
-                JSONObject jsono = new JSONObject(result);
-                String ss = (String) jsono.get("Message");
-                if(ss.equals("No data found."))
+
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
                 {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+                    availabilityCount = 0;
+                    System.out.println("doctors availabilityCount...."+availabilityCount);
+
+                    availability.setText(Integer.toString(availabilityCount));
+
                     showMessage();
+
+                    Log.e("Api response if.....", result);
+//                    }
+                }
+                else if(json instanceof JSONArray)
+                {
+
+                    getData(result);
+                    adapter.notifyDataSetChanged();
+                    Log.e("Api response else.....", result);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void getData(String result) {
+        try {
+
+            JSONArray jarray = new JSONArray(result);
+
+            availabilityCount = jarray.length();
+            System.out.println("medical availabilityCount...."+availabilityCount);
+
+            availability.setText(Integer.toString(availabilityCount));
+
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject object = jarray.getJSONObject(i);
+
+                String  MedicalID = object.getString("MedicalShopID");
+
+                System.out.print("MedicalIDshopID....."+MedicalID);
+
+                String addressId = object.getString("AddressID");
+
+                System.out.print("addressIDmedicalshop" +addressId );
+
+                String mobile = object.getString("MobileNumber");
+//
+
+                String ShopName = object.getString("ShopName");
+                String ContactPerson = object.getString("ContactPerson");
+
+                String LandlineNo = object.getString("LandlineNo");
+
+                String medicImage = object.getString("ShopImage");
+
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                     emergencyService = object.getString("EmergencyService");
+                }
+                else
+                {
+                     emergencyService = "";
+                }
+
+
+                String cashonHand = object.getString("CashOnHand");
+                String creditDebit = object.getString("CreditDebit");
+                String netBanking = object.getString("Netbanking");
+                String paytm = object.getString("Paytm");
+
+
+                MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
+                        medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
+
+                myList.add(medicalClass);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    //Get MedicalShops list based on Pharmacy Type from api call
+    private class GetMedicalShops_N_ListBasedonPharmacyType extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog2 = new ProgressDialog(GetCurrentMedicalShopsList.this);
+            // Set progressdialog title
+//            progressDialog2.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog2.setMessage("Loading...");
+
+            progressDialog2.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog2.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+
+                System.out.println("params....."+params[1]);
+
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+            progressDialog2.dismiss();
+
+            String data = result;
+
+            try
+            {
+
+                Object json = new JSONTokener(data).nextValue();
+                if(json instanceof JSONObject)
+                {
+                    JSONObject jsono = new JSONObject(result);
+                    String ss = (String) jsono.get("Message");
+//                    if(ss.equals("No data found."))
+//                    {
                     availabilityCount = 0;
                     System.out.println("medical availabilityCount...."+availabilityCount);
 
                     availability.setText(Integer.toString(availabilityCount));
+
+                    showMessage();
+
                     Log.e("Api response if.....", result);
+//                    }
                 }
-                else
+                else if(json instanceof JSONArray)
                 {
+
                     getDataBasedonPharmacyType(result);
                     adapter.notifyDataSetChanged();
                     Log.e("Api response else.....", result);
                 }
             }
             catch (Exception e)
-            {}
-            getDataBasedonPharmacyType(result);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+            {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -1288,6 +1280,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
                     count  = count+1;
 
+                    jsondataCount = 1;
+
                     String  MedicalID = object.getString("MedicalShopID");
 
                     System.out.print("MedicalIDshopID....."+MedicalID);
@@ -1308,6 +1302,8 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                     String mylongii = object.getString("Longitude");
 
                     System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+//                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
 
                     double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
 
@@ -1341,12 +1337,37 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                     System.out.println("medical pharmacy availability Count...."+count);
                     availability.setText(Integer.toString(count));
                 }
+                else
+                {
+                    jsondataCount = 0;
+                }
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+        if(jsondataCount == 0)
+        {
+            availability.setText(Integer.toString(0));
+            showSpecialityNotMatchMessage();
+        }
+    }
+
+    public void showSpecialityNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(GetCurrentMedicalShopsList.this);
+        a_builder.setMessage("Your selected pharmacy has no records.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("MedicalShops Records");
+        alert.show();
     }
 
     public static Object getPharmacyKeyFromValue(Map hm, Object value) {
@@ -1519,46 +1540,26 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
     private void getlatlng()
     {
-        if(Geocoder.isPresent())
-        {
-            try {
-                selectedlocation = city;
-                System.out.println("getlatlong method city....."+selectedlocation);
-                Geocoder gc=new Geocoder(this);
-                List<Address> addresses1=gc.getFromLocationName(selectedlocation,5);
-                List<LatLng> l1=new ArrayList<>(addresses1.size());
-                System.out.println("adresses1"+addresses1);
 
-                for(Address a:addresses1){
-                    if(a.hasLatitude() && a.hasLongitude()){
-                        l1.add(new LatLng(a.getLatitude(),a.getLongitude()));
-                    }
-                }
+        new GetAllMedicalPharmacyList().execute(baseUrl.getUrl()+"GetPharmacyType");
 
-                lattitude = l1.get(0).latitude;
-                longitude = l1.get(0).longitude;
 
-                String js = formatDataAsJson();
-                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
+        String js = formatDataAsJson();
+            uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
 
-                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
+            new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
 
-                myList = new ArrayList<MedicalShopClass>();
+            myList = new ArrayList<MedicalShopClass>();
 //
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-                recyclerView.setHasFixedSize(true);
+            recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+            recyclerView.setHasFixedSize(true);
 
 
-                adapter = new MedicalShopListAdapter(this, myList);
-                layoutManager = new LinearLayoutManager(this);
+            adapter = new MedicalShopListAdapter(this, myList);
+            layoutManager = new LinearLayoutManager(this);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
 
     }
 

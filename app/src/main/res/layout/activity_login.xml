@@ -206,7 +206,6 @@
 
                 <com.andexert.library.RippleView
                     android:id="@+id/rippleView"
-
                     android:layout_width="wrap_content"
                     android:layout_below="@+id/actionbar"
                     android:layout_marginTop="20dp"
@@ -217,15 +216,15 @@
                     ripple:rv_zoom="true">
 
                     <TextView
-                    android:id="@+id/rect_child"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="Login"
-                    android:background="#f938a72f"/>
+                        android:id="@+id/rect_child"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:text="Login"
+                        android:background="#f938a72f"/>
 
                 </com.andexert.library.RippleView>
 

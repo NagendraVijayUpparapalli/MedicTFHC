@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -181,7 +183,9 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ImageView sidenavDoctorImage;
 
-    TextView message,oklink;
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -413,6 +417,7 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
                     // call some activity here
                     Intent i = new Intent(DoctorAddAddress.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile);
                     i.putExtra("module","doc");
                     startActivity(i);
 
@@ -424,8 +429,11 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
-                    Intent contact = new Intent(DoctorAddAddress.this,ReachUs.class);
-                    startActivity(contact);
+                    Intent i = new Intent(DoctorAddAddress.this,ReachUs.class);
+                    i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 }
 
@@ -497,7 +505,8 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorAddAddress.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorAddAddress.this,DoctorChangePassword.class);
+                        about.putExtra("id",getUserId);
                         about.putExtra("mobile",mobile);
                         startActivity(about);
 
@@ -532,6 +541,16 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //get doctor details based on id from api call
@@ -2333,12 +2352,12 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 
     public void showSuccessMessage(String result){
 
-        MyDialog  = new Dialog(DoctorAddAddress.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.success_alert);
+        MyDialog1  = new Dialog(DoctorAddAddress.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.success_alert);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2354,36 +2373,18 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
                 startActivity(intent);
             }
         });
-        MyDialog.show();
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(DoctorAddAddress.this,DoctorDashboard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",mobile);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
+        MyDialog1.show();
 
     }
 
     public void showErrorMessage(String result){
 
-        MyDialog  = new Dialog(DoctorAddAddress.this);
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog1  = new Dialog(DoctorAddAddress.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.cancel_alertdialog);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2393,24 +2394,10 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDialog.cancel();
+                MyDialog1.cancel();
             }
         });
-        MyDialog.show();
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
+        MyDialog1.show();
 
     }
 

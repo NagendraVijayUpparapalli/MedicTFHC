@@ -30,7 +30,7 @@
         android:layout_marginTop="15dp"
         android:textAlignment="center"
         android:drawablePadding="5dp"
-        android:text="Vijay UN"
+        android:text="-----"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_marginTop="6dp"
         android:drawableLeft="@drawable/sidenavphoneicon"
         android:drawablePadding="5dp"
-        android:text="9676856122"/>
+        android:text="000000"/>
 
     <TextView
         android:layout_marginTop="6dp"
@@ -53,6 +53,6 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/sidenavemailicon"
         android:drawablePadding="5dp"
-        android:text="udayasri94@gmail.com" />
+        android:text="--------" />
 
 </LinearLayout>

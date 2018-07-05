@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.patient.PatientEditProfile;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -108,7 +110,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
     EditText contactPerson,mobileNumber,emailId,aadhaarNumber,address,pincode,comments;
 
-    TextView CenterName,Address,City,State,availableTimings,MobileNumber,PaymentMode,Navigation;
+    TextView CenterName,Address,City,State,availableTimings,MobileNumber,PaymentMode,Navigation,close;
     ImageView prescription,center_image;
     FloatingActionButton addPrescriptionGalleryFloatingButton,addPrescriptionCameraFloatingButton;
     Bitmap mIcon11;
@@ -128,6 +130,10 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
     String mydiagaddress, mydiagcity,mydiagmobile, mydiagStateName,mydiagLongitude,mydiagLatitude,
             mydiagCenterImage,fromTime,toTime, smsUrl = null,myPayment;
+
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +265,19 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         pincode = (EditText) findViewById(R.id.Pincode);
         city = (SearchableSpinner) findViewById(R.id.citySpinner);
         state = (SearchableSpinner) findViewById(R.id.stateSpinner);
+
+        close=(TextView)findViewById(R.id.close) ;
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("close");
+                Intent intent=new Intent(PatientBookAppointmentToDiagnostics.this,PatientDashBoard.class);
+                intent.putExtra("id",mypatientId);
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
+            }
+        });
 
         new GetDiagnosticsAllAddressDetails().execute(baseUrl.getUrl()+"DiagnosticGetAllAddress?ID="+mydiagnosticId);
 
@@ -1405,43 +1424,59 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         }
     }
 
-    public void showSuccessMessage(String message){
+    public void showSuccessMessage(String result){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog1  = new Dialog(PatientBookAppointmentToDiagnostics.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.success_alert);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
-                        new Mytask().execute();
-                        Intent intent = new Intent(PatientBookAppointmentToDiagnostics.this,PatientDashBoard.class);
-                        intent.putExtra("id",mypatientId);
-                        startActivity(intent);
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Your Diagnostic Appointment");
-        alert.show();
+        MyDialog1.setTitle("Your Diagnostic Appointment");
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Mytask().execute();
+                Intent intent = new Intent(PatientBookAppointmentToDiagnostics.this,PatientDashBoard.class);
+                intent.putExtra("id",mypatientId);
+                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                startActivity(intent);
+            }
+        });
+        MyDialog1.show();
+
     }
 
-    public void showErrorMessage(String message){
+    public void showErrorMessage(String result){
 
-        android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        MyDialog1  = new Dialog(PatientBookAppointmentToDiagnostics.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.cancel_alertdialog);
 
-        a_builder.setMessage(message)
-                .setCancelable(false)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        android.app.AlertDialog alert = a_builder.create();
-        alert.setTitle("Edit Profile");
-        alert.show();
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+//        MyDialog1.setTitle("Edit Profile");
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
 
     }
 

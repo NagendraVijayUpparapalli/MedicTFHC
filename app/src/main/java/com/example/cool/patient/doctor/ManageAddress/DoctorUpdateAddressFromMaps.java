@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -172,7 +174,8 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
     ImageView sidenavDoctorImage;
 
     Dialog MyDialog1;
-    TextView message,oklink;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -443,6 +446,9 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
                     // call some activity here
 
                     Intent contact = new Intent(DoctorUpdateAddressFromMaps.this,ReachUs.class);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("id",userId);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -524,7 +530,8 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorUpdateAddressFromMaps.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorUpdateAddressFromMaps.this,DoctorChangePassword.class);
+                        about.putExtra("id",userId);
                         about.putExtra("mobile",regMobile);
                         startActivity(about);
 
@@ -559,6 +566,16 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //get doctor details based on id from api call
@@ -2538,8 +2555,8 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog1.setContentView(R.layout.edit_success_alert);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2557,34 +2574,16 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         });
         MyDialog1.show();
 
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage("Updated Successfully")
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(DoctorUpdateAddressFromMaps.this,DoctorDashboard.class);
-//                        intent.putExtra("id",userId);
-//                        intent.putExtra("mobile",regMobile);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Address");
-//        alert.show();
-
     }
 
     public void showErrorMessage(String result){
 
         MyDialog1  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog1.setContentView(R.layout.server_error_alert);
+        MyDialog1.setContentView(R.layout.edit_fail_alert);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
@@ -2594,24 +2593,10 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDialog.cancel();
+                MyDialog1.cancel();
             }
         });
         MyDialog1.show();
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
 
     }
 

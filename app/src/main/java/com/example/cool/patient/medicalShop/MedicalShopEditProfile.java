@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,7 +125,8 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
     TextView sidenavName,sidenavEmail,sidenavMobile;
 
     Dialog MyDialog;
-    TextView message,oklink;
+    TextView message;
+    LinearLayout oklink;
 
 
     @Override
@@ -371,6 +374,16 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void editProfileValidate()
@@ -1183,12 +1196,12 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         MyDialog.setContentView(R.layout.edit_success_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);
 
-        message.setText(result);
+        message.setText("Profile Updated Successfully");
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1224,10 +1237,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
         MyDialog  = new Dialog(MedicalShopEditProfile.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.server_error_alert);
+        MyDialog.setContentView(R.layout.edit_fail_alert);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (TextView) MyDialog.findViewById(R.id.ok);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
 
         message.setEnabled(true);
         oklink.setEnabled(true);

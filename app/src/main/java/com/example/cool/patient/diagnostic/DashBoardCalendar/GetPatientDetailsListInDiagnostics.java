@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -201,6 +203,9 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                     // call some activity here
 
                     Intent contact = new Intent(GetPatientDetailsListInDiagnostics.this,ReachUs.class);
+                    contact.putExtra("id",diagID);
+                    contact.putExtra("module","diag");
+                    contact.putExtra("mobile",diagmobile);
                     startActivity(contact);
 
                 }
@@ -255,7 +260,8 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
                         // call activity here
 
-                        Intent about = new Intent(GetPatientDetailsListInDiagnostics.this,ChangePassword.class);
+                        Intent about = new Intent(GetPatientDetailsListInDiagnostics.this,DiagnosticChangePassword.class);
+                        about.putExtra("id",diagID);
                         about.putExtra("mobile",diagmobile);
                         startActivity(about);
 
@@ -290,6 +296,16 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);

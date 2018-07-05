@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddressFromMaps;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -312,6 +314,9 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                     // call some activity here
 
                     Intent contact = new Intent(DoctorTodaysAppointment.this,ReachUs.class);
+                    contact.putExtra("id",doctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 }
@@ -393,7 +398,8 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
                         // call activity here
 
-                        Intent about = new Intent(DoctorTodaysAppointment.this,ChangePassword.class);
+                        Intent about = new Intent(DoctorTodaysAppointment.this,DoctorChangePassword.class);
+                        about.putExtra("id",doctorId);
                         about.putExtra("mobile",doctorMobile);
                         startActivity(about);
 
@@ -428,6 +434,16 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private  void validateImageAndComments()
