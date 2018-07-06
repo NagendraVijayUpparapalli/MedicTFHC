@@ -45,6 +45,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -241,8 +242,8 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         mobile.setText(mymobileNumber);
         landlineMobileNumber.setText(mylandLineNo);
         comments.setText(mycomment);
-        lat.setText(mylatitude);
-        lng.setText(mylongitude);
+        lat.setText(String.format("%.6f", mylatitude));
+        lng.setText(String.format("%.6f", mylongitude));
         FromTime.setText(myfromTime);
         ToTime.setText(mytoTime);
 
@@ -455,11 +456,11 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -509,7 +510,10 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticUpdateAddressFromMaps.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticUpdateAddressFromMaps.this,Offers.class);
+                    contact.putExtra("id",mydiagnosticId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
@@ -1463,6 +1467,9 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         {
             JSONObject js = new JSONObject(result);
 
+            String myCenter = js.getString("CenterImage");
+
+            new GetLicenceCertificateImageTask(centerImage).execute(baseUrl.getImageUrl()+myCenter);
 
             if(js.has("SpecialityLst"))
             {
@@ -1498,6 +1505,32 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         }
         catch (JSONException e)
         {}
+    }
+
+    private class GetLicenceCertificateImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetLicenceCertificateImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            centerImage.setImageBitmap(result);
+        }
+
     }
 
     //Get DiagSpecialities list from api call

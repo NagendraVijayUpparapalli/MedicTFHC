@@ -31,6 +31,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
@@ -137,13 +138,13 @@ public class DoctorChangePassword extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
 
-        name = (TextView) headerLayout.findViewById(R.id.name);
-        email = (TextView) headerLayout.findViewById(R.id.emailId);
-        mymobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        name = (TextView) navigationView.findViewById(R.id.name);
+        email = (TextView) navigationView.findViewById(R.id.emailId);
+        mymobile = (TextView) navigationView.findViewById(R.id.mobile);
+        profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -186,15 +187,22 @@ public class DoctorChangePassword extends AppCompatActivity
                     // call some activity here
                     Intent i = new Intent(DoctorChangePassword.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile_number);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorChangePassword.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorChangePassword.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(DoctorChangePassword.this,ReachUs.class);
@@ -376,6 +384,32 @@ public class DoctorChangePassword extends AppCompatActivity
         }
 
         return validate;
+    }
+
+    private class GetDocProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetDocProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            profileImage.setImageBitmap(result);
+        }
+
     }
 
 

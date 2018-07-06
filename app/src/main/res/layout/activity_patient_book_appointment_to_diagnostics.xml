@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     xmlns:ripple="http://schemas.android.com/apk/res-auto">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/rellay1"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true"
-                android:layout_height="wrap_content">
-
+                android:fitsSystemWindows="true">
                 <RelativeLayout
-                    android:id="@+id/rellay1"
+                    android:id="@+id/rellay2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/grad"
                     android:paddingBottom="10dp">
-
 
                     <TextView
                         android:id="@+id/diagnosticCenter_name"
@@ -164,7 +164,7 @@
                     android:id="@+id/linlay1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rellay1"
+                    android:layout_below="@id/rellay2"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -174,7 +174,6 @@
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp">
 
                         <LinearLayout
@@ -213,7 +212,6 @@
                         android:layout_weight="1"
                         android:background="@color/gradStart"
                         android:gravity="center"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp">
 
                         <LinearLayout
@@ -266,6 +264,8 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -745,5 +745,4 @@
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>

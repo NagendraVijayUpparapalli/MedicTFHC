@@ -73,24 +73,24 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
         if(my_data.get(position).getStatus().equals("Initiated"))
         {
 
-            holder.status.setTextColor(Color.MAGENTA);
+            holder.status.setTextColor(Color.BLACK);
 
         }
         else if(my_data.get(position).getStatus().equals("Finished"))
         {
 
-            holder.status.setTextColor(Color.GREEN);
+            holder.status.setTextColor(Color.BLACK);
         }
 
         else if(my_data.get(position).getStatus().equals("Pending"))
         {
 
-            holder.status.setTextColor(Color.CYAN);
+            holder.status.setTextColor(Color.BLACK);
         }
         else if(my_data.get(position).getStatus().equals("In Progress"))
         {
 
-            holder.status.setTextColor(Color.MAGENTA);
+            holder.status.setTextColor(Color.BLACK);
 
         }
 

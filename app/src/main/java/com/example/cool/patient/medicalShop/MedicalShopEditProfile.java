@@ -48,6 +48,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DoctorEditProfile;
@@ -229,11 +230,11 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId1);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile1);
 //        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
@@ -281,7 +282,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalShopEditProfile.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalShopEditProfile.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {

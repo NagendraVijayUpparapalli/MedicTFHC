@@ -47,6 +47,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
@@ -356,17 +357,56 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             spinner.setClickable(false);
             spinner.setEnabled(false);
 
-            camaraicon.setFocusable(false);
-            camaraicon.setFocusableInTouchMode(false);
-            camaraicon.setClickable(false);
+//            camaraicon.setFocusable(false);
+//            camaraicon.setFocusableInTouchMode(false);
+//            camaraicon.setClickable(false);
+//
+//            licenceicon.setFocusable(false);
+//            licenceicon.setFocusableInTouchMode(false);
+//            licenceicon.setClickable(false);
+//
+//            rippleView.setFocusable(false);
+//            rippleView.setFocusableInTouchMode(false);
+//            rippleView.setClickable(false);
 
-            licenceicon.setFocusable(false);
-            licenceicon.setFocusableInTouchMode(false);
-            licenceicon.setClickable(false);
+            licenceicon.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ActivityCompat.requestPermissions(
+                                    GetPatientDetailsTotalDataInDoctor.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    REQUEST_CODE_GALLERY1
+                            );
 
-            rippleView.setFocusable(false);
-            rippleView.setFocusableInTouchMode(false);
-            rippleView.setClickable(false);
+                        }
+                    });
+
+            camaraicon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, MY_CAMERA_REQUEST_CODE);
+                    }
+                }
+            });
+
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_CAMERA_REQUEST_CODE);
+            }
+
+            camaraicon.setFocusable(true);
+            camaraicon.setFocusableInTouchMode(true);
+            camaraicon.setClickable(true);
+
+            licenceicon.setFocusable(true);
+            licenceicon.setFocusableInTouchMode(true);
+            licenceicon.setClickable(true);
+
+            rippleView.setFocusable(true);
 
             netbanking.setFocusable(false);
             netbanking.setFocusableInTouchMode(false);
@@ -398,8 +438,18 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                 }
                 else
                 {
+
+                    System.out.println("doctor comment..."+comment.getText().toString().trim());
+
+                    System.out.println("Amount..."+amount.getText().toString());
+
+                    System.out.println("status btn..."+spinner.getSelectedItem().toString());
+
+                    String json=formatDataAsJson();
+                    new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
+
 //                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
-                    showTimeErrorMessage("Sorry!! You can't edit");
+//                    showTimeErrorMessage("Sorry!! You can't edit");
                 }
 
             }
@@ -511,12 +561,12 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -559,15 +609,21 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     // call some activity here
                     Intent i = new Intent(GetPatientDetailsTotalDataInDoctor.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",doctorId);
+                    i.putExtra("mobile",doctorMobile);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(GetPatientDetailsTotalDataInDoctor.this,AboutUs.class);
+                    Intent contact = new Intent(GetPatientDetailsTotalDataInDoctor.this,Offers.class);
+                    contact.putExtra("id",doctorId);
+                    contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(GetPatientDetailsTotalDataInDoctor.this,ReachUs.class);
@@ -1219,12 +1275,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     private String formatDataAsJson()
     {
         JSONObject data = new JSONObject();
-
-//        if(paytm.isChecked())
-//        {
-//            Payment = "Pay with Paytm";
-//        }
-
 
         if(netbanking.isChecked())
         {

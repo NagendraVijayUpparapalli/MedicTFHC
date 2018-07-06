@@ -41,6 +41,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -201,11 +202,11 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -248,12 +249,16 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     // call some activity here
                     Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
                     subscript.putExtra("id",diagnosticId);
+                    subscript.putExtra("mobile",diagMobile);
                     subscript.putExtra("module","diag");
                     startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,Offers.class);
+                    contact.putExtra("id",diagnosticId);
+                    contact.putExtra("mobile",diagMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {

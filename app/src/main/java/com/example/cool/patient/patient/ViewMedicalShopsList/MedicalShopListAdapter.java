@@ -4,15 +4,18 @@ package com.example.cool.patient.patient.ViewMedicalShopsList;
  * Created by Udayasri on 01-06-2018.
  */
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
+import com.example.cool.patient.patient.BookAppointment.PatientBookAppointmentToDoctor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -59,8 +63,10 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
     ApiBaseUrl baseUrl = new ApiBaseUrl();
 
     Dialog MyDialog;
-    TextView myshopname,mydoornum,mycity,mystate,myfee,mypayment,myshopphonenum,mynavigation,
-            myContactPersonname,mySMS,mycancel;
+    TextView myshopname,mydoornum,mycity,mystate,myfee,mypayment,myshopphonenum,
+            myContactPersonname,mycancel;
+    LinearLayout phoneLayout,mySMS,mynavigation;
+
     String uri=null;
 
     Button button;
@@ -131,12 +137,32 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
                     mydoornum=(TextView) MyDialog.findViewById(R.id.dr_no);
                     mycity=(TextView) MyDialog.findViewById(R.id.city);
                     mystate=(TextView) MyDialog.findViewById(R.id.state);
-                    myshopphonenum=(TextView) MyDialog.findViewById(R.id.Phononumber);
-                    mynavigation =(TextView) MyDialog.findViewById(R.id.navigate);
-                    mySMS = (TextView) MyDialog.findViewById(R.id.sms);
+                    myshopphonenum=(TextView) MyDialog.findViewById(R.id.phone);
+                    mynavigation =(LinearLayout) MyDialog.findViewById(R.id.navigate);
+                    mySMS = (LinearLayout) MyDialog.findViewById(R.id.sms);
+                    phoneLayout = (LinearLayout) MyDialog.findViewById(R.id.phoneLayout);
                     mycenterImage = (ImageView) MyDialog.findViewById(R.id.centerImage);
 
                     mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
+
+                    phoneLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callintent = new Intent(Intent.ACTION_CALL);
+                            callintent.setData(Uri.parse("tel:"+myshopphonenum.getText().toString().trim()));
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            context.startActivity(callintent);
+                        }
+                    });
 
 
                     mycancel.setOnClickListener(new View.OnClickListener() {
@@ -239,35 +265,6 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
     }
 
 
-
-//    public void checkRegisteredUserOrNotAlert()
-//    {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-//        alert.setTitle("Do you want to take Appointment for Register user?");
-//        //  alert.show();
-//        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                intent.putExtra("doctorName",);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-//                context.startActivity(intent);
-//            }
-//        });
-//        alert.setCancelable(false);
-//        alertDialog1 = alert.create();
-//        alertDialog1.setCanceledOnTouchOutside(false);
-//        alert.show();
-//    }
-
     private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -366,7 +363,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
         message.setEnabled(true);
         oklink.setEnabled(true);
 
-        message.setText("The Message has sent Successfully to your registered mobile number");
+        message.setText("Successfully sent to your registered mobile number");
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override

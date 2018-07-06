@@ -64,7 +64,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
         public int currentItem;
         public ImageView profileImage;
         public TextView medicalshopId,landlineNo,Emergency_contect,Experience,FromTime,ToTime,AddressID,hospitalName,
-                address,city,state,pincode,district,mobile,contactPerson,Pharmacytype,latitude,longitude,regMobile;
+                address,city,state,pincode,district,mobile,contactPerson,Pharmacytype,latitude,longitude,regMobile,center_image;
 
 
         public Button edit,inactive;
@@ -96,6 +96,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
             edit = (Button) itemView.findViewById(R.id.Edit);
             inactive = (Button) itemView.findViewById(R.id.InActive);
             regMobile = (TextView) itemView.findViewById(R.id.regMobile);
+            center_image = (TextView) itemView.findViewById(R.id.center_image);
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,6 +128,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
                     intent.putExtra("ToTime",ToTime.getText().toString());
                     intent.putExtra("emergencyService",emergencyService);
                     intent.putExtra("regMobile",regMobile.getText().toString());
+                    intent.putExtra("centerImage",center_image.getText().toString());
 
                     System.out.println("emergency service.."+emergencyService);
 
@@ -177,6 +179,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
         viewHolder.Experience.setText(medicalManageAddressClassArrayList.get(i).getExperience());
         viewHolder.landlineNo.setText(medicalManageAddressClassArrayList.get(i).getLandLineNo());
         viewHolder.medicalshopId.setText(medicalManageAddressClassArrayList.get(i).getMedicalshopID());
+        viewHolder.center_image.setText(medicalManageAddressClassArrayList.get(i).getProfileImage());
 
 
         reasonToDelete = reason_Todelete.getText().toString();

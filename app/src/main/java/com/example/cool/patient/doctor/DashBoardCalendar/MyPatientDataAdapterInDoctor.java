@@ -71,24 +71,24 @@ public void onBindViewHolder(ViewHolder holder, int position) {
         if(status1.equals("Accept"))
         {
 
-        holder.Status.setTextColor(Color.GREEN);
+        holder.Status.setTextColor(Color.BLACK);
 
         }
         else if(status1.equals("Reject"))
         {
 
-        holder.Status.setTextColor(Color.RED);
+        holder.Status.setTextColor(Color.BLACK);
         }
 
         else if(status1.equals("Pending"))
         {
 
-            holder.Status.setTextColor(Color.CYAN);
+            holder.Status.setTextColor(Color.BLACK);
         }
         else if(status1.equals("Reschedule"))
         {
 
-            holder.Status.setTextColor(Color.BLUE);
+            holder.Status.setTextColor(Color.BLACK);
 
         }
 

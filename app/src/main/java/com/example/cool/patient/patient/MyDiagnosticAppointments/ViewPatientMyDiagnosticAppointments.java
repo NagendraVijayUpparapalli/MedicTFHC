@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
@@ -54,13 +55,17 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
     TextView paname, centename, ttname, diastatus, paymode, amnt, cmment,cancel,reschedule,phonenumber,navigation,close;
     ImageView centerImage;
-    ZoomageView diagreport;
+    ImageView diagreport;
 
 
     ProgressDialog mProgressDialog;
     Button prescription, backButton;
 
     ApiBaseUrl baseUrl;
+
+    LinearLayout layout;
+    ImageView imageView2;
+    Button ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
         amnt = (TextView) findViewById(R.id.amount);
         cmment = (TextView) findViewById(R.id.Diagnostic_comments);
         navigation = (TextView) findViewById(R.id.navigation);
-        diagreport = (ZoomageView) findViewById(R.id.myZoomageView);
+        diagreport = (ImageView) findViewById(R.id.myZoomageView);
         prescription = (Button) findViewById(R.id.prescription);
         backButton = (Button) findViewById(R.id.okbutton);
 
@@ -86,6 +91,16 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
         cancel = (TextView) findViewById(R.id.cancel);
         reschedule = (TextView) findViewById(R.id.Reschedule);
+
+        ok = (Button) findViewById(R.id.ok);
+        layout=(LinearLayout) findViewById(R.id.layout1);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setVisibility(View.GONE);
+            }
+        });
+
 
         DiagAddressId = getIntent().getStringExtra("DiagAddressId");
         userId = getIntent().getStringExtra("userId");
@@ -154,7 +169,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
                 }
                 else
                 {
-                    diagreport.setVisibility(View.VISIBLE);
+                    layout.setVisibility(View.VISIBLE);
                     new DownloadPrescription().execute(baseUrl.getImageUrl()+diagnosticreport);
                 }
             }
@@ -334,7 +349,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
+//            mProgressDialog.setTitle("Download Image Tutorial");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
 

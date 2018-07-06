@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
@@ -382,11 +383,11 @@ public class DiagnosticDashboard extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -438,7 +439,10 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticDashboard.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticDashboard.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {

@@ -35,8 +35,8 @@ public class PatientSideNavigationExpandableSubList {
 //        list2.add("Ambulance Services");
 
         List<String> company = new ArrayList<String>();
-        company.add("Change password");
-        company.add("Change mobileNumber");
+        company.add("Change Password");
+        company.add("Change MobileNumber");
 
         expandableListDetail.put("Services", list1);
         expandableListDetail.put("History", list2);

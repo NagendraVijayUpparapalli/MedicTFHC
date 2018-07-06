@@ -42,6 +42,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -153,10 +154,15 @@ public class MedicalChangePassword extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
@@ -202,7 +208,10 @@ public class MedicalChangePassword extends AppCompatActivity
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalChangePassword.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalChangePassword.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {

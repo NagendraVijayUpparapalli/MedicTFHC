@@ -30,6 +30,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
@@ -171,11 +172,11 @@ public class MedicalShopDashboard extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -222,7 +223,10 @@ public class MedicalShopDashboard extends AppCompatActivity
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalShopDashboard.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalShopDashboard.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {

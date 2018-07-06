@@ -1,6 +1,7 @@
 package com.example.cool.patient.patient.MyDiagnosticAppointments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,8 +27,11 @@ import android.widget.TextView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.patient.AmbulanceServices;
+import com.example.cool.patient.patient.FindHospitals;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.MyFamily;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -96,6 +100,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private YearMonthPickerDialog.OnDateSetListener onDateSetListener;
     ProgressDialog progressDialog;
+    ProgressDialog progressDialog1;
     List<CalendarDay> events=null;
     private List<PatientMyDiagnosticAppointmentDetailsClass> data_list = null;
 
@@ -120,9 +125,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
         calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
-        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager=new LinearLayoutManager(this);
-
         Calendar cal=Calendar.getInstance();
         calendarView.setDateSelected(cal.getTime(),true);
 
@@ -135,6 +137,11 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
         new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientID="+getUserId);
+
+        data_list=new ArrayList<>();
+
+        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+        layoutManager=new LinearLayoutManager(this);
 
         imageView=(ImageView) findViewById(R.id.img1);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -176,13 +183,13 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -211,22 +218,33 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
                     retVal = false;
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
+
                     // call some activity here
                     Intent editProfile = new Intent(PatientMyDiagnosticAppointments.this,PatientEditProfile.class);
+                    editProfile.putExtra("mobile",mobile_number);
                     editProfile.putExtra("id",getUserId);
                     startActivity(editProfile);
 
                 }
+
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
+
                     // call some activity here
                     Intent contact = new Intent(PatientMyDiagnosticAppointments.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(PatientMyDiagnosticAppointments.this,AboutUs.class);
+                    Intent contact = new Intent(PatientMyDiagnosticAppointments.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
@@ -235,6 +253,9 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(PatientMyDiagnosticAppointments.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -250,25 +271,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             }
         });
 
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
-//
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                boolean retVal = true;
-//
-//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
-//
-//                    // call some activity here
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
-//                    // call some activity here
-//
-//                }
-//                return retVal;
-//            }
-//        });
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -305,9 +307,10 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
 
                         // call activity here
-                        // call activity here
-                        Intent contact = new Intent(PatientMyDiagnosticAppointments.this,AboutUs.class);
-                        startActivity(contact);
+                        Intent intent = new Intent(PatientMyDiagnosticAppointments.this,FindHospitals.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
@@ -322,9 +325,10 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
-                        // call activity here
-                        Intent contact = new Intent(PatientMyDiagnosticAppointments.this,AboutUs.class);
-                        startActivity(contact);
+                        Intent intent = new Intent(PatientMyDiagnosticAppointments.this,AmbulanceServices.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
 
                     }
 
@@ -392,6 +396,31 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             }
         });
 
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+                System.out.println("Selected Date"+date);
+
+                int m = date.getMonth()+1;
+                d = m+"/"+date.getDay()+"/"+date.getYear();
+                System.out.println("length"+data_list.size());
+
+                new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientId="+getUserId);
+
+                data_list=new ArrayList<>();
+
+                recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+                layoutManager=new LinearLayoutManager(PatientMyDiagnosticAppointments.this);
+
+                myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+
+            }
+        });
+
     }
 
     @Override
@@ -432,7 +461,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                             e.printStackTrace();
                         }
 
-
                     }
                 });
 
@@ -461,21 +489,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             intent.putExtra("mobile",mobile_number);
             startActivity(intent);
 
-//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-
-//                    IntentIntegrator integrator = new IntentIntegrator(activity);
-//                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                    integrator.setPrompt("Scan");
-//                    integrator.setCameraId(0);
-//                    integrator.setBeepEnabled(false);
-//                    integrator.setBarcodeImageEnabled(false);
-//                    integrator.initiateScan();
-//                    return true;
-//                CameraManager a = new CameraManager();
-//                }
-//            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -591,15 +604,15 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog1 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
             // Set progressdialog title
 //            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+            progressDialog1.setMessage("Loading...");
 
-            progressDialog.setIndeterminate(false);
+            progressDialog1.setIndeterminate(false);
             // Show progressdialog
-            progressDialog.show();
+            progressDialog1.show();
         }
 
         @Override
@@ -642,7 +655,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
             getdetails(result);
 
         }
@@ -650,11 +663,13 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
     private void getdetails(String result) {
 
-        data_list=new ArrayList<>();
+//        data_list=new ArrayList<>();
 
         events = new ArrayList<>();
 
         final String value=null;
+
+        int count = 0;
 
         try {
             JSONArray jsonArray=new JSONArray(result);
@@ -662,6 +677,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             for(int i=0;i<jsonArray.length();i++)
             {
                 JSONObject  js= jsonArray.getJSONObject(i);
+
                 DiagAddressId = js.getString("DiagAddressID");
                 AppointmentID = js.getString("AppintmentID");
                 RequestDate = (String) js.get("RequestedDate");
@@ -675,58 +691,71 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 Comment=(String) js.get("Comment");
                 String arr[]=RequestDate.split(" ");
                 date=arr[0];
-                PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
-                        PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
-                        AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
-                        paymentmode,Amount,Comment,date);
 
-                //System.out.println("testname"+TestName);
-                if(date.equals(d))
+
+                Calendar cal=Calendar.getInstance();
+                int year1=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day1=cal.get(Calendar.DAY_OF_MONTH);
+
+                String currentDate = month+1+"/"+day1+"/"+year1;
+
+                System.out.println("cur date..."+currentDate);
+
+               if(date.equals(d))
                 {
+                    count = 1;
+
+                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+                            paymentmode,Amount,Comment,date);
 
                     data_list.add(patientAppointmentDetailsinDiagnostics);
+
                 }
+                else
+               {
+                   count = 0;
+//                   data_list=new ArrayList<>();
+//                   data_list.clear();
+//                   showSpecialityNotMatchMessage();
+               }
+
+//
+//
+//                else if(date.equals(d))
+//                {
+//
+//                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+//                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+//                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+//                            paymentmode,Amount,Comment,date);
+//
+//                    data_list=new ArrayList<>();
+//
+//                    data_list.add(patientAppointmentDetailsinDiagnostics);
+//
+//                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+//
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+//                }
+//                else
+//                {
+//                    data_list=new ArrayList<>();
+//                    showSpecialityNotMatchMessage();
+//
+////                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+//
+//                }
 
 
 
                 Date date1 = simpleDateFormat.parse(date);
                 CalendarDay day = CalendarDay.from(date1);
                 events.add(day);
-//                dates.add(date);
-//                doctorname.add(DoctorName);
-//                patientnames.add(PatientName);
-//                timeslot.add(Timeslot);
-//                statuss.add(AppointmentStatus);
-//                reason.add(Reason);
-//                comment.add(DoctorComment);
-//                amount.add(Amount);
-//                prescription.add(Prescription);
-//                payment.add(paymentmode);
-
-
-
             }
-
-
-
-            calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-                @Override
-                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
-                    System.out.println("Selected Date"+date);
-
-                    int m = date.getMonth()+1;
-                    d = m+"/"+date.getDay()+"/"+date.getYear();
-                    System.out.println("length"+data_list.size());
-
-                    new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientId="+getUserId);
-
-                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
-
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
-                }
-            });
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -734,8 +763,33 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             e.printStackTrace();
         }
 
+        if(count == 0)
+        {
+            showSpecialityNotMatchMessage();
+        }
+//        else
+//        {
+//            availability.setText(Integer.toString(count));
+//        }
+
         EventDecorator eventDecorator1 =new EventDecorator(this,events);
         calendarView.addDecorator((DayViewDecorator) eventDecorator1);
+    }
+
+    public void showSpecialityNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientMyDiagnosticAppointments.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Your selected date has");
+        alert.show();
     }
 
 }

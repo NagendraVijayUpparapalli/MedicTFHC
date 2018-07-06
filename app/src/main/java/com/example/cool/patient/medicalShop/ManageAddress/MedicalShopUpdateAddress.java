@@ -45,6 +45,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
 import com.example.cool.patient.common.MapsActivity;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
@@ -131,7 +132,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
     int currentMinute;
     String amPm;
     //get lat,lng on touch map
-    String myLatitude,myLongitude,myAddressId,regMobile;
+    String myLatitude,myLongitude,myAddressId,regMobile,mycenterImage;
     TextView getLatLong;
 
     // expandable list view
@@ -203,6 +204,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
         myLatitude = getIntent().getStringExtra("lati");
         myLongitude = getIntent().getStringExtra("longi");
+        mycenterImage = getIntent().getStringExtra("centerImage");
 
         myDiagnosticName = getIntent().getStringExtra("shopName");
         myAddress = getIntent().getStringExtra("address");
@@ -220,11 +222,13 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         myFromTime = getIntent().getStringExtra("FromTime");
         myToTime =  getIntent().getStringExtra("ToTime");
         myAvailableService = getIntent().getBooleanExtra("emergencyService",myAvailableService);
-        System.out.print("medicalid in update address comments....."+myComments);
+        System.out.println("medicalid in update address comments....."+myComments);
 
-        System.out.print("medicalid in update address....."+getUserId);
+        System.out.println("medicalid in update address....."+getUserId);
 
-        System.out.print("shopname in update address....."+myDiagnosticName);
+        System.out.println("shopname in update address....."+myDiagnosticName+"...shop img url..."+mycenterImage);
+
+        new GetCenterImageTask(centerImage).execute(baseUrl.getImageUrl()+mycenterImage);
 
         diagnosticName.setText(myDiagnosticName);
         address.setText(myAddress);
@@ -335,20 +339,6 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
 //        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
         toolbar.setTitle("Update Address");
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(MedicalShopUpdateAddress.this,MedicalShopDashboard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",regMobile);
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//
-//        );
 
         //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -360,12 +350,11 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
-//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -412,7 +401,10 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalShopUpdateAddress.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalShopUpdateAddress.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
@@ -443,31 +435,6 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
-
-//                if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Services) {
-//                    if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM1_1) {
-//
-//                        Intent i = new Intent(DiagnosticDashboard.this,DiagnosticDashboard.class);
-//                        startActivity(i);
-//
-//                    }
-//                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_2) {
-//
-//                        // call activity here
-//
-////                        Intent i = new Intent(DiagnosticDashboard.this,DoctorTodaysAppointmentsForPatient.class);
-////                        i.putExtra("userId",getUserId);
-////                        startActivity(i);
-//
-//                    }
-////                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_3) {
-////
-////                        // call activity here
-////
-////                    }
-//
-//
-//                }
                 if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
 
                     if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_1) {
@@ -508,6 +475,32 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
             }
         });
+
+    }
+
+    private class GetCenterImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetCenterImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            centerImage.setImageBitmap(result);
+        }
 
     }
 
@@ -754,6 +747,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             intent.putExtra("Emeregency_contact",Emeregency_contact.getText().toString());
             intent.putExtra("emergencyService",myAvailableService);
             intent.putExtra("comments",comments.getText().toString());
+            intent.putExtra("centerImage",mycenterImage);
             startActivity(intent);
         }
     }

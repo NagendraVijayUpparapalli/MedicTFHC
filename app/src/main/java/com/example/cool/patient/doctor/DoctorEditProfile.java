@@ -49,6 +49,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
@@ -99,7 +100,7 @@ public class DoctorEditProfile extends AppCompatActivity
     EditText salutation,email,Experience,mobileNumber,qualificationdoctor,registrationNumber,name,aadhar_num;
     SearchableSpinner Speciality;
     Bitmap mIcon11;
-    ImageView uploadCertificate, adharimage, DoctorImage,myDoctorImage;
+    ImageView uploadCertificate, adharimage, DoctorImage;
     List<String> Spaliaty;
     CheckBox cash_on_hand, swipe_card, net_banking, pay_paym;
     MagicButton gen_btn;
@@ -156,6 +157,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+    ImageView sidenavDoctorImage;
     ProgressDialog progressDialog;
 
     static String getUserId,mobile_number;
@@ -169,7 +171,6 @@ public class DoctorEditProfile extends AppCompatActivity
         setContentView(R.layout.activity_doctor_edit_profile);
 
         baseUrl = new ApiBaseUrl();
-
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
@@ -306,12 +307,12 @@ public class DoctorEditProfile extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        myDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -354,15 +355,22 @@ public class DoctorEditProfile extends AppCompatActivity
                     // call some activity here
                     Intent i = new Intent(DoctorEditProfile.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile_number);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorEditProfile.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorEditProfile.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(DoctorEditProfile.this,ReachUs.class);
@@ -669,7 +677,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
                 new GetProfileImageTask(DoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 
-                new GetDocProfileImageTask(myDoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+                new GetDocProfileImageTask(sidenavDoctorImage).execute(baseUrl.getImageUrl()+mydoctorImage);
 
                 new GetCertificateImageTask(uploadCertificate).execute(baseUrl.getImageUrl()+myuploadCertificate);
 
@@ -1211,24 +1219,6 @@ public class DoctorEditProfile extends AppCompatActivity
         });
         MyDialog.show();
 
-
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        new Mytask().execute();
-//                        Intent intent = new Intent(DoctorEditProfile.this,DoctorDashboard.class);
-//                        intent.putExtra("id",getUserId);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
     }
 
     public void showErrorMessage(String result){
@@ -1440,7 +1430,7 @@ public class DoctorEditProfile extends AppCompatActivity
         }
 
         protected void onPostExecute(Bitmap result) {
-            myDoctorImage.setImageBitmap(result);
+            sidenavDoctorImage.setImageBitmap(result);
         }
 
     }

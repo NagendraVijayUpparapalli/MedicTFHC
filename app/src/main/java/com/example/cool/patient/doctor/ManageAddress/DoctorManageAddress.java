@@ -27,6 +27,7 @@ import android.widget.ListView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
@@ -144,10 +145,10 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
 
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -190,15 +191,22 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
                     // call some activity here
                     Intent i = new Intent(DoctorManageAddress.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",regMobile);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorManageAddress.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorManageAddress.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(DoctorManageAddress.this,ReachUs.class);

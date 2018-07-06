@@ -242,8 +242,8 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(myLatitude);
-        lng.setText(myLongitude);
+        lat.setText(String.format("%.6f", myLatitude));
+        lng.setText(String.format("%.6f", myLongitude));
 
         Emeregency_contact = (EditText) findViewById(R.id.Emergency_Contact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
@@ -366,12 +366,11 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
-//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -419,6 +418,9 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
                     Intent contact = new Intent(MedicalShopAddAddressFromMaps.this,AboutUs.class);
+                    contact.putExtra("id",medicalId);
+                    contact.putExtra("mobile",medicalMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {

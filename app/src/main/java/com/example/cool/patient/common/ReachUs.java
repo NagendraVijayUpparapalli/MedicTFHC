@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -44,6 +45,7 @@ import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
 import com.example.cool.patient.doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
+import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigatioExpandableSubList;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigationExpandableListAdapter;
@@ -109,13 +111,32 @@ public class ReachUs extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reach_us);
+
+        module = getIntent().getStringExtra("module");
+
+        if(module.equals("patient"))
+        {
+            setContentView(R.layout.activity_reach_us);
+        }
+        if(module.equals("doc"))
+        {
+            setContentView(R.layout.activity_reach_us_doctor);
+        }
+        if(module.equals("diag"))
+        {
+            setContentView(R.layout.activity_reach_us_diagnostic);
+        }
+        if(module.equals("medical"))
+        {
+            setContentView(R.layout.activity_reach_us_medical);
+        }
+
 
         baseUrl = new ApiBaseUrl();
 
         mobile_number = getIntent().getStringExtra("mobile");
         getUserId = getIntent().getStringExtra("id");
-        module = getIntent().getStringExtra("module");
+
 
         System.out.print("userid in patientactivity....." + getUserId);
 
@@ -183,13 +204,13 @@ public class ReachUs extends AppCompatActivity
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-            sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-            sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-            sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-            sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-            sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+            sidenavName = (TextView) navigationView.findViewById(R.id.name);
+            sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+            sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+            sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+            sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
 
             expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -237,12 +258,17 @@ public class ReachUs extends AppCompatActivity
                     else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                         // call some activity here
                         Intent contact = new Intent(ReachUs.this,MyFamily.class);
+                        contact.putExtra("id", getUserId);
+                        contact.putExtra("mobile", mobile_number);
                         startActivity(contact);
 
                     } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
 
-                        Intent contact = new Intent(ReachUs.this,AboutUs.class);
+                        Intent contact = new Intent(ReachUs.this,Offers.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","patient");
                         startActivity(contact);
 
 
@@ -391,12 +417,12 @@ public class ReachUs extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
 
 
-            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-            docname = (TextView) headerLayout.findViewById(R.id.name);
-            docemail = (TextView) headerLayout.findViewById(R.id.emailId);
-            docmobile = (TextView) headerLayout.findViewById(R.id.mobile);
-            profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+            docname = (TextView) navigationView.findViewById(R.id.name);
+            docemail = (TextView) navigationView.findViewById(R.id.emailId);
+            docmobile = (TextView) navigationView.findViewById(R.id.mobile);
+            profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
             //side navigation
             expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -445,7 +471,10 @@ public class ReachUs extends AppCompatActivity
 
                     } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
-                        Intent contact = new Intent(ReachUs.this,AboutUs.class);
+                        Intent contact = new Intent(ReachUs.this,Offers.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","doc");
                         startActivity(contact);
 
                     } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
@@ -454,6 +483,7 @@ public class ReachUs extends AppCompatActivity
                         Intent i = new Intent(ReachUs.this,ReachUs.class);
                         i.putExtra("id",getUserId);
                         i.putExtra("mobile",mobile_number);
+                        i.putExtra("module","doc");
                         startActivity(i);
 
                     }
@@ -571,11 +601,11 @@ public class ReachUs extends AppCompatActivity
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-            medicalsidenavName = (TextView) headerLayout.findViewById(R.id.name);
-            medicalsidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-            medicalsidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
+            medicalsidenavName = (TextView) navigationView.findViewById(R.id.name);
+            medicalsidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+            medicalsidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 //            adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
@@ -623,13 +653,19 @@ public class ReachUs extends AppCompatActivity
 
                     } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
-                        Intent contact = new Intent(ReachUs.this,AboutUs.class);
+                        Intent contact = new Intent(ReachUs.this,Offers.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","medical");
                         startActivity(contact);
 
                     } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
                         // call some activity here
 
                         Intent contact = new Intent(ReachUs.this,ReachUs.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","medical");
                         startActivity(contact);
 
                     }
@@ -713,11 +749,11 @@ public class ReachUs extends AppCompatActivity
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-            diagsidenavName = (TextView) headerLayout.findViewById(R.id.name);
-            diagsidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-            diagsidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+            diagsidenavName = (TextView) navigationView.findViewById(R.id.name);
+            diagsidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+            diagsidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
 
 
             expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -766,13 +802,19 @@ public class ReachUs extends AppCompatActivity
 
                     } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
-                        Intent contact = new Intent(ReachUs.this,AboutUs.class);
+                        Intent contact = new Intent(ReachUs.this,Offers.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","diag");
                         startActivity(contact);
 
                     } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
                         // call some activity here
 
                         Intent contact = new Intent(ReachUs.this,ReachUs.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","diag");
                         startActivity(contact);
 
                     }
@@ -865,6 +907,58 @@ public class ReachUs extends AppCompatActivity
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+            if(module.equals("patient"))
+            {
+                Intent intent = new Intent(ReachUs.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+            if(module.equals("doc"))
+            {
+                Intent intent = new Intent(ReachUs.this,DoctorDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+            if(module.equals("diag"))
+            {
+                Intent intent = new Intent(ReachUs.this,DiagnosticDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+            if(module.equals("medical"))
+            {
+                Intent intent = new Intent(ReachUs.this,MedicalShopDashboard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
     //Get patient list based on id from api call

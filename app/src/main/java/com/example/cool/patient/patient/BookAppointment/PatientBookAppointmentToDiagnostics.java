@@ -927,7 +927,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 //                MyDialog.cancel();
 
                 calenderlayout.setVisibility(View.INVISIBLE);
-                mainlayout.setPadding(0,50,0,0);
+//                mainlayout.setPadding(0,50,0,0);
                 mainlayout.setVisibility(View.VISIBLE);
                 imagelayout.setVisibility(View.VISIBLE);
 
@@ -1319,9 +1319,9 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(PatientBookAppointmentToDiagnostics.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+            progressDialog.setMessage("Appointment is under process...");
 
             progressDialog.setIndeterminate(false);
             // Show progressdialog
@@ -1430,8 +1430,8 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog1.setContentView(R.layout.success_alert);
 
-        message = (TextView) MyDialog.findViewById(R.id.message);
-        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
 
         MyDialog1.setTitle("Your Diagnostic Appointment");
 

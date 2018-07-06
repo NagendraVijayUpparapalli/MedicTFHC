@@ -1,10 +1,13 @@
 package com.example.cool.patient.patient.ViewBloodBanksList;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -17,6 +20,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,6 +43,7 @@ import android.widget.ListView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
@@ -123,7 +128,8 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
     //view particular blood bank details fields
     Dialog MyDialog;
-    TextView myaddress,mymobile,myname,mynavigate,myperson_name,mysms,mycancel;
+    TextView myaddress,mymobile,myname,myperson_name,mycancel;
+    LinearLayout phoneLayout,mynavigate,mysms;
     ImageView image;
     Bitmap mIcon11;
 
@@ -135,6 +141,8 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     String myPhone,myBloodbank_name,myCity,myArea,contact_name,location,uri=null,userMobile,userId;
     String arr[];
     String mainUrl=null;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,12 +227,13 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                 image = (ImageView) MyDialog.findViewById(R.id.imageView);
                 myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
-                mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                mynavigate = (LinearLayout) MyDialog.findViewById(R.id.navigate);
                 myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
                 myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
                 mymobile = (TextView) MyDialog.findViewById(R.id.phone);
 //                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
-                mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+                mysms = (LinearLayout) MyDialog.findViewById(R.id.SMS);
+                phoneLayout = (LinearLayout) MyDialog.findViewById(R.id.phoneLayout);
 
                 mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
 
@@ -244,6 +253,24 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                 new GetImageTask(image).execute(arrayList.get(position).getImage());
 
+                phoneLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callintent = new Intent(Intent.ACTION_CALL);
+                        callintent.setData(Uri.parse("tel:"+mymobile.getText().toString().trim()));
+                        if (ActivityCompat.checkSelfPermission(BloodBank1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        startActivity(callintent);
+                    }
+                });
 
                 mysms.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -328,13 +355,13 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -362,24 +389,31 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM3) {
                     retVal = false;
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
+                }
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
                     // call some activity here
                     Intent editProfile = new Intent(BloodBank1.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",mobile);
                     startActivity(editProfile);
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
                     Intent contact = new Intent(BloodBank1.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(BloodBank1.this,AboutUs.class);
+                    Intent contact = new Intent(BloodBank1.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
-
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
@@ -770,12 +804,13 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                         image = (ImageView) MyDialog.findViewById(R.id.imageView);
                         myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
-                        mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                        mynavigate = (LinearLayout) MyDialog.findViewById(R.id.navigate);
                         myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
                         myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
                         mymobile = (TextView) MyDialog.findViewById(R.id.phone);
 //                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
-                        mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+                        mysms = (LinearLayout) MyDialog.findViewById(R.id.SMS);
+                        phoneLayout = (LinearLayout) MyDialog.findViewById(R.id.phoneLayout);
 
                         mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
 
@@ -794,6 +829,25 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 //                mycontact_name = myperson_name.getText().toString();
 
                         new GetImageTask(image).execute(arrayList.get(position).getImage());
+
+                        phoneLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent callintent = new Intent(Intent.ACTION_CALL);
+                                callintent.setData(Uri.parse("tel:"+mymobile.getText().toString().trim()));
+                                if (ActivityCompat.checkSelfPermission(BloodBank1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    //    ActivityCompat#requestPermissions
+                                    // here to request the missing permissions, and then overriding
+                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                    //                                          int[] grantResults)
+                                    // to handle the case where the user grants the permission. See the documentation
+                                    // for ActivityCompat#requestPermissions for more details.
+                                    return;
+                                }
+                                startActivity(callintent);
+                            }
+                        });
 
 
                         mysms.setOnClickListener(new View.OnClickListener() {
@@ -849,6 +903,21 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
     private class GetBloodBankDetails extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(BloodBank1.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             String data = "";
@@ -887,6 +956,8 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.e("Api response.....", result);
+            progressDialog.dismiss();
+
             try
             {
                 JSONObject jsono = new JSONObject(result);
@@ -1039,12 +1110,13 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 
                 image = (ImageView) MyDialog.findViewById(R.id.imageView);
                 myname = (TextView) MyDialog.findViewById(R.id.bloodbankname);
-                mynavigate = (TextView) MyDialog.findViewById(R.id.navigate);
+                mynavigate = (LinearLayout) MyDialog.findViewById(R.id.navigate);
                 myperson_name = (TextView) MyDialog.findViewById(R.id.person_name);
                 myaddress = (TextView) MyDialog.findViewById(R.id.addressline);
                 mymobile = (TextView) MyDialog.findViewById(R.id.phone);
 //                myemail = (TextView) MyDialog.findViewById(R.id.emailid);
-                mysms = (TextView) MyDialog.findViewById(R.id.SMS);
+                mysms = (LinearLayout) MyDialog.findViewById(R.id.SMS);
+                phoneLayout = (LinearLayout) MyDialog.findViewById(R.id.phoneLayout);
 
                 mycancel = (TextView) MyDialog.findViewById(R.id.cancel_icon);
 
@@ -1063,6 +1135,25 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
 //                mycontact_name = myperson_name.getText().toString();
 
                 new GetImageTask(image).execute(arrayList.get(position).getImage());
+
+                phoneLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callintent = new Intent(Intent.ACTION_CALL);
+                        callintent.setData(Uri.parse("tel:"+mymobile.getText().toString().trim()));
+                        if (ActivityCompat.checkSelfPermission(BloodBank1.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        startActivity(callintent);
+                    }
+                });
 
 
                 mysms.setOnClickListener(new View.OnClickListener() {
@@ -1210,7 +1301,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
         message.setEnabled(true);
         oklink.setEnabled(true);
 
-        message.setText("The Message has sent Successfully to your registered mobile number");
+        message.setText("Successfully sent to your registered mobile number");
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override

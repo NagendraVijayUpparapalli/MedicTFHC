@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.andexert.library.RippleView;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.patient.AmbulanceServices;
+import com.example.cool.patient.patient.FindHospitals;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.MyFamily;
@@ -124,13 +126,13 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -170,12 +172,16 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
                     Intent contact = new Intent(ChangePassword.this,MyFamily.class);
+                    contact.putExtra("id",getIntent().getStringExtra("id"));
+                    contact.putExtra("mobile",mobile_number);
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
                     Intent contact = new Intent(ChangePassword.this,AboutUs.class);
+                    contact.putExtra("id",getIntent().getStringExtra("id"));
+                    contact.putExtra("mobile",mobile_number);
                     startActivity(contact);
 
 
@@ -184,7 +190,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                     // call some activity here
 
                     Intent editProfile = new Intent(ChangePassword.this,ReachUs.class);
-                    editProfile.putExtra("id",getIntent().getStringExtra("userId"));
+                    editProfile.putExtra("id",getIntent().getStringExtra("id"));
                     editProfile.putExtra("mobile",mobile_number);
                     startActivity(editProfile);
 
@@ -201,26 +207,6 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
             }
         });
 
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
-//
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                boolean retVal = true;
-//
-//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
-//
-//                    // call some activity here
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
-//                    // call some activity here
-//
-//                }
-//                return retVal;
-//            }
-//        });
-
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -231,14 +217,14 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                     if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_1) {
 
                         Intent i = new Intent(ChangePassword.this,GetCurrentDoctorsList.class);
-                        i.putExtra("userId",getIntent().getStringExtra("userId"));
+                        i.putExtra("userId",getIntent().getStringExtra("id"));
                         i.putExtra("mobile",mobile_number);
                         startActivity(i);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_2) {
                         Intent i = new Intent(ChangePassword.this,GetCurrentDiagnosticsList.class);
-                        i.putExtra("userId",getIntent().getStringExtra("userId"));
+                        i.putExtra("userId",getIntent().getStringExtra("id"));
                         i.putExtra("mobile",mobile_number);
                         startActivity(i);
 
@@ -248,7 +234,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                         // call activity here
 
                         Intent in = new Intent(ChangePassword.this,GetCurrentMedicalShopsList.class);
-                        in.putExtra("userId",getIntent().getStringExtra("userId"));
+                        in.putExtra("userId",getIntent().getStringExtra("id"));
                         in.putExtra("mobile",mobile_number);
                         startActivity(in);
 
@@ -257,7 +243,9 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
 
                         // call activity here
                         // call activity here
-                        Intent contact = new Intent(ChangePassword.this,AboutUs.class);
+                        Intent contact = new Intent(ChangePassword.this,FindHospitals.class);
+                        contact.putExtra("id",getIntent().getStringExtra("id"));
+                        contact.putExtra("mobile",mobile_number);
                         startActivity(contact);
 
                     }
@@ -265,7 +253,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
 
                         // call activity here
                         Intent bloodbank = new Intent(ChangePassword.this,BloodBank.class);
-                        bloodbank.putExtra("userId",getIntent().getStringExtra("userId"));
+                        bloodbank.putExtra("userId",getIntent().getStringExtra("id"));
                         bloodbank.putExtra("mobile",mobile_number);
                         startActivity(bloodbank);
 
@@ -273,7 +261,10 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
-                        Intent contact = new Intent(ChangePassword.this,AboutUs.class);
+                        Intent contact = new Intent(ChangePassword.this,AmbulanceServices.class);
+                        contact.putExtra("id",getIntent().getStringExtra("id"));
+                        contact.putExtra("mobile",mobile_number);
+                        startActivity(contact);
                         startActivity(contact);
 
                     }
@@ -342,6 +333,26 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.qricon)
+        {
+
+            Intent intent = new Intent(ChangePassword.this,PatientDashBoard.class);
+            intent.putExtra("id",getUserId);
+            intent.putExtra("mobile",mobile_number);
+            startActivity(intent);
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void changePasswordvalidate()
@@ -615,6 +626,11 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent editProfile = new Intent(ChangePassword.this,PatientDashBoard.class);
+                editProfile.putExtra("id",getIntent().getStringExtra("id"));
+                editProfile.putExtra("mobile",mobile_number);
+                startActivity(editProfile);
 
                 MyDialog.cancel();
 

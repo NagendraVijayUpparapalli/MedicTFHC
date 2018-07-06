@@ -71,15 +71,10 @@
 
 
         <LinearLayout
-
-
             android:id="@+id/linlay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
             android:orientation="horizontal">
-
 
 
             <RelativeLayout
@@ -94,7 +89,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     android:orientation="horizontal">
 
@@ -105,12 +99,13 @@
                         android:textStyle="bold"
                         android:textSize="13sp"
 
-                        android:text="Status : "/>
+                        android:text="Status :"/>
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:padding="7dp"
                         android:textColor="#008000"
                         android:text="Reshudule"/>
                 </LinearLayout>

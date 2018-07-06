@@ -46,6 +46,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
@@ -235,8 +236,8 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(myLatitude);
-        lng.setText(myLongitude);
+        lat.setText(String.format("%.6f", myLatitude));
+        lng.setText(String.format("%.6f", myLongitude));
 
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
@@ -438,11 +439,11 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -491,7 +492,10 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticAddAddressFromMaps.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticAddAddressFromMaps.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {

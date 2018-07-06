@@ -423,6 +423,8 @@
 
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
+
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -430,25 +432,80 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
 
-        <ExpandableListView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_below="@+id/nav_view"
-            android:id="@+id/expandableListView1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_marginTop="139dp"
-            android:choiceMode="singleChoice"
-            android:divider="#000"
-            android:dividerHeight="0.2dp"
+        <RelativeLayout
+            android:id="@+id/relativelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutLinear"
+                android:background="@drawable/toolbar_gradient"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:visibility="gone"
+                    android:src="@drawable/noimage11" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:textAlignment="center"
+                    android:text="--------"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                <TextView
+                    android:id="@+id/mobile"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:drawableLeft="@drawable/sidenavphoneicon"
+                    android:drawablePadding="5dp"
+                    android:text=" ---------"/>
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sidenavemailicon"
+                    android:drawablePadding="5dp"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    android:text="---------" />
 
-            android:groupIndicator="@null"
-            android:alpha="255"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            >
-        </ExpandableListView>
-        <!--</RelativeLayout>-->
+            </LinearLayout>
 
+            <ExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/expandableListView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_below="@+id/layoutLinear"
+                android:choiceMode="singleChoice"
+                android:divider="#000"
+                android:dividerHeight="0.2dp"
+                android:groupIndicator="@null"
+                android:alpha="255"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                >
+            </ExpandableListView>
+        </RelativeLayout>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

@@ -28,8 +28,11 @@ import android.widget.TextView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.patient.AmbulanceServices;
+import com.example.cool.patient.patient.FindHospitals;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyFamily;
 import com.example.cool.patient.patient.PatientDashBoard;
@@ -196,13 +199,13 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -232,20 +235,30 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
                     // call some activity here
-                    Intent editProfile = new Intent(PatientMyDoctorAppointments.this,PatientEditProfile.class);
-                    editProfile.putExtra("id",getUserId);
-                    startActivity(editProfile);
+                    Intent contact = new Intent(PatientMyDoctorAppointments.this,PatientEditProfile.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
+                    startActivity(contact);
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
+
                     Intent contact = new Intent(PatientMyDoctorAppointments.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
+                    startActivity(contact);
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(PatientMyDoctorAppointments.this,AboutUs.class);
+                    Intent contact = new Intent(PatientMyDoctorAppointments.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
@@ -254,6 +267,9 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                     // call some activity here
 
                     Intent contact = new Intent(PatientMyDoctorAppointments.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 }
@@ -325,8 +341,10 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                         // call activity here
                         // call activity here
-                        Intent contact = new Intent(PatientMyDoctorAppointments.this,AboutUs.class);
-                        startActivity(contact);
+                        Intent intent = new Intent(PatientMyDoctorAppointments.this,FindHospitals.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
 
                     }
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_5) {
@@ -342,8 +360,10 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                         // call activity here
                         // call activity here
-                        Intent contact = new Intent(PatientMyDoctorAppointments.this,AboutUs.class);
-                        startActivity(contact);
+                        Intent intent = new Intent(PatientMyDoctorAppointments.this,AmbulanceServices.class);
+                        intent.putExtra("id",getUserId);
+                        intent.putExtra("mobile",mobile_number);
+                        startActivity(intent);
 
                     }
 
@@ -524,22 +544,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             intent.putExtra("id",getUserId);
             intent.putExtra("mobile",mobile_number);
             startActivity(intent);
-
-//            qrScanIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-
-//                    IntentIntegrator integrator = new IntentIntegrator(activity);
-//                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                    integrator.setPrompt("Scan");
-//                    integrator.setCameraId(0);
-//                    integrator.setBeepEnabled(false);
-//                    integrator.setBarcodeImageEnabled(false);
-//                    integrator.initiateScan();
-//                    return true;
-//                CameraManager a = new CameraManager();
-//                }
-//            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -688,9 +692,36 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                         AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,
                         DoctorComment,paymentmode,Amount,date);
 
-                if(date.equals(d))
+                Calendar cal=Calendar.getInstance();
+                int year1=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day1=cal.get(Calendar.DAY_OF_MONTH);
+
+                String currentDate = month+1+"/"+day1+"/"+year1;
+
+                System.out.println("cur date..."+currentDate);
+
+                if(date.equals(currentDate))
                 {
                     data_list.add(patientAppointmentDetails);
+
+                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
+                }
+
+
+                else if(date.equals(d))
+                {
+                    data_list.add(patientAppointmentDetails);
+
+                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
                 }
 
 
@@ -714,12 +745,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                     new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
 
-                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
-
-                    recyclerView.setLayoutManager(layoutManager);
-
-
-                    recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
                 }
             });
 

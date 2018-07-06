@@ -13,12 +13,12 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
-                android:drawableRight="@drawable/ic_add_location_black_24dp"
+                android:drawableRight="@drawable/cuurent_locationicon"
                 android:drawablePadding="5dp"
                 android:id="@+id/select_city"
                 android:layout_width="wrap_content"

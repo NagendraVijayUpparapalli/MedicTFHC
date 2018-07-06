@@ -37,6 +37,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
@@ -256,6 +257,7 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         myLatitude = getIntent().getStringExtra("lat");
         myLongitude = getIntent().getStringExtra("lng");
 
+
         hospitalName.setText(myHospitalName);
         address.setText(myAddress);
 
@@ -263,8 +265,8 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         pincode.setText(myPincode);
         contactPerson.setText(myContactPerson);
         fee.setText(myFee);
-        lat.setText(myLatitude);
-        lng.setText(myLongitude);
+        lat.setText(String.format("%.6f", myLatitude));
+        lng.setText(String.format("%.6f", myLongitude));
 
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
@@ -367,12 +369,13 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
+
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -415,12 +418,16 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
                     // call some activity here
                     Intent i = new Intent(DoctorAddAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",regMobile);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorAddAddressFromMaps.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorAddAddressFromMaps.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {

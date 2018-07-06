@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
@@ -156,7 +157,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
     FloatingActionButton homebutton;
 
-    int jsondataCount = 0;
+    int jsondataCount = 0,myRangeDistance = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,13 +270,13 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -311,19 +312,27 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                     startActivity(editProfile);
 
                 }
+
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
                     Intent contact = new Intent(GetCurrentDiagnosticsList.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,AboutUs.class);
+                    Intent contact = new Intent(GetCurrentDiagnosticsList.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
                 }
+
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
@@ -1053,35 +1062,6 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                 e.printStackTrace();
             }
 
-
-//            try
-//            {
-//                JSONObject jsono = new JSONObject(result);
-//                String ss = (String) jsono.get("Message");
-//                if(ss.equals("No data found."))
-//                {
-//                    showMessage();
-//                    availabilityCount = 0;
-//                    System.out.println("medical availabilityCount...."+availabilityCount);
-//
-//                    availability.setText(Integer.toString(availabilityCount));
-//                    Log.e("Api response if.....", result);
-//                }
-//                else
-//                {
-//                    getDataBasedonSpeciality(result);
-//                    adapter.notifyDataSetChanged();
-//                    Log.e("Api response else.....", result);
-//                }
-//            }
-//            catch (Exception e)
-//            {}
-//            getDataBasedonSpeciality(result);
-//
-//            recyclerView.setHasFixedSize(true);
-//            recyclerView.setLayoutManager(layoutManager);
-//            recyclerView.setAdapter(adapter);
-
         }
     }
 
@@ -1111,58 +1091,62 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                     int SpecialityID=jsonObject.getInt("Key");
                     String testName =jsonObject.getString("Value");
 
-                    if(Speciality.getSelectedItem().toString().equals(testName))
+                    String mobile = object.getString("MobileNumber");
+                    String diagId = object.getString("DiagnosticsID");
+
+                    System.out.println("d idds..."+diagId);
+
+                    String centerName = object.getString("CenterName");
+
+                    String cashOnHand = object.getString("CashOnHand");
+                    String creditDebit = object.getString("CreditDebit");
+                    String netBanking = object.getString("Netbanking");
+                    String paytm = object.getString("Paytm");
+
+                    String landLineNumber = object.getString("LandlineNo");
+                    String contactPerson = object.getString("ContactPerson");
+
+                    String mylatii = object.getString("Latitude");
+                    String mylongii = object.getString("Longitude");
+                    String emergencyService = "";
+
+                    if(object.has("EmergencyService"))
+                    {
+                        emergencyService = object.getString("EmergencyService");
+                    }
+
+                    else
+                    {
+                        emergencyService = "";
+                    }
+
+
+                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                    System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                    double dis = Math.round(myDistances*1000)/1000.000;
+                    myDistance = String.format("%.1f", dis)+" km";
+                    System.out.println("dist decimal round...."+myDistance);
+
+                    String addressId = object.getString("AddressID");
+                    String centerImage = object.getString("CenterImage");
+
+                    if(Speciality.getSelectedItem().toString().equals(testName) && dis <= myRangeDistance)
                     {
                         count  = count+1;
 
                         jsondataCount = 1;
-
-                        String mobile = object.getString("MobileNumber");
-                        String diagId = object.getString("DiagnosticsID");
-
-                        System.out.println("d idds..."+diagId);
-
-                        String centerName = object.getString("CenterName");
-
-                        String cashOnHand = object.getString("CashOnHand");
-                        String creditDebit = object.getString("CreditDebit");
-                        String netBanking = object.getString("Netbanking");
-                        String paytm = object.getString("Paytm");
-
-                        String landLineNumber = object.getString("LandlineNo");
-                        String contactPerson = object.getString("ContactPerson");
-
-                        String mylatii = object.getString("Latitude");
-                        String mylongii = object.getString("Longitude");
-                        String emergencyService = "";
-
-                        if(object.has("EmergencyService"))
-                        {
-                            emergencyService = object.getString("EmergencyService");
-                        }
-
-                        else
-                        {
-                            emergencyService = "";
-                        }
-
-
-                        double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                        System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                        double dis = Math.round(myDistances*1000)/1000.000;
-                        myDistance = String.format("%.1f", dis)+" km";
-                        System.out.println("dist decimal round...."+myDistance);
-
-                        String addressId = object.getString("AddressID");
-                        String centerImage = object.getString("CenterImage");
 
                         DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
                                 creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
 
                         myList.add(diagnosticsClass);
                         availability.setText(Integer.toString(count));
+                    }
+                    else
+                    {
+                        jsondataCount = 0;
                     }
 
 
@@ -1181,6 +1165,10 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
         {
             availability.setText(Integer.toString(0));
             showSpecialityTestNotMatchMessage();
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
         }
     }
 
@@ -1367,6 +1355,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
     }
 
     private void getData(String result) {
+
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
@@ -1421,15 +1411,36 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
                 String addressId = object.getString("AddressID");
                 String centerImage = object.getString("CenterImage");
 
-                DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
-                        creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+                if(dis <= myRangeDistance)
+                {
+                    count  = count+1;
 
-                myList.add(diagnosticsClass);
+                    jsondataCount = 1;
+
+                    DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
+                            creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+
+                    myList.add(diagnosticsClass);
+                    availability.setText(Integer.toString(count));
+                }
+                else
+                {
+                    jsondataCount = 0;
+                }
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
         }
     }
 
@@ -1568,6 +1579,7 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                myRangeDistance = progress;
                 progress_value = progress;
                 System.out.println("progress...."+progress);
                 distance.setText(progress+" Km") ;
@@ -1582,7 +1594,8 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 distance.setText(progress_value+" Km");
-//                bw_dist.setText("Distance stop value :"+progress_value+"Km");
+
+                myRangeDistance = progress_value;
                 dis = progress_value;
                 System.out.println("dis.."+dis);
                 getlatlng();
@@ -1590,22 +1603,9 @@ public class GetCurrentDiagnosticsList extends AppCompatActivity implements Navi
             }
         });
 
+        myRangeDistance = seek_bar.getProgress();
+
         distance.setText(seek_bar.getProgress()+" Km");
-
-//        String js = specialityBasedFormatDataAsJson();
-//        uploadServerUrl = baseUrl.getUrl()+"GetDiagnosticsInRange";
-//
-//        new GetDiagnostics_N_List().execute(uploadServerUrl,js.toString());
-//
-//        myList = new ArrayList<DiagnosticsClass>();
-////
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        recyclerView.setHasFixedSize(true);
-//
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
-
     }
 
 

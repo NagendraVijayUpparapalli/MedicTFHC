@@ -1,5 +1,6 @@
 package com.example.cool.patient.doctor.DashBoardCalendar;
 
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
@@ -215,12 +216,12 @@ public class DoctorDashboard extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        name = (TextView) headerLayout.findViewById(R.id.name);
-        email = (TextView) headerLayout.findViewById(R.id.emailId);
-        mobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        profileImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        name = (TextView) navigationView.findViewById(R.id.name);
+        email = (TextView) navigationView.findViewById(R.id.emailId);
+        mobile = (TextView) navigationView.findViewById(R.id.mobile);
+        profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         //calendar item variables
         imageView = (ImageView) findViewById(R.id.img1);
@@ -465,15 +466,20 @@ public class DoctorDashboard extends AppCompatActivity
                     // call some activity here
                     Intent i = new Intent(DoctorDashboard.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile_number);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorDashboard.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorDashboard.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(DoctorDashboard.this,ReachUs.class);

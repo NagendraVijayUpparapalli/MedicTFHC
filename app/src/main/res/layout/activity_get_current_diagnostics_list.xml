@@ -174,16 +174,14 @@
                                     android:layout_marginBottom="10dp"
                                     android:text="Distance :"
                                     android:textColor="#fff"
-
-
-                                    android:textSize="16dp"
+                                    android:textSize="13dp"
                                     android:textStyle="bold" />
+
                                 <TextView
                                     android:id="@+id/DistanceRange"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-
                                     android:text="0"
                                     android:textColor="#fff"
                                     android:textSize="17dp"

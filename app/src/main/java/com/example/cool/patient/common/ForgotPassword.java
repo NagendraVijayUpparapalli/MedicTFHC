@@ -502,7 +502,7 @@ public class ForgotPassword extends AppCompatActivity {
 
         MyDialog  = new Dialog(ForgotPassword.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.success_alert);
+        MyDialog.setContentView(R.layout.sms_alertdialog);
 
         message = (TextView) MyDialog.findViewById(R.id.message);
         oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);

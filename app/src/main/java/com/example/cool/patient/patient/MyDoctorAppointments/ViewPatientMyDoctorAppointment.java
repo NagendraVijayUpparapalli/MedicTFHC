@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,9 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
     String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
     String mydoctorImage,mydoctormobile,mydctorspeciality;
+    LinearLayout layout;
+    ImageView imageView2;
+    Button ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +94,10 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         cancel = (TextView) findViewById(R.id.cancel);
         reschedule = (TextView) findViewById(R.id.Reschedule);
 
+
         phonenumber = (TextView) findViewById(R.id.phonenum);
-        zoomageView=(ZoomageView) findViewById(R.id.myZoomageView);
+        imageView2=(ImageView) findViewById(R.id.myZoomageView);
+
 
         prescription = (Button) findViewById(R.id.prescription);
         paymode = (Button) findViewById(R.id.pay_button);
@@ -102,6 +108,15 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         mobileNumber = getIntent().getStringExtra("mobile");
 
         close=(TextView) findViewById(R.id.close);
+
+        ok = (Button) findViewById(R.id.ok);
+        layout=(LinearLayout) findViewById(R.id.layout1);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setVisibility(View.GONE);
+            }
+        });
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +305,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
                 }
                 else
                 {
-                    zoomageView.setVisibility(View.VISIBLE);
+                    layout.setVisibility(View.VISIBLE);
                     new DownloadPrescription().execute(baseUrl.getImageUrl()+myprescription);
                 }
 
@@ -428,7 +443,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             // Set the bitmap into ImageView
-             zoomageView.setImageBitmap(result);
+             imageView2.setImageBitmap(result);
             // Close progressdialog
             mProgressDialog.dismiss();
         }
@@ -512,7 +527,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
+//            mProgressDialog.setTitle("Download Image Tutorial");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
 

@@ -42,9 +42,11 @@ import android.widget.Toast;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
+import com.example.cool.patient.patient.AmbulanceServices;
 import com.example.cool.patient.patient.MyDiagnosticAppointments.PatientMyDiagnosticAppointments;
 import com.example.cool.patient.patient.MyDoctorAppointments.PatientMyDoctorAppointments;
 import com.example.cool.patient.patient.MyFamily;
@@ -149,7 +151,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
     FloatingActionButton homebutton;
 
-    int jsondataCount = 0;
+    int jsondataCount = 0,myRangeDistance = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,13 +260,13 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -303,12 +305,18 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
                     Intent contact = new Intent(GetCurrentMedicalShopsList.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",usermobileNumber);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,AboutUs.class);
+                    Intent contact = new Intent(GetCurrentMedicalShopsList.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",usermobileNumber);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
@@ -1051,6 +1059,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
     }
 
     private void getData(String result) {
+        int count = 0;
         try {
 
             JSONArray jarray = new JSONArray(result);
@@ -1112,15 +1121,31 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                 String paytm = object.getString("Paytm");
 
 
-                MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
-                        medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
+                if(dis <= myRangeDistance)
+                {
+                    count +=1;
 
-                myList.add(medicalClass);
+                    MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
+                            medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
+
+                    myList.add(medicalClass);
+                    availability.setText(Integer.toString(count));
+                }
+
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+
+        if(count == 0)
+        {
+            availability.setText(Integer.toString(0));
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
         }
     }
 
@@ -1257,10 +1282,11 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
     }
 
     private void getDataBasedonPharmacyType(String result) {
+
+        int count =0;
         try {
 
             JSONArray jarray = new JSONArray(result);
-            int count =0;
 
 //            availabilityCount = jarray.length();
             System.out.println("medical availability Count...."+availabilityCount);
@@ -1275,60 +1301,61 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
 
                 System.out.println("medical pharmacy key string...." +pharmacyKey);
 
-                if(pharmacyKey.equals(object.getString("PharmacyType")))
+
+                String  MedicalID = object.getString("MedicalShopID");
+
+                System.out.print("MedicalIDshopID....."+MedicalID);
+                String addressId = object.getString("AddressID");
+                System.out.print("addressIDmedicalshop" +addressId );
+
+                String mobile = object.getString("MobileNumber");
+//
+
+                String ShopName = object.getString("ShopName");
+                String ContactPerson = object.getString("ContactPerson");
+
+                String LandlineNo = object.getString("LandlineNo");
+
+                String medicImage = object.getString("ShopImage");
+
+                String mylatii= object.getString("Latitude");
+                String mylongii = object.getString("Longitude");
+
+                System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
+
+//                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
+
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+
+                System.out.println("distance from current in doc to ur location...."+myDistances);
+
+                double dis = Math.round(myDistances*1000)/1000.000;
+                myDistance = String.format("%.1f", dis)+" km";
+                System.out.println("dist decimal round...."+myDistance);
+
+                String emergencyService = "";
+
+                if(object.has("EmergencyService"))
+                {
+                    emergencyService = object.getString("EmergencyService");
+                }
+                else
+                {
+                    emergencyService = "";
+                }
+
+
+                String cashonHand = object.getString("CashOnHand");
+                String creditDebit = object.getString("CreditDebit");
+                String netBanking = object.getString("Netbanking");
+                String paytm = object.getString("Paytm");
+
+                if(pharmacyKey.equals(object.getString("PharmacyType")) && dis <= myRangeDistance)
                 {
 
                     count  = count+1;
 
                     jsondataCount = 1;
-
-                    String  MedicalID = object.getString("MedicalShopID");
-
-                    System.out.print("MedicalIDshopID....."+MedicalID);
-                    String addressId = object.getString("AddressID");
-                    System.out.print("addressIDmedicalshop" +addressId );
-
-                    String mobile = object.getString("MobileNumber");
-//
-
-                    String ShopName = object.getString("ShopName");
-                    String ContactPerson = object.getString("ContactPerson");
-
-                    String LandlineNo = object.getString("LandlineNo");
-
-                    String medicImage = object.getString("ShopImage");
-
-                    String mylatii= object.getString("Latitude");
-                    String mylongii = object.getString("Longitude");
-
-                    System.out.println("json lati value city....."+mylatii+"json longi value city....."+mylongii);
-
-//                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
-
-                    double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
-
-                    System.out.println("distance from current in doc to ur location...."+myDistances);
-
-                    double dis = Math.round(myDistances*1000)/1000.000;
-                    myDistance = String.format("%.1f", dis)+" km";
-                    System.out.println("dist decimal round...."+myDistance);
-
-                    String emergencyService = "";
-
-                    if(object.has("EmergencyService"))
-                    {
-                        emergencyService = object.getString("EmergencyService");
-                    }
-                    else
-                    {
-                        emergencyService = "";
-                    }
-
-
-                    String cashonHand = object.getString("CashOnHand");
-                    String creditDebit = object.getString("CreditDebit");
-                    String netBanking = object.getString("Netbanking");
-                    String paytm = object.getString("Paytm");
 
                     MedicalShopClass medicalClass = new MedicalShopClass(MedicalID,addressId,getUserId,usermobileNumber,mobile,ShopName,ContactPerson,LandlineNo,
                             medicImage,mylatii,mylongii,myDistance,emergencyService,cashonHand,creditDebit,netBanking,paytm);
@@ -1347,10 +1374,14 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
         {
             e.printStackTrace();
         }
-        if(jsondataCount == 0)
+        if(count == 0)
         {
             availability.setText(Integer.toString(0));
             showSpecialityNotMatchMessage();
+        }
+        else
+        {
+            availability.setText(Integer.toString(count));
         }
     }
 
@@ -1443,63 +1474,6 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
         alert.show();
     }
 
-//    public void anotheralert()
-//    {
-//
-//        MyDialoganother =  new Dialog(GetCurrentMedicalShopsList.this);
-//        MyDialoganother.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialoganother.setContentView(R.layout.range_layout);
-//
-//        seek_bar = (SeekBar) MyDialoganother.findViewById(R.id.seekbar);
-//        seek_bar.setProgress(dis);
-//
-//        rangeBar();
-//
-//
-//        adapter = new MedicalShopListAdapter(this, myList);
-//        layoutManager = new LinearLayoutManager(this);
-//
-//        distance = (TextView) MyDialoganother.findViewById(R.id.DistanceRange);
-//
-//        okBtn = (Button)MyDialoganother.findViewById(R.id.ok_btn);
-//        cancelBtn = (Button)MyDialoganother.findViewById(R.id.cancel_btn);
-//        okBtn.setEnabled(true);
-//        cancelBtn.setEnabled(true);
-//        okBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
-//
-//                String js = specialityBasedFormatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetMedicalShopsInRange";
-//
-//                new GetMedicalShops_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<MedicalShopClass>();
-////
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-//
-//                MyDialog.dismiss();
-//                MyDialoganother.dismiss();
-//            }
-//        });
-//        cancelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MyDialog.show();
-//
-//            }
-//        });
-//        MyDialoganother.setCancelable(false);
-//        MyDialoganother.setCanceledOnTouchOutside(false);
-//        MyDialoganother.show();
-//    }
-
     public void rangeBar()
     {
 
@@ -1512,6 +1486,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_value = progress;
+                myRangeDistance = progress;
                 System.out.println("progress...."+progress);
                 distance.setText(progress+" Km") ;
 
@@ -1527,12 +1502,14 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                 distance.setText(progress_value+" Km");
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 dis = progress_value;
+                myRangeDistance = progress_value;
                 System.out.println("dis.."+dis);
                 getlatlng();
 
             }
         });
 
+        myRangeDistance = seek_bar.getProgress();
         distance.setText(seek_bar.getProgress()+" Km");
 
     }

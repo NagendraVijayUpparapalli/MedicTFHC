@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        xmlns:ripple="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="false"
+        android:keyboardNavigationCluster="true"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/toolbar_gradient"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:layout_scrollFlags="scroll|enterAlways" >
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/toolbar1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="#000"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_alignParentStart="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_marginStart="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="#000"
+                            android:text="Corporate address"
+                            android:textColor="#fff"
+                            android:padding="10dp"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/Hospital_Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="Medic TFHC Privtae ltd."
+                            android:textColor="#63C9FF"
+                            android:textSize="22dp"
+                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:id="@+id/Address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:drawableLeft="@drawable/street_icons"
+                                android:layout_marginTop="5dp"
+                                android:drawablePadding="8dp"
+                                android:layout_weight="1"
+                                android:textSize="17dp"
+                                android:text="IT Incubation Towers,IT SEZ, Autonagar, Sarpavaram(V),"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:id="@+id/city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Kakinada (R)- 533005,"
+                                android:textSize="17dp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="45dp"
+
+                            >
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/district"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="East Godavari District,"
+
+                                android:textSize="17dp"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/state"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Andhra Pradesh."
+                                android:textSize="17dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:id="@+id/phone_number"
+                                    android:drawablePadding="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/phone"
+                                    android:text="9332559999"
+                                    android:textSize="17dp" />
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_mail_black_24dp"
+                                    android:text="@string/addressemail"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image1"
+                                app:civ_border_color="@color/green"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/location1" />
+                        </LinearLayout>
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+
+
+                <!---second card-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_marginStart="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="#000"
+                            android:text="City address"
+                            android:textColor="#fff"
+                            android:padding="10dp"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/Hospital_Name1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="Medic TFHC Privtae ltd."
+                            android:textColor="#63C9FF"
+                            android:textSize="22dp"
+                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            >
+                            <TextView
+                                android:id="@+id/Address1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:drawableLeft="@drawable/street_icons"
+                                android:layout_marginTop="5dp"
+                                android:drawablePadding="8dp"
+                                android:layout_weight="1"
+                                android:textSize="17dp"
+                                android:text="Regus, Level 4 Naga Chambers, Ramnagar, Opp.HDFC Bank"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:id="@+id/city1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Visakhapatnam - 530002"
+
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/state1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Andhra Pradesh."
+                                android:textSize="17dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:id="@+id/phone_number1"
+                                    android:drawablePadding="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/landline_icon"
+                                    android:text="0891-6604879"
+                                    android:textSize="17dp" />
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:drawablePadding="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/phone"
+                                    android:text="7013077599"
+                                    android:textSize="17dp" />
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_mail_black_24dp"
+                                    android:text="@string/addressemail"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image2"
+                                app:civ_border_color="@color/green"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/capture1" />
+                        </LinearLayout>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!--third card-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_marginStart="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="#000"
+                            android:text="City address"
+                            android:textColor="#fff"
+                            android:padding="10dp"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/Hospital_Name2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="Medic TFHC Privtae ltd."
+                            android:textColor="#63C9FF"
+                            android:textSize="22dp"
+                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            >
+                            <TextView
+                                android:id="@+id/Address2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:drawableLeft="@drawable/street_icons"
+                                android:layout_marginTop="5dp"
+                                android:drawablePadding="8dp"
+                                android:layout_weight="1"
+                                android:textSize="17dp"
+                                android:text="Flat No #104, Varma Nilayam, Jayanagar Colony,Opp. KPHB Colony, Kukatpalli, Hyderabad,"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:id="@+id/city2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Telangana - 500072"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="45dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/state2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Andhra Pradesh."
+                                android:textSize="17dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:drawablePadding="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/phone"
+                                    android:text="9000588800"
+                                    android:textSize="17dp" />
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:paddingTop="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_mail_black_24dp"
+                                    android:text="@string/addressemail"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image3"
+                                app:civ_border_color="@color/green"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/location3" />
+
+                        </LinearLayout>
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+        <RelativeLayout
+            android:id="@+id/relativelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/layoutLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolbar_gradient"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                <android.support.v4.widget.Space
+                    android:id="@+id/spaceId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImageId"
+                    android:layout_width="110dp"
+                    android:layout_gravity="center"
+                    android:layout_below="@+id/spaceId"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/noimage11" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_below="@id/profileImageId"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="udayasri amudala prabhakar raju" />
+
+                <TextView
+                    android:id="@+id/mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sidenavphoneicon"
+                    android:drawablePadding="5dp"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="-----------"
+                    android:textSize="15dp"
+                    android:textColor="#000"
+                    android:layout_below="@+id/name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/emailId"
+                    android:layout_below="@+id/mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:textColor="#000"
+                    android:textSize="15dp"
+                    android:drawableLeft="@drawable/sidenavemailicon"
+                    android:drawablePadding="5dp"
+                    android:text="-----------" />
+
+            </LinearLayout>
+            <ExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/expandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_below="@+id/layoutLinear"
+                android:choiceMode="singleChoice"
+                android:divider="#000"
+                android:dividerHeight="0.2dp"
+                android:groupIndicator="@null"
+                android:alpha="255"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                >
+            </ExpandableListView>
+        </RelativeLayout>
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

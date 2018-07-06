@@ -28,12 +28,12 @@
     <string name="Language_optionals">Language Options</string>
     <string name="Ok">ok</string>
     <string name="app_name_Select_language">Select Language</string>
-    <string name="title_activity_diagnostic">Diagnostic</string>
+    <string name="title_activity_diagnostic">Diagnostics</string>
     <string name="Patient_services">Patient Services</string>
     <string name="doctor_appointment">Doctor Appointment</string>
 
-    <string name="find_hospital">Find Hospital</string>
-    <string name="blood_bank">Blood Bank</string>
+    <string name="find_hospital">Hospitals</string>
+    <string name="blood_bank">Blood Banks</string>
     <string name="ambulance">Ambulance Services</string>
     <string name="title_activity_doctornavigation">Doctornavigation</string>
     <string name="share">.</string>
@@ -137,7 +137,7 @@
 
     </string-array>
     <string name="DoctorCalendar">Doctor Calendar</string>
-    <string name="title_activity_blood_bank">Blood Bank</string>
+    <string name="title_activity_blood_bank">Blood Banks</string>
     <string name="mobile">Mobile   :</string>
     <string name="click_for_more_deatils">Click for more deatils?</string>
     <string name="availability">Availability :</string>

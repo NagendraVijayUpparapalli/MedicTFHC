@@ -466,7 +466,7 @@ public class Registration extends AppCompatActivity {
         message.setEnabled(true);
         oklink.setEnabled(true);
 
-        message.setText("Registration Failed");
+        message.setText(result);
 
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override

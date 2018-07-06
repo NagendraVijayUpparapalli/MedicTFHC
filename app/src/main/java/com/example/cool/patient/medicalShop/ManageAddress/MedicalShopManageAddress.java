@@ -24,6 +24,7 @@ import android.widget.ListView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
@@ -135,12 +136,12 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
-//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
+//        adharimage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -187,7 +188,10 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalShopManageAddress.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalShopManageAddress.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
@@ -511,7 +515,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                 // bb.setConsultationFee(object.getString("ConsultationPrice"));
 
                 bb.setEmergencyContactNumber(object.getString("EmergencyContact"));
-                bb.setProfileImage(myProfileImage);
+                bb.setProfileImage(object.getString("ShopImage"));
                 bb.setRegisteredMobileNumber(regMobile);
                 String cityy = object.getString("CityName");
                 bb.setCityName(object.getString("CityName"));
@@ -524,6 +528,8 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                 bb.setComment(object.getString("Comment"));
 //                bb.setDeleteReason();
                 bb.setDistrict(object.getString("District"));
+
+                System.out.println("url in medical..."+object.getString("ShopImage"));
 
                 myList.add(bb);
             }

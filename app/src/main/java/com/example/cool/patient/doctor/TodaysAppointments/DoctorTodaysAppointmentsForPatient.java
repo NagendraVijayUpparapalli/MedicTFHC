@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
@@ -135,12 +136,12 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavDoctorImage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavDoctorImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
@@ -183,15 +184,21 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
                     // call some activity here
                     Intent i = new Intent(DoctorTodaysAppointmentsForPatient.this,SubscriptionPlanAlertDialog.class);
                     i.putExtra("id",docId);
+                    i.putExtra("mobile",docMobile);
                     i.putExtra("module","doc");
                     startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DoctorTodaysAppointmentsForPatient.this,AboutUs.class);
+                    Intent contact = new Intent(DoctorTodaysAppointmentsForPatient.this,Offers.class);
+                    contact.putExtra("id",docId);
+                    contact.putExtra("mobile",docMobile);
+                    contact.putExtra("module","doc");
                     startActivity(contact);
 
-                } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
+                }
+
+                else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
                     Intent contact = new Intent(DoctorTodaysAppointmentsForPatient.this,ReachUs.class);

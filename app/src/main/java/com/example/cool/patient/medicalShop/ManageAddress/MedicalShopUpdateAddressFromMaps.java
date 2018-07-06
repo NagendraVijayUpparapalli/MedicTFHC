@@ -44,6 +44,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
@@ -131,7 +132,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     int currentMinute;
     String amPm;
     //get lat,lng on touch map
-    String myLatitude,myLongitude,myAddressId;
+    String myLatitude,myLongitude,myAddressId,mycenterImage;
     TextView getLatLong;
     // expandable list view
 
@@ -197,6 +198,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
         myLatitude = getIntent().getStringExtra("lat");
         myLongitude = getIntent().getStringExtra("lng");
+        mycenterImage = getIntent().getStringExtra("centerImage");
 
         myDiagnosticName = getIntent().getStringExtra("diagName");
         myAddress = getIntent().getStringExtra("address");
@@ -226,12 +228,14 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(myLatitude);
-        lng.setText(myLongitude);
+        lat.setText(String.format("%.6f", myLatitude));
+        lng.setText(String.format("%.6f", myLongitude));
         fromTime.setText(myFromTime);
         toTime.setText(myToTime);
         Emeregency_contact.setText(myEmergencyContact);
         availableService.setChecked(myAvailableService);
+
+        new GetCenterImageTask(centerImage).execute(baseUrl.getImageUrl()+mycenterImage);
 
         Emeregency_contact = (EditText) findViewById(R.id.Emergency_Contact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
@@ -354,12 +358,11 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.emailId);
-        sidenavMobile  = (TextView) headerLayout.findViewById(R.id.mobile);
-//        adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+        sidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
@@ -405,7 +408,10 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(MedicalShopUpdateAddressFromMaps.this,AboutUs.class);
+                    Intent contact = new Intent(MedicalShopUpdateAddressFromMaps.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","medical");
                     startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
@@ -501,6 +507,32 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
             }
         });
+
+    }
+
+    private class GetCenterImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetCenterImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            centerImage.setImageBitmap(result);
+        }
 
     }
 

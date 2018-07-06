@@ -241,12 +241,11 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-//        adharimage = (ImageView) headerLayout.findViewById(R.id.imageView);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -289,12 +288,16 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                     // call some activity here
                     Intent subscript = new Intent(DiagnosticEditProfile.this,SubscriptionPlanAlertDialog.class);
                     subscript.putExtra("id",getUserId);
+                    subscript.putExtra("mobile",mobile_number);
                     subscript.putExtra("module","diag");
                     startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
                     Intent contact = new Intent(DiagnosticEditProfile.this,AboutUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -9,33 +10,151 @@
 
     <include layout="@layout/activity_get_current_diagnostics_list" />
 
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
+        <RelativeLayout
+            android:id="@+id/relativelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ExpandableListView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_below="@+id/nav_view"
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_marginTop="139dp"
-            android:choiceMode="singleChoice"
-            android:divider="#000"
-            android:dividerHeight="0.2dp"
+            <LinearLayout
+                android:id="@+id/layoutLinear"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolbar_gradient"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-            android:groupIndicator="@null"
-            android:alpha="255"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            >
-        </ExpandableListView>
-        <!--</RelativeLayout>-->
 
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="20dp"
+                    android:text="Amudala Prabhakar Raju Udayasri"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="-------"
+                    android:textSize="15sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <LinearLayout
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:id="@+id/linlay1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/mobile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/sidenavphoneicon"
+                                android:drawablePadding="5dp"
+                                android:textSize="15sp"
+                                android:textColor="#000"
+                                android:text=" ----------------"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+
+                                android:id="@+id/bloodgroup"
+                                android:layout_width="wrap_content"
+                                android:drawableLeft="@drawable/bloodgroupicon"
+                                android:drawablePadding="5dp"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:textColor="#000"
+                                android:text="---"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sidenavemailicon"
+                    android:drawablePadding="5dp"
+                    android:text="---------------"
+                    android:textSize="15sp"
+                    android:textColor="#000"/>
+
+
+            </LinearLayout>
+
+
+
+            <ExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/expandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_below="@+id/layoutLinear"
+                android:choiceMode="singleChoice"
+                android:divider="#000"
+                android:dividerHeight="0.2dp"
+                android:groupIndicator="@null"
+                android:alpha="255"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                >
+            </ExpandableListView>
+        </RelativeLayout>
     </android.support.design.widget.NavigationView>
 
 

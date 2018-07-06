@@ -40,6 +40,7 @@ import android.widget.*;
 import android.widget.ListView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
@@ -75,7 +76,7 @@ public class PatientDashBoard extends AppCompatActivity
     //lat,long
     static String uploadServerUrl = null;
     static String str ="";
-    static String getUserId;
+
 //    Criteria criteria;
     LocationManager locationManager;
     String lattitude,longitude;
@@ -104,7 +105,13 @@ public class PatientDashBoard extends AppCompatActivity
     LinearLayout sliderDotspanel;
     private int dotscount;
     private ImageView[] dots;
-    String city, mobile_number ;
+
+    private int backButtonCount = 0;
+
+    boolean doubleBackToExitPressedOnce = false;
+
+
+    static String getUserId,city, mobile_number ;
 
 
     // expandable list view
@@ -115,12 +122,6 @@ public class PatientDashBoard extends AppCompatActivity
     HashMap<String, List<String>> expandableListDetail;
 
     ProgressDialog progressDialog;
-
-
-
-    private int backButtonCount = 0;
-
-    boolean doubleBackToExitPressedOnce = false;
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
@@ -201,29 +202,16 @@ public class PatientDashBoard extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavAddress = (TextView) headerLayout.findViewById(R.id.address);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavBloodgroup = (TextView) headerLayout.findViewById(R.id.bloodgroup);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavAddress = (TextView) navigationView.findViewById(R.id.address);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavBloodgroup = (TextView) navigationView.findViewById(R.id.bloodgroup);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-//        current_city.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(PatientDashBoard.this,SelectCity.class);
-//                i.putExtra("module","patientDashB");
-//                i.putExtra("userId",getUserId);
-//                i.putExtra("mobile",mobile_number);
-//                startActivity(i);
-//            }
-//        });
-
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = PatientSideNavigationExpandableSubList.getData();
@@ -255,18 +243,26 @@ public class PatientDashBoard extends AppCompatActivity
                     // call some activity here
                     Intent editProfile = new Intent(PatientDashBoard.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("mobile",mobile_number);
+                    editProfile.putExtra("module","patient");
                     startActivity(editProfile);
 
                 }
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
                     Intent contact = new Intent(PatientDashBoard.this,MyFamily.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(PatientDashBoard.this,AboutUs.class);
+                    Intent contact = new Intent(PatientDashBoard.this,Offers.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
@@ -348,7 +344,9 @@ public class PatientDashBoard extends AppCompatActivity
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_4) {
 
                         // call activity here
-                        Intent contact = new Intent(PatientDashBoard.this,AboutUs.class);
+                        Intent contact = new Intent(PatientDashBoard.this,FindHospitals.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
                         startActivity(contact);
 
                     }
@@ -364,7 +362,9 @@ public class PatientDashBoard extends AppCompatActivity
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
-                        Intent contact = new Intent(PatientDashBoard.this,AboutUs.class);
+                        Intent contact = new Intent(PatientDashBoard.this,AmbulanceServices.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
                         startActivity(contact);
 
                     }
@@ -735,15 +735,31 @@ public class PatientDashBoard extends AppCompatActivity
             }
         });
 
+//        hospital_cardView,ambulance_cardView
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        CardView hospital = (CardView)findViewById(R.id.hospital_cardView);
+        hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mediaPlayer.start();
+                Intent in = new Intent(PatientDashBoard.this,FindHospitals.class);
+                in.putExtra("id",getUserId);
+                in.putExtra("mobile",mobile_number);
+                startActivity(in);
+            }
+        });
+
+        CardView ambulance = (CardView)findViewById(R.id.ambulance_cardView);
+        ambulance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mediaPlayer.start();
+                Intent in = new Intent(PatientDashBoard.this,AmbulanceServices.class);
+                in.putExtra("id",getUserId);
+                in.putExtra("mobile",mobile_number);
+                startActivity(in);
+            }
+        });
 
 
     }
@@ -1042,7 +1058,7 @@ public class PatientDashBoard extends AppCompatActivity
     {
 
 
-        if (back_pressed + 2000 > System.currentTimeMillis())
+        if (back_pressed + 2000 > System.currentTimeMillis() )
         {
 
             // need to cancel the toast here
@@ -1062,6 +1078,14 @@ public class PatientDashBoard extends AppCompatActivity
             toast.show();
         }
         back_pressed = System.currentTimeMillis();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 
 //    @Override

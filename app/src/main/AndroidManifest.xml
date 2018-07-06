@@ -384,9 +384,24 @@
         <activity
             android:name=".patient.MyFamily"
             android:screenOrientation="portrait" />
-        <activity android:name=".diagnostic.DiagnosticChangePassword" />
-        <activity android:name=".doctor.DoctorChangePassword" />
-        <activity android:name=".medicalShop.MedicalChangePassword"></activity>
+        <activity android:name=".diagnostic.DiagnosticChangePassword"
+            android:label="ChangePassword"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".doctor.DoctorChangePassword"
+            android:label="ChangePassword"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".medicalShop.MedicalChangePassword"
+            android:label="ChangePassword"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".patient.FindHospitals"
+            android:label="Hospitals"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".patient.AmbulanceServices"
+            android:label="Ambulance Services"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".common.Offers"
+            android:label="Offers"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

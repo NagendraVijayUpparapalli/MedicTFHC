@@ -45,6 +45,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -458,11 +459,11 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) headerLayout.findViewById(R.id.name);
-        sidenavEmail = (TextView) headerLayout.findViewById(R.id.email);
-        sidenavMobile = (TextView) headerLayout.findViewById(R.id.mobile);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
@@ -511,7 +512,10 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticsUpdateAddress.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticsUpdateAddress.this,Offers.class);
+                    contact.putExtra("id",mydiagnosticId);
+                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
@@ -1413,6 +1417,10 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         {
             JSONObject js = new JSONObject(result);
 
+            String myCenter = js.getString("CenterImage");
+
+            new GetCenterImageTask(centerImage).execute(baseUrl.getImageUrl()+myCenter);
+
 
             if(js.has("SpecialityLst"))
             {
@@ -1450,7 +1458,31 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         {}
     }
 
+    private class GetCenterImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
+        public GetCenterImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            centerImage.setImageBitmap(result);
+        }
+
+    }
 
     public void showalert() {
 

@@ -16,56 +16,127 @@
         android:layout_height="match_parent"
         xmlns:card_view="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/appbar"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appbar"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/toolbar_gradient"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:layout_scrollFlags="scroll|enterAlways" >
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/toolbar_gradient"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways" >
+            android:clickable="true"
+            android:layout_below="@+id/appbar"/>
 
-        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
-    </android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:layout_below="@+id/appbar"/>
-
-</RelativeLayout>
-
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+        <RelativeLayout
+            android:id="@+id/relativelayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content">
 
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/layoutLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolbar_gradient"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                <android.support.v4.widget.Space
+                    android:id="@+id/spaceId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImageId"
+                    android:layout_width="110dp"
+                    android:layout_gravity="center"
+                    android:layout_below="@+id/spaceId"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/noimage11" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_below="@id/profileImageId"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="udayasri amudala prabhakar raju" />
+
+                <TextView
+                    android:id="@+id/mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sidenavphoneicon"
+                    android:drawablePadding="5dp"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="-----------"
+                    android:textSize="15dp"
+                    android:textColor="#000"
+                    android:layout_below="@+id/name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/emailId"
+                    android:layout_below="@+id/mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:textColor="#000"
+                    android:textSize="15dp"
+                    android:drawableLeft="@drawable/sidenavemailicon"
+                    android:drawablePadding="5dp"
+                    android:text="-----------" />
+
+            </LinearLayout>
             <ExpandableListView
                 xmlns:android="http://schemas.android.com/apk/res/android"
-
                 android:id="@+id/expandableListView1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="270dp"
+                android:layout_below="@+id/layoutLinear"
                 android:choiceMode="singleChoice"
                 android:divider="#000"
                 android:dividerHeight="0.2dp"
-
                 android:groupIndicator="@null"
                 android:alpha="255"
                 android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
                 >
             </ExpandableListView>
-        </android.support.design.widget.NavigationView>
+        </RelativeLayout>
+    </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>
