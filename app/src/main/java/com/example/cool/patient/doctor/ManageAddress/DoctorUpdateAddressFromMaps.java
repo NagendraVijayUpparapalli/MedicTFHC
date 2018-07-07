@@ -248,8 +248,11 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
 
-        lat.setText(String.format("%.6f", myLatitude));
-        lng.setText(String.format("%.6f", myLongitude));
+        lat.setText(myLatitude);
+        lng.setText(myLongitude);
+
+//        lat.setText(String.format("%.6f", myLatitude));
+//        lng.setText(String.format("%.6f", myLongitude));
 
         fee.setText(myFee);
 

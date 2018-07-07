@@ -19,17 +19,17 @@ import java.util.List;
 class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter<PatientMyDiagnosticAppointmentsHistoryAdapter.ViewHolder> {
 
 
-    private Context context;
-    private List<PatientMyDiagnosticAppointmentDetailsClass> my_data;
+    Context context;
+    List<PatientMyDiagnosticAppointmentDetailsClass> my_data;
     String date, comments, amount, modeofpayment, doctorname, reason, prescription,mobileNumber,DiagAddressId;
 
     String aadharnumber, status1;
     int AppoinmentID;
 
-    public PatientMyDiagnosticAppointmentsHistoryAdapter(Context context, List<PatientMyDiagnosticAppointmentDetailsClass> data_list, String d) {
-        this.context = context;
+    public PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments patientMyDiagnosticAppointments, List<PatientMyDiagnosticAppointmentDetailsClass> data_list) {
+        this.context = patientMyDiagnosticAppointments;
         this.my_data = data_list;
-        this.date = d;
+//        this.date = d;
     }
 
     @Override

@@ -408,15 +408,14 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
                 new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientId="+getUserId);
 
-                data_list=new ArrayList<>();
+                data_list = new ArrayList<>();
 
                 recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
                 layoutManager=new LinearLayoutManager(PatientMyDiagnosticAppointments.this);
 
-                myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+                myDiagnosticAppointmentsAdapter = new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+
 
             }
         });
@@ -702,7 +701,11 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
                 System.out.println("cur date..."+currentDate);
 
-               if(date.equals(d))
+                System.out.println("json date..."+date);
+                System.out.println("cal date..."+d);
+
+
+                if(date.equals(currentDate))
                 {
                     count = 1;
 
@@ -712,6 +715,24 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                             paymentmode,Amount,Comment,date);
 
                     data_list.add(patientAppointmentDetailsinDiagnostics);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+                }
+
+
+
+                else if(date.equals(d))
+                {
+                    count = 1;
+
+                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+                            paymentmode,Amount,Comment,date);
+
+                    data_list.add(patientAppointmentDetailsinDiagnostics);
+
 
                 }
                 else
@@ -766,11 +787,15 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         if(count == 0)
         {
             showSpecialityNotMatchMessage();
+            recyclerView.setVisibility(View.GONE);
         }
-//        else
-//        {
-//            availability.setText(Integer.toString(count));
-//        }
+        else
+        {
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+
+            recyclerView.setVisibility(View.VISIBLE);
+        }
 
         EventDecorator eventDecorator1 =new EventDecorator(this,events);
         calendarView.addDecorator((DayViewDecorator) eventDecorator1);
