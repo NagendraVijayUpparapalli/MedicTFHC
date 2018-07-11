@@ -242,8 +242,12 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(String.format("%.6f", myLatitude));
-        lng.setText(String.format("%.6f", myLongitude));
+
+        lat.setText(myLatitude);
+        lng.setText(myLongitude);
+
+//        lat.setText(String.format("%.6f", myLatitude));
+//        lng.setText(String.format("%.6f", myLongitude));
 
         Emeregency_contact = (EditText) findViewById(R.id.Emergency_Contact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);

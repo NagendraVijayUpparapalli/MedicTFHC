@@ -27,7 +27,7 @@
             android:name=".common.SplashScreen"
             android:label="MEDIC TFHC"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -384,24 +384,31 @@
         <activity
             android:name=".patient.MyFamily"
             android:screenOrientation="portrait" />
-        <activity android:name=".diagnostic.DiagnosticChangePassword"
+        <activity
+            android:name=".diagnostic.DiagnosticChangePassword"
             android:label="ChangePassword"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".doctor.DoctorChangePassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".doctor.DoctorChangePassword"
             android:label="ChangePassword"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".medicalShop.MedicalChangePassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalShop.MedicalChangePassword"
             android:label="ChangePassword"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".patient.FindHospitals"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".patient.FindHospitals"
             android:label="Hospitals"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".patient.AmbulanceServices"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".patient.AmbulanceServices"
             android:label="Ambulance Services"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".common.Offers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.Offers"
             android:label="Offers"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".patient.PatientDashBoard11"></activity>
     </application>
 
 </manifest>

@@ -74,7 +74,8 @@ public class Login extends AppCompatActivity {
     int radiobuttonid,loginTypeId;
     EditText mobile_num,password1,aadhar_num;
     CheckBox showPasswordCheckBox;
-    TextView new_user,forgot,present_location;
+    TextView present_location;
+    LinearLayout new_user,forgot;
     private TextView mTextMessage;
 
     String  password,phone,aadhar;
@@ -110,6 +111,8 @@ public class Login extends AppCompatActivity {
     private static final String KEY_Aadhaar = "aadhaar";
     private static final String KEY_PASS = "password";
 
+    LinearLayout aadharLayout,mobileLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,8 +142,11 @@ public class Login extends AppCompatActivity {
         cardViewId=(LinearLayout)findViewById(R.id.layoutId);
 
         present_location = (TextView) findViewById(R.id.current_location);
-        new_user = (TextView) findViewById(R.id.new_user);
-        forgot = (TextView)findViewById(R.id.forgot);
+        new_user = (LinearLayout) findViewById(R.id.new_user);
+        forgot = (LinearLayout)findViewById(R.id.forgot);
+
+//        mobileLayout = (LinearLayout) findViewById(R.id.mobileLayout);
+//        aadharLayout = (LinearLayout) findViewById(R.id.aadharLayout);
 
         downnup = AnimationUtils.loadAnimation(this,R.anim.downtoup);
 
@@ -261,12 +267,18 @@ public class Login extends AppCompatActivity {
                     aadhar_num.setText("");
                     mobile_num.setVisibility(View.VISIBLE);
                     aadhar_num.setVisibility(View.GONE);
+
+//                    mobileLayout.setVisibility(View.VISIBLE);
+//                    aadharLayout.setVisibility(View.GONE);
                 }
                 else if(checkedId==R.id.aadharRadio)
                 {
                     mobile_num.setText("");
                     mobile_num.setVisibility(View.GONE);
                     aadhar_num.setVisibility(View.VISIBLE);
+
+//                    mobileLayout.setVisibility(View.GONE);
+//                    aadharLayout.setVisibility(View.VISIBLE);
                 }
             }
         });

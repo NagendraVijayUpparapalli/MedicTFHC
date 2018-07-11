@@ -353,12 +353,10 @@
                         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                             android:id="@+id/calendar"
                             android:layout_width="match_parent"
-
                             android:layout_height="wrap_content"
                             android:background="@drawable/imageback"
                             android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Large"
                             app:layout_constraintStart_toStartOf="parent"
-
                             app:mcv_allowClickDaysOutsideCurrentMonth="true"
                             app:mcv_arrowColor="#fff"
                             app:mcv_calendarMode="month"
@@ -368,6 +366,25 @@
                             app:mcv_tileHeight="40dp"
                             app:mcv_tileWidth="45dp"
                             app:mcv_weekDayTextAppearance="@style/weekdaytext" />
+
+                        <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+                            <!--android:id="@+id/calendar"-->
+                            <!--android:layout_width="match_parent"-->
+
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="#000051"-->
+                            <!--android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Large"-->
+                            <!--app:layout_constraintStart_toStartOf="parent"-->
+
+                            <!--app:mcv_allowClickDaysOutsideCurrentMonth="true"-->
+                            <!--app:mcv_arrowColor="#fff"-->
+                            <!--app:mcv_calendarMode="month"-->
+                            <!--app:mcv_dateTextAppearance="@style/CustomTextAppearance"-->
+                            <!--app:mcv_headerTextAppearance="@style/CustomTextAppearance1"-->
+                            <!--app:mcv_selectionColor="#1d8005"-->
+                            <!--app:mcv_tileHeight="40dp"-->
+                            <!--app:mcv_tileWidth="45dp"-->
+                            <!--app:mcv_weekDayTextAppearance="@style/weekdaytext" />-->
 
                         <ImageView
                             android:id="@+id/img1"

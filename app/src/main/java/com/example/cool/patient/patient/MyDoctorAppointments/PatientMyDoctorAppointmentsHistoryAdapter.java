@@ -22,15 +22,15 @@ public class PatientMyDoctorAppointmentsHistoryAdapter extends RecyclerView.Adap
 
     private Context context;
     private List<PatientMyDoctorAppointmentDetailsClass> my_data;
-    String date;
+//    String date;
 //    comments,amount,modeofpayment,doctorname,reason,prescription,appointmentID,doctorId,UserId,mobileNumber;
 
     String aadharnumber,status1;
 //    int AppoinmentID;
-    public PatientMyDoctorAppointmentsHistoryAdapter(Context context, List<PatientMyDoctorAppointmentDetailsClass> data_list, String d) {
-        this.context=context;
+    public PatientMyDoctorAppointmentsHistoryAdapter(PatientMyDoctorAppointments patientMyDoctorAppointments, List<PatientMyDoctorAppointmentDetailsClass> data_list) {
+        this.context=patientMyDoctorAppointments;
         this.my_data=data_list;
-        this.date=d;
+//        this.date=d;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class ForgotPassword extends AppCompatActivity {
     Animation downnup,Cardviewdowntoup,Textviewdowntoup;
 
     EditText mobile_num;
-    TextView signin,forgot;
+    LinearLayout signin,signup;
     private TextView mTextMessage;
 
     static String uploadServerUrl = null;
@@ -92,12 +92,21 @@ public class ForgotPassword extends AppCompatActivity {
         Image = (ImageView)findViewById(R.id.image1);
         cardViewId=(LinearLayout)findViewById(R.id.layoutId);
 
-        signin = (TextView) findViewById(R.id.login);
+        signin = (LinearLayout) findViewById(R.id.login);
+        signup = (LinearLayout) findViewById(R.id.new_user);
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ForgotPassword.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ForgotPassword.this, Registration.class);
                 startActivity(intent);
             }
         });

@@ -6,7 +6,7 @@ package com.example.cool.patient.medicalShop.ManageAddress;
 
 public class MedicalShopManageAddressClass {
     public String medicalshopID,addressId,address1,hospitalName,stateId,cityId,stateName,cityName,zipcode,
-            landLineNo,contactPerson,latitude,longitude,comment,deleteReason,district,profileImage,
+            landLineNo,contactPerson,latitude,longitude,comment,deleteReason,district,centerImage,
             emergencyContactNumber,consultationFee,From,To,MobileNumber,pharmacyKey,Experience,registeredMobileNumber;
     public boolean emergencyservice;
 
@@ -17,7 +17,7 @@ public class MedicalShopManageAddressClass {
                                          String stateId, String cityId, String stateName, String cityName, String zipcode,
                                          String landLineNo, String contactPerson, String latitude, String longitude,
                                          boolean emergencyservice, String comment, String deleteReason, String district,
-                                         String profileImage, String emergencyContactNumber, String consultationFee,
+                                         String centerImage, String emergencyContactNumber, String consultationFee,
                                          String From, String To, String MobileNumber, String pharmacyKey, String Experience,
                                          String registeredMobileNumber) {
         this.medicalshopID = medicalshopID;
@@ -37,7 +37,7 @@ public class MedicalShopManageAddressClass {
         this.comment = comment;
         this.deleteReason = deleteReason;
         this.district = district;
-        this.profileImage = profileImage;
+        this.centerImage = centerImage;
         this.emergencyContactNumber = emergencyContactNumber;
         this.consultationFee = consultationFee;
         this.From = From;
@@ -80,12 +80,12 @@ public class MedicalShopManageAddressClass {
         this.deleteReason = deleteReason;
     }
 
-    public String getProfileImage() {
-        return profileImage;
+    public String getCenterImage() {
+        return centerImage;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setCenterImage(String centerImage) {
+        this.centerImage = centerImage;
     }
 
     public String getFrom() {

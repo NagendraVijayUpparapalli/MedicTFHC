@@ -609,7 +609,7 @@ public class MedicalShopDashboard extends AppCompatActivity
                 // bb.setConsultationFee(object.getString("ConsultationPrice"));
 
                 bb.setEmergencyContactNumber(object.getString("EmergencyContact"));
-                bb.setProfileImage(myProfileImage);
+                bb.setCenterImage(object.getString("ShopImage"));
                 bb.setRegisteredMobileNumber(regMobile);
                 String cityy = object.getString("CityName");
                 bb.setCityName(object.getString("CityName"));

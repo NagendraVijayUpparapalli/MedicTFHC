@@ -140,9 +140,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
         baseUrl = new ApiBaseUrl();
 
-        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager=new LinearLayoutManager(this);
-
         calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
         Calendar cal=Calendar.getInstance();
@@ -158,6 +155,14 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
         new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
         new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
+
+        data_list=new ArrayList<>();
+
+        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+        layoutManager=new LinearLayoutManager(this);
+
+        patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(this,data_list);
+
 
         imageView=(ImageView) findViewById(R.id.img1);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -431,6 +436,29 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             }
         });
 
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+                System.out.println("Selected Date..."+date);
+
+                int m = date.getMonth()+1;
+                d = m+"/"+date.getDay()+"/"+date.getYear();
+//                    System.out.println("length"+data_list.size());
+
+                new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
+
+                data_list=new ArrayList<>();
+
+                recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+                layoutManager=new LinearLayoutManager(PatientMyDoctorAppointments.this);
+
+
+            }
+        });
+
+
     }
 
 
@@ -657,10 +685,10 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
     private void getdetails(String result) {
 
-        data_list=new ArrayList<>();
-
         events = new ArrayList<>();
         dates=new ArrayList<String>();
+
+        int count = 0;
 
         try {
             JSONArray jsonArray=new JSONArray(result);
@@ -687,11 +715,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                 String arr[]=AppointmentDate.split(" ");
                 date=arr[0];
 
-                PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails = new
-                        PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,
-                        AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,
-                        DoctorComment,paymentmode,Amount,date);
-
                 Calendar cal=Calendar.getInstance();
                 int year1=cal.get(Calendar.YEAR);
                 int month=cal.get(Calendar.MONTH);
@@ -701,11 +724,16 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                 System.out.println("cur date..."+currentDate);
 
-                if(date.equals(currentDate))
+                if(date.equals(currentDate)  && count ==0 && d == null)
                 {
-                    data_list.add(patientAppointmentDetails);
 
-                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+                    count = 1;
+                    PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails = new
+                            PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,
+                            AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,
+                            DoctorComment,paymentmode,Amount,date);
+
+                    data_list.add(patientAppointmentDetails);
 
                     recyclerView.setLayoutManager(layoutManager);
 
@@ -713,17 +741,23 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                 }
 
 
-                else if(date.equals(d))
+                else if(date.equals(d)  && d!=null)
                 {
+
+                    count =1;
+                    PatientMyDoctorAppointmentDetailsClass patientAppointmentDetails = new
+                            PatientMyDoctorAppointmentDetailsClass(getUserId,mobile_number,appointmentId,DoctorID,
+                            AppointmentDate,DoctorName,Prescription,Timeslot,PatientName,AppointmentStatus,Reason,
+                            DoctorComment,paymentmode,Amount,date);
+
                     data_list.add(patientAppointmentDetails);
 
-                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
+                    patientMyDoctorAppointmentsHistoryAdapter = new PatientMyDoctorAppointmentsHistoryAdapter(this,data_list);
 
                     recyclerView.setLayoutManager(layoutManager);
 
                     recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
                 }
-
 
 //                System.out.println("getdate.."+date);
                 Date date1 = simpleDateFormat.parse(date);
@@ -733,20 +767,6 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
             }
 
-            calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-                @Override
-                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
-                    System.out.println("Selected Date..."+date);
-
-                    int m = date.getMonth()+1;
-                    d = m+"/"+date.getDay()+"/"+date.getYear();
-//                    System.out.println("length"+data_list.size());
-
-                    new GetPatientMyDocAppointmentDetails().execute(baseUrl.getUrl()+"MyDoctorAppointments"+"?PatientId="+getUserId);
-
-                }
-            });
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -754,11 +774,59 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
             e.printStackTrace();
         }
 
+        if(count == 0)
+        {
+            showCurrentDateNotMatchMessage();
+            recyclerView.setVisibility(View.GONE);
+        }
+//        else if(count ==2)
+//        {
+//            showSelectedDateNotMatchMessage();
+//            recyclerView.setVisibility(View.GONE);
+//        }
+        else
+        {
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(patientMyDoctorAppointmentsHistoryAdapter);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
         EventDecorator eventDecorator1 =new EventDecorator(this,events);
         calendarView.addDecorator((DayViewDecorator) eventDecorator1);
     }
 
 
+    public void showSelectedDateNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientMyDoctorAppointments.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Your selected date has");
+        alert.show();
+    }
+
+    public void showCurrentDateNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientMyDoctorAppointments.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Your current date has");
+        alert.show();
+    }
 
     private void showalert() {
 

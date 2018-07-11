@@ -54,9 +54,8 @@
                 android:textColor="#000080"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Appolo Medical Hospital"
+                android:text="Apolo Medical Hospital"
                 android:textSize="18sp"
-                android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>

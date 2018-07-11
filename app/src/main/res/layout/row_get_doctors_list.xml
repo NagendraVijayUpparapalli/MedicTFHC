@@ -48,7 +48,6 @@
                 android:textColor="#000080"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:text="Dr. Amudula prabharkar raju udayasri"
                 android:textSize="18sp"
                 android:textStyle="bold" />

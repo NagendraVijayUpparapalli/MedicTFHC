@@ -114,7 +114,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
     static String selectedlocation=null;
 
     static String myDistance = null;
-    double currentlatti,currentlongi;
+//    double currentlatti,currentlongi;
 
 
     String addressline,mobile,email,pincode,city,state;
@@ -154,7 +154,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
     FloatingActionButton homebutton;
 
     TextView searchSpeciality;
-    int jsondataCount = 0;
+    int jsondataCount = 0,selectedRange=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +216,26 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 //
 //        );
 
+
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        availability = (TextView) findViewById(R.id.availability);
+
+        selectedRange = getIntent().getIntExtra("range",0);
+
+        if(selectedRange == 0)
+        {
+            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+            dis = getIntent().getIntExtra("range",0);
+        }
+        else
+        {
+            seek_bar.setProgress(dis);
+            dis = 20;
+        }
+
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -225,14 +246,10 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
             getlatlng();
         }
 
-        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
-        seek_bar = (SeekBar) findViewById(R.id.seekbar);
-        distance = (TextView) findViewById(R.id.DistanceRange);
-        availability = (TextView) findViewById(R.id.availability);
-        seek_bar.setProgress(dis);
+        specialityList = new ArrayList<>();
 
+        specialityList.add(0,"---Select Speciality---");
 
-//
         Speciality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -691,7 +708,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         try
         {
             JSONArray jsonArr = new JSONArray(result);
-            specialityList = new ArrayList<>();
 
             for (int i = 0; i < jsonArr.length(); i++) {
                 System.out.print("myspeciality for loop in..");
@@ -791,7 +807,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[1]);
+                System.out.println("params.doclist 11...."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -858,12 +874,12 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                     String ss = (String) jsono.get("Message");
 //                    if(ss.equals("No data found."))
 //                    {
+
+                    showMessage();
                     availabilityCount = 0;
                     System.out.println("doctors availabilityCount...."+availabilityCount);
 
                     availability.setText(Integer.toString(availabilityCount));
-
-                    showMessage();
 
                     Log.e("Api response if.....", result);
 //                    }
@@ -913,7 +929,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 String mylatii= object.getString("Latitude");
                 String mylongii = object.getString("Longitude");
 
-                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
 
                 System.out.println("distance from current in doc to ur location...."+myDistances);
 
@@ -955,13 +971,22 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 {
                     count +=1;
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,
+                            netBanking,paytm,getcity,myRangeDistance);
 
                     myList.add(doctorClass);
 
                     System.out.println("doctors distance based availabilityCount...."+count);
 
                     availability.setText(Integer.toString(count));
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                else
+                {
+
                 }
 
             }
@@ -974,10 +999,14 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         if(count == 0)
         {
             availability.setText(Integer.toString(0));
+            showMessage();
         }
         else
         {
             availability.setText(Integer.toString(count));
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -1148,7 +1177,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 String mylatii= object.getString("Latitude");
                 String mylongii = object.getString("Longitude");
 
-                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),currentlatti,currentlongi);
+                double myDistances = distance(Double.parseDouble(mylatii),Double.parseDouble(mylongii),selectedCitylat,selectedCitylong);
 
                 System.out.println("distance from current in doc to ur location...."+myDistances);
 
@@ -1186,7 +1215,8 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                     jsondataCount = 1;
 
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,
+                            cashonHand,creditDebit,netBanking,paytm,getcity,myRangeDistance);
 
                     myList.add(doctorClass);
 
@@ -1337,10 +1367,30 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 //                bw_dist.setText("Distance stop value :"+progress_value+"Km");
                 myRangeDistance = progress_value;
                 dis = progress_value;
+
                 System.out.println("dis.."+dis);
 
                 System.out.println("myrange dis..."+myRangeDistance);
-                getRangeData();
+
+                new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
+
+                String js = formatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+//                getRangeData();
             }
         });
 
@@ -1372,9 +1422,9 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
     private void getRangeData()
     {
-        specialityList = new ArrayList<>();
-
-        specialityList.add(0,"---Select Speciality---");
+//        specialityList = new ArrayList<>();
+//
+//        specialityList.add(0,"---Select Speciality---");
 
         new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
@@ -1416,21 +1466,21 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                 selectedCitylong = l1.get(0).longitude;
 
 
-//                String js = formatDataAsJson();
-//                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
-//
-//                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
-//
-//                myList = new ArrayList<DoctorClass>();
-//                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//                recyclerView.setHasFixedSize(true);
-//
-//                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
-//                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
-//
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
+                String js = formatDataAsJson();
+                uploadServerUrl = baseUrl.getUrl()+"GetDoctorsInRange";
+
+                new GetDoctors_N_List().execute(uploadServerUrl,js.toString());
+
+                myList = new ArrayList<DoctorClass>();
+
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                recyclerView.setHasFixedSize(true);
+
+                adapter = new DoctorListAdapter(GetCurrentDoctorsList11.this, myList);
+                layoutManager = new LinearLayoutManager(GetCurrentDoctorsList11.this);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
 
                 System.out.println("selectedCitylat....."+selectedCitylat+"selectedCitylong....."+selectedCitylong);
 

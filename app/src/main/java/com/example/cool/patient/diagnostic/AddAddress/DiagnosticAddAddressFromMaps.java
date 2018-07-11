@@ -236,8 +236,12 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(String.format("%.6f", myLatitude));
-        lng.setText(String.format("%.6f", myLongitude));
+
+        lat.setText(myLatitude);
+        lng.setText(myLongitude);
+
+//        lat.setText(String.format("%.6f", myLatitude));
+//        lng.setText(String.format("%.6f", myLongitude));
 
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);

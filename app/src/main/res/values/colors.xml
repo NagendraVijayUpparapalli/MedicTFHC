@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1faa00</color>
+
+    <color name="colorPrimary">#125688</color>
+    <color name="colorPrimaryDark">#1a0d35</color>
+    <color name="colorAccent">#125688</color>
+    <color name="rippleButton">#000088</color>
+
+    <!--<color name="colorAccent">#2b862a</color>-->
+
+    <color name="sidenavtext">#fff</color>
+    <color name="sidenavheading">#fff</color>
+    <color name="rangeNoteheading">#fff</color>
+    <color name="rangeNoteText">#fff</color>
+
+
+    <color name="Primary">#1a237e</color>
+    <color name="PrimaryLight">#534bae</color>
+    <color name="PrimaryDark">#000051</color>
+    <color name="White">#ffffff</color>
+    <color name="Black">#000000</color>
+    <!--<color name="colorPrimary">#1a237e</color>-->
+
+
+    <!--<color name="primary">#1b5e20</color>-->
+
+    <color name="primary">#1a237e</color>
+    <!--//whittext-->
+    <!--<color name="primarylight">#4c8c4a</color>-->
+    <color name="primarylight">#534bae</color>
+    <!--black text-->
+
+    <!--<color name="primarydark">#003300</color>-->
+    <color name="primarydark">#000051</color>
+
     <color name="mycolor">#ce7958</color>
-    <color name="colorPrimaryDark">#63C9FF</color>
-    <color name="colorAccent">#2b862a</color>
     <color name="lightgray">#ededed</color>
     <color name="deeppurple">#7c4dff</color>
     <color name="yello">#ffb300</color>

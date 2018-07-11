@@ -60,8 +60,8 @@
                             android:layout_height="120dp"
                             android:layout_margin="9dp"
                             android:background="@drawable/circle1"
-                            android:padding="10dp"
-                            android:src="@drawable/noimage11" />
+                            android:padding="5dp"
+                            android:src="@drawable/nodiagcenter" />
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/center_image"
@@ -69,8 +69,8 @@
                             android:layout_height="120dp"
                             android:layout_margin="9dp"
                             android:background="@drawable/circle1"
-                            android:padding="10dp"
-                            android:src="@drawable/noimage11" />
+                            android:padding="5dp"
+                            android:src="@drawable/nodiagcenter" />
                     </RelativeLayout>
 
                     <TextView
@@ -271,6 +271,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <RelativeLayout
             android:id="@+id/calenderlayout"
             android:layout_width="wrap_content"
@@ -304,6 +305,24 @@
                     app:mcv_tileHeight="40dp"
                     app:mcv_tileWidth="45dp"
                     app:mcv_weekDayTextAppearance="@style/weekdaytext" />
+
+
+                <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+                    <!--android:id="@+id/calendar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="#000051"-->
+                    <!--android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Large"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:mcv_allowClickDaysOutsideCurrentMonth="true"-->
+                    <!--app:mcv_arrowColor="#fff"-->
+                    <!--app:mcv_calendarMode="month"-->
+                    <!--app:mcv_dateTextAppearance="@style/CustomTextAppearance"-->
+                    <!--app:mcv_headerTextAppearance="@style/CustomTextAppearance1"-->
+                    <!--app:mcv_selectionColor="#1d8005"-->
+                    <!--app:mcv_tileHeight="40dp"-->
+                    <!--app:mcv_tileWidth="45dp"-->
+                    <!--app:mcv_weekDayTextAppearance="@style/weekdaytext" />-->
 
                 <ImageView
                     android:id="@+id/img1"

@@ -101,6 +101,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
     private YearMonthPickerDialog.OnDateSetListener onDateSetListener;
     ProgressDialog progressDialog;
     ProgressDialog progressDialog1;
+    ProgressDialog progressDialog2;
     List<CalendarDay> events=null;
     private List<PatientMyDiagnosticAppointmentDetailsClass> data_list = null;
 
@@ -115,6 +116,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavAddress,sidenavMobile,sidenavBloodgroup;
+//    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,12 +138,14 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
         new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
 
-        new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientID="+getUserId);
+        new GetPatientCurrentDateMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientID="+getUserId);
 
-        data_list=new ArrayList<>();
+        data_list = new ArrayList<>();
 
         recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager=new LinearLayoutManager(this);
+        layoutManager=new LinearLayoutManager(PatientMyDiagnosticAppointments.this);
+
+        myDiagnosticAppointmentsAdapter = new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
 
         imageView=(ImageView) findViewById(R.id.img1);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -406,14 +410,14 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 d = m+"/"+date.getDay()+"/"+date.getYear();
                 System.out.println("length"+data_list.size());
 
-                new GetPatientMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientId="+getUserId);
+                new GetPatientCurrentDateMyDiagAppointmentDetails().execute(baseUrl.getUrl()+"MyDiagAppointments"+"?PatientId="+getUserId);
 
                 data_list = new ArrayList<>();
 
                 recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
                 layoutManager=new LinearLayoutManager(PatientMyDiagnosticAppointments.this);
 
-                myDiagnosticAppointmentsAdapter = new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
+//                myDiagnosticAppointmentsAdapter = new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
 
 
 
@@ -595,6 +599,186 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
     }
 
 
+
+    //Get patient current date list based on id from api call
+    private class GetPatientCurrentDateMyDiagAppointmentDetails extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog2 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog2.setMessage("Loading...");
+
+            progressDialog2.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog2.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...."+params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog2.dismiss();
+            getCurrentDateAppointmentdetails(result);
+
+        }
+    }
+
+    private void getCurrentDateAppointmentdetails(String result) {
+
+//        data_list=new ArrayList<>();
+
+        events = new ArrayList<>();
+
+        int count = 0;
+
+        final String value=null;
+
+        try {
+            JSONArray jsonArray=new JSONArray(result);
+
+            for(int i=0;i<jsonArray.length();i++)
+            {
+                JSONObject  js= jsonArray.getJSONObject(i);
+
+                DiagAddressId = js.getString("DiagAddressID");
+                AppointmentID = js.getString("AppintmentID");
+                RequestDate = (String) js.get("RequestedDate");
+                PatientName = (String) js.get("PatientName");
+                CenterName = (String) js.get("CenterName");
+                TestName = js.optString("TestName");
+                DiagnosticsStatus = (String) js.get("Diagnosticstatus");
+                DiagnosticReport = (String) js.get("DiagnosticReport");
+                paymentmode=(String) js.get("PaymentMode");
+                Amount = (String) js.get("Amount");
+                Comment=(String) js.get("Comment");
+                String arr[]=RequestDate.split(" ");
+                date=arr[0];
+
+
+                Calendar cal=Calendar.getInstance();
+                int year1=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day1=cal.get(Calendar.DAY_OF_MONTH);
+
+                String currentDate = month+1+"/"+day1+"/"+year1;
+
+                System.out.println("cur date..."+currentDate);
+
+                System.out.println("json date..."+date);
+                System.out.println("cal date..."+d);
+
+
+                if(date.equals(currentDate) && count ==0 && d == null)
+                {
+                    count = 1;
+
+                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+                            paymentmode,Amount,Comment,date);
+
+                    data_list.add(patientAppointmentDetailsinDiagnostics);
+
+                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+                }
+
+                else if(date.equals(d) && d!=null)
+                {
+                    count = 1;
+
+                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
+                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
+                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
+                            paymentmode,Amount,Comment,date);
+
+                    data_list=new ArrayList<>();
+
+                    data_list.add(patientAppointmentDetailsinDiagnostics);
+
+                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+                }
+
+//                else
+//                {
+//                    count = 0;
+//                }
+
+                Date date1 = simpleDateFormat.parse(date);
+                CalendarDay day = CalendarDay.from(date1);
+                events.add(day);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(count == 0)
+        {
+            showCurrentDateNotMatchMessage();
+            recyclerView.setVisibility(View.GONE);
+        }
+        else
+        {
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
+        EventDecorator eventDecorator1 =new EventDecorator(this,events);
+        calendarView.addDecorator((DayViewDecorator) eventDecorator1);
+    }
+
+
     //Get patient list based on id from api call
     private class GetPatientMyDiagAppointmentDetails extends AsyncTask<String, Void, String> {
 
@@ -664,8 +848,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
 //        data_list=new ArrayList<>();
 
-        events = new ArrayList<>();
-
         final String value=null;
 
         int count = 0;
@@ -691,6 +873,8 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 String arr[]=RequestDate.split(" ");
                 date=arr[0];
 
+                System.out.println("json date..."+date);
+                System.out.println("cal date..."+d);
 
                 Calendar cal=Calendar.getInstance();
                 int year1=cal.get(Calendar.YEAR);
@@ -705,7 +889,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 System.out.println("cal date..."+d);
 
 
-                if(date.equals(currentDate))
+                if(date.equals(currentDate) && count == 0)
                 {
                     count = 1;
 
@@ -715,16 +899,17 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                             paymentmode,Amount,Comment,date);
 
                     data_list.add(patientAppointmentDetailsinDiagnostics);
+
+                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
 
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
                 }
 
 
-
-                else if(date.equals(d))
+                if(date.equals(d))
                 {
-                    count = 1;
+                    count = 2;
 
                     PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
                             PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
@@ -733,6 +918,10 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
                     data_list.add(patientAppointmentDetailsinDiagnostics);
 
+                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(PatientMyDiagnosticAppointments.this,data_list);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
 
                 }
                 else
@@ -743,36 +932,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 //                   showSpecialityNotMatchMessage();
                }
 
-//
-//
-//                else if(date.equals(d))
-//                {
-//
-//                    PatientMyDiagnosticAppointmentDetailsClass patientAppointmentDetailsinDiagnostics = new
-//                            PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
-//                            AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
-//                            paymentmode,Amount,Comment,date);
-//
-//                    data_list=new ArrayList<>();
-//
-//                    data_list.add(patientAppointmentDetailsinDiagnostics);
-//
-//                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
-//
-//                    recyclerView.setLayoutManager(layoutManager);
-//                    recyclerView.setAdapter(myDiagnosticAppointmentsAdapter);
-//                }
-//                else
-//                {
-//                    data_list=new ArrayList<>();
-//                    showSpecialityNotMatchMessage();
-//
-////                    myDiagnosticAppointmentsAdapter=new PatientMyDiagnosticAppointmentsHistoryAdapter(getApplicationContext(),data_list,d);
-//
-//                }
-
-
-
                 Date date1 = simpleDateFormat.parse(date);
                 CalendarDay day = CalendarDay.from(date1);
                 events.add(day);
@@ -780,13 +939,18 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
-
         if(count == 0)
         {
-            showSpecialityNotMatchMessage();
+            showCurrentDateNotMatchMessage();
+            recyclerView.setVisibility(View.GONE);
+        }
+        else if(count ==2)
+        {
+            showSelectedDateNotMatchMessage();
             recyclerView.setVisibility(View.GONE);
         }
         else
@@ -801,7 +965,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         calendarView.addDecorator((DayViewDecorator) eventDecorator1);
     }
 
-    public void showSpecialityNotMatchMessage(){
+    public void showSelectedDateNotMatchMessage(){
 
         android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientMyDiagnosticAppointments.this);
         a_builder.setMessage("No records found.")
@@ -814,6 +978,22 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 });
         android.support.v7.app.AlertDialog alert = a_builder.create();
         alert.setTitle("Your selected date has");
+        alert.show();
+    }
+
+    public void showCurrentDateNotMatchMessage(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientMyDiagnosticAppointments.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Your current date has");
         alert.show();
     }
 

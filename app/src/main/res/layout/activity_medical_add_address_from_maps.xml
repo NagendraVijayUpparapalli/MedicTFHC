@@ -744,13 +744,13 @@
                     android:layout_below="@+id/spaceId"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:src="@drawable/noimage11" />
+                    android:src="@drawable/noprofile" />
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:textColor="@color/sidenavheading"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:layout_marginTop="15dp"
@@ -764,7 +764,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15dp"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:layout_marginTop="6dp"
                     android:drawableLeft="@drawable/sidenavphoneicon"
                     android:drawablePadding="5dp"
@@ -774,7 +774,7 @@
                     android:layout_marginTop="6dp"
                     android:id="@+id/emailId"
                     android:textSize="15dp"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/sidenavemailicon"

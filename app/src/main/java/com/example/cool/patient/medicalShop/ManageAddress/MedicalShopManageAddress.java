@@ -515,7 +515,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                 // bb.setConsultationFee(object.getString("ConsultationPrice"));
 
                 bb.setEmergencyContactNumber(object.getString("EmergencyContact"));
-                bb.setProfileImage(object.getString("ShopImage"));
+                bb.setCenterImage(object.getString("ShopImage"));
                 bb.setRegisteredMobileNumber(regMobile);
                 String cityy = object.getString("CityName");
                 bb.setCityName(object.getString("CityName"));

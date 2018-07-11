@@ -179,7 +179,7 @@ public class MedicalShopManageAddressAdapter extends RecyclerView.Adapter<Medica
         viewHolder.Experience.setText(medicalManageAddressClassArrayList.get(i).getExperience());
         viewHolder.landlineNo.setText(medicalManageAddressClassArrayList.get(i).getLandLineNo());
         viewHolder.medicalshopId.setText(medicalManageAddressClassArrayList.get(i).getMedicalshopID());
-        viewHolder.center_image.setText(medicalManageAddressClassArrayList.get(i).getProfileImage());
+        viewHolder.center_image.setText(medicalManageAddressClassArrayList.get(i).getCenterImage());
 
 
         reasonToDelete = reason_Todelete.getText().toString();

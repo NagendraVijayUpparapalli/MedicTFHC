@@ -10,15 +10,15 @@ public class ApiBaseUrl {
     }
 
     public String getUrl() {
-        return "https://meditfhc.com/mapi/";
+        return "https://www.medictfhc.com/mapi/";
     }
 
     public String getImageUrl() {
-        return "https://meditfhc.com";
+        return "https://www.medictfhc.com";
     }
 
     public String getLink() {
-        return "https://meditfhc.com/";
+        return "https://www.medictfhc.com/";
     }
 
     public String getSmsUrl() {
@@ -31,8 +31,34 @@ public class ApiBaseUrl {
 
     public String getTokenUrl()
     {
-        return "https://meditfhc.com/token";
+        return "https://medictfhc.com/token";
     }
+
+
+//    public String getUrl() {
+//        return "https://meditfhc.com/mapi/";
+//    }
+//
+//    public String getImageUrl() {
+//        return "https://meditfhc.com";
+//    }
+//
+//    public String getLink() {
+//        return "https://meditfhc.com/";
+//    }
+//
+//    public String getSmsUrl() {
+//        return "https://www.mgage.solutions/SendSMS/sendmsg.php?";
+//    }
+//
+//    public String getEmailUrl() {
+//        return "https://ejson.mgage.solutions/sendEmail";
+//    }
+//
+//    public String getTokenUrl()
+//    {
+//        return "https://meditfhc.com/token";
+//    }
 
 
 }

@@ -9,7 +9,6 @@
     android:orientation="vertical"
     android:id="@+id/container"
     android:focusable="true"
-
     android:focusableInTouchMode="true"
     android:layout_height="match_parent">
 
@@ -49,55 +48,21 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/layout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-
-            android:gravity="center"
-            >
-
-            <LinearLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:text="My Login"
-                    android:textColor="#fff"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <LinearLayout
                 android:id="@+id/layoutId"
-
+                android:layout_marginTop="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-
-
                 android:background="@android:color/transparent"
                 android:foreground="@drawable/trans_rectangle"
                 android:orientation="vertical">
@@ -107,11 +72,10 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1.2"
                     android:layout_height="wrap_content"
-
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -186,23 +150,73 @@
                     android:textColorHint="#b8867e7e"
                     android:textSize="16dp" />
 
-                <CheckBox
-                    android:id="@+id/cbShowPwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Show Password"
-                    android:textSize="12dp"
-                    android:textColor="@android:color/white" />
 
-                <CheckBox
-                    android:id="@+id/remember"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Remember mobile number"
-                    android:textSize="12dp"
-                    android:textColor="@android:color/white" />
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="15dp"
+
+
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+
+                        android:gravity="left"
+
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/cbShowPwd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:text="Show Password"
+
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+
+                        android:layout_weight="1"
+
+                        android:gravity="right"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/remember"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Remember me"
+                                android:textColor="@color/White" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
 
                 <com.andexert.library.RippleView
                     android:id="@+id/rippleView"
@@ -225,76 +239,132 @@
                         android:gravity="center"
                         android:text="Login"
                         android:background="#f938a72f"/>
-
                 </com.andexert.library.RippleView>
 
 
             </LinearLayout>
+            <TextView
+                android:id="@+id/font"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:textAlignment="center"
+                android:text="My Login"
+                android:textColor="@color/White"
+                android:textStyle="bold"
 
+                android:layout_centerHorizontal="true"
+                android:textSize="25sp" />
 
         </RelativeLayout>
 
-        <RelativeLayout
+
+        <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_below="@id/rellay1"
+            android:orientation="horizontal">
 
-            android:gravity="center"
-            >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <LinearLayout
+                    android:id="@+id/new_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:text="@string/dont_have_account"
-                        android:textColor="@android:color/white"
+                        android:text="New User"
+                        android:textColor="@color/White"
                         android:textSize="15sp" />
 
 
                     <TextView
-                        android:id="@+id/new_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#fff"
-                        android:layout_marginStart="5dp"
-                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/White"
                         android:textSize="15sp"
-                        android:text="Sign up"
-
-                        />
-
-
+                        android:text="Sign up" />
                 </LinearLayout>
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <LinearLayout
+                    android:id="@+id/forgot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Forgot"
+                        android:textColor="@color/White"
+                        android:textSize="15sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/White"
+                        android:textSize="15sp"
+                        android:text="Password"
+
+                        />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/cool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/forgot"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:textAlignment="center"
-                    android:text="@string/forgotPassword"
+                    android:textColor="@color/White"
+                    android:text="@string/_2018_powered_by_medictfhc_pvt_ltd" />
 
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="15sp"
-
-
-                    />
             </LinearLayout>
 
         </RelativeLayout>
+
 
 
 

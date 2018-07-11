@@ -40,7 +40,8 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         AlertDialog alertDialog1;
         TextView closeIcon;
         Dialog MyDialog;
-        String address,lati,longi,consultationFee,comments,emergencyContact;
+        String selectedCity,lati,longi,myClass,consultationFee,comments,emergencyContact;
+        int selectedRange;
         String patientId;
         boolean emergencyService;
 
@@ -59,11 +60,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
     public DoctorListAdapter(GetCurrentDoctorsList getCurrentDoctorsList,List<DoctorClass> doctorClassList) {
         this.context = getCurrentDoctorsList;
         this.doctorClassList = doctorClassList;
+        myClass = "list";
     }
 
     public DoctorListAdapter(GetCurrentDoctorsList11 getCurrentDoctorsList,List<DoctorClass> doctorClassList) {
         this.context = getCurrentDoctorsList;
         this.doctorClassList = doctorClassList;
+        myClass = "list11";
     }
 
 class ViewHolder extends RecyclerView.ViewHolder{
@@ -127,34 +130,80 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 oldUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-                        intent.putExtra("user","Yes");
-                        intent.putExtra("userId",userId.getText().toString());
-                        intent.putExtra("doctorName",doctorName.getText().toString());
-                        intent.putExtra("addressId",addressId.getText().toString());
-                        intent.putExtra("doctorId",doctorId.getText().toString());
-                        intent.putExtra("lat",lati);
-                        intent.putExtra("long",longi);
-                        intent.putExtra("mobile",doctorphonenum.getText().toString());
-                        intent.putExtra("fee",fee.getText().toString());
-                        context.startActivity(intent);
+                        if(myClass.equals("list"))
+                        {
+                            Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+                            intent.putExtra("user","Yes");
+                            intent.putExtra("userId",userId.getText().toString());
+                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("addressId",addressId.getText().toString());
+                            intent.putExtra("doctorId",doctorId.getText().toString());
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("long",longi);
+                            intent.putExtra("myClass","list");
+                            intent.putExtra("selectedCity",selectedCity);
+                            intent.putExtra("range",selectedRange);
+                            intent.putExtra("mobile",doctorphonenum.getText().toString());
+                            intent.putExtra("fee",fee.getText().toString());
+                            context.startActivity(intent);
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+                            intent.putExtra("user","Yes");
+                            intent.putExtra("userId",userId.getText().toString());
+                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("addressId",addressId.getText().toString());
+                            intent.putExtra("doctorId",doctorId.getText().toString());
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("long",longi);
+                            intent.putExtra("myClass","list11");
+                            intent.putExtra("selectedCity",selectedCity);
+                            intent.putExtra("range",selectedRange);
+                            intent.putExtra("mobile",doctorphonenum.getText().toString());
+                            intent.putExtra("fee",fee.getText().toString());
+                            context.startActivity(intent);
+                        }
                     }
                 });
 
                 newUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
-                        intent.putExtra("user","No");
-                        intent.putExtra("userId",userId.getText().toString());
-                        intent.putExtra("doctorName",doctorName.getText().toString());
-                        intent.putExtra("addressId",addressId.getText().toString());
-                        intent.putExtra("doctorId",doctorId.getText().toString());
-                        intent.putExtra("lat",lati);
-                        intent.putExtra("long",longi);
-                        intent.putExtra("mobile",doctorphonenum.getText().toString());
-                        intent.putExtra("fee",fee.getText().toString());
-                        context.startActivity(intent);
+                        if(myClass.equals("list"))
+                        {
+                            Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+                            intent.putExtra("user","No");
+                            intent.putExtra("userId",userId.getText().toString());
+                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("addressId",addressId.getText().toString());
+                            intent.putExtra("doctorId",doctorId.getText().toString());
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("long",longi);
+                            intent.putExtra("myClass","list");
+                            intent.putExtra("selectedCity",selectedCity);
+                            intent.putExtra("range",selectedRange);
+                            intent.putExtra("mobile",doctorphonenum.getText().toString());
+                            intent.putExtra("fee",fee.getText().toString());
+                            context.startActivity(intent);
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
+                            intent.putExtra("user","No");
+                            intent.putExtra("userId",userId.getText().toString());
+                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("addressId",addressId.getText().toString());
+                            intent.putExtra("doctorId",doctorId.getText().toString());
+                            intent.putExtra("lat",lati);
+                            intent.putExtra("long",longi);
+                            intent.putExtra("myClass","list11");
+                            intent.putExtra("selectedCity",selectedCity);
+                            intent.putExtra("range",selectedRange);
+                            intent.putExtra("mobile",doctorphonenum.getText().toString());
+                            intent.putExtra("fee",fee.getText().toString());
+                            context.startActivity(intent);
+                        }
                     }
                 });
 
@@ -235,6 +284,8 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
         lati = doctorClassList.get(i).getLatitude();
         longi= doctorClassList.get(i).getLongitude();
+        selectedCity = doctorClassList.get(i).getSelectedCity();
+        selectedRange = doctorClassList.get(i).getMyRangeDistance();
 
 //        patientId = doctorClassList.get(i).getPatientId();
 

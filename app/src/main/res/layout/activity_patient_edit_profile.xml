@@ -645,7 +645,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/primarydark"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>
@@ -687,7 +687,7 @@
                     android:id="@+id/name1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:textColor="@color/sidenavheading"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:layout_marginTop="20dp"
@@ -730,7 +730,7 @@
                                 android:drawableLeft="@drawable/sidenavphoneicon"
                                 android:drawablePadding="5dp"
                                 android:textSize="15sp"
-                                android:textColor="#000"
+                                android:textColor="@color/sidenavtext"
                                 android:text=" ----------------"/>
 
                         </LinearLayout>
@@ -758,7 +758,7 @@
                                 android:drawablePadding="5dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="15sp"
-                                android:textColor="#000"
+                                android:textColor="@color/sidenavtext"
                                 android:text="---"/>
                         </LinearLayout>
 
@@ -777,7 +777,7 @@
                     android:drawablePadding="5dp"
                     android:text="---------------"
                     android:textSize="15sp"
-                    android:textColor="#000"/>
+                    android:textColor="@color/sidenavtext"/>
 
 
             </LinearLayout>

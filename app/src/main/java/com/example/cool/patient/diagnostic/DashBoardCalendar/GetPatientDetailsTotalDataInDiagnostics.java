@@ -759,7 +759,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image");
+//            mProgressDialog.setTitle("Download Image");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
 

@@ -47,7 +47,7 @@
             android:layout_below="@+id/appbar1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/toolbar_gradient"
+            android:background="#fff"
             tools:context=".patient.MyFamily">
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:textStyle="bold"
                 android:textSize="30dp"
                 android:text="COMING SOON..!"
@@ -101,13 +101,13 @@
                     android:layout_below="@+id/spaceId"
                     android:layout_height="110dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/noimage11" />
+                    android:src="@drawable/noprofile" />
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:textColor="@color/sidenavheading"
                     android:layout_below="@id/profileImageId"
                     android:textSize="20dp"
                     android:textStyle="bold"
@@ -123,7 +123,7 @@
                     android:paddingTop="@dimen/nav_header_vertical_spacing"
                     android:text="-----------"
                     android:textSize="15dp"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:layout_below="@+id/name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:textSize="15dp"
                     android:drawableLeft="@drawable/sidenavemailicon"
                     android:drawablePadding="5dp"

@@ -17,10 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rellay1"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
+
         android:orientation="vertical">
 
         <RelativeLayout
@@ -28,10 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-
-            android:gravity="center"
-
-            >
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -41,41 +35,41 @@
 
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="250dp"
-                    android:layout_height="100dp"
-                    android:scaleType="fitCenter"
+                    android:layout_width="230dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"
                     android:src="@drawable/mtw" />
             </LinearLayout>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/registrationfont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/registrationfont"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--&gt;-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:orientation="vertical">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/font"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
 
-                    android:text="Registration"
-                    android:textColor="#fff"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
+                    <!--android:text="Registration"-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:textSize="25dp"-->
+                    <!--android:textStyle="bold" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
 
 
 
@@ -90,6 +84,9 @@
 
             <LinearLayout
                 android:id="@+id/layoutId"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -102,6 +99,7 @@
                     android:weightSum="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -297,6 +295,18 @@
             <!--</ScrollView>-->
 
 
+            <TextView
+                android:id="@+id/font"
+                android:layout_width="145dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:textAlignment="center"
+                android:text="@string/registrationFont"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:textSize="25sp" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -304,9 +314,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -337,6 +345,33 @@
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:text="Login"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/cool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:text="@string/_2018_powered_by_medictfhc_pvt_ltd" />
+
             </LinearLayout>
 
         </RelativeLayout>

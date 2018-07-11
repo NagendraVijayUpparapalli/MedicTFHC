@@ -3,6 +3,7 @@ package com.example.cool.patient.medicalShop.ManageAddress;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -148,6 +149,8 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
     Dialog MyDialog;
     TextView message;
     LinearLayout oklink;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -622,7 +625,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         else
         {
             String js = formatDataAsJson();
-            new sendEditProfileDetails().execute(baseUrl.getUrl()+"MSUpdateAddress",js.toString());
+            new sendMedicalUpdateAddressDetails().execute(baseUrl.getUrl()+"MSUpdateAddress",js.toString());
         }
     }
 
@@ -843,8 +846,23 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
     }
 
 
-    //send diagnostic edit profile details
-    private class sendEditProfileDetails extends AsyncTask<String, Void, String> {
+    //send medical update address details
+    private class sendMedicalUpdateAddressDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(MedicalShopUpdateAddress.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -928,6 +946,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             super.onPostExecute(result);
 //
             Log.e("TAG result diag add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             JSONObject js;
 
             try {

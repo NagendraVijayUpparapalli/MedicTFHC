@@ -40,6 +40,7 @@ class EventDecorator implements DayViewDecorator {
 
         view.setSelectionDrawable(drawable);
 
+//        view.addSpan(new ForegroundColorSpan(Color.BLACK));
         view.addSpan(new ForegroundColorSpan(Color.WHITE));
 
     }

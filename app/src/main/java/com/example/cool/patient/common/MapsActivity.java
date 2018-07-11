@@ -29,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     String lati,longi;
     static String getUserId,regMobile;
-    static String moduleName;
+    static String moduleName,currentlati,currentlongi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
         getUserId = getIntent().getStringExtra("id");
         regMobile = getIntent().getStringExtra("regMobile");
+        currentlati = getIntent().getStringExtra("lati");
+        currentlongi = getIntent().getStringExtra("longi");
 
         moduleName = getIntent().getStringExtra("doc");
 
         System.out.println("my reg mobile...."+regMobile+"....userid.."+getUserId+"\n"+"module.."+moduleName);
+
+        System.out.println("current latitude"+currentlati+"\n"+"current Longitude"+currentlongi);
 
 //        setUpMapIfNeeded();
 
@@ -100,10 +105,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        double currentlatitude = Double.parseDouble(currentlati);
+        double currentlongitude = Double.parseDouble(currentlongi);
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(15.8651212, 78.5321165);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Andhra Pradesh"));
+        LatLng sydney = new LatLng(currentlatitude, currentlongitude);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15),2000,null);
 
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -125,7 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                Toast.makeText(getApplicationContext(),latLng.latitude+","+latLng.longitude,Toast.LENGTH_SHORT).show();
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-                builder.setMessage("are you sure this is your location");
+                builder.setMessage("Are you sure this is your location");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 //                        System.out.println("yesss");

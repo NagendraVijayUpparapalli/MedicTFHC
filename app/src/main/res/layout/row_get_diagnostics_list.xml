@@ -61,8 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
-                android:text="Appolo Medical Hospital From "
-                android:textAlignment="center"
+                android:text="Apolo Medical Hospital"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>

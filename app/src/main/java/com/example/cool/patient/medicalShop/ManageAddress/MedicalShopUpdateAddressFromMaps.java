@@ -3,6 +3,7 @@ package com.example.cool.patient.medicalShop.ManageAddress;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -148,6 +149,8 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     TextView message;
     LinearLayout oklink;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,9 +218,10 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         myComments = getIntent().getStringExtra("comments");
         myFromTime = getIntent().getStringExtra("fromTime");
         myToTime =  getIntent().getStringExtra("toTime");
-        System.out.print("diagid in add address comments....."+myComments);
+        System.out.println("diagid in add address comments....."+myComments);
 
-        System.out.print("diagid in add address....."+getUserId);
+        System.out.println("diagid in add address....."+getUserId);
+        System.out.println("center image url in medical update address....."+mycenterImage);
 
         diagnosticName.setText(myDiagnosticName);
         address.setText(myAddress);
@@ -228,8 +232,11 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         contactPerson.setText(myContactPerson);
         landlineMobileNumber.setText(myLandlineMobileNumber);
         comments.setText(myComments);
-        lat.setText(String.format("%.6f", myLatitude));
-        lng.setText(String.format("%.6f", myLongitude));
+//        lat.setText(String.format("%.6f", myLatitude));
+//        lng.setText(String.format("%.6f", myLongitude));
+
+        lat.setText(myLatitude);
+        lng.setText(myLongitude);
         fromTime.setText(myFromTime);
         toTime.setText(myToTime);
         Emeregency_contact.setText(myEmergencyContact);
@@ -656,7 +663,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         {
 
             String js = formatDataAsJson();
-            new sendEditProfileDetails().execute(baseUrl.getUrl()+"MSUpdateAddress",js.toString());
+            new sendMedicalUpdateAddressDetails().execute(baseUrl.getUrl()+"MSUpdateAddress",js.toString());
         }
     }
 
@@ -751,8 +758,23 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     }
 
 
-    //send diagnostic edit profile details
-    private class sendEditProfileDetails extends AsyncTask<String, Void, String> {
+    //send medical update address details
+    private class sendMedicalUpdateAddressDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(MedicalShopUpdateAddressFromMaps.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -836,6 +858,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             super.onPostExecute(result);
 //
             Log.e("TAG result diag add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog.dismiss();
             JSONObject js;
 
             try {

@@ -152,7 +152,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
     FloatingActionButton homebutton;
 
     TextView searchSpeciality;
-    int jsondataCount = 0;
+    int jsondataCount = 0 ,selectedRange = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +169,15 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         availability = (TextView) findViewById(R.id.availability);
         seek_bar.setProgress(dis);
 
-        current_city.setText(city);
+        if(city == null)
+        {
+            current_city.setText(getIntent().getStringExtra("city"));
+        }
+        else
+        {
+            current_city.setText(city);
+        }
+
 
         current_city.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +202,19 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Doctors");
 
+        selectedRange = getIntent().getIntExtra("range",0);
+
+        if(selectedRange == 0)
+        {
+            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+            dis = getIntent().getIntExtra("range",0);
+        }
+        else
+        {
+            seek_bar.setProgress(dis);
+            dis = 20;
+        }
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -201,20 +222,6 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             getLocation();
         }
-
-//        searchSpeciality.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchSpeciality.setVisibility(View.GONE);
-//                c = 1;
-//                Speciality.setVisibility(View.VISIBLE);
-//                Speciality.setClickable(false);
-//            }
-//        });
-
-//        if(c!=1)
-//        {
-//            Speciality.setClickable(true);
 
         specialityList = new ArrayList<>();
 
@@ -249,8 +256,6 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
                 }
             });
-//
-//        }
 
         rangeBar();
 
@@ -1149,7 +1154,8 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 {
                     count +=1;
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,
+                            creditDebit,netBanking,paytm,city,myRangeDistance);
 
                     myList.add(doctorClass);
 
@@ -1210,7 +1216,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                 Log.d("Service","Started");
                 httpURLConnection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params....."+params[1]);
+                System.out.println("params...doclist.."+params[1]);
                 wr.writeBytes(params[1]);
                 wr.flush();
                 wr.close();
@@ -1379,7 +1385,8 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
                     jsondataCount = 1;
 
                     DoctorClass doctorClass = new DoctorClass(doctorId,addressId,getUserId,mobile,Name,qualification,specialityName,
-                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm);
+                            doctorImage,experience,mylatii,mylongii,myDistance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,
+                            netBanking,paytm,city,myRangeDistance);
 
                     myList.add(doctorClass);
 

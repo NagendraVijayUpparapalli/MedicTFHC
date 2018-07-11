@@ -29,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends Activity {
 
 
     private static int SPLASH_TIME_OUT = 4000;
@@ -46,9 +46,9 @@ public class SplashScreen extends AppCompatActivity {
 
 //        new SendAuthDetailsToGetToken().execute(baseUrl.getTokenUrl());
 
-        Typeface mytapeface = Typeface.createFromAsset(getAssets(),"Rosewood.ttf");
-        TextView mytextview = (TextView) findViewById(R.id.title);
-        mytextview.setTypeface(mytapeface);
+//        Typeface mytapeface = Typeface.createFromAsset(getAssets(),"Rosewood.ttf");
+//        TextView mytextview = (TextView) findViewById(R.id.title);
+//        mytextview.setTypeface(mytapeface);
         new Handler().postDelayed(new Runnable() {
 
             @Override

@@ -143,6 +143,8 @@
                     android:id="@+id/person_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/personicon"
+                    android:drawablePadding="6dp"
                     android:text="-------------------"
                     android:textColor="#fff"
                     android:layout_below="@+id/state"
@@ -180,12 +182,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-
                             android:drawableRight="@drawable/phone_icon_bb"
                             android:textAllCaps="true"
                             android:textStyle="bold"
                             android:textColor="#fff"
                             android:textSize="15sp" />
+
                         <TextView
                             android:id="@+id/phone"
                             android:layout_width="wrap_content"

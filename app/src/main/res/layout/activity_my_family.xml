@@ -47,15 +47,14 @@
             android:layout_below="@+id/appbar1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/toolbar_gradient"
-            tools:context=".patient.MyFamily">
+            android:background="#fff">
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:textStyle="bold"
                 android:textSize="30dp"
                 android:text="COMING SOON..!"
@@ -94,7 +93,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:textColor="@color/sidenavheading"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:layout_marginTop="20dp"
@@ -137,7 +136,7 @@
                                 android:drawableLeft="@drawable/sidenavphoneicon"
                                 android:drawablePadding="5dp"
                                 android:textSize="15sp"
-                                android:textColor="#000"
+                                android:textColor="@color/sidenavtext"
                                 android:text=" ----------------"/>
 
                         </LinearLayout>
@@ -165,7 +164,7 @@
                                 android:drawablePadding="5dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="15sp"
-                                android:textColor="#000"
+                                android:textColor="@color/sidenavtext"
                                 android:text="---"/>
                         </LinearLayout>
 
@@ -184,7 +183,7 @@
                     android:drawablePadding="5dp"
                     android:text="---------------"
                     android:textSize="15sp"
-                    android:textColor="#000"/>
+                    android:textColor="@color/sidenavtext"/>
 
 
             </LinearLayout>

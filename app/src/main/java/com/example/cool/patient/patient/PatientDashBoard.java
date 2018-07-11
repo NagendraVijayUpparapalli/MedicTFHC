@@ -41,6 +41,7 @@ import android.widget.ListView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.Offers;
+import com.example.cool.patient.common.SelectCity;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
@@ -172,6 +173,18 @@ public class PatientDashBoard extends AppCompatActivity
 //        System.out.print("city....."+city);
 
         current_city = (TextView) findViewById(R.id.select_city);
+
+
+//        current_city.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(PatientDashBoard.this,SelectCity.class);
+//                i.putExtra("module","patient");
+//                i.putExtra("userId",getUserId);
+//                i.putExtra("mobile",mobile_number);
+//                startActivity(i);
+//            }
+//        });
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -1079,12 +1092,6 @@ public class PatientDashBoard extends AppCompatActivity
         }
         back_pressed = System.currentTimeMillis();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
 
     }
 

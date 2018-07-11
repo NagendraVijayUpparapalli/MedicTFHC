@@ -45,6 +45,8 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
+import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList11;
 import com.jsibbold.zoomage.ZoomageView;
 
 import org.json.JSONArray;
@@ -73,7 +75,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class PatientBookAppointmentToDoctor extends AppCompatActivity {
-    TextView doctorname, hospitalname, doornum, city, state, fee, payment, doctorphonenum, navigation,close;
+    TextView doctorname, hospitalname, doornum, city, state, fee, payment, doctorphonenum, navigation;
+    TextView close;
     EditText  patientname, age, patientmobileno, mail, aadharnum, reason;
     TextView appointmentdate,apptdate;
     Button button;
@@ -98,7 +101,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
 
     String user, cur_addressId, doctorId, mydocName, myhospitalName, myaddress, mycity, mystate, myfee,
-            mypaymentMode, myphone, myLati, myLongi, myImage;
+            mypaymentMode, myphone, myLati, myLongi,selectedCity,selectedClass;
+    int selectedRange;
 
     ApiBaseUrl baseUrl;
 
@@ -116,7 +120,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     //    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
-    String mydoctorImage, mydoctormobile, mydoctorspeciality, mydoctorEmail;
+    String mydoctorImage, mydoctormobile, mydoctorEmail;
 
     String bookAppointmentmessage;
 
@@ -145,6 +149,9 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         myLongi = getIntent().getStringExtra("long");
         myfee = getIntent().getStringExtra("fee");
         myphone = getIntent().getStringExtra("mobile");
+        selectedCity = getIntent().getStringExtra("selectedCity");
+        selectedClass = getIntent().getStringExtra("myClass");
+        selectedRange = getIntent().getIntExtra("range",0);
 
         new GetDoctorDetails().execute(baseUrl.getUrl() + "GetDoctorByID" + "?id=" + doctorId);
 
@@ -180,16 +187,30 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
         isUp=false;
 
-        close=(TextView)findViewById(R.id.close) ;
+        close=(TextView) findViewById(R.id.close) ;
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("close");
-                Intent intent=new Intent(PatientBookAppointmentToDoctor.this,PatientDashBoard.class);
-                intent.putExtra("id",getIntent().getStringExtra("userId"));
-                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-                startActivity(intent);
+                if(selectedClass.equals("list"))
+                {
+                    Intent intent=new Intent(PatientBookAppointmentToDoctor.this,GetCurrentDoctorsList.class);
+                    intent.putExtra("id",getIntent().getStringExtra("userId"));
+                    intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    intent.putExtra("city",selectedCity);
+                    intent.putExtra("range",selectedRange);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(PatientBookAppointmentToDoctor.this,GetCurrentDoctorsList11.class);
+                    intent.putExtra("id",getIntent().getStringExtra("userId"));
+                    intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    intent.putExtra("city",selectedCity);
+                    intent.putExtra("range",selectedRange);
+                    startActivity(intent);
+                }
             }
         });
 

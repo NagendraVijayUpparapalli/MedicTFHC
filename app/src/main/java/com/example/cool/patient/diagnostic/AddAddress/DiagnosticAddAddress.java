@@ -5,14 +5,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -58,6 +64,7 @@ import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableLis
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
 import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticManageAddress;
 import com.example.cool.patient.diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments;
+import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -167,6 +174,15 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
     TextView message1;
     LinearLayout oklink;
 
+    //location fields
+    LocationManager locationManager;
+    String lattitude,longitude;
+    Geocoder geocoder;
+    List<Address> addresses;
+    private static final int REQUEST_LOCATION = 1;
+    static String mycity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +195,14 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         getUserId = getIntent().getStringExtra("id");
         regMobile = getIntent().getStringExtra("regMobile");
         System.out.print("diagid in add address....."+getUserId);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            getLocation();
+        }
 
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
 
@@ -561,6 +585,165 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
     }
 
 
+    protected void buildAlertMessageNoGps() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please Turn ON your GPS Connection")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    //get current location
+    private void getLocation() {
+        System.out.print("helo this is method");
+        if (ActivityCompat.checkSelfPermission(DiagnosticAddAddress.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (DiagnosticAddAddress.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.print("helo this is if");
+
+            ActivityCompat.requestPermissions(DiagnosticAddAddress.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        } else {
+            System.out.print("helo this is else");
+
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+
+            if (location != null) {
+                double latti = location.getLatitude();
+                double longi = location.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+longitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+////                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            } else  if (location1 != null) {
+                double latti = location1.getLatitude();
+                double longi = location1.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+////                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            } else  if (location2 != null) {
+                double latti = location2.getLatitude();
+                double longi = location2.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+//                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+
+                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+
 //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
 
     //get diagnostic details based on id from api call
@@ -742,6 +925,8 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             intent.putExtra("person",contactPerson.getText().toString());
             intent.putExtra("landmobile",landlineMobileNumber.getText().toString());
             intent.putExtra("comments",comments.getText().toString());
+            intent.putExtra("lati",lattitude);
+            intent.putExtra("longi",longitude);
             startActivity(intent);
         }
     }

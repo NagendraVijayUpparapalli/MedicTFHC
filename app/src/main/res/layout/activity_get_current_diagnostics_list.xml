@@ -75,10 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="2"
-                        android:gravity="center"
-
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -91,7 +88,6 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
                                 android:text="Range : "
-
                                 android:textStyle="bold"
                                 android:textColor="#fff"
                                 android:textSize="16sp" />
@@ -104,10 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -129,7 +122,7 @@
                                     android:layout_marginTop="10dp"
                                     android:text="Note :"
                                     android:textSize="13sp"
-                                    android:textColor="#e40c0c"
+                                    android:textColor="@color/rangeNoteheading"
                                     android:textStyle="bold" />
                                 <TextView
                                     android:id="@+id/txt1"
@@ -140,7 +133,7 @@
                                     android:layout_marginTop="10dp"
                                     android:text="Range (0Km - 100Km)"
                                     android:textSize="13sp"
-                                    android:textColor="#63C9FF"
+                                    android:textColor="@color/rangeNoteText"
                                     android:textStyle="bold" />
 
                             </LinearLayout>

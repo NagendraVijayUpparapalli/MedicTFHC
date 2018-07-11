@@ -17,6 +17,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cool.patient.patient.PatientDashBoard;
+import com.example.cool.patient.patient.PatientDashBoard11;
 import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank;
 import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank1;
 import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
@@ -79,6 +81,9 @@ public class SelectCity extends AppCompatActivity {
         userId = getIntent().getStringExtra("userId");
 
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
+
+        citiesList = new ArrayList<>();
+//        citiesList.remove(0);
 
         list.add("Addateegala");
         list.add("Ainavilli");
@@ -279,14 +284,18 @@ public class SelectCity extends AppCompatActivity {
                     i.putExtra("mobile",getIntent().getStringExtra("mobile"));
                     startActivity(i);
                 }
+                else if(getModuleName.equals("patient"))
+                {
+                    Intent i = new Intent(SelectCity.this,PatientDashBoard.class);
+                    i.putExtra("id",userId);
+                    i.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    startActivity(i);
+                }
             }
         });
 
         selected_location = (ListView) findViewById(R.id.list_view);
 
-        // Adding items to listview
-        adapter = new ArrayAdapter<String>(this, R.layout.city_itemslist,  R.id.city_name, list);
-        selected_location.setAdapter(adapter);
 
 //        adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, citiesList);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -320,13 +329,13 @@ public class SelectCity extends AppCompatActivity {
                     startActivity(i);
                 }
 
-//                else if(getModuleName.equals("patientDashB"))
-//                {
-//                    Intent i = new Intent(SelectCity.this,PatientDashBoard.class);
-//                    i.putExtra("userId",userId);
-//                    i.putExtra("mobile",getIntent().getStringExtra("mobile"));
-//                    startActivity(i);
-//                }
+                else if(getModuleName.equals("patient"))
+                {
+                    Intent i = new Intent(SelectCity.this,PatientDashBoard.class);
+                    i.putExtra("id",userId);
+                    i.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    startActivity(i);
+                }
                 else if(getModuleName.equals("medicalList"))
                 {
                     Intent i = new Intent(SelectCity.this,GetCurrentMedicalShopsList.class);
@@ -374,14 +383,13 @@ public class SelectCity extends AppCompatActivity {
                     startActivity(i);
                 }
 
-//                else if(getModuleName.equals("patientDashB"))
-//                {
-//                    Intent i = new Intent(SelectCity.this,MainActivity1.class);
-//                    i.putExtra("city",adapter.getItem(position));
-//                    i.putExtra("userId",userId);
-//                    i.putExtra("mobile",getIntent().getStringExtra("mobile"));
-//                    startActivity(i);
-//                }
+                else if(getModuleName.equals("patient"))
+                {
+                    Intent i = new Intent(SelectCity.this,PatientDashBoard11.class);
+                    i.putExtra("id",userId);
+                    i.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    startActivity(i);
+                }
 
                 else if(getModuleName.equals("medicalList"))
                 {
@@ -398,20 +406,20 @@ public class SelectCity extends AppCompatActivity {
     //Get cities list from api call
     private class GetAllCities extends AsyncTask<String, Void, String> {
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // Create a progressdialog
-//            progressDialog = new ProgressDialog(SelectCity.this);
-//            // Set progressdialog title
-////            progressDialog.setTitle("You are logging");
-//            // Set progressdialog message
-//            progressDialog.setMessage("Loading..");
-//
-//            progressDialog.setIndeterminate(false);
-//            // Show progressdialog
-//            progressDialog.show();
-//        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(SelectCity.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading..");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -453,7 +461,7 @@ public class SelectCity extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result  cities ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
             getCities(result);
 
         }
@@ -464,17 +472,32 @@ public class SelectCity extends AppCompatActivity {
         {
 
             JSONArray jsonArr = new JSONArray(result);
-            citiesList = new ArrayList<>();
+
             for (int i = 0; i < jsonArr.length(); i++) {
 
                 org.json.JSONObject jsonObj = jsonArr.getJSONObject(i);
 
                 Long cityKey = jsonObj.getLong("Key");
                 String cityValue = jsonObj.getString("Value");
-                myCitiesList.put(cityKey,cityValue);
-                citiesList.add(jsonObj.getString("Value"));
-                System.out.print("mycity list.."+myCitiesList);
-                System.out.print("city list.."+citiesList);
+                if(cityKey == 0)
+                {
+                    System.out.print("mycity list.."+myCitiesList);
+                    System.out.print("city list.."+citiesList);
+                }
+
+                else
+                {
+                    myCitiesList.put(cityKey,cityValue);
+                    citiesList.add(jsonObj.getString("Value"));
+                    System.out.print("mycity list.."+myCitiesList);
+                    System.out.print("city list.."+citiesList);
+
+                    // Adding items to listview
+                    adapter = new ArrayAdapter<String>(this, R.layout.city_itemslist,  R.id.city_name, citiesList);
+                    selected_location.setAdapter(adapter);
+                }
+
+
             }
 
         }

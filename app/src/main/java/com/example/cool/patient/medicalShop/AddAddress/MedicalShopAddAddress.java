@@ -5,14 +5,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -49,6 +55,7 @@ import com.example.cool.patient.common.MapsActivity;
 import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
+import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
 import com.example.cool.patient.medicalShop.MedicalChangePassword;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
@@ -155,6 +162,15 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
     TextView message;
     LinearLayout oklink;
 
+    //location fields
+    LocationManager locationManager;
+    String lattitude,longitude;
+    Geocoder geocoder;
+    List<Address> addresses;
+    private static final int REQUEST_LOCATION = 1;
+    static String mycity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +182,14 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         medicalId = getIntent().getStringExtra("id");
         medicalMobile = getIntent().getStringExtra("mobile");
         System.out.print("Medical in add address....."+medicalId);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            getLocation();
+        }
 
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
 
@@ -482,6 +506,164 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
     }
 
+    protected void buildAlertMessageNoGps() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please Turn ON your GPS Connection")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    //get current location
+    private void getLocation() {
+        System.out.print("helo this is method");
+        if (ActivityCompat.checkSelfPermission(MedicalShopAddAddress.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (MedicalShopAddAddress.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.print("helo this is if");
+
+            ActivityCompat.requestPermissions(MedicalShopAddAddress.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        } else {
+            System.out.print("helo this is else");
+
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+
+            if (location != null) {
+                double latti = location.getLatitude();
+                double longi = location.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+longitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+////                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            } else  if (location1 != null) {
+                double latti = location1.getLatitude();
+                double longi = location1.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+////                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            } else  if (location2 != null) {
+                double latti = location2.getLatitude();
+                double longi = location2.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
+                System.out.print("latii...."+lattitude);
+                System.out.print("longi...."+lattitude);
+
+                geocoder=new Geocoder(getApplicationContext());
+
+                try {
+                    addresses = geocoder.getFromLocation(latti, longi,1);
+                    System.out.println("addresses"+addresses);
+
+                    if (addresses.isEmpty())
+                    {
+//                        cityname.setTitle("waiting");
+//                        present_location.setText("Waiting");
+                    }
+                    else
+                    {
+                        if(addresses.size()>0)
+                        {
+                            mycity = addresses.get(0).getLocality();
+//                            present_location.setText(city);
+//                            cityname.setTitle(city);
+                            System.out.println("city name"+city);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+
+                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -628,6 +810,8 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             intent.putExtra("person",contactPerson.getText().toString());
             intent.putExtra("landmobile",landlineMobileNumber.getText().toString());
             intent.putExtra("comments",comments.getText().toString());
+            intent.putExtra("lati",lattitude);
+            intent.putExtra("longi",longitude);
             startActivity(intent);
         }
     }

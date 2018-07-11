@@ -8,7 +8,9 @@ class DoctorClass {
 
 
     public String doctorId,addressId,address,hospitalName,state,city,mobile,Name,qualification,specialityName,doctorImage,experience,
-    latitude,longitude,distance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm;
+    latitude,longitude,distance,emergencyService,consultationFee,consultationPrice,cashonHand,creditDebit,netBanking,paytm,
+            selectedCity;
+    int myRangeDistance;
     public String patientId;
 
 //    public DoctorClass()
@@ -25,7 +27,7 @@ class DoctorClass {
     public DoctorClass(String doctorId, String addressId, String patientId, String mobile, String Name, String qualification,
                        String specialityName, String doctorImage, String experience, String latitude, String longitude,String distance,
                        String emergencyService, String consultationFee, String consultationPrice, String cashonHand,
-                       String creditDebit, String netBanking, String paytm) {
+                       String creditDebit, String netBanking, String paytm,String selectedCity,int myRangeDistance) {
         this.doctorId = doctorId;
         this.addressId = addressId;
         this.patientId = patientId;
@@ -49,6 +51,24 @@ class DoctorClass {
         this.creditDebit = creditDebit;
         this.netBanking = netBanking;
         this.paytm = paytm;
+        this.selectedCity = selectedCity;
+        this.myRangeDistance = myRangeDistance;
+    }
+
+    public int getMyRangeDistance() {
+        return myRangeDistance;
+    }
+
+    public void setMyRangeDistance(int myRangeDistance) {
+        this.myRangeDistance = myRangeDistance;
+    }
+
+    public String getSelectedCity() {
+        return selectedCity;
+    }
+
+    public void setSelectedCity(String selectedCity) {
+        this.selectedCity = selectedCity;
     }
 
     public String getDistance() {

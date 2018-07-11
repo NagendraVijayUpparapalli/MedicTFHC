@@ -458,7 +458,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/primarydark"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>
@@ -503,7 +503,7 @@
                     android:id="@+id/name1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:textColor="@color/sidenavheading"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:layout_marginTop="15dp"
@@ -513,7 +513,7 @@
                 <TextView
                     android:id="@+id/mobile1"
                     android:textSize="15sp"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -528,7 +528,7 @@
                     android:drawableLeft="@drawable/sidenavemailicon"
                     android:drawablePadding="5dp"
                     android:textSize="15sp"
-                    android:textColor="#000"
+                    android:textColor="@color/sidenavtext"
                     android:text="---------" />
 
             </LinearLayout>

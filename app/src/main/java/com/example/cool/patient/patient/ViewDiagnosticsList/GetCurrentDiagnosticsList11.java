@@ -960,6 +960,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         if(count == 0)
         {
             availability.setText(Integer.toString(0));
+            showMessage();
         }
         else
         {
@@ -1377,6 +1378,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
                 adapter = new DiagnosticsListAdapter(GetCurrentDiagnosticsList11.this, myList);
                 layoutManager = new LinearLayoutManager(GetCurrentDiagnosticsList11.this);
+
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
 

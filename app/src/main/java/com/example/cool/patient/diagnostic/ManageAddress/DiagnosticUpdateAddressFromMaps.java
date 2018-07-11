@@ -242,8 +242,12 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         mobile.setText(mymobileNumber);
         landlineMobileNumber.setText(mylandLineNo);
         comments.setText(mycomment);
-        lat.setText(String.format("%.6f", mylatitude));
-        lng.setText(String.format("%.6f", mylongitude));
+
+        lat.setText(mylatitude);
+        lng.setText(mylongitude);
+
+//        lat.setText(String.format("%.6f", mylatitude));
+//        lng.setText(String.format("%.6f", mylongitude));
         FromTime.setText(myfromTime);
         ToTime.setText(mytoTime);
 
