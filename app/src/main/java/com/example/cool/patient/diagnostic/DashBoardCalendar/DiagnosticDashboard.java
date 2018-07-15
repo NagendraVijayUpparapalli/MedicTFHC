@@ -426,16 +426,17 @@ public class DiagnosticDashboard extends AppCompatActivity
                     Intent contact = new Intent(DiagnosticDashboard.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticDashboard.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",getUserId);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticDashboard.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",getUserId);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

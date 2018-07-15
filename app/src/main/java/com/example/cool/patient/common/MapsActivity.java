@@ -275,6 +275,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             intent.putExtra("fromTime",getIntent().getStringExtra("fromTime"));
                             intent.putExtra("toTime",getIntent().getStringExtra("toTime"));
                             intent.putExtra("Emeregency_contact",getIntent().getStringExtra("Emeregency_contact"));
+                            intent.putExtra("centerImage",getIntent().getStringExtra("centerImage"));
                             intent.putExtra("lat",lati);
                             intent.putExtra("lng",longi);
                             startActivity(intent);

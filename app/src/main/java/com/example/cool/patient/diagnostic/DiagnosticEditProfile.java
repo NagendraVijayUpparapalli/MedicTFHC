@@ -47,6 +47,7 @@ import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -280,21 +281,22 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                     Intent contact = new Intent(DiagnosticEditProfile.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticEditProfile.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",getUserId);
-                    subscript.putExtra("mobile",mobile_number);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticEditProfile.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",getUserId);
+//                    subscript.putExtra("mobile",mobile_number);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticEditProfile.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticEditProfile.this,Offers.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
                     contact.putExtra("module","diag");
@@ -304,6 +306,9 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                     // call some activity here
 
                     Intent contact = new Intent(DiagnosticEditProfile.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","diag");
                     startActivity(contact);
 
                 }
@@ -621,6 +626,10 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                 sidenavName.setText(myName+" "+mySurname);
                 sidenavMobile.setText(myMobile);
                 sidenavEmail.setText(myEmail);
+
+                new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
+
+                new GetLicenceCertificateImageTask(licenceImage).execute(baseUrl.getImageUrl()+myuploadLicence);
             }
             else {
 
@@ -682,6 +691,16 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
             System.out.println("net.."+mynet_banking);
 //            System.out.println("paytm.."+mypay_paym);
 
+            if(getIntent().getStringExtra("user").equals("old"))
+            {
+                aadhar_num.setEnabled(false);
+                aadhar_num.setText(myAadhar_num);
+            }
+            else
+            {
+                aadhar_num.setEnabled(true);
+                aadhar_num.setText("");
+            }
 
             if(myGender.equals("Male"))
             {
@@ -713,16 +732,12 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
             sidenavEmail.setText(myEmail);
 
             mobileNumber.setText(myMobile);
+            mobileNumber.setEnabled(false);
             email.setText(myEmail);
             licenceNumber.setText(myLicenceNumber);
-            aadhar_num.setText(myAadhar_num);
 
             System.out.println("image url.."+ myadharimage);
 
-
-            new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
-
-            new GetLicenceCertificateImageTask(licenceImage).execute(baseUrl.getImageUrl()+myuploadLicence);
 
         }
         catch (JSONException e)

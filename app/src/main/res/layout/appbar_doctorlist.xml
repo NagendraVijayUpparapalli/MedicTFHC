@@ -8,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/activity_get_current_doctors_list" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/home"
         android:visibility="gone"

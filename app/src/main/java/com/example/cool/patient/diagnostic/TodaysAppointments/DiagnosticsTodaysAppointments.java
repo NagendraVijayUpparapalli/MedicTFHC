@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -176,21 +177,22 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
                     Intent contact = new Intent(DiagnosticsTodaysAppointments.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",diagId);
                     contact.putExtra("mobile",diagMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticsTodaysAppointments.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",diagId);
-                    subscript.putExtra("mobile",diagMobile);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticsTodaysAppointments.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",diagId);
+//                    subscript.putExtra("mobile",diagMobile);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticsTodaysAppointments.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticsTodaysAppointments.this,Offers.class);
                     contact.putExtra("id",diagId);
                     contact.putExtra("mobile",diagMobile);
                     contact.putExtra("module","diag");

@@ -32,8 +32,8 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
     List<DiagnosticsClass> diagnosticsClassList;
     Context context;
     AlertDialog alertDialog1;
-    String address,lati,longi,consultationFee,comments,emergencyContact;
-    int patientId;
+    String selectedCity,myClass,lati,longi,consultationFee,comments,emergencyContact;
+    int selectedRange;
     boolean emergencyService;
 
     String doornum,city,state,payment,mobile;
@@ -44,11 +44,13 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
     public DiagnosticsListAdapter(GetCurrentDiagnosticsList getCurrentDiagnosticsList,List<DiagnosticsClass> diagnosticsClassList) {
         this.context = getCurrentDiagnosticsList;
         this.diagnosticsClassList = diagnosticsClassList;
+        myClass = "list";
     }
 
     public DiagnosticsListAdapter(GetCurrentDiagnosticsList11 getCurrentDiagnosticsList,List<DiagnosticsClass> diagnosticsClassList) {
         this.context = getCurrentDiagnosticsList;
         this.diagnosticsClassList = diagnosticsClassList;
+        myClass = "list11";
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -85,14 +87,34 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
                 public void onClick(View v) {
 
 //                    Toast.makeText(context, "YES", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context,PatientBookAppointmentToDiagnostics.class);
-                    intent.putExtra("patientId",userId.getText().toString());
-                    intent.putExtra("diagid",diagId.getText().toString());
-                    intent.putExtra("centerName",diagName.getText().toString());
-                    intent.putExtra("addressId",addressId.getText().toString());
+                    if(myClass.equals("list"))
+                    {
+                        Intent intent = new Intent(context,PatientBookAppointmentToDiagnostics.class);
+                        intent.putExtra("patientId",userId.getText().toString());
+                        intent.putExtra("diagid",diagId.getText().toString());
+                        intent.putExtra("centerName",diagName.getText().toString());
+                        intent.putExtra("addressId",addressId.getText().toString());
+                        intent.putExtra("myClass","list");
+                        intent.putExtra("selectedCity",selectedCity);
+                        intent.putExtra("range",selectedRange);
 //                    intent.putExtra("contactPerson",contactPerson.getText().toString());
-                    intent.putExtra("mobile",mobileNumber.getText().toString());
-                    context.startActivity(intent);
+                        intent.putExtra("mobile",mobileNumber.getText().toString());
+                        context.startActivity(intent);
+                    }
+                    else
+                        {
+                            Intent intent = new Intent(context,PatientBookAppointmentToDiagnostics.class);
+                            intent.putExtra("patientId",userId.getText().toString());
+                            intent.putExtra("diagid",diagId.getText().toString());
+                            intent.putExtra("centerName",diagName.getText().toString());
+                            intent.putExtra("addressId",addressId.getText().toString());
+                            intent.putExtra("myClass","list11");
+                            intent.putExtra("selectedCity",selectedCity);
+                            intent.putExtra("range",selectedRange);
+//                    intent.putExtra("contactPerson",contactPerson.getText().toString());
+                            intent.putExtra("mobile",mobileNumber.getText().toString());
+                            context.startActivity(intent);
+                        }
 
                 }
             });
@@ -125,6 +147,9 @@ public class DiagnosticsListAdapter extends RecyclerView.Adapter<DiagnosticsList
 
         lati = diagnosticsClassList.get(i).getLatitude();
         longi= diagnosticsClassList.get(i).getLongitude();
+
+        selectedCity = diagnosticsClassList.get(i).getSelectedCity();
+        selectedRange = diagnosticsClassList.get(i).getMyRangeDistance();
 
 //        patientId = diagnosticsClassList.get(i).getPatientId();
 

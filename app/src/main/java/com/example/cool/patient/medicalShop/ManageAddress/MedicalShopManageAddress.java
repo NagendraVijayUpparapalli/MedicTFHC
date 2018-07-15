@@ -107,7 +107,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setTitle("Manage Address");
 
 //        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
@@ -177,6 +177,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                     Intent contact = new Intent(MedicalShopManageAddress.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -288,6 +289,9 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
             }
         });
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -524,7 +528,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                 bb.setContactPerson(object.getString("ContactPerson"));
                 bb.setLatitude((object.getString("Latitude")));
                 bb.setLongitude((object.getString("Longitude")));
-                bb.setEmergencyservice(true);////
+                bb.setEmergencyservice(object.getBoolean("EmergencyService"));////
                 bb.setComment(object.getString("Comment"));
 //                bb.setDeleteReason();
                 bb.setDistrict(object.getString("District"));

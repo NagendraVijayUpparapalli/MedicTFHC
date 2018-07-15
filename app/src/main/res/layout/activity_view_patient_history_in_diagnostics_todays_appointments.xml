@@ -168,7 +168,7 @@
                 android:id="@+id/mytoolbar"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 app:layout_collapseMode="parallax">
 
                 <TextView
@@ -374,7 +374,7 @@
                             android:textSize="18sp"
                             android:gravity="center"
                             android:text="@string/ok"
-                            android:background="#f938a72f"/>
+                            android:background="@color/rippleButton"/>
 
                     </com.andexert.library.RippleView>
                 </LinearLayout>

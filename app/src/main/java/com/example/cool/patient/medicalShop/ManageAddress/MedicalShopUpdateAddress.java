@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -132,8 +133,10 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
     int currentHour;
     int currentMinute;
     String amPm;
+
+
     //get lat,lng on touch map
-    String myLatitude,myLongitude,myAddressId,regMobile,mycenterImage;
+    static String myLatitude,myLongitude,myAddressId,regMobile,mycenterImage="";
     TextView getLatLong;
 
     // expandable list view
@@ -248,6 +251,13 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         toTime.setText(myToTime);
 //        Emeregency_contact.setText(myEmergencyContact);
         availableService.setChecked(myAvailableService);
+
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
 
         Emeregency_contact = (EditText) findViewById(R.id.Emergency_Contact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
@@ -393,6 +403,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
                     Intent contact = new Intent(MedicalShopUpdateAddress.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -479,6 +490,19 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             }
         });
 
+    }
+
+
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+            Emeregency_contact.setText("");
+        }
     }
 
     private class GetCenterImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -702,16 +726,26 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
-        {
-            Emeregency_contact.setError("please enter valid number");
-            validate=false;
+
+        if(availableService.isChecked() == true) {
+
+            if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
+            {
+                Emeregency_contact.setError("please enter valid number");
+                validate=false;
+            }
+
+            else if (Emeregency_contact.getText().toString().length() < 10 || Emeregency_contact.getText().toString().length() > 10) {
+                Emeregency_contact.setError(" Invalid phone number ");
+                validate = false;
+            }
         }
-        else if(Emeregency_contact
-                .getText().toString().length()<10 || Emeregency_contact.getText().toString().length()>10)
+
+        else
         {
-            Emeregency_contact.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -750,7 +784,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
             intent.putExtra("Emeregency_contact",Emeregency_contact.getText().toString());
             intent.putExtra("emergencyService",myAvailableService);
             intent.putExtra("comments",comments.getText().toString());
-            intent.putExtra("centerImage",mycenterImage);
+            intent.putExtra("centerImage",getIntent().getStringExtra("centerImage"));
             startActivity(intent);
         }
     }
@@ -1124,7 +1158,7 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
         myDiagnosticName = diagnosticName.getText().toString().trim();
         myAddress = address.getText().toString().trim();
         myExperience= Experience.getText().toString().trim();
-        myEmergencyContact = Emeregency_contact.getText().toString().trim();
+//        myEmergencyContact = Emeregency_contact.getText().toString().trim();
         myPincode = pincode.getText().toString().trim();
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
@@ -1143,11 +1177,26 @@ public class MedicalShopUpdateAddress extends AppCompatActivity implements Navig
 
         if(availableService.isChecked()){
             myAvailableService = true;
+            myEmergencyContact = Emeregency_contact.getText().toString().trim();
         }
-
         else if(!availableService.isChecked())
         {
             myAvailableService = false;
+            myEmergencyContact = "";
+        }
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
         }
 
         try{

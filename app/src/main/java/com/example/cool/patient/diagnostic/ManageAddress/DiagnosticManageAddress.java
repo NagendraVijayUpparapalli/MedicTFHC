@@ -109,7 +109,7 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
         recyclerView.setAdapter(adapter);
 //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setTitle("Manage Address");
 
 //        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
@@ -178,17 +178,18 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
                     Intent contact = new Intent(DiagnosticManageAddress.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticManageAddress.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",getUserId);
-                    subscript.putExtra("mobile",regMobile);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticManageAddress.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",getUserId);
+//                    subscript.putExtra("mobile",regMobile);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

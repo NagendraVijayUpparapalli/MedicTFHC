@@ -483,16 +483,17 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
                     Intent contact = new Intent(DiagnosticAddAddressFromMaps.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticAddAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",getUserId);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticAddAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",getUserId);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

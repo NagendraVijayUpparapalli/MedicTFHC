@@ -297,6 +297,7 @@ public class GetCurrentMedicalShopsList11 extends AppCompatActivity implements N
                     Intent editProfile = new Intent(GetCurrentMedicalShopsList11.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",usermobileNumber);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }

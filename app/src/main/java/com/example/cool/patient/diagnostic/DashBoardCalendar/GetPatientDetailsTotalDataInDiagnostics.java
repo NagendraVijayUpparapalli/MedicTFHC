@@ -455,9 +455,9 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
 //        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
-        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
-        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -492,17 +492,18 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                     Intent contact = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",diagnosticId);
                     contact.putExtra("mobile",diagmobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",diagnosticId);
-                    subscript.putExtra("mobile",diagmobile);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",diagnosticId);
+//                    subscript.putExtra("mobile",diagmobile);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

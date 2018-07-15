@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
                 android:fitsSystemWindows="true">
+
                 <RelativeLayout
                     android:id="@+id/rellay2"
                     android:layout_width="match_parent"
@@ -186,11 +187,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
-                                android:drawableLeft="@drawable/phone"
+                                android:drawableLeft="@drawable/phone1"
                                 android:textAllCaps="true"
                                 android:textStyle="bold"
                                 android:textColor="@color/gradStart"
                                 android:textSize="13sp" />
+
                             <TextView
                                 android:id="@+id/phonenum"
                                 android:layout_width="wrap_content"
@@ -224,7 +226,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
-                                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                                android:drawableLeft="@drawable/location_white_icon"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
@@ -445,10 +447,10 @@
 
                     <TextView
                         android:id="@+id/rect_child"
-                        android:layout_width="200dp"
+                        android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_centerInParent="true"
-                        android:background="#f938a72f"
+                        android:background="@color/rippleButton"
                         android:gravity="center"
                         android:text="@string/submit"
                         android:textColor="#fff"
@@ -466,6 +468,39 @@
 
         android:layout_gravity="fill_vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/noteLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1"-->
+            <!--android:visibility="gone"-->
+            <!--android:gravity="left"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:paddingTop="5dp">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:orientation="vertical">-->
+
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:text="Note: You are taking appointment for another user"-->
+                    <!--android:textColor="#f70404"-->
+                    <!--android:textSize="15sp" />-->
+
+            <!--</LinearLayout>-->
+
+        <!--</RelativeLayout>-->
+
+
         <RelativeLayout
             android:id="@+id/addresslayout"
             android:visibility="gone"
@@ -481,6 +516,16 @@
                 android:layout_marginRight="30dp"
                 android:paddingTop="25dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/noteLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Note: You are taking appointment for another user"
+                    android:textColor="#f70404"
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -498,6 +543,7 @@
                             android:drawableLeft="@drawable/ic_person_black_24dp"
                             android:ems="20"
                             android:hint="@string/contact_person"
+                            android:textColor="#000"
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
@@ -532,8 +578,9 @@
                             android:hint="@string/mobile_number"
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
+                            android:textColor="#000"
                             android:textSize="18sp"
-                            android:inputType="textPersonName" />
+                            android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -566,7 +613,8 @@
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
-                            android:inputType="textPersonName" />
+                            android:textColor="#000"
+                            android:inputType="textEmailAddress" />
                     </android.support.design.widget.TextInputLayout>
                     <View
                         android:layout_width="match_parent"
@@ -596,8 +644,9 @@
                             android:hint="@string/aadhar_number"
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
+                            android:textColor="#000"
                             android:textSize="18sp"
-                            android:inputType="textPersonName" />
+                            android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -630,7 +679,8 @@
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
-                            android:inputType="textPersonName" />
+                            android:textColor="#000"
+                            android:inputType="textPostalAddress" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -698,6 +748,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
                     android:background="#E5E5E5" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -719,7 +770,8 @@
                             android:drawablePadding="5dp"
                             android:backgroundTint="#fff"
                             android:textSize="18sp"
-                            android:inputType="textPersonName" />
+                            android:textColor="#000"
+                            android:inputType="number" />
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -752,7 +804,7 @@
                             android:layout_width="150dp"
                             android:layout_height="50dp"
                             android:layout_centerInParent="true"
-                            android:background="#f938a72f"
+                            android:background="@color/rippleButton"
                             android:gravity="center"
                             android:text="@string/submit"
                             android:textColor="#fff"

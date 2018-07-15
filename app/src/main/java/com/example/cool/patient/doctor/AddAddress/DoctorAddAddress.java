@@ -436,17 +436,18 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
                     Intent contact = new Intent(DoctorAddAddress.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorAddAddress.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",getUserId);
-                    i.putExtra("mobile",mobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorAddAddress.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",getUserId);
+//                    i.putExtra("mobile",mobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

@@ -202,6 +202,7 @@ class MedicalShopListAdapter extends RecyclerView.Adapter<MedicalShopListAdapter
                     myContactPersonname.setText(ContactPerson.getText().toString());
                     myshopname.setText(Shopname.getText().toString());
                     myshopphonenum.setText(medicalphonenum.getText().toString());
+                    myshopphonenum.setTextColor(context.getResources().getColor(R.color.sidenavtext));
 
                     myaddressId = addressId.getText().toString();
 

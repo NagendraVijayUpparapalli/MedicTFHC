@@ -23,6 +23,9 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -132,6 +135,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     ImageView  enableYes,enableNo;
     TextView Mymessage;
 
+    RelativeLayout noteLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,8 +144,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
         baseUrl = new ApiBaseUrl();
 
+//        viewHolder.doctorName.setText(spannableString);
 
-        mydocName = getIntent().getStringExtra("doctorName");
         user = getIntent().getStringExtra("user");
         patientId = getIntent().getStringExtra("userId");
         cur_addressId = getIntent().getStringExtra("addressId");
@@ -181,8 +186,25 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         aadharnum = (EditText) findViewById(R.id.aadhaarNumber);
         reason = (EditText) findViewById(R.id.reason_for_Appointment);
         relativeLayout=(RelativeLayout) findViewById(R.id.rellay1);
+        noteLayout = (RelativeLayout) findViewById(R.id.noteLayout);
 
         myview1=findViewById(R.id.rellay1);
+
+        mydocName = getIntent().getStringExtra("doctorName");
+
+//        String arr[] = mydocName.split(" ");
+//
+//        String docName = arr[0];
+//        int docNameLength = docName.length();
+//
+//        String name_qualification = arr[0]+" "+arr[1];
+//        SpannableString spannableString = new SpannableString(name_qualification);
+//        spannableString.setSpan(new RelativeSizeSpan(1.35f),0,docNameLength,0);
+//        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.docNameBook)),0,docNameLength,0);
+//        doctorname.setText(spannableString);
+
+        doctorname.setText(mydocName);
+
 //        myview2=findViewById(R.id.rellay3);
 
         isUp=false;
@@ -196,18 +218,20 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 if(selectedClass.equals("list"))
                 {
                     Intent intent=new Intent(PatientBookAppointmentToDoctor.this,GetCurrentDoctorsList.class);
-                    intent.putExtra("id",getIntent().getStringExtra("userId"));
+                    intent.putExtra("userId",getIntent().getStringExtra("userId"));
                     intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
                     intent.putExtra("city",selectedCity);
+                    intent.putExtra("book","list");
                     intent.putExtra("range",selectedRange);
                     startActivity(intent);
                 }
                 else
                 {
                     Intent intent=new Intent(PatientBookAppointmentToDoctor.this,GetCurrentDoctorsList11.class);
-                    intent.putExtra("id",getIntent().getStringExtra("userId"));
+                    intent.putExtra("userId",getIntent().getStringExtra("userId"));
                     intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
                     intent.putExtra("city",selectedCity);
+                    intent.putExtra("book","list11");
                     intent.putExtra("range",selectedRange);
                     startActivity(intent);
                 }
@@ -266,11 +290,14 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             getUserId = getIntent().getStringExtra("userId");
             System.out.print("userid in patient book doc....."+getUserId);
             new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
+            noteLayout.setVisibility(View.GONE);
         }
+
         else if(user.equals("No"))
         {
             getUserId = getIntent().getStringExtra("userId");
             System.out.print("userid in patient book doc....."+getUserId);
+            noteLayout.setVisibility(View.VISIBLE);
 //            new GetPatientDetails().execute(baseUrl.getUrl()+"GetPatientByID"+"?ID="+getUserId);
         }
 
@@ -285,8 +312,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             }
         });
 
-        doctorname.setText(mydocName);
-        fee.setText(myfee);
+
+        fee.setText(myfee+"/- ");
         doctorphonenum.setText(myphone);
 
 
@@ -1126,11 +1153,20 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 newName = "Mrs.";
             }
 
-            patientname.setText(mySurname);
+
+            patientname.setText(myName+" "+mySurname);
             patientmobileno.setText(myMobile);
             mail.setText(myEmail);
             age.setText(agee);
             aadharnum.setText(myAadhar_num);
+
+            patientname.setEnabled(false);
+            patientmobileno.setEnabled(false);
+            mail.setEnabled(false);
+            age.setEnabled(false);
+            aadharnum.setEnabled(false);
+
+
 
         }
         catch (JSONException e)

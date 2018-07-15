@@ -491,6 +491,7 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                     Intent editProfile = new Intent(BloodBank.this,PatientEditProfile.class);
                     editProfile.putExtra("mobile",mobile);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -884,8 +885,18 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                         myname.setText(arrayList.get(position).getName());
                         myaddress.setText(addressarea);
                         mymobile.setText(arrayList.get(position).getMobile());
+                        mymobile.setTextColor(getResources().getColor(R.color.sidenavtext));
+
 //                        myemail.setText("Not Available");
-                        myperson_name.setText(arrayList.get(position).getContact_person());
+                        if(arrayList.get(position).getContact_person().equals(""))
+                        {
+                            myperson_name.setText("Not Available");
+                        }
+                        else
+                        {
+                            myperson_name.setText(arrayList.get(position).getContact_person());
+                        }
+
 
                         myBloodbank_name = myname.getText().toString();
                         myArea = myaddress.getText().toString();
@@ -1047,8 +1058,17 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                         myname.setText(arrayList.get(position).getName());
                         myaddress.setText(addressarea);
                         mymobile.setText(arrayList.get(position).getMobile());
+                        mymobile.setTextColor(getResources().getColor(R.color.sidenavtext));
 //                        myemail.setText("Not Available");
-                        myperson_name.setText(arrayList.get(position).getContact_person());
+
+                        if(arrayList.get(position).getContact_person().equals(""))
+                        {
+                            myperson_name.setText("Not Available");
+                        }
+                        else
+                        {
+                            myperson_name.setText(arrayList.get(position).getContact_person());
+                        }
 
                         myBloodbank_name = myname.getText().toString();
                         myArea = myaddress.getText().toString();
@@ -1248,8 +1268,17 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                         myname.setText(arrayList.get(position).getName());
                         myaddress.setText(addressarea);
                         mymobile.setText(arrayList.get(position).getMobile());
+                        mymobile.setTextColor(getResources().getColor(R.color.sidenavtext));
 //                        myemail.setText("Not Available");
-                        myperson_name.setText(arrayList.get(position).getContact_person());
+
+                        if(arrayList.get(position).getContact_person().equals(""))
+                        {
+                            myperson_name.setText("Not Available");
+                        }
+                        else
+                        {
+                            myperson_name.setText(arrayList.get(position).getContact_person());
+                        }
 
                         myBloodbank_name = myname.getText().toString();
                         myArea = myaddress.getText().toString();
@@ -1640,8 +1669,17 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
                 myname.setText(arrayList.get(position).getName());
                 myaddress.setText(addressarea);
                 mymobile.setText(arrayList.get(position).getMobile());
+                mymobile.setTextColor(getResources().getColor(R.color.sidenavtext));
 //                myemail.setText("Not Available");
-                myperson_name.setText(arrayList.get(position).getContact_person());
+
+                if(arrayList.get(position).getContact_person().equals(""))
+                {
+                    myperson_name.setText("Not Available");
+                }
+                else
+                {
+                    myperson_name.setText(arrayList.get(position).getContact_person());
+                }
 
                 myBloodbank_name = myname.getText().toString();
                 myArea = myaddress.getText().toString();

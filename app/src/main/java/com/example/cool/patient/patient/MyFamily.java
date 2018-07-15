@@ -135,7 +135,8 @@ public class MyFamily extends AppCompatActivity implements NavigationView.OnNavi
                     Intent editProfile = new Intent(MyFamily.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile_number);
-                    editProfile.putExtra("module","patient");
+                    editProfile.putExtra("user","old");
+//                    editProfile.putExtra("module","patient");
                     startActivity(editProfile);
 
                 }

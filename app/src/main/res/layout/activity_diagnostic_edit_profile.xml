@@ -151,6 +151,7 @@
                                     android:ems="20"
                                     android:hint="@string/mobile_number"
                                     android:inputType="phone"
+                                    android:textColor="#000"
                                     android:textSize="15sp" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
@@ -350,6 +351,7 @@
                                     android:layout_marginTop="20dp"
                                     android:ems="20"
                                     android:textSize="15sp"
+                                    android:textColor="#000"
                                     android:drawableLeft="@drawable/aadhar_icon"
                                     android:drawablePadding="5dp"
                                     android:hint="@string/aadhaar_number"
@@ -458,7 +460,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="@color/primarydark"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>

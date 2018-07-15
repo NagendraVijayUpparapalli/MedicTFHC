@@ -166,14 +166,6 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
         current_city = (TextView) findViewById(R.id.select_city);
 
-//        searchSpeciality.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchSpeciality.setVisibility(View.GONE);
-//                Speciality.setVisibility(View.VISIBLE);
-//            }
-//        });
-
         new GetAllSpeciality().execute(baseUrl.getUrl()+"GetSpeciality");
 
         current_city.setOnClickListener(new View.OnClickListener() {
@@ -224,16 +216,26 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
 
         selectedRange = getIntent().getIntExtra("range",0);
 
-        if(selectedRange == 0)
-        {
-            seek_bar.setProgress(getIntent().getIntExtra("range",0));
-            dis = getIntent().getIntExtra("range",0);
-        }
-        else
+        if(getIntent().getStringExtra("book")==null)
         {
             seek_bar.setProgress(dis);
             dis = 20;
         }
+        else
+        {
+            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+        }
+
+//        if(dis!=20)
+//        {
+//            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+//            dis = getIntent().getIntExtra("range",0);
+//        }
+//        else
+//        {
+//            seek_bar.setProgress(dis);
+//            dis = 20;
+//        }
 
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -284,7 +286,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
 
-        seek_bar.setProgress(20);
+//        seek_bar.setProgress(20);
 
         distance.setText(seek_bar.getProgress()+" Km");
 
@@ -353,6 +355,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
                     Intent editProfile = new Intent(GetCurrentDoctorsList11.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -1340,7 +1343,7 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
 
-        seek_bar.setProgress(20);
+        seek_bar.setProgress(dis);
 
         adapter = new DoctorListAdapter(this, myList);
         layoutManager = new LinearLayoutManager(this);

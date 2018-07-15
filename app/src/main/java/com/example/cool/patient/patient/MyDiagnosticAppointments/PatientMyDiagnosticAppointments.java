@@ -223,12 +223,14 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     retVal = false;
 
                 }
+
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
 
                     // call some activity here
                     Intent editProfile = new Intent(PatientMyDiagnosticAppointments.this,PatientEditProfile.class);
                     editProfile.putExtra("mobile",mobile_number);
                     editProfile.putExtra("id",getUserId);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -242,7 +244,9 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     contact.putExtra("module","patient");
                     startActivity(contact);
 
-                } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
+                }
+
+                else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
                     Intent contact = new Intent(PatientMyDiagnosticAppointments.this,Offers.class);
@@ -251,8 +255,8 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                     contact.putExtra("module","patient");
                     startActivity(contact);
 
-
                 }
+
                 else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM7) {
                     // call some activity here
 
@@ -710,7 +714,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                 System.out.println("cal date..."+d);
 
 
-                if(date.equals(currentDate) && count ==0 && d == null)
+                if(date.equals(currentDate) && d == null)
                 {
                     count = 1;
 
@@ -735,8 +739,6 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
                             PatientMyDiagnosticAppointmentDetailsClass(DiagAddressId,getUserId,mobile_number,
                             AppointmentID,RequestDate,PatientName,CenterName,TestName,DiagnosticsStatus,DiagnosticReport,
                             paymentmode,Amount,Comment,date);
-
-                    data_list=new ArrayList<>();
 
                     data_list.add(patientAppointmentDetailsinDiagnostics);
 

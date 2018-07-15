@@ -55,10 +55,11 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
         holder.diagnosticId.setText(my_data.get(position).getDiagnosticId());
         holder.diagmobile.setText(my_data.get(position).getDiagmobile());
         holder.appointmentDate.setText(my_data.get(position).getAppointmentDate());
-        holder.myspeciality.setText(builder.toString());
-        speciality=my_data.get(position).getSpeciality();
 
         builder=new StringBuilder();
+
+        holder.myspeciality.setText(builder.toString());
+        speciality=my_data.get(position).getSpeciality();
 
         for(int i=0;i<speciality.size();i++)
         {

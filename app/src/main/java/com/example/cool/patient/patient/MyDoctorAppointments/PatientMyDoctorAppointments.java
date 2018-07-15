@@ -243,7 +243,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
                     Intent contact = new Intent(PatientMyDoctorAppointments.this,PatientEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
-                    contact.putExtra("module","patient");
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -724,7 +724,7 @@ public class PatientMyDoctorAppointments  extends AppCompatActivity
 
                 System.out.println("cur date..."+currentDate);
 
-                if(date.equals(currentDate)  && count ==0 && d == null)
+                if(date.equals(currentDate)  && d == null)
                 {
 
                     count = 1;

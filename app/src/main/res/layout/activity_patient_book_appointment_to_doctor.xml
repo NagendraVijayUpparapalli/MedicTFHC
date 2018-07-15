@@ -59,10 +59,10 @@
                         android:layout_marginTop="35dp"
                         android:fontFamily="sans-serif-light"
                         android:paddingBottom="10dp"
+                        android:textSize="22sp"
                         android:textAlignment="center"
                         android:text="Amudala Prabhakar Raju Udayasri"
-                        android:textColor="#ffffff"
-                        android:textSize="22sp" />
+                        android:textColor="#ffffff" />
 
                     <RelativeLayout
                         android:id="@+id/imgUser"
@@ -162,7 +162,7 @@
                             android:layout_toRightOf="@+id/fee"
                             android:textSize="10dp"
                             android:layout_marginTop="5dp"
-                            android:text=" /- (Consultation Fee)"
+                            android:text="(Consultation Fee)"
                             android:textColor="#fff" />
 
                         <TextView
@@ -380,6 +380,37 @@
 
             <!--</LinearLayout>-->
 
+
+            <RelativeLayout
+                android:id="@+id/noteLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:visibility="gone"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Note: You are taking appointment for another user"
+                        android:textColor="#f70404"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <LinearLayout
 
                 android:id="@+id/linlay11"
@@ -443,13 +474,13 @@
                             android:textStyle="bold"
                             android:textColor="#fff"
                             android:textSize="15sp" />
+
                         <TextView
                             android:id="@+id/bookDate1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-
-                            android:text="12/23/2018"
+                            android:text=""
                             android:fontFamily="sans-serif-light"
                             android:textColor="#000000"
                             android:textSize="16sp"
@@ -562,7 +593,8 @@
                         android:ems="20"
                         android:hint="@string/patient_name"
                         android:inputType="textPersonName"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="#000"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <View
@@ -595,6 +627,7 @@
                         android:ems="5"
                         android:hint="@string/age1"
                         android:inputType="number"
+                        android:textColor="#000"
                         android:textSize="18sp" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -615,6 +648,7 @@
                         android:ems="15"
                         android:hint="@string/mobile_number"
                         android:inputType="phone"
+                        android:textColor="#000"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -648,6 +682,7 @@
                         android:ems="15"
                         android:hint="@string/email_id"
                         android:inputType="textEmailAddress"
+                        android:textColor="#000"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -681,6 +716,7 @@
                         android:ems="15"
                         android:hint="@string/aadhaar_number"
                         android:inputType="number"
+                        android:textColor="#000"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -738,7 +774,7 @@
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_centerInParent="true"
-                        android:background="#f938a72f"
+                        android:background="@color/rippleButton"
                         android:gravity="center"
                         android:text="@string/submit"
                         android:textColor="#fff"

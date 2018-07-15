@@ -269,6 +269,13 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         comments.setText(myComments);
         availableService.setChecked(myAvailableService);
 
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
+
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
 
@@ -436,17 +443,18 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
                     Intent contact = new Intent(DoctorUpdateAddress.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorUpdateAddress.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",getUserId);
-                    i.putExtra("mobile",regMobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorUpdateAddress.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",getUserId);
+//                    i.putExtra("mobile",regMobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -582,6 +590,18 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             }
         });
 
+    }
+
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+            emergencyContactNumber.setText("");
+        }
     }
 
     @Override
@@ -760,7 +780,8 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             intent.putExtra("pincode",pincode.getText().toString());
             intent.putExtra("person",contactPerson.getText().toString());
             intent.putExtra("fee",fee.getText().toString());
-
+            intent.putExtra("lati",lat.getText().toString());
+            intent.putExtra("longi",lng.getText().toString());
             intent.putExtra("contactName",myContactPerson);
             intent.putExtra("emergencyContact",myEmergencyContact);
             intent.putExtra("emergencyService",myAvailableService);

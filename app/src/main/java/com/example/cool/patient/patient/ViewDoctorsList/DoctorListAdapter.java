@@ -6,9 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +78,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     public int currentItem;
     public ImageView profileImage;
-    public TextView doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId,distance;
+    public TextView docName,doctorName,qualification,speciality,fee,doctorphonenum,addressId,doctorId,userId,distance;
 
 
 
@@ -87,6 +92,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 //            itemImage = (ImageView)itemView.findViewById(R.id.image);
 
         doctorName = (TextView)itemView.findViewById(R.id.doctorName);
+        docName = (TextView)itemView.findViewById(R.id.docName);
         qualification=(TextView)itemView.findViewById(R.id.qualification) ;
         speciality = (TextView)itemView.findViewById(R.id.speciality);
         fee=(TextView)itemView.findViewById(R.id.consultationFee) ;
@@ -135,7 +141,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                             Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                             intent.putExtra("user","Yes");
                             intent.putExtra("userId",userId.getText().toString());
-                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("doctorName",docName.getText().toString());
                             intent.putExtra("addressId",addressId.getText().toString());
                             intent.putExtra("doctorId",doctorId.getText().toString());
                             intent.putExtra("lat",lati);
@@ -152,7 +158,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                             Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                             intent.putExtra("user","Yes");
                             intent.putExtra("userId",userId.getText().toString());
-                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("doctorName",docName.getText().toString());
                             intent.putExtra("addressId",addressId.getText().toString());
                             intent.putExtra("doctorId",doctorId.getText().toString());
                             intent.putExtra("lat",lati);
@@ -175,7 +181,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                             Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                             intent.putExtra("user","No");
                             intent.putExtra("userId",userId.getText().toString());
-                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("doctorName",docName.getText().toString());
                             intent.putExtra("addressId",addressId.getText().toString());
                             intent.putExtra("doctorId",doctorId.getText().toString());
                             intent.putExtra("lat",lati);
@@ -192,7 +198,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                             Intent intent = new Intent(context,PatientBookAppointmentToDoctor.class);
                             intent.putExtra("user","No");
                             intent.putExtra("userId",userId.getText().toString());
-                            intent.putExtra("doctorName",doctorName.getText().toString());
+                            intent.putExtra("doctorName",docName.getText().toString());
                             intent.putExtra("addressId",addressId.getText().toString());
                             intent.putExtra("doctorId",doctorId.getText().toString());
                             intent.putExtra("lat",lati);
@@ -267,16 +273,28 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.doctorName.setText("Dr. "+doctorClassList.get(i).getName());
+//        viewHolder.doctorName.setText("Dr. "+doctorClassList.get(i).getName());
+        String docName = "Dr. "+doctorClassList.get(i).getName();
+        int docNameLength = docName.length();
+
+        String name_qualification = "Dr. "+doctorClassList.get(i).getName()+" "+doctorClassList.get(i).getQualification();
+//        String arr[] = name_qualification.split(" ");
+        SpannableString spannableString = new SpannableString(name_qualification);
+        spannableString.setSpan(new RelativeSizeSpan(1.35f),0,docNameLength,0);
+        spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.docName)),0,docNameLength,0);
+        viewHolder.doctorName.setText(spannableString);
+
+//        viewHolder.doctorName.setText(Html.fromHtml("Dr. "+doctorClassList.get(i).getName()+"<sub>"+doctorClassList.get(i).getQualification()+"</sup>"));
+//        text.setText(Html.fromHtml("5x<sup>2</sup>"));
         viewHolder.qualification.setText(doctorClassList.get(i).getQualification());
         viewHolder.speciality.setText(doctorClassList.get(i).getSpecialityName());
-
         viewHolder.fee.setText(doctorClassList.get(i).getConsultationFee());
         viewHolder.doctorphonenum.setText(doctorClassList.get(i).getMobile());
         viewHolder.addressId.setText(doctorClassList.get(i).getAddressId());
         viewHolder.doctorId.setText(doctorClassList.get(i).getDoctorId());
         viewHolder.userId.setText(doctorClassList.get(i).getPatientId());
         viewHolder.distance.setText(doctorClassList.get(i).getDistance());
+        viewHolder.docName.setText("Dr. "+doctorClassList.get(i).getName());
 
 
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorClassList.get(i).getDoctorImage());

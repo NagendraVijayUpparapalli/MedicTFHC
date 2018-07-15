@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -116,6 +117,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Change Password");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -164,8 +166,9 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM4) {
                     // call some activity here
                     Intent editProfile = new Intent(ChangePassword.this,PatientEditProfile.class);
-                    editProfile.putExtra("id",getIntent().getStringExtra("userId"));
+                    editProfile.putExtra("id",getIntent().getStringExtra("id"));
                     editProfile.putExtra("mobile",mobile_number);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -179,9 +182,10 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(ChangePassword.this,AboutUs.class);
+                    Intent contact = new Intent(ChangePassword.this,Offers.class);
                     contact.putExtra("id",getIntent().getStringExtra("id"));
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","patient");
                     startActivity(contact);
 
 
@@ -192,6 +196,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
                     Intent editProfile = new Intent(ChangePassword.this,ReachUs.class);
                     editProfile.putExtra("id",getIntent().getStringExtra("id"));
                     editProfile.putExtra("mobile",mobile_number);
+                    editProfile.putExtra("module","patient");
                     startActivity(editProfile);
 
                 }
@@ -275,7 +280,7 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
 
                         // call activity here
                         Intent intent = new Intent(ChangePassword.this,ChangePassword.class);
-                        intent.putExtra("id",getIntent().getStringExtra("userId"));
+                        intent.putExtra("id",getIntent().getStringExtra("id"));
                         intent.putExtra("mobile",mobile_number);
                         startActivity(intent);
 
@@ -333,6 +338,13 @@ public class ChangePassword extends AppCompatActivity implements NavigationView.
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.qricon, menu);
+        return true;
     }
 
     @Override

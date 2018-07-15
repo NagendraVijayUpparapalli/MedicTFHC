@@ -6,14 +6,15 @@ package com.example.cool.patient.patient.ViewDiagnosticsList;
 
 public class DiagnosticsClass {
     String mobileNumber,diagId,userId,centerName,cashOnHand,creditDebit,paytm,netBanking,landLineNumber,contactPerson,
-            latitude,longitude,distance,emergencyService,addressId,centerImage;
-
+            latitude,longitude,distance,emergencyService,addressId,centerImage,selectedCity;
+    int myRangeDistance;
     public DiagnosticsClass() {
     }
 
     public DiagnosticsClass(String mobileNumber, String diagId,String userId, String centerName, String cashOnHand,
                             String creditDebit, String paytm, String netBanking, String landLineNumber, String contactPerson,
-                            String latitude, String longitude,String distance, String emergencyService, String addressId, String centerImage) {
+                            String latitude, String longitude,String distance, String emergencyService, String addressId,
+                            String centerImage,String selectedCity,int myRangeDistance) {
         this.mobileNumber = mobileNumber;
         this.diagId = diagId;
         this.userId = userId;
@@ -30,6 +31,24 @@ public class DiagnosticsClass {
         this.emergencyService = emergencyService;
         this.addressId = addressId;
         this.centerImage = centerImage;
+        this.selectedCity = selectedCity;
+        this.myRangeDistance = myRangeDistance;
+    }
+
+    public String getSelectedCity() {
+        return selectedCity;
+    }
+
+    public void setSelectedCity(String selectedCity) {
+        this.selectedCity = selectedCity;
+    }
+
+    public int getMyRangeDistance() {
+        return myRangeDistance;
+    }
+
+    public void setMyRangeDistance(int myRangeDistance) {
+        this.myRangeDistance = myRangeDistance;
     }
 
     public String getDistance() {

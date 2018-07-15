@@ -176,17 +176,18 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
                     Intent contact = new Intent(DoctorTodaysAppointmentsForPatient.this,DoctorEditProfile.class);
                     contact.putExtra("id",docId);
                     contact.putExtra("mobile",docMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorTodaysAppointmentsForPatient.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",docId);
-                    i.putExtra("mobile",docMobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorTodaysAppointmentsForPatient.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",docId);
+//                    i.putExtra("mobile",docMobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

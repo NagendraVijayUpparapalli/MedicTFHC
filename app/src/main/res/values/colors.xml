@@ -5,6 +5,9 @@
     <color name="colorPrimaryDark">#1a0d35</color>
     <color name="colorAccent">#125688</color>
     <color name="rippleButton">#000088</color>
+    <color name="docName">#000080</color>
+    <color name="docNameBook">#fff</color>
+    <!--#000080-->
 
     <!--<color name="colorAccent">#2b862a</color>-->
 

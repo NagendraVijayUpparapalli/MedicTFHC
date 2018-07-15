@@ -466,16 +466,17 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                     Intent contact = new Intent(DiagnosticAddAddress.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticAddAddress.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",getUserId);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticAddAddress.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",getUserId);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

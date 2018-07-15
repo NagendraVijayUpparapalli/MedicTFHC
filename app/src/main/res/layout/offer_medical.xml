@@ -47,14 +47,14 @@
             android:layout_below="@+id/appbar1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff">
+            android:background="@drawable/grad">
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:textStyle="bold"
                 android:textSize="30dp"
                 android:text="COMING SOON..!"

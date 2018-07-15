@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -212,7 +213,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         mobile = (EditText) findViewById(R.id.Mobile_Number);
         pincode = (EditText) findViewById(R.id.pincode);
         contactPerson = (EditText) findViewById(R.id.Frontoffice);
-        Emeregency_contact =(EditText) findViewById(R.id.emergencyContact);
+        Emeregency_contact =(EditText) findViewById(R.id.Emergency_Contact);
         landlineMobileNumber = (EditText) findViewById(R.id.landMobileNumber);
         comments = (EditText) findViewById(R.id.Comments_Others);
         getLatLong = findViewById(R.id.getlatlng);
@@ -393,6 +394,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
                     Intent contact = new Intent(MedicalShopAddAddress.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",medicalId);
                     contact.putExtra("mobile",medicalMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -881,6 +883,8 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         else
         {
             String js = formatDataAsJson();
+
+            System.out.println("js..."+js.toString());
             new sendEditProfileDetails().execute(baseUrl.getUrl()+"MSAddAddress",js.toString());
         }
     }
@@ -948,15 +952,26 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             mobile.setError(" Invalid phone number ");
             validate=false;
         }
-        if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
+
+        if(availableService.isChecked() == true) {
+
+                if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
+                {
+                    Emeregency_contact.setError("please enter valid number");
+                    validate=false;
+                }
+
+                else if (Emeregency_contact.getText().toString().length() < 10 || Emeregency_contact.getText().toString().length() > 10) {
+                    Emeregency_contact.setError(" Invalid phone number ");
+                    validate = false;
+                }
+            }
+
+        else
         {
-            Emeregency_contact.setError("please enter valid number");
-            validate=false;
-        }
-        else if(Emeregency_contact.getText().toString().length()<10 || Emeregency_contact.getText().toString().length()>10)
-        {
-            Emeregency_contact.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
@@ -1207,6 +1222,16 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
                 try {
                     selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -1229,14 +1254,12 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
         JSONObject data = new JSONObject();
 
-//        System.out.println("emergency contact..."+Emergency_mobile);
-
         myMedicalName = MedicalName.getText().toString().trim();
         myAddress = address.getText().toString().trim();
         myPincode = pincode.getText().toString().trim();
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
-        myEmergencyContact = Emeregency_contact.getText().toString().trim();
+
         myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
         myComments = comments.getText().toString().trim();
         myLati = lat.getText().toString().trim();
@@ -1252,23 +1275,31 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
         if(availableService.isChecked()){
             myAvailableService = true;
+            myEmergencyContact = Emeregency_contact.getText().toString().trim();
         }
         else if(!availableService.isChecked())
         {
             myAvailableService = false;
+            myEmergencyContact = "";
+        }
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
         }
 
         try{
 
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
             data.put("MedicalShopID",medicalId);
             data.put("ShopName",myMedicalName);
@@ -1283,7 +1314,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             data.put("LandlineNo",myLandlineMobileNumber);
             data.put("ContactPerson",myContactPerson);
             data.put("Comment", myComments);
-            data.put("EmergencyService", true);
+            data.put("EmergencyService", myAvailableService);
             data.put("EmergencyContact",myEmergencyContact);
 //            data.put("Speciality",mySpeciality);////////
 

@@ -347,17 +347,18 @@ public class DoctorEditProfile extends AppCompatActivity
                     Intent contact = new Intent(DoctorEditProfile.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorEditProfile.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",getUserId);
-                    i.putExtra("mobile",mobile_number);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorEditProfile.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",getUserId);
+//                    i.putExtra("mobile",mobile_number);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -752,7 +753,19 @@ public class DoctorEditProfile extends AppCompatActivity
                 System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
+            if(getIntent().getStringExtra("user").equals("old"))
+            {
+                aadhar_num.setEnabled(false);
+                aadhar_num.setText(myAadhar_num);
+            }
+            else
+            {
+                aadhar_num.setEnabled(true);
+                aadhar_num.setText("");
+            }
+
             mobileNumber.setText(myMobile);
+            mobileNumber.setEnabled(false);
             email.setText(myEmail);
             Experience.setText(myExperience);
 

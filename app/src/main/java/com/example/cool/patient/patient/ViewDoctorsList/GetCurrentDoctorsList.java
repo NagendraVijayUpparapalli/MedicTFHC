@@ -167,7 +167,19 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
         availability = (TextView) findViewById(R.id.availability);
-        seek_bar.setProgress(dis);
+
+//        seek_bar.setProgress(dis);
+
+        if(getIntent().getStringExtra("book") == null)
+        {
+            seek_bar.setProgress(dis);
+            dis = 20;
+
+        }
+        else
+        {
+            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+        }
 
         if(city == null)
         {
@@ -178,13 +190,13 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
             current_city.setText(city);
         }
 
-
         current_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(GetCurrentDoctorsList.this,SelectCity.class);
                 i.putExtra("module","docList");
                 i.putExtra("userId",getUserId);
+//                i.putExtra("range",dis);
                 i.putExtra("mobile",getIntent().getStringExtra("mobile"));
                 startActivity(i);
             }
@@ -204,16 +216,16 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
 
         selectedRange = getIntent().getIntExtra("range",0);
 
-        if(selectedRange == 0)
-        {
-            seek_bar.setProgress(getIntent().getIntExtra("range",0));
-            dis = getIntent().getIntExtra("range",0);
-        }
-        else
-        {
-            seek_bar.setProgress(dis);
-            dis = 20;
-        }
+//        if(dis!=20)
+//        {
+//            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+//            dis = getIntent().getIntExtra("range",0);
+//        }
+//        else
+//        {
+//            seek_bar.setProgress(dis);
+//            dis = 20;
+//        }
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -323,6 +335,7 @@ public class GetCurrentDoctorsList extends AppCompatActivity implements Navigati
                     Intent editProfile = new Intent(GetCurrentDoctorsList.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -1510,7 +1523,7 @@ private class GetAllSpeciality extends AsyncTask<String, Void, String> {
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
 
-        seek_bar.setProgress(20);
+        seek_bar.setProgress(dis);
 
         adapter = new DoctorListAdapter(this, myList);
         layoutManager = new LinearLayoutManager(this);

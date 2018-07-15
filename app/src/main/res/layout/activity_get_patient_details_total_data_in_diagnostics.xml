@@ -294,7 +294,7 @@
                                 android:drawablePadding="5dp"
                                 android:backgroundTint="@color/green"
                                 android:textSize="15dp"
-                                android:inputType="textPersonName" />
+                                android:inputType="number" />
                         </android.support.design.widget.TextInputLayout>
                         <TextView
                             android:layout_weight="2"
@@ -359,28 +359,28 @@
 
                             </android.support.design.widget.AppBarLayout>
 
-                            <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/Licence_ImageIcon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
-                                android:clickable="true"
-                                app:fabSize="mini"
-                                android:src="@drawable/ic_camera_black_24dp"
-                                app:layout_anchor="@id/appbar1"
-                                app:layout_anchorGravity="bottom|right|end" />
+                            <!--<android.support.design.widget.FloatingActionButton-->
+                                <!--android:id="@+id/Licence_ImageIcon"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginRight="5dp"-->
+                                <!--android:clickable="true"-->
+                                <!--app:fabSize="mini"-->
+                                <!--android:src="@drawable/ic_camera_black_24dp"-->
+                                <!--app:layout_anchor="@id/appbar1"-->
+                                <!--app:layout_anchorGravity="bottom|right|end" />-->
 
-                            <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/prescription_camaraIcon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
-                                android:clickable="true"
-                                app:fabSize="mini"
-                                android:layout_marginStart="5dp"
-                                android:src="@drawable/ic_camera_alt_black_24dp"
-                                app:layout_anchor="@id/appbar1"
-                                app:layout_anchorGravity="bottom|left|end"/>
+                            <!--<android.support.design.widget.FloatingActionButton-->
+                                <!--android:id="@+id/prescription_camaraIcon"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginRight="5dp"-->
+                                <!--android:clickable="true"-->
+                                <!--app:fabSize="mini"-->
+                                <!--android:layout_marginStart="5dp"-->
+                                <!--android:src="@drawable/ic_camera_alt_black_24dp"-->
+                                <!--app:layout_anchor="@id/appbar1"-->
+                                <!--app:layout_anchorGravity="bottom|left|end"/>-->
 
 
 

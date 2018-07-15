@@ -259,6 +259,13 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         comments.setText(myComments);
         availableService.setChecked(myAvailableService);
 
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
+
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
 
@@ -430,17 +437,18 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
                     Intent contact = new Intent(DoctorUpdateAddressFromMaps.this,DoctorEditProfile.class);
                     contact.putExtra("id",userId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",userId);
-                    i.putExtra("mobile",regMobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",userId);
+//                    i.putExtra("mobile",regMobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -576,6 +584,18 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
             }
         });
 
+    }
+
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+            emergencyContactNumber.setText("");
+        }
     }
 
     @Override

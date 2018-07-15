@@ -271,6 +271,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                     Intent contact = new Intent(MedicalShopEditProfile.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -344,9 +345,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                         // call activity here
 
-                        Intent about = new Intent(MedicalShopEditProfile.this,ChangePassword.class);
-                        about.putExtra("mobile",mobile_number);
-                        startActivity(about);
+                        Intent contact = new Intent(MedicalShopEditProfile.this,MedicalChangePassword.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        startActivity(contact);
 
                     }
                     else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_2) {
@@ -637,6 +639,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                 }
 
+                new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
+
+                new GetLicenceCertificateImageTask(licenceImage).execute(baseUrl.getImageUrl()+myuploadLicence);
+
             }
             else {
 ////            DiagnosticsID
@@ -696,6 +702,17 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                 System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
+            if(getIntent().getStringExtra("user").equals("old"))
+            {
+                aadhar_num.setEnabled(false);
+                aadhar_num.setText(myAadhar_num);
+            }
+            else
+            {
+                aadhar_num.setEnabled(true);
+                aadhar_num.setText("");
+            }
+
             sidenavEmail.setText(myEmail);
             sidenavMobile.setText(myMobile);
             cash_on_hand.setChecked(mycash_on_hand);
@@ -710,15 +727,13 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 //           surname.setText(mySurname);
 
             mobileNumber.setText(myMobile);
+            mobileNumber.setEnabled(false);
             email.setText(myEmail);
             licenceNumber.setText(myLicenceNumber);
             aadhar_num.setText(myAadhar_num);
 
             System.out.println("image url.."+ myadharimage);
 
-            new GetAadharImageTask(adharimage).execute(baseUrl.getImageUrl()+myadharimage);
-
-            new GetLicenceCertificateImageTask(licenceImage).execute(baseUrl.getImageUrl()+myuploadLicence);
 
         }
         catch (JSONException e)

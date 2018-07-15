@@ -314,7 +314,7 @@
                                 android:drawablePadding="5dp"
                                 android:hint="Chemist Since (Experience)"
                                 android:textSize="15dp"
-                                android:inputType="textPersonName" />
+                                android:inputType="number" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -477,7 +477,7 @@
                                 android:layout_height="wrap_content"
                                 android:ems="10"
                                 android:drawableRight="@drawable/ic_timer_black_24dp"
-                                android:text="09:00"
+                                android:text="00:00"
                                 android:hint="From Time"
                                 android:textSize="15dp"
                                 android:inputType="time" />
@@ -500,7 +500,7 @@
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:drawableRight="@drawable/ic_timer_black_24dp"
-                                android:text="08.00"
+                                android:text="00.00"
                                 android:textSize="15dp"
                                 android:paddingRight="20dp"
                                 android:hint="To Time"
@@ -537,7 +537,6 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/edittext_button"
                             android:layout_weight="2"
-                            android:textStyle="bold"
                             android:textSize="15dp"
                             />
 
@@ -694,7 +693,7 @@
                                 android:textSize="18sp"
                                 android:gravity="center"
                                 android:text="@string/submit"
-                                android:background="#f938a72f"/>
+                                android:background="@color/rippleButton"/>
 
                         </com.andexert.library.RippleView>
                     </LinearLayout>

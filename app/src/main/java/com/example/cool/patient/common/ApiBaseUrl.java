@@ -10,15 +10,15 @@ public class ApiBaseUrl {
     }
 
     public String getUrl() {
-        return "https://www.medictfhc.com/mapi/";
+        return "https://medictfhc.com/mapi/";
     }
 
     public String getImageUrl() {
-        return "https://www.medictfhc.com";
+        return "https://medictfhc.com";
     }
 
     public String getLink() {
-        return "https://www.medictfhc.com/";
+        return "https://medictfhc.com/";
     }
 
     public String getSmsUrl() {

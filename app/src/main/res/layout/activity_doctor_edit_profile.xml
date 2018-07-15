@@ -163,13 +163,13 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
                                 android:textColorHint="#8c8080"
-                                android:editable="false"
-                                >
+                                android:editable="false">
+
                                 <EditText
                                     android:id="@+id/mobileNumber"
                                     android:layout_width="match_parent"
                                     android:hint="@string/mobileNumber"
-
+                                    android:textColor="#000"
                                     android:drawablePadding="5dp"
                                     android:textSize="15sp"
                                     android:backgroundTint="@color/green"
@@ -482,6 +482,7 @@
                                     android:drawableLeft="@drawable/aadhar_icon"
                                     android:drawablePadding="5dp"
                                     android:ems="20"
+                                    android:textColor="#000"
                                     android:hint="@string/aadhaarNumber"
                                     android:inputType="number"
                                     android:textSize="15dp"/>
@@ -562,7 +563,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="@color/primarydark"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>

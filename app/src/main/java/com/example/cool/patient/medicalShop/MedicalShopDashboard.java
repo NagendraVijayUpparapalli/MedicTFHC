@@ -212,6 +212,7 @@ public class MedicalShopDashboard extends AppCompatActivity
                     Intent contact = new Intent(MedicalShopDashboard.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -288,7 +289,7 @@ public class MedicalShopDashboard extends AppCompatActivity
 
                         // call activity here
 
-                        Intent contact = new Intent(MedicalShopDashboard.this,ChangePassword.class);
+                        Intent contact = new Intent(MedicalShopDashboard.this,MedicalChangePassword.class);
                         contact.putExtra("id",getUserId);
                         contact.putExtra("mobile",mobile_number);
                         startActivity(contact);
@@ -618,7 +619,7 @@ public class MedicalShopDashboard extends AppCompatActivity
                 bb.setContactPerson(object.getString("ContactPerson"));
                 bb.setLatitude((object.getString("Latitude")));
                 bb.setLongitude((object.getString("Longitude")));
-                bb.setEmergencyservice(true);////
+                bb.setEmergencyservice(object.getBoolean("EmergencyService"));////
                 bb.setComment(object.getString("Comment"));
 //                bb.setDeleteReason();
                 bb.setDistrict(object.getString("District"));

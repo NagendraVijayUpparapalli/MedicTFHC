@@ -244,7 +244,15 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 myaddress.setText(addressarea);
                 mymobile.setText(arrayList.get(position).getMobile());
 //                myemail.setText("Not Available");
-                myperson_name.setText(arrayList.get(position).getContact_person());
+
+                if(arrayList.get(position).getContact_person().equals(""))
+                {
+                    myperson_name.setText("Not Available");
+                }
+                else
+                {
+                    myperson_name.setText(arrayList.get(position).getContact_person());
+                }
 
                 myBloodbank_name = myname.getText().toString();
                 myArea = myaddress.getText().toString();
@@ -395,6 +403,7 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                     Intent editProfile = new Intent(BloodBank1.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -821,7 +830,15 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                         myaddress.setText(addressarea);
                         mymobile.setText(arrayList.get(position).getMobile());
 //                myemail.setText("Not Available");
-                        myperson_name.setText(arrayList.get(position).getContact_person());
+
+                        if(arrayList.get(position).getContact_person().equals(""))
+                        {
+                            myperson_name.setText("Not Available");
+                        }
+                        else
+                        {
+                            myperson_name.setText(arrayList.get(position).getContact_person());
+                        }
 
                         myBloodbank_name = myname.getText().toString();
                         myArea = myaddress.getText().toString();
@@ -1127,7 +1144,15 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
                 myaddress.setText(addressarea);
                 mymobile.setText(arrayList.get(position).getMobile());
 //                myemail.setText("Not Available");
-                myperson_name.setText(arrayList.get(position).getContact_person());
+
+                if(arrayList.get(position).getContact_person().equals(""))
+                {
+                    myperson_name.setText("Not Available");
+                }
+                else
+                {
+                    myperson_name.setText(arrayList.get(position).getContact_person());
+                }
 
                 myBloodbank_name = myname.getText().toString();
                 myArea = myaddress.getText().toString();

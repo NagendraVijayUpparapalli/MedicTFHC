@@ -258,12 +258,10 @@
                         android:textColor="#000"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-
-                        android:hint="comment for Reason"
+                        android:hint="Comment for Reason"
                         android:paddingLeft="5dp"
                         android:background="@drawable/edittext_button"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:textSize="15dp"
                         />
 

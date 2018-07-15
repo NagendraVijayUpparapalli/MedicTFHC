@@ -39,6 +39,8 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.patient.PatientDashBoard;
 import com.example.cool.patient.R;
 import com.example.cool.patient.patient.PatientEditProfile;
+import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
+import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList11;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -103,7 +105,10 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
 
     static String mycomment,mypatientId,myemailId,myaddressId,myContactPerson,mymobileNumber,myaddress1,
-            mycityName,mystateName, mypincode,myAppointmentDate,myAadhaarNumber,mydiagnosticId,mycenterName;
+            mycityName,mystateName, mypincode,myAppointmentDate,myAadhaarNumber,mydiagnosticId,mycenterName,
+            selectedCity,selectedClass;
+
+    int selectedRange;
 
     static Long mystateId,mycityId;
     boolean myPatientSameUser,myEnableHistory,myHomeSample,myAcknowledement,mycash_on_hand,mydebit_card ,mynet_banking,mypay_paytm;
@@ -135,6 +140,8 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
     TextView message;
     LinearLayout oklink;
 
+    TextView noteLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +161,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         Navigation = (TextView)findViewById(R.id.navigation);
         prescription = (ImageView) findViewById(R.id.prescription);
         center_image = (ImageView) findViewById(R.id.center_image);
+        noteLayout = (TextView) findViewById(R.id.noteLayout);
 
 
         MobileNumber.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +226,10 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         mycenterName = getIntent().getStringExtra("centerName");
         mypatientId = getIntent().getStringExtra("patientId");
 
+        selectedCity = getIntent().getStringExtra("selectedCity");
+        selectedClass = getIntent().getStringExtra("myClass");
+        selectedRange = getIntent().getIntExtra("range",0);
+
         CenterName.setText(mycenterName);
 
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
@@ -271,11 +283,30 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("close");
-                Intent intent=new Intent(PatientBookAppointmentToDiagnostics.this,PatientDashBoard.class);
-                intent.putExtra("id",mypatientId);
-                intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
-                startActivity(intent);
+
+                if(selectedClass.equals("list"))
+                {
+                    System.out.println("close");
+                    Intent intent=new Intent(PatientBookAppointmentToDiagnostics.this,GetCurrentDiagnosticsList.class);
+                    intent.putExtra("userId",mypatientId);
+                    intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    intent.putExtra("city",selectedCity);
+                    intent.putExtra("book","list");
+                    intent.putExtra("range",selectedRange);
+                    startActivity(intent);
+                }
+
+                else
+                {
+                    Intent intent=new Intent(PatientBookAppointmentToDiagnostics.this,GetCurrentDiagnosticsList11.class);
+                    intent.putExtra("userId",mypatientId);
+                    intent.putExtra("mobile",getIntent().getStringExtra("mobile"));
+                    intent.putExtra("city",selectedCity);
+                    intent.putExtra("book","list11");
+                    intent.putExtra("range",selectedRange);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -326,6 +357,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
         calendarView.addDecorator((DayViewDecorator) dateDecorator);
         calendarView.setDateSelected(cal.getTime(),true);
+        calendarView.state().edit().setMinimumDate(cal).commit();
 
 
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -636,13 +668,15 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
     }
 
     private void getCenterData(String result) {
+
         try {
 
             JSONObject object = new JSONObject(result);
             mydiagCenterImage = object.getString("CenterImage");
             fromTime = object.getString("FromTime");
             toTime = object.getString("ToTime");
-            availableTimings.setText(fromTime+" AM - "+toTime+" PM");
+            availableTimings.setText(fromTime+" - "+toTime+"");
+//            availableTimings.setText(fromTime+" AM - "+toTime+" PM");
             new GetImageTask(center_image).execute(baseUrl.getImageUrl()+mydiagCenterImage);
 
         }
@@ -1005,9 +1039,33 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
             address.setText("");
             pincode.setText("");
 
+            contactPerson.setEnabled(true);
+            mobileNumber.setEnabled(true);
+            emailId.setEnabled(true);
+            aadhaarNumber.setEnabled(true);
+            address.setEnabled(true);
+            pincode.setEnabled(true);
+            state.setEnabled(true);
+            city.setEnabled(true);
+
+            noteLayout.setVisibility(View.VISIBLE);
+
             stateAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, statesList);
             stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
             state.setAdapter(stateAdapter); // Apply the adapter to the state spinner
+
+
+//            adapter2 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, statesList){
+//
+//                @NonNull
+//                @Override
+//                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//
+//                    TextView tv=(TextView) super.getView(position,convertView,parent);
+//                    tv.setTextColor(Color.BLUE);
+//                    return tv;
+//                }
+//            };
 
             cityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, citiesList);
             cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -1023,6 +1081,17 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
             aadhaarNumber.setText(myAadhaarNumber);
             address.setText(myaddress1);
             pincode.setText(mypincode);
+
+            noteLayout.setVisibility(View.GONE);
+
+            contactPerson.setEnabled(false);
+            mobileNumber.setEnabled(false);
+            emailId.setEnabled(false);
+            aadhaarNumber.setEnabled(false);
+            address.setEnabled(false);
+            pincode.setEnabled(false);
+            state.setEnabled(false);
+            city.setEnabled(false);
 
             long lng = mystateId;
             int i = (int) lng;

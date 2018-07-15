@@ -147,9 +147,9 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
 //        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-        sidenavName = (TextView) navigationView.findViewById(R.id.name1);
-        sidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
-        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
+        sidenavName = (TextView) navigationView.findViewById(R.id.name);
+        sidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+        sidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
@@ -184,16 +184,17 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                     Intent contact = new Intent(GetPatientDetailsListInDiagnostics.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",diagID);
                     contact.putExtra("mobile",diagmobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(GetPatientDetailsListInDiagnostics.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",diagID);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(GetPatientDetailsListInDiagnostics.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",diagID);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -537,9 +538,6 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
                     data_list.add(myPatientData);
                 }
-
-
-
 
             }
 

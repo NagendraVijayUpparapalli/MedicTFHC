@@ -113,7 +113,7 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
         recyclerView.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setTitle("Manage Address");
 
 //        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
@@ -183,17 +183,18 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
                     Intent contact = new Intent(DoctorManageAddress.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorManageAddress.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",getUserId);
-                    i.putExtra("mobile",regMobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorManageAddress.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",getUserId);
+//                    i.putExtra("mobile",regMobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

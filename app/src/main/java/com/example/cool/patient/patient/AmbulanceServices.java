@@ -133,7 +133,8 @@ public class AmbulanceServices extends AppCompatActivity implements NavigationVi
                     Intent editProfile = new Intent(AmbulanceServices.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile_number);
-                    editProfile.putExtra("module","patient");
+                    editProfile.putExtra("user","old");
+//                    editProfile.putExtra("module","patient");
                     startActivity(editProfile);
 
                 }

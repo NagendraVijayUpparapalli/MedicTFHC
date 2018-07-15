@@ -448,6 +448,7 @@ public class PatientEditProfile extends AppCompatActivity
                     Intent editProfile = new Intent(PatientEditProfile.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile_number);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -714,11 +715,30 @@ public class PatientEditProfile extends AppCompatActivity
             validate=false;
         }
 
-        if(myEmergency_mobile.isEmpty() || !Patterns.PHONE.matcher(myEmergency_mobile).matches())
+        if(myEmergency_mobile.isEmpty())
         {
-            emergency_mobile.setError("please enter emergency mobile number");
-            validate=false;
+            validate=true;
         }
+        else
+        {
+            if(!Patterns.PHONE.matcher(myEmergency_mobile).matches())
+            {
+                emergency_mobile.setError("please enter valid mobile number");
+                validate=false;
+            }
+            else if(myEmergency_mobile.length()<10 || myEmergency_mobile.length()>10)
+            {
+                emergency_mobile.setError(" Invalid phone number ");
+                validate=false;
+            }
+        }
+
+
+//        if(myEmergency_mobile.isEmpty() || !Patterns.PHONE.matcher(myEmergency_mobile).matches())
+//        {
+//            emergency_mobile.setError("please enter emergency mobile number");
+//            validate=false;
+//        }
 
         if(myAadhar_num.isEmpty())
         {
@@ -1190,6 +1210,8 @@ public class PatientEditProfile extends AppCompatActivity
                 sidenavEmail.setText(myEmail);
                 sidenavBloodgroup.setText(myBlood_group);
 
+                new GetImageTask(aadharimage).execute(baseUrl.getImageUrl()+myAadharImage);
+
             }
             else
             {
@@ -1267,7 +1289,17 @@ public class PatientEditProfile extends AppCompatActivity
                 System.out.println("checkNewUser in no aadhar num.."+checkNewUser);
             }
 
-            aadhar_num.setText(myAadhar_num);
+            if(getIntent().getStringExtra("user").equals("old"))
+            {
+                aadhar_num.setEnabled(false);
+                aadhar_num.setText(myAadhar_num);
+            }
+            else
+            {
+                aadhar_num.setEnabled(true);
+                aadhar_num.setText("");
+            }
+
             dob.setText(myDob);
             pincode.setText(myPincode);
             emergency_mobile.setText(myEmergency_mobile);
@@ -1279,12 +1311,12 @@ public class PatientEditProfile extends AppCompatActivity
 //            name.setTextColor(this.getResources().getColor(R.color.colorPrimary));
 //            surname.setText(mySurname);
             mobile.setText(myMobile);
+            mobile.setEnabled(false);
             email.setText(myEmail);
             address1.setText(myAddress1);
             address2.setText(myAddress2);
             System.out.println("image url.."+myAadharImage);
 
-            new GetImageTask(aadharimage).execute(baseUrl.getImageUrl()+myAadharImage);
 
 
             if(myBlood_group.equals(""))
@@ -1814,12 +1846,21 @@ public class PatientEditProfile extends AppCompatActivity
         System.out.println("dob..."+myDob);
         Blood_group = blood_group.getSelectedItem().toString();
         System.out.println("bloodgroup..."+Blood_group);
-        Emergency_mobile = emergency_mobile.getText().toString().trim();
+
         System.out.println("emergency contact..."+Emergency_mobile);
         Aadhar_num = aadhar_num.getText().toString().trim();
         System.out.println("aadhar num..."+Aadhar_num);
 
         System.out.println("encoded Image is ..."+encodedImage);
+
+        if(emergency_mobile.getText().toString().trim().isEmpty())
+        {
+            Emergency_mobile = "";
+        }
+        else
+        {
+            Emergency_mobile = emergency_mobile.getText().toString().trim();
+        }
 
         if(encodedImage == null)
         {
@@ -1844,7 +1885,7 @@ public class PatientEditProfile extends AppCompatActivity
                 data.put("PatientID",getUserId);
                 data.put("FirstName",mySurname);
                 data.put("LastName",myName);
-//                data.put("MobileNumber",myMobile);
+                data.put("MobileNumber",myMobile);
                 data.put("EmailID",myEmail);
                 data.put("Address1",myAddress1);
                 data.put("Address2",myAddress2);
@@ -1873,7 +1914,7 @@ public class PatientEditProfile extends AppCompatActivity
                 data.put("PatientID",getUserId);
                 data.put("FirstName",mySurname);
                 data.put("LastName",myName);
-//                data.put("MobileNumber",myMobile);
+                data.put("MobileNumber",myMobile);
                 data.put("EmailID",myEmail);
                 data.put("Address1",myAddress1);
                 data.put("Address2",myAddress2);
@@ -1972,6 +2013,17 @@ public class PatientEditProfile extends AppCompatActivity
 
                 }
                 else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+                else if(statuscode == 406){
                     in = httpURLConnection.getErrorStream();
                     InputStreamReader inputStreamReader = new InputStreamReader(in);
 

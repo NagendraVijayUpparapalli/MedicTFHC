@@ -553,6 +553,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, PatientEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
 //                        Log.e("city in login result...", city);
 //                        System.out.print("city in loginactivity....."+city);
                                 startActivity(i2);
@@ -563,6 +564,7 @@ public class Login extends AppCompatActivity {
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("module","doc");
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
 //                        Log.e("city in login result...", city);
                                 startActivity(i2);
                             }
@@ -572,6 +574,7 @@ public class Login extends AppCompatActivity {
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("module","diag");
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
                                 startActivity(i2);
                             }
                             else if(module_name.equalsIgnoreCase("Medicalshop"))
@@ -579,6 +582,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
                                 startActivity(i2);
                             }
 
@@ -593,6 +597,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, PatientEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
     //                        Log.e("city in login result...", city);
     //                        System.out.print("city in loginactivity....."+city);
                                 startActivity(i2);
@@ -602,6 +607,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, DoctorEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
                                 startActivity(i2);
                             }
                             else if(module_name.equalsIgnoreCase("Diagnostics"))
@@ -609,6 +615,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, DiagnosticEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
                                 startActivity(i2);
                             }
                             else if(module_name.equalsIgnoreCase("Medicalshop"))
@@ -616,6 +623,7 @@ public class Login extends AppCompatActivity {
                                 Intent i2 = new Intent(Login.this, MedicalShopEditProfile.class);
                                 i2.putExtra("mobile",phone);
                                 i2.putExtra("id",userId);
+                                i2.putExtra("user","new");
                                 startActivity(i2);
                             }
                         }

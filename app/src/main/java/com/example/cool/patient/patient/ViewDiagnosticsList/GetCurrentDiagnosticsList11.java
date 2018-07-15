@@ -148,7 +148,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
 
     FloatingActionButton homebutton;
 
-    int jsondataCount = 0,myRangeDistance = 0;
+    int jsondataCount = 0,myRangeDistance = 0,selectedRange = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +188,36 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Diagnostics");
 
+
+        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
+        distance = (TextView) findViewById(R.id.DistanceRange);
+        seek_bar = (SeekBar) findViewById(R.id.seekbar);
+        availability = (TextView) findViewById(R.id.availability);
+//        seek_bar.setProgress(dis);
+
+        selectedRange = getIntent().getIntExtra("range",0);
+
+        if(getIntent().getStringExtra("book")==null)
+        {
+            seek_bar.setProgress(dis);
+            dis = 20;
+        }
+        else
+        {
+            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+        }
+
+//        if(dis!=20)
+//        {
+//            seek_bar.setProgress(getIntent().getIntExtra("range",0));
+//            dis = getIntent().getIntExtra("range",0);
+//        }
+//        else
+//        {
+//            seek_bar.setProgress(dis);
+//            dis = 20;
+//        }
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -195,12 +225,6 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         else {
             getlatlng();
         }
-
-        Speciality = (SearchableSpinner) findViewById(R.id.speciality);
-        distance = (TextView) findViewById(R.id.DistanceRange);
-        seek_bar = (SeekBar) findViewById(R.id.seekbar);
-        availability = (TextView) findViewById(R.id.availability);
-        seek_bar.setProgress(dis);
 
 
         specialitiesList = new ArrayList<>();
@@ -302,6 +326,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     Intent editProfile = new Intent(GetCurrentDiagnosticsList11.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }
@@ -941,7 +966,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                     jsondataCount = 1;
 
                     DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
-                            creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+                            creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage,getcity,myRangeDistance);
 
                     myList.add(diagnosticsClass);
                     availability.setText(Integer.toString(count));
@@ -1166,7 +1191,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
                         jsondataCount = 1;
 
                         DiagnosticsClass diagnosticsClass = new DiagnosticsClass(mobile,diagId,getUserId,centerName,cashOnHand,
-                                creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage);
+                                creditDebit,paytm,netBanking,landLineNumber,contactPerson,mylatii,mylongii,myDistance,emergencyService,addressId,centerImage,getcity,myRangeDistance);
 
                         myList.add(diagnosticsClass);
                         availability.setText(Integer.toString(count));
@@ -1295,7 +1320,7 @@ public class GetCurrentDiagnosticsList11 extends AppCompatActivity implements Na
         seek_bar = (SeekBar) findViewById(R.id.seekbar);
         distance = (TextView) findViewById(R.id.DistanceRange);
 
-        seek_bar.setProgress(20);
+        seek_bar.setProgress(dis);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override

@@ -106,11 +106,11 @@ public class MedicalShopSideNavigationExpandableListAdapter extends BaseExpandab
         else if(listPosition == ITEM3) {
 
             if(expandedListPosition == SUBITEM3_1 ) {
-                img1.setImageResource(R.drawable.setting);
+                img1.setImageResource(R.drawable.password_eye_icon);
             }
             else if (expandedListPosition == SUBITEM3_2)
             {
-                img1.setImageResource(R.drawable.setting);
+                img1.setImageResource(R.drawable.change_mobile_icon);
             }
         }
         return convertView;

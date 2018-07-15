@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -133,7 +134,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     int currentMinute;
     String amPm;
     //get lat,lng on touch map
-    String myLatitude,myLongitude,myAddressId,mycenterImage;
+    static String myLatitude,myLongitude,myAddressId,mycenterImage = null;
     TextView getLatLong;
     // expandable list view
 
@@ -218,10 +219,12 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         myComments = getIntent().getStringExtra("comments");
         myFromTime = getIntent().getStringExtra("fromTime");
         myToTime =  getIntent().getStringExtra("toTime");
-        System.out.println("diagid in add address comments....."+myComments);
+        System.out.println("medical in add address comments....."+myComments);
 
-        System.out.println("diagid in add address....."+getUserId);
+        System.out.println("medical id in add address....."+getUserId);
         System.out.println("center image url in medical update address....."+mycenterImage);
+
+//        new GetCenterImageTask(centerImage).execute(baseUrl.getImageUrl()+mycenterImage);
 
         diagnosticName.setText(myDiagnosticName);
         address.setText(myAddress);
@@ -241,6 +244,13 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         toTime.setText(myToTime);
         Emeregency_contact.setText(myEmergencyContact);
         availableService.setChecked(myAvailableService);
+
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
 
         new GetCenterImageTask(centerImage).execute(baseUrl.getImageUrl()+mycenterImage);
 
@@ -404,6 +414,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
                     Intent contact = new Intent(MedicalShopUpdateAddressFromMaps.this,MedicalShopEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
@@ -515,6 +526,18 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             }
         });
 
+    }
+
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+            Emeregency_contact.setText("");
+        }
     }
 
     private class GetCenterImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -738,15 +761,25 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
-        {
-            Emeregency_contact.setError("please enter valid number");
-            validate=false;
+        if(availableService.isChecked() == true) {
+
+            if(Emeregency_contact.getText().toString().isEmpty() || !Patterns.PHONE.matcher(Emeregency_contact.getText().toString()).matches())
+            {
+                Emeregency_contact.setError("please enter valid number");
+                validate=false;
+            }
+
+            else if (Emeregency_contact.getText().toString().length() < 10 || Emeregency_contact.getText().toString().length() > 10) {
+                Emeregency_contact.setError(" Invalid phone number ");
+                validate = false;
+            }
         }
-        else if(Emeregency_contact.getText().toString().length()<10 || Emeregency_contact.getText().toString().length()>10)
+
+        else
         {
-            Emeregency_contact.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -999,6 +1032,15 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
                 BufferedWriter out=null;
                 try {
                     selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
                 }
                 catch (IOException e)
@@ -1027,7 +1069,7 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         myDiagnosticName = diagnosticName.getText().toString().trim();
         myAddress = address.getText().toString().trim();
         myExperience= Experience.getText().toString().trim();
-        myEmergencyContact = Emeregency_contact.getText().toString().trim();
+//        myEmergencyContact = Emeregency_contact.getText().toString().trim();
         myPincode = pincode.getText().toString().trim();
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
@@ -1064,24 +1106,34 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             }
         });
 
-        //}
-//        else if(!availableService.isChecked())
-//        {
-//            myAvailableService = false;
-//
-//        }
+
+        if(availableService.isChecked()){
+            myAvailableService = true;
+            myEmergencyContact = Emeregency_contact.getText().toString().trim();
+        }
+        else if(!availableService.isChecked())
+        {
+            myAvailableService = false;
+            myEmergencyContact = "";
+        }
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
+        }
 
         try{
 
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
 
             data.put("AddressID",myAddressId);

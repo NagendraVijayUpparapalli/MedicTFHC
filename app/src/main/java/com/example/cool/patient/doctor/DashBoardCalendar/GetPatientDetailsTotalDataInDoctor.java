@@ -601,17 +601,18 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     Intent contact = new Intent(GetPatientDetailsTotalDataInDoctor.this,DoctorEditProfile.class);
                     contact.putExtra("id",doctorId);
                     contact.putExtra("mobile",doctorMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(GetPatientDetailsTotalDataInDoctor.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",doctorId);
-                    i.putExtra("mobile",doctorMobile);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(GetPatientDetailsTotalDataInDoctor.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",doctorId);
+//                    i.putExtra("mobile",doctorMobile);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

@@ -133,7 +133,8 @@ public class FindHospitals extends AppCompatActivity implements NavigationView.O
                     Intent editProfile = new Intent(FindHospitals.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",mobile_number);
-                    editProfile.putExtra("module","patient");
+                    editProfile.putExtra("user","old");
+//                    editProfile.putExtra("module","patient");
                     startActivity(editProfile);
 
                 }

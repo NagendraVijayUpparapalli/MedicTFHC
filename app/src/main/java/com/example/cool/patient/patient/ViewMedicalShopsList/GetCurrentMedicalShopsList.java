@@ -299,6 +299,7 @@ public class GetCurrentMedicalShopsList extends AppCompatActivity implements Nav
                     Intent editProfile = new Intent(GetCurrentMedicalShopsList.this,PatientEditProfile.class);
                     editProfile.putExtra("id",getUserId);
                     editProfile.putExtra("mobile",usermobileNumber);
+                    editProfile.putExtra("user","old");
                     startActivity(editProfile);
 
                 }

@@ -294,7 +294,7 @@ public class Registration extends AppCompatActivity {
             // Set progressdialog title
 //            progressDialog.setTitle("You are logging");
             // Set progressdialog message
-            progressDialog.setMessage("You are logged in few seconds...");
+            progressDialog.setMessage("Loading...");
 
             progressDialog.setIndeterminate(false);
             // Show progressdialog

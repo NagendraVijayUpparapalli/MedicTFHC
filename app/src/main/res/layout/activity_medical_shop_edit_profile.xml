@@ -140,6 +140,7 @@
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:ems="20"
+                                android:textColor="#000"
                                 android:hint="@string/mobile_number"
                                 android:inputType="phone"
                                 android:textSize="15sp" />
@@ -346,6 +347,7 @@
                                 android:layout_marginTop="20dp"
                                 android:ems="20"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:drawableLeft="@drawable/aadhar_icon"
                                 android:drawablePadding="5dp"
                                 android:hint="@string/aadhar_number"
@@ -456,7 +458,7 @@
                                 android:textSize="18sp"
                                 android:gravity="center"
                                 android:text="@string/submit"
-                                android:background="#f938a72f"/>
+                                android:background="@color/rippleButton"/>
 
                         </com.andexert.library.RippleView>
                     </LinearLayout>

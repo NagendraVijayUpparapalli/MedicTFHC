@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -499,16 +500,18 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
                     Intent contact = new Intent(DiagnosticsUpdateAddress.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",mydiagnosticId);
                     contact.putExtra("mobile",regMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticsUpdateAddress.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",mydiagnosticId);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticsUpdateAddress.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",mydiagnosticId);
+//                    subscript.putExtra("mobile",regMobile);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -747,7 +750,8 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             intent.putExtra("state",state.getSelectedItem().toString());
             intent.putExtra("landline",landlineMobileNumber.getText().toString());
             intent.putExtra("contactName",contactPerson.getText().toString());
-
+            intent.putExtra("lati",lat.getText().toString());
+            intent.putExtra("longi",lng.getText().toString());
             intent.putExtra("fromtime",FromTime.getText().toString());
             intent.putExtra("totime",ToTime.getText().toString());
             intent.putExtra("emergencyService",myAvailableService);
@@ -843,6 +847,16 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
                 try {
                     selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -896,6 +910,20 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         else if(!availableService.isChecked())
         {
             myAvailableService = false;
+        }
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+//            System.out.println("image view encoded Image..."+encodedCertificateImage);
         }
 
         try{
@@ -954,16 +982,6 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 //            }
 
             System.out.println("js diag update Array.."+allDataArray.toString());
-
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
 
             if(availableService.isChecked())

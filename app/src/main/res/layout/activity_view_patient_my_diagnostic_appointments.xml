@@ -100,7 +100,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
-                                android:drawableLeft="@drawable/phone"
+                                android:drawableLeft="@drawable/phone1"
                                 android:textAllCaps="true"
                                 android:textStyle="bold"
                                 android:textColor="@color/gradStart"
@@ -139,7 +139,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
-                                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                                android:drawableLeft="@drawable/location_white_icon"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
@@ -166,7 +166,7 @@
                 android:id="@+id/mytoolbar"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 app:layout_collapseMode="parallax">
 
                 <TextView

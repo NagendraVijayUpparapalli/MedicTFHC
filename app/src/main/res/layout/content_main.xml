@@ -443,7 +443,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="copyright MEDICTFHC Pvt LTD @2018"
+                            android:text="@string/_2018_powered_by_medictfhc_pvt_ltd"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold" />

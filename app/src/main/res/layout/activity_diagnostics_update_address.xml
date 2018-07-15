@@ -678,7 +678,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>

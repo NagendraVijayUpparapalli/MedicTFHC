@@ -241,17 +241,18 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     Intent contact = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticEditProfile.class);
                     contact.putExtra("id",diagnosticId);
                     contact.putExtra("mobile",diagMobile);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
-                    subscript.putExtra("id",diagnosticId);
-                    subscript.putExtra("mobile",diagMobile);
-                    subscript.putExtra("module","diag");
-                    startActivity(subscript);
+//                    Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
+//                    subscript.putExtra("id",diagnosticId);
+//                    subscript.putExtra("mobile",diagMobile);
+//                    subscript.putExtra("module","diag");
+//                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

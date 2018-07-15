@@ -251,6 +251,7 @@ public class ReachUs extends AppCompatActivity
                         Intent editProfile = new Intent(ReachUs.this, PatientEditProfile.class);
                         editProfile.putExtra("id", getUserId);
                         editProfile.putExtra("mobile", mobile_number);
+                        editProfile.putExtra("user","old");
                         startActivity(editProfile);
 
                     }
@@ -458,16 +459,17 @@ public class ReachUs extends AppCompatActivity
                         Intent contact = new Intent(ReachUs.this,DoctorEditProfile.class);
                         contact.putExtra("id",getUserId);
                         contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("user","old");
                         startActivity(contact);
 
                     }
 
                     else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                         // call some activity here
-                        Intent i = new Intent(ReachUs.this,SubscriptionPlanAlertDialog.class);
-                        i.putExtra("id",getUserId);
-                        i.putExtra("module","doc");
-                        startActivity(i);
+//                        Intent i = new Intent(ReachUs.this,SubscriptionPlanAlertDialog.class);
+//                        i.putExtra("id",getUserId);
+//                        i.putExtra("module","doc");
+//                        startActivity(i);
 
                     } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
@@ -642,6 +644,7 @@ public class ReachUs extends AppCompatActivity
                         Intent contact = new Intent(ReachUs.this,MedicalShopEditProfile.class);
                         contact.putExtra("id",getUserId);
                         contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("user","old");
                         startActivity(contact);
 
                     }
@@ -789,6 +792,7 @@ public class ReachUs extends AppCompatActivity
                         Intent contact = new Intent(ReachUs.this,DiagnosticEditProfile.class);
                         contact.putExtra("id",getUserId);
                         contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("user","old");
                         startActivity(contact);
 
                     }
@@ -1253,9 +1257,9 @@ public class ReachUs extends AppCompatActivity
             String mySurname = (String) js.get("LastName");
 
 
-            sidenavName.setText(myName+" "+mySurname);
-            sidenavEmail.setText(myEmail);
-            sidenavMobile.setText(myMobile);
+            medicalsidenavName.setText(myName+" "+mySurname);
+            medicalsidenavEmail.setText(myEmail);
+            medicalsidenavMobile.setText(myMobile);
 
 
         }

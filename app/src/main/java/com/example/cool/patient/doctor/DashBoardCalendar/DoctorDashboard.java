@@ -458,17 +458,18 @@ public class DoctorDashboard extends AppCompatActivity
                     Intent contact = new Intent(DoctorDashboard.this,DoctorEditProfile.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("user","old");
                     startActivity(contact);
 
                 }
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-                    Intent i = new Intent(DoctorDashboard.this,SubscriptionPlanAlertDialog.class);
-                    i.putExtra("id",getUserId);
-                    i.putExtra("mobile",mobile_number);
-                    i.putExtra("module","doc");
-                    startActivity(i);
+//                    Intent i = new Intent(DoctorDashboard.this,SubscriptionPlanAlertDialog.class);
+//                    i.putExtra("id",getUserId);
+//                    i.putExtra("mobile",mobile_number);
+//                    i.putExtra("module","doc");
+//                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
