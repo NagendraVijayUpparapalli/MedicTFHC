@@ -45,7 +45,7 @@ public class PatientSideNavigationExpandableSubList {
         expandableListDetail.put("Add My Family", AddMyFamily);
 
         expandableListDetail.put("Offers", Aboutus);
-        expandableListDetail.put("Contact us",Contactus);
+        expandableListDetail.put("Reach us",Contactus);
         expandableListDetail.put("Logout", menu4);
         return expandableListDetail;
 

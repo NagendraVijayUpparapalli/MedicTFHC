@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/alertdialog_border">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#040676"
+            android:text="Acknowledgement"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:orientation="horizontal">
 
 
@@ -20,60 +39,64 @@
         <TextView
             android:textSize="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:textColor="#040676"
             android:text="@string/do_you_want_enable_this_appoinment_in_your_history"/>
 
     </LinearLayout>
+
     <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-
-    <CheckBox
-        android:id="@+id/acknowledge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:textSize="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#f50101"
-        android:text="@string/acknwoledge"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="horizontal">
 
-</LinearLayout>
+
+        <CheckBox
+            android:id="@+id/acknowledge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#f50101"
+            android:text="@string/acknwoledge"/>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="horizontal">
 
 
         <TextView
             android:id="@+id/cancel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/cancel"
             android:textAlignment="center"
-            android:layout_weight="1"
+
             android:textColor="#047c8c" />
 
 
         <TextView
             android:id="@+id/ok"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/ok"
             android:textAlignment="center"
 
-            android:layout_weight="1"
             android:textColor="#047c8c" />
     </LinearLayout>
 

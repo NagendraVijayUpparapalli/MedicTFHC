@@ -432,6 +432,8 @@ public class Login extends AppCompatActivity {
 
             progressDialog.setIndeterminate(false);
             // Show progressdialog
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setP
             progressDialog.show();
             progressDialog.setCancelable(false);
             progressDialog.setCanceledOnTouchOutside(false);

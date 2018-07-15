@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
@@ -85,7 +86,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     List<String> districtsList,citiesList,statesList;
 
     //doc timings alert
-    Button ok_btn,cancel_btn;
+    ImageView ok_btn,cancel_btn;
     EditText appointments;
     Button show;
     Dialog MyDialog;
@@ -94,7 +95,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     List<String> allItemsList, prevSunTimeSlotsList,prevMonTimeSlotsList,prevTueTimeSlotsList,prevWedTimeSlotsList,prevThurTimeSlotsList,prevFriTimeSlotsList,prevSatTimeSlotsList;
 
-    Button sunday,monday,tuesday,wednesday,thursday,friday,saturday;
+    CardView sunday,monday,tuesday,wednesday,thursday,friday,saturday;
     String allItems[],allSunPrevItems[],allMonPrevItems[]=null,allTuePrevItems[],allWedPrevItems[],allThurPrevItems[],allFriPrevItems[],allSatPrevItems[];
 
     static Map<String, List<String>> map = new HashMap<String, List<String>>();
@@ -162,7 +163,16 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     boolean myAvailableService;
 
     ApiBaseUrl baseUrl;
+
+    ProgressDialog progressDialog2;
+    ProgressDialog progressDialog3;
+    ProgressDialog progressDialog4;
+    ProgressDialog progressDialog5;
+    ProgressDialog progressDialog6;
+    ProgressDialog progressDialog1;
+
     ProgressDialog progressDialog;
+
 
     // expandable list view
 
@@ -238,13 +248,13 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         myComments = getIntent().getStringExtra("comments");
         myAvailableService = getIntent().getBooleanExtra("emergencyService",myAvailableService);
 
+        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
+
         new GetAllCities().execute(baseUrl.getUrl()+"GetAllCity");
 
         new GetAllStates().execute(baseUrl.getUrl()+"GetAllState");
 
         new GetAllDistricts().execute(baseUrl.getUrl()+"GetAllDistrict");
-
-        new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);
 
         new GetTimeSlots().execute(baseUrl.getUrl()+"GetAllTimeSlot");
 
@@ -304,7 +314,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             public void onClick(View v) {
 
                 String js = formatDoctorTimingsDataAsJson();
-                System.out.println("js time array"+js.toString());
+//                System.out.println("js time array"+js);
                 new insertDoctorAppointmentTimings().execute(baseUrl.getUrl()+"DoctorInsertTimeSlot",js.toString());
 
             }
@@ -329,13 +339,13 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 //
 //        );
 
-        sunday = (Button) findViewById(R.id.Sunday);
-        monday = (Button) findViewById(R.id.Monday);
-        tuesday = (Button) findViewById(R.id.Tuesday);
-        wednesday =(Button)findViewById(R.id.Wednesday);
-        thursday = (Button) findViewById(R.id.Thursday);
-        friday = (Button) findViewById(R.id.Friday);
-        saturday = (Button) findViewById(R.id.Saturday);
+        sunday = (CardView) findViewById(R.id.Sunday);
+        monday = (CardView) findViewById(R.id.Monday);
+        tuesday = (CardView) findViewById(R.id.Tuesday);
+        wednesday =(CardView)findViewById(R.id.Wednesday);
+        thursday = (CardView) findViewById(R.id.Thursday);
+        friday = (CardView) findViewById(R.id.Friday);
+        saturday = (CardView) findViewById(R.id.Saturday);
 
         saturday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -621,15 +631,15 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(DoctorUpdateAddress.this);
+            progressDialog1 = new ProgressDialog(DoctorUpdateAddress.this);
             // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
+//            progressDialog1.setTitle("Your searching process is");
             // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+            progressDialog1.setMessage("Loading...");
 
-            progressDialog.setIndeterminate(false);
+            progressDialog1.setIndeterminate(false);
             // Show progressdialog
-            progressDialog.show();
+            progressDialog1.show();
         }
 
         @Override
@@ -672,7 +682,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+//            progressDialog2.dismiss();
             getProfileDetails(result);
         }
 
@@ -1321,6 +1331,23 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     //Get timeslots list from api call
     private class GetTimeSlots extends AsyncTask<String, Void, String> {
 
+
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog6 = new ProgressDialog(DoctorUpdateAddress.this);
+//            // Set progressdialog title
+////            progressDialog1.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog6.setMessage("Loading...");
+//
+//            progressDialog6.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog6.show();
+//        }
+
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -1359,6 +1386,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  states  ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+//            progressDialog6.dismiss();
             getTimeSlots(result);
         }
     }
@@ -1398,6 +1426,96 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         {}
     }
 
+//    private String formatDataAsJson()
+//    {
+//
+//        JSONObject data = new JSONObject();
+//
+////        System.out.println("emergency contact..."+Emergency_mobile);
+//
+//        myHospitalName = hospitalName.getText().toString().trim();
+//        myAddress = address.getText().toString().trim();
+//        myPincode = pincode.getText().toString().trim();
+//        myContactPerson = contactPerson.getText().toString();
+//        myFee = fee.getText().toString();
+//        myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
+//        myComments = comments.getText().toString().trim();
+//        myLati = lat.getText().toString().trim();
+//        myLngi = lng.getText().toString().trim();
+//        myCity= city.getSelectedItem().toString();
+//        myState= state.getSelectedItem().toString();
+//        myDistrict= district.getSelectedItem().toString();
+//
+//        myEmergencyContact = emergencyContactNumber.getText().toString().trim();
+//
+//        if(availableService.isChecked()){
+//            myAvailableService = true;
+//        }
+//        else if(!availableService.isChecked())
+//        {
+//            myAvailableService = false;
+//        }
+//
+//        try{
+//            if(availableService.isChecked())
+//            {
+//                data.put("AddressID",myAddressId);
+//                data.put("Address1",myAddress);
+//                data.put("HospitalName",myHospitalName);
+//
+//                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+//                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+//
+//                data.put("ZipCode",myPincode);
+//                data.put("LandlineNo",myLandlineMobileNumber);
+//                data.put("EmergencyContact",myEmergencyContact);
+//                data.put("District",myDistrict);
+//                data.put("FrontofficeContactPerson",myContactPerson);
+//
+//                data.put("ConsultationFee",myFee);
+//                data.put("EmergencyService", myAvailableService);
+//                data.put("Latitude",myLati);
+//                data.put("Longitude", myLngi);
+//                data.put("PromotionalOffer", myComments);///
+//
+//                return data.toString();
+//            }
+//            else if(!availableService.isChecked())
+//            {
+//                data.put("AddressID",myAddressId);
+//                data.put("Address1",myAddress);
+//                data.put("HospitalName",myHospitalName);
+//
+//                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+//                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+//
+//                data.put("ZipCode",myPincode);
+//                data.put("LandlineNo",myLandlineMobileNumber);
+//
+////                data.put("EmergencyContact",myEmergencyContact);
+//
+//                data.put("District",myDistrict);
+//                data.put("FrontofficeContactPerson",myContactPerson);
+//
+//                data.put("ConsultationFee",myFee);
+//                data.put("EmergencyService", myAvailableService);
+//                data.put("Latitude",myLati);
+//                data.put("Longitude", myLngi);
+//                data.put("PromotionalOffer", myComments);///
+//
+//                return data.toString();
+//            }
+//
+//        }
+//        catch (Exception e)
+//        {
+//            Log.d("JSON","Can't format JSON");
+//        }
+//
+//        return null;
+//    }
+
+
     private String formatDataAsJson()
     {
 
@@ -1431,6 +1549,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         try{
             if(availableService.isChecked())
             {
+
                 data.put("AddressID",myAddressId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
@@ -1488,24 +1607,23 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     }
 
 
-
     public void MySundayCustomAlertDialog(){
 
-        getmUserItemsSunItems = new ArrayList<>();
+//        getmUserItemsSunItems = new ArrayList<>();
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(sunPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1543,7 +1661,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         {
             String[] stockArr = new String[0];
 
-            allSunPrevItems  = new String[0];
+            allSunPrevItems = new String[0];
 
         }
 
@@ -1627,19 +1745,19 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MyMondayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(monPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1762,19 +1880,19 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MyTuesdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(tuePrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1823,7 +1941,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 //                Toast.makeText(getApplicationContext(),prevTueTimeSlotsList.get(i),Toast.LENGTH_SHORT).show();
 
                     int pos = Arrays.asList(allItems).indexOf(prevTueTimeSlotsList.get(i).toString());
-                    System.out.println("pos.." + pos);
+                    System.out.println("pos...tue." + pos);
                     checkedTueAmTimings[pos] = true;
                     getmUserItemsTueItems.add(prevTueTimeSlotsList.get(i).toString());
                 }
@@ -1893,19 +2011,19 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MyWednesdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(wedPrevApointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2025,19 +2143,19 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MyThursdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(thuPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2156,20 +2274,20 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MyFridayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
         appointments.setText(friPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2288,20 +2406,20 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     public void MySaturdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddress.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddress.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
         appointments.setText(satPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView)MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView)MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2374,8 +2492,6 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
                 }
             }
         });
-
-
 
         mBuilder2.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
             @Override
@@ -2766,6 +2882,21 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     //Get previous timings list from api call
     public class GetPreviousTimings extends AsyncTask<String, Void, String> {
 
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog1 = new ProgressDialog(DoctorUpdateAddress.this);
+//            // Set progressdialog title
+////            progressDialog1.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog1.setMessage("Loading...");
+//
+//            progressDialog1.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog1.show();
+//        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -2803,6 +2934,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
                     }
 
                 }
+
                 else if(statuscode == 404){
 //                    showMessage();
                     in = httpURLConnection.getErrorStream();
@@ -2837,6 +2969,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  cities ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog1.dismiss();
             getPreviousTiming(result);
 
         }
@@ -2974,6 +3107,23 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
     //Get cities list from api call
     public class GetAllCities extends AsyncTask<String, Void, String> {
 
+
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog3 = new ProgressDialog(DoctorUpdateAddress.this);
+//            // Set progressdialog title
+////            progressDialog1.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog3.setMessage("Loading...");
+//
+//            progressDialog3.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog3.show();
+//        }
+
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -3014,6 +3164,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  cities ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+//            progressDialog3.dismiss();
             getCities(result);
 
         }
@@ -3050,6 +3201,23 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     //Get states list from api call
     private class GetAllStates extends AsyncTask<String, Void, String> {
+
+
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog4 = new ProgressDialog(DoctorUpdateAddress.this);
+//            // Set progressdialog title
+////            progressDialog1.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog4.setMessage("Loading...");
+//
+//            progressDialog4.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog4.show();
+//        }
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -3091,6 +3259,8 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  states  ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+
+//            progressDialog4.dismiss();
             getStates(result);
         }
     }
@@ -3122,6 +3292,23 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
     //Get districts list from api call
     private class GetAllDistricts extends AsyncTask<String, Void, String> {
+
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog5 = new ProgressDialog(DoctorUpdateAddress.this);
+//            // Set progressdialog title
+////            progressDialog1.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog5.setMessage("Loading...");
+//
+//            progressDialog5.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog5.show();
+//        }
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -3163,7 +3350,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  districts  ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-
+//            progressDialog5.dismiss();
             getDistricts(result);
 
         }

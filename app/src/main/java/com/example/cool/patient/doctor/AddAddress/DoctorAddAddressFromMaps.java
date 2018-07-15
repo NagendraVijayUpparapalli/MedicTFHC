@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
@@ -121,7 +122,7 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
 
     List<String> myDistrictsList = new ArrayList<String>();
 
-    Button sunday,monday,tuesday,wednesday,thursday,friday,saturday;
+    CardView sunday,monday,tuesday,wednesday,thursday,friday,saturday;
 
     static Map<String, List<String>> map = new HashMap<String, List<String>>();
 
@@ -303,13 +304,13 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
         });
 
 
-        sunday = (Button) findViewById(R.id.Sunday);
-        monday = (Button) findViewById(R.id.Monday);
-        tuesday = (Button) findViewById(R.id.Tuesday);
-        wednesday =(Button)findViewById(R.id.Wednesday);
-        thursday = (Button) findViewById(R.id.Thursday);
-        friday = (Button) findViewById(R.id.Friday);
-        saturday = (Button) findViewById(R.id.Saturday);
+        sunday = (CardView) findViewById(R.id.Sunday);
+        monday = (CardView) findViewById(R.id.Monday);
+        tuesday = (CardView) findViewById(R.id.Tuesday);
+        wednesday =(CardView)findViewById(R.id.Wednesday);
+        thursday = (CardView) findViewById(R.id.Thursday);
+        friday = (CardView) findViewById(R.id.Friday);
+        saturday = (CardView) findViewById(R.id.Saturday);
 
         saturday.setOnClickListener(new View.OnClickListener() {
             @Override

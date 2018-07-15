@@ -74,7 +74,7 @@
         <string name="submit">SUBMIT</string>
     <string name="loginFont">Login</string>
     <string name="do_you_want_enable_this_appoinment_in_your_history">Do you want enable this appoinment in your history?</string>
-        <string name="cancel">Cancel</string>
+
         <string name="ok">Ok</string>
         <string name="about_us">About Us</string>
         <string name="mr_p_ramkumar_varma">Mr.P.Ramkumar Varma</string>
@@ -99,6 +99,8 @@
     <string name="do_you_want_to_cancel_reschedule_the_appointment">Do you want to cancel/Reschedule the appointment?</string>
     <string name="amount">Amount</string>
     <string name="_2018_powered_by_medictfhc_pvt_ltd">Ⓒ 2018. Powered By Medictfhc Pvt Ltd</string>
+    <string name="cancel">Cancel</string>
+    <string name="doctor_prescription">Doctor Prescription</string>
 
 
 </resources>

@@ -56,6 +56,7 @@ import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -151,6 +152,9 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         appointmentDate = getIntent().getStringExtra("date");
 
         System.out.println("appointmentDate....in view data.."+appointmentDate+"..status.."+statuss+"..payment mode..."+payment);
+
+        System.out.println("image url....in view data.."+prescription);
+
 
         builder=new StringBuilder();
 
@@ -1018,6 +1022,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Mytask().execute();
                 Intent intent = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,DiagnosticDashboard.class);
                 intent.putExtra("id",diagnosticId);
                 intent.putExtra("mobile",diagmobilenumber);
@@ -1129,8 +1134,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            getDetails(result);
 
+            getDetails(result);
 
         }
     }
@@ -1138,15 +1143,15 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     private void getDetails(String result) {
         try {
 
-            JSONArray jsonArray=new JSONArray(result);
-            for(int i=0;i<jsonArray.length();i++)
-            {
-                JSONObject js = jsonArray.getJSONObject(i);
+//            JSONArray jsonArray=new JSONArray(result);
+//            for(int i=0;i<jsonArray.length();i++)
+//            {
+                JSONObject js = new JSONObject(result);
 
                 diagmobilenumber=(String) js.getString("MobileNumber");
                 diagaddress=(String) js.getString("Address1");
 
-            }
+//            }
 
         } catch (JSONException e) {
             e.printStackTrace();

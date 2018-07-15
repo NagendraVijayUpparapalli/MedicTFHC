@@ -24,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
@@ -131,7 +132,7 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 
     int count;
 
-    Button sunday,monday,tuesday,wednesday,thursday,friday,saturday;
+    CardView sunday,monday,tuesday,wednesday,thursday,friday,saturday;
     //  TextView mItemSelected,m1ItemSelected,mItemSelectedTuesday,mItemSelectedWednessday,mItemSelectedThurday,mItemSelectedFriday,mItemSelectedSaturday;
     public static String[] listItemsSunday = null,listItemsMonday,listItemsTuesday,listItemsWednessday,listItemsThursday,listItemsFriday,listItemsSaturday;
     boolean[] checkedItems_sunday,checkedItems_monday,checkedItems_tuesday,checkedItems_wednesday,checkedItems_thursday,checkedItems_friday,checkedItems_saturday;
@@ -312,13 +313,13 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 //
 //        );
 
-        sunday = (Button) findViewById(R.id.Sunday);
-        monday = (Button) findViewById(R.id.Monday);
-        tuesday = (Button) findViewById(R.id.Tuesday);
-        wednesday =(Button)findViewById(R.id.Wednesday);
-        thursday = (Button) findViewById(R.id.Thursday);
-        friday = (Button) findViewById(R.id.Friday);
-        saturday = (Button) findViewById(R.id.Saturday);
+        sunday = (CardView) findViewById(R.id.Sunday);
+        monday = (CardView) findViewById(R.id.Monday);
+        tuesday = (CardView) findViewById(R.id.Tuesday);
+        wednesday =(CardView)findViewById(R.id.Wednesday);
+        thursday = (CardView) findViewById(R.id.Thursday);
+        friday = (CardView) findViewById(R.id.Friday);
+        saturday = (CardView) findViewById(R.id.Saturday);
 
         saturday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -443,11 +444,11 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorAddAddress.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",getUserId);
-//                    i.putExtra("mobile",mobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorAddAddress.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",getUserId);
+                    i.putExtra("mobile",mobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

@@ -87,7 +87,6 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
     TextView cancel,ok,cancel1,ok1;
     CheckBox checkPatientSameUser,checkhomeSample,checkEnableHistory,checkAcknowledge;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
     boolean[] checkDiagSpecialityItems;
     String[] allDiagSpecialityItems;
@@ -122,7 +121,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
     static String encodedPrescriptionImage = null;
     Uri selectedImageUri ;
     Bitmap selectedImageBitmap = null;
-    final int REQUEST_CODE_GALLERY1 = 999, REQUEST_CODE_GALLERY2 = 1;
+    final int REQUEST_CODE_GALLERY1 = 999, REQUEST_CODE_GALLERY2 = 100;
 
     SearchableSpinner city,state;
     List<String> citiesList,statesList;
@@ -210,7 +209,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(intent, MY_CAMERA_REQUEST_CODE);
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
                         }
                     }
                 });
@@ -218,7 +217,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    MY_CAMERA_REQUEST_CODE);
+                    REQUEST_CODE_GALLERY2);
         }
 
         mydiagnosticId = getIntent().getStringExtra("diagid");
@@ -613,10 +612,20 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
             }
         }
 
-        else if(requestCode == MY_CAMERA_REQUEST_CODE)
+        else if(requestCode == REQUEST_CODE_GALLERY2)
         {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             prescription.setImageBitmap(thumbnail);
+
+            prescription.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedPrescriptionImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);

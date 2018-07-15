@@ -30,7 +30,7 @@ public class SubscriptionPlanAlertDialog extends AppCompatActivity {
     TextView textview;
     AlertDialog alertDialog1;
     CharSequence[] values = {"Urban", "Rural"};
-    String doctorName,diagnosticName,moduleName,moduleId;
+    String doctorName,diagnosticName,moduleName,moduleId,moduleMobile;
     ApiBaseUrl baseUrl;
 
     @Override
@@ -41,6 +41,7 @@ public class SubscriptionPlanAlertDialog extends AppCompatActivity {
         baseUrl = new ApiBaseUrl();
 
         moduleId = getIntent().getStringExtra("id");
+        moduleMobile = getIntent().getStringExtra("mobile");
         moduleName = getIntent().getStringExtra("module");
 
         if(moduleName.equals("doc"))
@@ -52,7 +53,6 @@ public class SubscriptionPlanAlertDialog extends AppCompatActivity {
             new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+moduleId);
         }
 
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Subscription For ?");
         alert.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
@@ -62,48 +62,74 @@ public class SubscriptionPlanAlertDialog extends AppCompatActivity {
                     case 0:
                         if(moduleName.equals("doc"))
                         {
-                            Toast.makeText(getApplicationContext(), "your doc", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(), "your doc", Toast.LENGTH_LONG).show();
                             Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Urban.class);
                             urban.putExtra("subscriptionType","URBAN");
                             urban.putExtra("docName",doctorName);
                             urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
                             urban.putExtra("module","doc");
                             startActivity(urban);
                         }
 
                         else if(moduleName.equals("diag"))
                         {
-                            Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
                             Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Urban.class);
                             urban.putExtra("subscriptionType","URBAN");
                             urban.putExtra("diagName",diagnosticName);
                             urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
                             urban.putExtra("module","diag");
+                            startActivity(urban);
+                        }
+                        else if(moduleName.equals("medical"))
+                        {
+//                            Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
+                            Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Urban.class);
+                            urban.putExtra("subscriptionType","URBAN");
+                            urban.putExtra("diagName",diagnosticName);
+                            urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
+                            urban.putExtra("module","medical");
                             startActivity(urban);
                         }
                         break;
                     case 1:
                         if(moduleName.equals("doc"))
-                    {
-                        Toast.makeText(getApplicationContext(), "your doc", Toast.LENGTH_LONG).show();
-                        Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Rural.class);
-                        urban.putExtra("subscriptionType","RURAL");
-                        urban.putExtra("docName",doctorName);
-                        urban.putExtra("id",moduleId);
-                        urban.putExtra("module","doc");
-                        startActivity(urban);
-                    }
+                        {
+    //                        Toast.makeText(getApplicationContext(), "your doc", Toast.LENGTH_LONG).show();
+                            Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Rural.class);
+                            urban.putExtra("subscriptionType","RURAL");
+                            urban.putExtra("docName",doctorName);
+                            urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
+                            urban.putExtra("module","doc");
+                            startActivity(urban);
+                        }
 
                         else if(moduleName.equals("diag"))
-                    {
-                        Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
-                        Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Rural.class);
-                        urban.putExtra("subscriptionType","RURAL");
-                        urban.putExtra("diagName",diagnosticName);
-                        urban.putExtra("id",moduleId);
-                        urban.putExtra("module","diag");
-                        startActivity(urban);
-                    }
+                        {
+    //                        Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
+                            Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Rural.class);
+                            urban.putExtra("subscriptionType","RURAL");
+                            urban.putExtra("diagName",diagnosticName);
+                            urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
+                            urban.putExtra("module","diag");
+                            startActivity(urban);
+                        }
+                        else if(moduleName.equals("medical"))
+                        {
+                            //                        Toast.makeText(getApplicationContext(), "your diag", Toast.LENGTH_LONG).show();
+                            Intent urban  = new Intent(SubscriptionPlanAlertDialog.this,Subscription_for_Rural.class);
+                            urban.putExtra("subscriptionType","RURAL");
+                            urban.putExtra("diagName",diagnosticName);
+                            urban.putExtra("id",moduleId);
+                            urban.putExtra("mobile",moduleMobile);
+                            urban.putExtra("module","medical");
+                            startActivity(urban);
+                        }
                         break;
                 }
                 alertDialog1.dismiss();

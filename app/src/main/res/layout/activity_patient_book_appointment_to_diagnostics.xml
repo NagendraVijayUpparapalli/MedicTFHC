@@ -268,17 +268,16 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="fill_vertical"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
         <RelativeLayout
             android:id="@+id/calenderlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp"
             android:layout_below="@+id/linlay1">
 
             <android.support.v7.widget.CardView
@@ -335,7 +334,7 @@
 
             </android.support.v7.widget.CardView>
         </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
     <android.support.v4.widget.NestedScrollView
 
         android:layout_width="wrap_content"

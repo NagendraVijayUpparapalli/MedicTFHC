@@ -47,8 +47,7 @@ public class DoctorTodaysAppointmentAdapter extends RecyclerView.Adapter<DoctorT
         holder.appointmentId.setText(my_data.get(position).getAppointmentID());
         holder.doctorId.setText(my_data.get(position).getDoctorId());
         holder.docMobile.setText(my_data.get(position).getDocMobile());
-
-
+        holder.status.setText(my_data.get(position).getStatus1());
     }
 
     @Override
@@ -58,7 +57,7 @@ public class DoctorTodaysAppointmentAdapter extends RecyclerView.Adapter<DoctorT
 
     public  class ViewHolder extends  RecyclerView.ViewHolder{
 
-        public TextView PatientName,mobileNumber,Timeslot,Status,age,reason,doctorId,docMobile,patientId,appointmentId;
+        public TextView PatientName,mobileNumber,Timeslot,Status,age,reason,doctorId,docMobile,patientId,appointmentId,status;
 
 
         public ViewHolder(final View itemView) {
@@ -73,6 +72,7 @@ public class DoctorTodaysAppointmentAdapter extends RecyclerView.Adapter<DoctorT
             docMobile = (TextView) itemView.findViewById(R.id.docMobile);
             patientId=(TextView)itemView.findViewById(R.id.patientId);
             appointmentId=(TextView)itemView.findViewById(R.id.appointmentId);
+            status = (TextView)itemView.findViewById(R.id.status);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +90,7 @@ public class DoctorTodaysAppointmentAdapter extends RecyclerView.Adapter<DoctorT
                     intent.putExtra("reason",reason.getText().toString());
                     intent.putExtra("patientId",patientId.getText().toString());
                     intent.putExtra("appointmentId",appointmentId.getText().toString());
+                    intent.putExtra("status",status.getText().toString());//not in usage
                     itemView.getContext().startActivity(intent);
                 }
             });

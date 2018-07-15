@@ -511,7 +511,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/DiagnosticPrescription"
+                                    android:text="@string/doctor_prescription"
                                     android:textAlignment="center"
                                     android:textColor="#3797CF"
                                     android:textSize="13sp" />

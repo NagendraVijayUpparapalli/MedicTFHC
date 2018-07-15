@@ -21,6 +21,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +41,7 @@ public class Subscription_for_Urban extends AppCompatActivity {
     Dialog MyDialog;
     Button pay;
     Button cancel;
-    String doctorName,diagName,subscriptionType,moduleName,moduleId,paymentMode,planType,amount;
+    String doctorName,diagName,subscriptionType,moduleName,moduleId,moduleMobile,paymentMode,planType,amount;
     ApiBaseUrl baseUrl;
 
     RadioGroup paymentRadioGroup;
@@ -94,6 +95,7 @@ public class Subscription_for_Urban extends AppCompatActivity {
             subscriptionType = getIntent().getStringExtra("subscriptionType");
             doctorName = getIntent().getStringExtra("docName");
             moduleId = getIntent().getStringExtra("id");
+            moduleMobile = getIntent().getStringExtra("mobile");
 
             System.out.println("module id from doc...."+moduleId);
             System.out.println("module name...."+moduleName);
@@ -106,6 +108,18 @@ public class Subscription_for_Urban extends AppCompatActivity {
             subscriptionType = getIntent().getStringExtra("subscriptionType");
             moduleName = getIntent().getStringExtra("diagName");
             moduleId = getIntent().getStringExtra("id");
+            moduleMobile = getIntent().getStringExtra("mobile");
+
+            System.out.println("module id from diag...."+moduleId);
+            System.out.println("module name....."+moduleName);
+            System.out.print("subscriptionType in urban diag....."+subscriptionType);
+        }
+        else if(moduleName.equals("medical"))
+        {
+            subscriptionType = getIntent().getStringExtra("subscriptionType");
+//            moduleName = getIntent().getStringExtra("diagName");
+            moduleId = getIntent().getStringExtra("id");
+            moduleMobile = getIntent().getStringExtra("mobile");
 
             System.out.println("module id from diag...."+moduleId);
             System.out.println("module name....."+moduleName);
@@ -121,10 +135,28 @@ public class Subscription_for_Urban extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Subscription_for_Urban.this,DoctorDashboard.class);
-//                        intent.putExtra("id",getUserId);
-                        startActivity(intent);
+
+                        if(moduleName.equals("doc"))
+                        {
+                            Intent intent = new Intent(Subscription_for_Urban.this,DoctorDashboard.class);
+                            intent.putExtra("id",moduleId);
+                            intent.putExtra("mobile",moduleMobile);
+                            startActivity(intent);
+                        }
+                        else if(moduleName.equals("diag"))
+                        {
+                            Intent intent = new Intent(Subscription_for_Urban.this,DiagnosticDashboard.class);
+                            intent.putExtra("id",moduleId);
+                            intent.putExtra("mobile",moduleMobile);
+                            startActivity(intent);
+                        }
+                        else if(moduleName.equals("medical"))
+                        {
+                            Intent intent = new Intent(Subscription_for_Urban.this,MedicalShopDashboard.class);
+                            intent.putExtra("id",moduleId);
+                            intent.putExtra("mobile",moduleMobile);
+                            startActivity(intent);
+                        }
 
                     }
                 }

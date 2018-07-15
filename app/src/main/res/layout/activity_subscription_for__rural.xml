@@ -15,7 +15,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@drawable/toolbar_gradient"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -188,7 +188,7 @@
 
 
                         <Button
-                            android:id="@+id/sliver"
+                            android:id="@+id/silver"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
@@ -325,7 +325,7 @@
 
 
                         <Button
-                            android:id="@+id/Gold"
+                            android:id="@+id/gold"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"

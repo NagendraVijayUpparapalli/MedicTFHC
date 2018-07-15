@@ -46,6 +46,26 @@ class DiagnosticsTodaysAppointmentsAdapter extends RecyclerView.Adapter<Diagnost
         holder.Dstatus.setText(String.valueOf(my_data.get(position).getDstatus()));
         holder.aadhar.setText(my_data.get(position).getAadharnumebr());
 
+        String myStatus = "";
+        if(my_data.get(position).getDstatus() == 0)
+        {
+            myStatus = "Pending";
+        }
+        if(my_data.get(position).getDstatus() == 1)
+        {
+            myStatus = "Initiated";
+        }
+        if(my_data.get(position).getDstatus() == 2)
+        {
+            myStatus = "In Progress";
+        }
+        if(my_data.get(position).getDstatus() == 3)
+        {
+            myStatus = "Finished";
+        }
+
+        holder.Status.setText(myStatus);
+
         diagnosticId = my_data.get(position).getDiagnosticId();
         diagMobile = my_data.get(position).getDiagMobile();
 
@@ -74,7 +94,7 @@ class DiagnosticsTodaysAppointmentsAdapter extends RecyclerView.Adapter<Diagnost
             appiontmentid=(TextView)itemView.findViewById(R.id.appointmentid);
             Dstatus=(TextView)itemView.findViewById(R.id.Dstatus);
             aadhar=(TextView)itemView.findViewById(R.id.aadharno);
-//            Status=(TextView)itemView.findViewById(R.id.status);
+            Status=(TextView)itemView.findViewById(R.id.status);
 //            comment=(TextView)itemView.findViewById(R.id.comments);
 
 //            imageurl=(TextView)itemView.findViewById(R.id.image);

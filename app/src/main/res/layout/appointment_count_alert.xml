@@ -2,16 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_gravity="center"
     android:orientation="vertical"
     android:background="@drawable/alertdialog_border">
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-
         android:orientation="vertical">
 
         <TextView
@@ -19,17 +17,19 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="#000"
+            android:textColor="@color/labelColor"
             android:layout_height="wrap_content"
             android:text="Enter the total appointments per day : "/>
 
         <EditText
             android:id="@+id/appointmentsCount"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Enter Count"
-
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Enter Your Appointment Count"
             android:inputType="number" />
 
     </LinearLayout>
@@ -39,9 +39,8 @@
         android:id="@+id/linlay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -61,7 +60,6 @@
                     android:id="@+id/cancel"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:text="Cancel"
                     android:src="@drawable/cancel_icon"
                     android:layout_gravity="center"
                     android:textColor="#FFF"

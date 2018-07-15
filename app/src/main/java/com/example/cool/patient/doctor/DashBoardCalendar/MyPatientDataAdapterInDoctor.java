@@ -63,6 +63,7 @@ public void onBindViewHolder(ViewHolder holder, int position) {
         holder.prescription.setText(my_data.get(position).getPrescription());
         holder.amount.setText(my_data.get(position).getAmount());
         holder.paymentmode.setText(my_data.get(position).getPaymentMode());
+        holder.comments.setText(my_data.get(position).getComments());
 
 //        mypatientId = my_data.get(position).getPatientID();
 
@@ -102,7 +103,7 @@ public int getItemCount() {
 public  class ViewHolder extends  RecyclerView.ViewHolder{
 
     public TextView PatientName,mobileNumber,Timeslot,Status,aadhar,
-            doctorId,DoctorAddressId,doctorMobile,appointmentDate,AppoinmentID,patientId,prescription,amount,paymentmode;
+            doctorId,DoctorAddressId,doctorMobile,appointmentDate,AppoinmentID,patientId,prescription,amount,paymentmode,comments;
 
     public ViewHolder(final View itemView) {
         super(itemView);
@@ -121,6 +122,7 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
         prescription = (TextView)itemView.findViewById(R.id.prescription);
         amount = (TextView)itemView.findViewById(R.id.amount);
         paymentmode = (TextView)itemView.findViewById(R.id.paymentmode);
+        comments = (TextView) itemView.findViewById(R.id.comments);
 
         System.out.println("this is size..."+my_data.size());
 
@@ -143,6 +145,7 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
                 intent.putExtra("prescription",prescription.getText().toString());
                 intent.putExtra("amount",amount.getText().toString());
                 intent.putExtra("paymentmode",paymentmode.getText().toString());
+                intent.putExtra("comments",comments.getText().toString());
                 itemView.getContext().startActivity(intent);
                 //itemView.getContext().startActivity(new Intent(itemView.getContext(),Getpatientdetailstotaldata.class));
             }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -33,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +85,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     String str,commnt;
     Button submit,history;
     FloatingActionButton camera,gallery;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 100;
 
     Uri selectedImageUri ;
     Bitmap selectedImageBitmap = null;
@@ -93,7 +95,6 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     ApiBaseUrl baseUrl;
 
     // expandable list view
-    ProgressDialog progressDialog;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -101,8 +102,11 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
+
+    ProgressDialog progressDialog;
     Dialog MyDialog;
-    TextView message1,oklink;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +165,19 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
                     }
                 });
+
+        camera.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
+                    }
+                });
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -481,6 +498,14 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
             }
             return;
         }
+        else
+        {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        REQUEST_CODE_GALLERY2);
+            }
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -506,16 +531,27 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     System.out.println("Exception ");
 
                 }
-//
-//
-////                System.out.print("text.."+encodedImage);
+
                 prescription.setImageBitmap(selectedImageBitmap);
-//
-////                editText.setText(encodedImage);
 
                 Log.d("hello","I'm in.");
 
             }
+        }
+        else if(requestCode == REQUEST_CODE_GALLERY2)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            prescription.setImageBitmap(thumbnail);
+
+            prescription.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
 
         else {
@@ -543,6 +579,21 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     }
 
     private class SendDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(DiagnosticsViewTodaysApppointment.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("You are logging");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -612,16 +663,29 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            str = result;
-//            if(str.equals("Data updated successfully."))
-//            {
-//                showalert();
-//
-//            }
-//            else
-//            {
-//                showalert1();
-//            }
+            progressDialog.dismiss();
+
+            try
+            {
+                org.json.JSONObject jsono = new org.json.JSONObject(result);
+
+                int s = jsono.getInt("Code");
+                if(s == 200)
+                {
+
+                    String ss = (String) jsono.get("Message");
+                    showSuccessMessage(ss);
+                }
+                else
+                {
+                    showErrorMessage(jsono.getString("Message"));
+                }
+
+                Log.e("Api response if.....", result);
+
+            }
+            catch (Exception e)
+            {}
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 
@@ -639,7 +703,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
             data.put("DStatus",Dstatus);
             data.put("Comment",commnt);
             //data.put("Prescription","");
-            data.put("Prescription",encodedImage.replaceAll("\n",""));
+            data.put("Prescription",encodedImage);
 
 
             return data.toString();
@@ -652,80 +716,57 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
         return null;
     }
-    private void showalert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(DiagnosticsViewTodaysApppointment.this);
-        builder.setMessage("Data updated successfully.");
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+
+    public void showSuccessMessage(String responsemessage){
+
+        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.success_alert);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(responsemessage);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticsTodaysAppointments.class);
+                intent.putExtra("userId",diagnosticId);
+                intent.putExtra("mobile",diagMobile);
+                startActivity(intent);
             }
         });
-        builder.show();
+        MyDialog.show();
+
     }
 
-    private void showalert1() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(DiagnosticsViewTodaysApppointment.this);
-        builder.setMessage("Data updated not successfull.");
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+    public void showErrorMessage(String result){
+
+        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.cancel_alertdialog);
+
+        message = (TextView) MyDialog.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(result);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
             }
         });
-        builder.show();
-    }
+        MyDialog.show();
 
-//    public void showSuccessMessage(String message){
-//
-//        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.edit_success_alert);
-//
-//        message1 = (TextView) MyDialog.findViewById(R.id.message);
-//        oklink = (TextView) MyDialog.findViewById(R.id.ok);
-//
-//        message1.setEnabled(true);
-//        oklink.setEnabled(true);
-//
-//        message1.setText(message);
-//
-//        oklink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DiagnosticsViewTodaysApppointment.this,DiagnosticDashboard.class);
-//                intent.putExtra("id",getUserId);
-//                startActivity(intent);
-//                startActivity(intent);
-//            }
-//        });
-//        MyDialog.show();
-//
-//
-//    }
-//
-//    public void showErrorMessage(String message){
-//
-//        MyDialog  = new Dialog(DiagnosticsViewTodaysApppointment.this);
-//        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        MyDialog.setContentView(R.layout.server_error_alert);
-//
-//        message1 = (TextView) MyDialog.findViewById(R.id.message);
-//        oklink = (TextView) MyDialog.findViewById(R.id.ok);
-//
-//        message1.setEnabled(true);
-//        oklink.setEnabled(true);
-//
-//        message1.setText(message);
-//
-//        oklink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MyDialog.cancel();
-//            }
-//        });
-//        MyDialog.show();
-//
-//
-//    }
+    }
 
 
     //Get patient details  based on doctor id and appointment date

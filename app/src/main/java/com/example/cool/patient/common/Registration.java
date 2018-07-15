@@ -746,13 +746,16 @@ public class Registration extends AppCompatActivity {
     {
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("Do you want to Register for ??");
+        alert.setTitle("Do you want to Register for ?");
 
 
         alert.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
+
+//                values[item] = true;
+
                 userType = (String) values[item];
 //                textview.setText(values[item]);
                 switch (item) {

@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -87,7 +88,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     Spinner spinner;
     ProgressDialog progressDialog;
 
-    String myPatientname,aadhar,mobilenum,timeslt,str,url,status1;
+    String myPatientname,aadhar,mobilenum,timeslt,str,url,status1,comments;
     static String doctorMobile,doctorId,patientId,appointmentDate,AppointmentID,DoctorComment,Approved,
             Amount,prescription,Payment=null;
     int AppointmentID1;
@@ -134,6 +135,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
     TextView message;
     LinearLayout oklink;
 
+    private Boolean mIsSpinnerFirstCall = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,6 +178,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         prescription = getIntent().getStringExtra("prescription");
         Amount = getIntent().getStringExtra("amount");
         Payment = getIntent().getStringExtra("paymentmode");
+        comments = getIntent().getStringExtra("comments");
 
         if(!prescription.equals(""))
 
@@ -195,7 +199,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
         if(status1.equals("Pending"))
         {
-            amount.setText(Amount);
+//            amount.setText(Amount);
             amount.setFocusable(true);
             amount.setFocusableInTouchMode(true);
             amount.setClickable(true);
@@ -204,9 +208,9 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             comment.setFocusableInTouchMode(true);
             comment.setClickable(true);
 
-            spinner.setFocusable(true);
-            spinner.setFocusableInTouchMode(true);
-            spinner.setClickable(true);
+//            spinner.setFocusable(true);
+//            spinner.setFocusableInTouchMode(true);
+//            spinner.setClickable(true);
 
 
             camaraicon.setFocusable(true);
@@ -222,17 +226,17 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 //            rippleView.setClickable(true);
 
             netbanking.setFocusable(true);
-            netbanking.setFocusableInTouchMode(true);
-            netbanking.setClickable(true);
+//            netbanking.setFocusableInTouchMode(true);
+//            netbanking.setClickable(true);
 
             cashonhand.setFocusable(true);
-            cashonhand.setFocusableInTouchMode(true);
-            cashonhand.setClickable(true);
+//            cashonhand.setFocusableInTouchMode(true);
+//            cashonhand.setClickable(true);
             cashonhand.setChecked(true);
 
             swipe_card.setFocusable(true);
-            swipe_card.setFocusableInTouchMode(true);
-            swipe_card.setClickable(true);
+//            swipe_card.setFocusableInTouchMode(true);
+//            swipe_card.setClickable(true);
 
             netbanking.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -241,7 +245,6 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     if(netbanking.isChecked())
                     {
                         Payment="Net Banking";
-                        cashonhand.setEnabled(false);
                         swipe_card.setEnabled(false);
                     }
                     else
@@ -279,7 +282,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     {
                         Payment="Credit/Debit Card";
                         netbanking.setEnabled(false);
-                        cashonhand.setEnabled(false);
+
                     }
 
                     else
@@ -330,6 +333,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         {
 
             amount.setText(Amount);
+
+            comment.setText(comments);
 
             if(Payment.equals("Cash on Hand"))
             {
@@ -434,6 +439,8 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     System.out.println("status btn..."+spinner.getSelectedItem().toString());
 
                     String json=formatDataAsJson();
+
+                    System.out.println("json..."+json.toString());
                     new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
                 }
                 else
@@ -446,10 +453,11 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
                     System.out.println("status btn..."+spinner.getSelectedItem().toString());
 
                     String json=formatDataAsJson();
+
+                    System.out.println("json..."+json.toString());
+
                     new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DoctotUpdateAppointment",json.toString());
 
-//                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
-//                    showTimeErrorMessage("Sorry!! You can't edit");
                 }
 
             }
@@ -471,6 +479,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         mobilenumber.setText(mobilenum);
         aadharnumber.setText(aadhar);
         timeslot.setText(timeslt);
+
 
         new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+doctorId);
 
@@ -501,12 +510,63 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         }
         else if(status1.equals("Reject"))
         {
-            amount.setText(Amount);
+//            amount.setText(Amount);
             statusList.add(0,"Reject");
             statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
             spinner.setAdapter(statusAdapter); // Apply the adapter to the spinner
         }
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //If a new value is selected (avoid activating on setSelection())
+                if(!mIsSpinnerFirstCall) {
+                    // Your code goes gere
+
+                    if(spinner.getSelectedItem().toString().equals("Reject"))
+                    {
+                        cashonhand.setClickable(false);
+                        netbanking.setClickable(false);
+                        swipe_card.setClickable(false);
+                        amount.setFocusable(false);
+                        amount.setFocusableInTouchMode(false);
+                        camaraicon.setFocusable(false);
+                        licenceicon.setFocusable(false);
+                        camaraicon.setClickable(false);
+                        licenceicon.setClickable(false);
+                    }
+                    else if(spinner.getSelectedItem().toString().equals("Reschedule"))
+                    {
+                        cashonhand.setClickable(false);
+                        netbanking.setClickable(false);
+                        swipe_card.setClickable(false);
+                        amount.setFocusable(false);
+                        amount.setFocusableInTouchMode(false);
+                        camaraicon.setFocusable(false);
+                        licenceicon.setFocusable(false);
+                        camaraicon.setClickable(false);
+                        licenceicon.setClickable(false);
+                    }
+                    else
+                    {
+                        cashonhand.setClickable(true);
+                        netbanking.setClickable(true);
+                        swipe_card.setClickable(true);
+                        amount.setFocusable(true);
+                        amount.setFocusableInTouchMode(true);
+                        camaraicon.setFocusable(true);
+                        licenceicon.setFocusable(true);
+                        camaraicon.setClickable(true);
+                        licenceicon.setClickable(true);
+                    }
+                }
+                mIsSpinnerFirstCall = false;
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
 
 
@@ -1014,6 +1074,16 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             image.setImageBitmap(thumbnail);
+
+            image.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) image.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedLicenceImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
         else if (requestCode == REQUEST_CODE_GALLERY1) {
 //            onSelectFromGalleryResult(data);
@@ -1282,44 +1352,51 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             Payment = "Online Banking";
         }
 
-        if(cashonhand.isChecked())
-        {
-            Payment="Cash on Hand";
-        }
-
-        if(swipe_card.isChecked())
+        else if(swipe_card.isChecked())
         {
             Payment="Debit/Credit card Swipe";
         }
 
+//        if(cashonhand.isChecked())
+        else
+        {
+            Payment="Cash on Hand";
+        }
+
         System.out.println("payment mode..."+Payment);
 
-        if(encodedLicenceImage == null)
-        {
-            image.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) image.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedLicenceImage = Base64.encodeToString(b1, Base64.DEFAULT);
-        }
+//        if(encodedLicenceImage == null)
+//        {
+//            image.buildDrawingCache();
+//            BitmapDrawable bitmapDrawable = (BitmapDrawable) image.getDrawable();
+//            Bitmap bitmap = bitmapDrawable.getBitmap();
+//
+//            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+//            byte[] b1 = baos1.toByteArray();
+//            encodedLicenceImage = Base64.encodeToString(b1, Base64.DEFAULT);
+//        }
 
 //        "Accept","Reschedule","Reject"
 
         int statusId =0;
+
+        String selectedAmount = "";
+
         if(spinner.getSelectedItem().toString().equals("Reject"))
         {
             statusId = 1;
+            selectedAmount = "";
         }
         if(spinner.getSelectedItem().toString().equals("Accept"))
         {
             statusId = 2;
+            selectedAmount = amount.getText().toString();
         }
         if(spinner.getSelectedItem().toString().equals("Reschedule"))
         {
             statusId = 3;
+            selectedAmount = "";
         }
 
         try{
@@ -1328,7 +1405,7 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
             data.put("DoctorComment",comment.getText().toString().trim());
             data.put("Approved",statusId);
             data.put("Payment",Payment);
-            data.put("Amount",amount.getText().toString());
+            data.put("Amount",selectedAmount);
             data.put("PrescriptionImage",encodedLicenceImage);
 
             return data.toString();

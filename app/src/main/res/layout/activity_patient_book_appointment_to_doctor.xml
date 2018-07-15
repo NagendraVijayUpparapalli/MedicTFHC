@@ -103,13 +103,14 @@
                             android:layout_height="wrap_content"
                             android:textColor="#fff"
                             android:drawableLeft="@drawable/home_white" />
+
                         <TextView
                             android:id="@+id/hospital_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
-                            android:textColor="#fff"
-                            android:text="Akshya Hospital"/>
+                            android:text="Akshya Hospital"
+                            android:textColor="#fff" />
                         <TextView
                             android:id="@+id/dr_no"
                             android:layout_width="wrap_content"

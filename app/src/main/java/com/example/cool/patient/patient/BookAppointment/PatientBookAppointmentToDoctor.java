@@ -747,7 +747,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 
@@ -1614,20 +1614,20 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     //send appointment details for booking doctor to api call
     private class sendEmailAppointmentDetailsToDoctor extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
-
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+//            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -1700,7 +1700,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result email   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
 
             JSONObject js;
 

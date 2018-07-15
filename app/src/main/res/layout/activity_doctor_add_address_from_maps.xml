@@ -308,7 +308,7 @@
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:textSize="15sp"
-                                android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                                android:drawableLeft="@drawable/rupeeicon_xml"
                                 android:hint="@string/cconsultation_fee"
                                 android:inputType="number" />
 
@@ -530,6 +530,7 @@
                             android:id="@+id/next_link"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawableRight="@drawable/ic_arrow_forward"
                             android:background="#1faa00"
                             android:text="@string/next"
                             android:textColor="#fff" />
@@ -542,169 +543,641 @@
             </ScrollView>
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/timing"
-                android:layout_height="wrap_content"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolappbar"
                 android:visibility="gone"
-                android:orientation="vertical"
-                android:layout_marginTop="60dp"
-                android:weightSum="2"
-                android:padding="20dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
+                android:orientation="vertical">
 
-                <TextView
+
+                <RelativeLayout
                     android:id="@+id/Booking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textColor="#2c5e83"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/select_the_day_for_choose_timings" />
-
-                <TextView
-                    android:id="@+id/Note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="#ff0000"
-                    android:text="@string/note_in_every_slot_of_30min_the_maximum_appointments_that_can_be_4" />
-
-                <LinearLayout
-                    android:weightSum="3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Sunday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/sunday"
-                        android:inputType="phone" />
-
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Monday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/monday"
-                        android:inputType="phone" />
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Tuesday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/tuesday"
-                        android:inputType="phone" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:weightSum="3"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="match_parent">
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Wednesday"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/wednesday"
-                        android:inputType="phone" />
-
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Thursday"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:ems="10"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/thursday"
-                        android:inputType="phone" />
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Friday"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:ems="10"
-                        android:textColor="#fff"
-                        android:background="@drawable/round_button"
-                        android:text="@string/friday"
-                        android:inputType="phone" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:weightSum="3"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content">
 
-                    <Button
-                        android:layout_weight="1"
-                        android:id="@+id/Saturday"
+                    android:gravity="center"
+                    >
 
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="#fff"
-
-                        android:background="@drawable/round_button"
-                        android:text="@string/saturday"
-                        android:inputType="phone" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-
-                    <com.andexert.library.RippleView
-                        android:id="@+id/rippleView"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        ripple:rv_type="rectangle"
-                        ripple:rv_zoom="true">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
 
                         <TextView
-                            android:id="@+id/rect_child"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:textColor="#fff"
-                            android:textSize="18sp"
-                            android:gravity="center"
-                            android:text="@string/submit"
-                            android:background="@color/rippleButton"/>
+                            android:id="@+id/Bookingtexxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="16sp"
 
-                    </com.andexert.library.RippleView>
+                            android:textStyle="bold"
+                            android:textColor="#2c5e83"
+
+                            android:text="@string/select_the_day_for_choose_timings" />
+
+                        <TextView
+                            android:id="@+id/Note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="16sp"
+                            android:layout_margin="10dp"
+
+                            android:textColor="#ff0000"
+                            android:text="@string/note_in_every_slot_of_30min_the_maximum_appointments_that_can_be_4" />
+
+
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+
+                    android:gravity="center"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation1"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Sunday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                app:cardUseCompatPadding="true"
+                                android:foreground="#1C00ffff"
+                                card_view:cardBackgroundColor="#125688"
+                                android:clickable="true">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+
+                                    android:orientation="vertical">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Sunday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#FFF" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+
+                <LinearLayout
+
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:orientation="horizontal">
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Monday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="monday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Tuesday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+
+                                >
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Tuesday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
                 </LinearLayout>
 
+                <LinearLayout
+
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rellay1"
+
+                    android:orientation="horizontal">
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Wednesday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Wednesday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Thursday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+                                >
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Thursday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rellay1"
+
+                    android:orientation="horizontal">
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Friday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Friday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+
+                        android:gravity="center"
+
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/l2_animation10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Saturday"
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_margin="10dp"
+                                app:cardUseCompatPadding="true"
+
+                                card_view:cardBackgroundColor="#125688"
+
+                                android:clickable="true"
+                                android:foreground="#1C00ffff"
+
+                                >
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:text="Saturday"
+                                        android:textColor="#fff"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_margin="10dp"
+                                        android:background="#fff" />
+
+
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:gravity="bottom">-->
+
+                        <!--<LinearLayout-->
+                            <!--android:id="@+id/arroleft_give_this_id"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+
+                            <!--android:layout_margin="10dp"-->
+                            <!--android:orientation="horizontal">-->
+
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/arroleft"-->
+                                <!--android:layout_width="100dp"-->
+                                <!--android:layout_height="50dp"-->
+                                <!--android:layout_centerInParent="true"-->
+                                <!--android:textColor="#fff"-->
+                                <!--android:textSize="18sp"-->
+                                <!--android:drawableLeft="@drawable/ic_arrow_back"-->
+                                <!--android:gravity="center" />-->
+                            <!---->
+                        <!--</LinearLayout>-->
+
+                    <!--</RelativeLayout>-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal">
+
+                            <com.andexert.library.RippleView
+                                android:id="@+id/rippleView"
+                                android:layout_width="wrap_content"
+
+
+                                android:layout_height="wrap_content"
+                                ripple:rv_type="rectangle"
+                                ripple:rv_zoom="true">
+
+                                <TextView
+                                    android:id="@+id/rect_child"
+                                    android:layout_width="100dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerInParent="true"
+                                    android:textColor="#fff"
+                                    android:textSize="18sp"
+                                    android:gravity="center"
+                                    android:text="@string/submit"
+                                    android:background="#f938a72f"/>
+
+
+
+                            </com.andexert.library.RippleView>
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+
+
+                </LinearLayout>
+
+
+
             </LinearLayout>
+
+
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView

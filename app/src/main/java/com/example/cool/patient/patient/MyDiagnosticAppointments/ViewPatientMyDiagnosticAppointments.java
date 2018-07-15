@@ -120,7 +120,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
         System.out.println("user id my doc.."+userId+"...."+mobileNumber);
 
-        // get current date and time to disable cancel and reschedule links
+        // get current date to disable cancel and reschedule links
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 
@@ -322,7 +322,6 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
     private void getData(String result) {
         try {
 
-
                 JSONObject object = new JSONObject(result);
 
                 diagLat = object.getString("Latitude");
@@ -392,7 +391,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
+//            mProgressDialog.setTitle("Download Image Tutorial");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
 

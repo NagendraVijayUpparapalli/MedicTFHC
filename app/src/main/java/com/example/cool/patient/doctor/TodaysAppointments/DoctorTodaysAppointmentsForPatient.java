@@ -558,7 +558,9 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
                 age=(String)js.get("Age");
 
 
-                PatientData_DoctorTodaysAppointmentsClass myPatientData=new PatientData_DoctorTodaysAppointmentsClass(docId,docMobile,Dstatus,Status1,AppointmentID,PatientName,EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
+                PatientData_DoctorTodaysAppointmentsClass myPatientData = new
+                        PatientData_DoctorTodaysAppointmentsClass(docId,docMobile,Dstatus,Status1,AppointmentID,PatientName,
+                        EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
 
                 data_list.add(myPatientData);
 

@@ -7,6 +7,10 @@
     <color name="rippleButton">#000088</color>
     <color name="docName">#000080</color>
     <color name="docNameBook">#fff</color>
+    <color name="labelColor">#2C5E83</color>
+    <color name="alertCancelColor">#218c04</color>
+    <color name="alertOkColor">#e90b04</color>
+
     <!--#000080-->
 
     <!--<color name="colorAccent">#2b862a</color>-->

@@ -45,7 +45,7 @@ public class DoctorSideNavigatioExpandableSubList {
         expandableListDetail.put("EditProfile", editProfile);
         expandableListDetail.put("Subscription",Subscription);
         expandableListDetail.put("Offers", Aboutus);
-        expandableListDetail.put("Contact us",Contactus);
+        expandableListDetail.put("Reach us",Contactus);
         expandableListDetail.put("Logout", menu4);
         return expandableListDetail;
 

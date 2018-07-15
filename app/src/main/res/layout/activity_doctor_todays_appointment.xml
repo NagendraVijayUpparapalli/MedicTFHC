@@ -109,7 +109,7 @@
                                 android:layout_weight="1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#000"
+                                android:textColor="@color/labelColor"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:text="@string/age"/>
@@ -127,14 +127,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
-                                android:textColor="#000"
+                                android:textColor="@color/labelColor"
                                 android:text="@string/patient_history"/>
+
                             <TextView
                                 android:id="@+id/click"
                                 android:layout_weight="1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#6e74e4"
+                                android:padding="6dp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="#fff"
+                                android:background="@drawable/diag_google_map_link"
                                 android:text="@string/click_here"/>
 
                         </LinearLayout>
@@ -150,7 +155,7 @@
                                 android:layout_weight="0.1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#000"
+                                android:textColor="@color/labelColor"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
                                 android:text="@string/reason"/>
@@ -176,7 +181,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textStyle="bold"
                                 android:text="@string/comments"
-                                android:textColor="#000"/>
+                                android:textColor="@color/labelColor"/>
 
                             <MultiAutoCompleteTextView
                                 android:id="@+id/Comments"
@@ -201,7 +206,7 @@
                                 android:text="@string/upload_prescription"
                                 android:textStyle="bold"
                                 android:layout_marginTop="10dp"
-                                android:textColor="#000"
+                                android:textColor="@color/labelColor"
                                 android:textSize="16sp"/>
                         </LinearLayout>
                         <LinearLayout
@@ -284,7 +289,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
                         </LinearLayout>

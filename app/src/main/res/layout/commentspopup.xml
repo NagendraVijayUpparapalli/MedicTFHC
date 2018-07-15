@@ -1,23 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
-
+    android:layout_height="wrap_content"
     android:background="@drawable/alertdialog_border"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please select one option"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#ff0400"/>
 
-        android:orientation="vertical">
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:layout_marginStart="5dp"-->
+
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Please select any option"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textColor="#ff0400"/>-->
+
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comments"
+            android:text="Comments : "
             android:layout_gravity="center"
-            android:textColor="#3797CF"
+            android:textColor="@color/labelColor"
             android:textSize="18sp" />
         <MultiAutoCompleteTextView
             android:id="@+id/Comments"
@@ -32,30 +65,35 @@
             android:textSize="15dp"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
 
-    <CheckBox
-        android:id="@+id/sample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:textColor="#030e66"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:text="Do you want us to collect sample from home?"/>
+        <CheckBox
+            android:id="@+id/sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+        <TextView
+            android:textColor="#030e66"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:text="Do you want us to collect sample from home?"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
 
@@ -64,39 +102,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="20dp"/>
+            />
         <TextView
             android:textColor="#030e66"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+
             android:text="Address is not same as registration address"/>
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-
-    <TextView
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_gravity="center"
-        android:layout_marginStart="40dp"
-        android:textColor="#047c8c" />
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:textColor="@color/alertCancelColor"
+            android:textStyle="bold"/>
 
 
         <TextView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ok"
-            android:layout_gravity="center"
-            android:layout_marginStart="100dp"
-            android:textColor="#047c8c" />
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:textColor="@color/alertOkColor"
+            android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>
