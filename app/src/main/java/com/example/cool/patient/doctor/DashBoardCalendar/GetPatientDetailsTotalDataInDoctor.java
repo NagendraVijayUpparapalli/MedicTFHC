@@ -668,11 +668,11 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(GetPatientDetailsTotalDataInDoctor.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",doctorId);
-//                    i.putExtra("mobile",doctorMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(GetPatientDetailsTotalDataInDoctor.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",doctorId);
+                    i.putExtra("mobile",doctorMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

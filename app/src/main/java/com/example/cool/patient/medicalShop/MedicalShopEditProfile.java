@@ -54,6 +54,7 @@ import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -278,8 +279,11 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
                 else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    startActivity(about);
+                    Intent contact = new Intent(MedicalShopEditProfile.this,SubscriptionPlanAlertDialog.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","medical");
+                    startActivity(contact);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -293,6 +297,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                     // call some activity here
 
                     Intent contact = new Intent(MedicalShopEditProfile.this,ReachUs.class);
+                    contact.putExtra("id",getUserId);
+                    contact.putExtra("mobile",mobile_number);
+                    contact.putExtra("module","medical");
+                    startActivity(contact);
                     startActivity(contact);
 
                 }

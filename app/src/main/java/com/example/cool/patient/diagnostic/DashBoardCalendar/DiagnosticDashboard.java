@@ -433,10 +433,11 @@ public class DiagnosticDashboard extends AppCompatActivity
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",getUserId);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticDashboard.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",getUserId);
+                    subscript.putExtra("mobile",mobile_number);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -813,7 +814,7 @@ public class DiagnosticDashboard extends AppCompatActivity
             // Create a progressdialog
             progressDialog = new ProgressDialog(DiagnosticDashboard.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

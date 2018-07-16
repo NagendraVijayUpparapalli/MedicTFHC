@@ -334,8 +334,8 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         speciality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DiagnosticAddAddress.this,
-                        "Speciality", Toast.LENGTH_LONG).show();
+//                Toast.makeText(DiagnosticAddAddress.this,
+//                        "Speciality", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(DiagnosticAddAddress.this);
                 mBuilder2.setTitle("Your Specialities");
                 mBuilder2.setMultiChoiceItems(ListItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -473,10 +473,11 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticAddAddress.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",getUserId);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticAddAddress.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",getUserId);
+                    subscript.putExtra("mobile",regMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

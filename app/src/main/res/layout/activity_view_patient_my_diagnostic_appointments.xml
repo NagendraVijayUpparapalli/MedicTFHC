@@ -104,7 +104,7 @@
                                 android:textAllCaps="true"
                                 android:textStyle="bold"
                                 android:textColor="@color/gradStart"
-                                android:textSize="15sp" />
+                                android:textSize="13sp" />
                             <TextView
                                 android:id="@+id/phonenum"
                                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                                 android:text="--------"
                                 android:textColor="#fff"
                                 android:textColorLink="#fff"
-                                android:textSize="22sp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -143,7 +143,7 @@
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
-                                android:textSize="15sp" />
+                                android:textSize="13sp" />
                             <TextView
                                 android:id="@+id/navigation"
                                 android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                                 android:fontFamily="sans-serif-light"
                                 android:text="@string/click_to_navigate"
                                 android:textColor="#fff"
-                                android:textSize="22sp" />
+                                android:textSize="18sp" />
 
                         </LinearLayout>
 
@@ -214,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/patient_name"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/test_name1"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -273,7 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/status"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -296,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textSize="13sp"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/do_you_want_to_cancel_reschedule_the_appointment"/>
 
@@ -306,9 +306,9 @@
                         android:weightSum="2"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/cancel"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -333,33 +333,65 @@
 
                 </LinearLayout>
 
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/DiagnosticCommentsSuggestions"-->
+                <!--android:textColor="@color/labelColor"-->
+                <!--android:textSize="13sp" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/Diagnostic_comments"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textSize="18sp" />-->
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:background="#E5E5E5" />-->
+
+                <!--</LinearLayout>-->
+
                 <LinearLayout
+                    android:weightSum="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/Comments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/DiagnosticCommentsSuggestions"
-                        android:textColor="#3797CF"
-                        android:textSize="13sp" />
+                        android:layout_weight="0.1"
+                        android:text="@string/comments"
+                        android:textColor="@color/labelColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <TextView
+                    <MultiAutoCompleteTextView
                         android:id="@+id/Diagnostic_comments"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/edittext_button"
+                        android:layout_weight="2"
+                        android:textSize="15sp"
+                        />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="10dp"
                         android:background="#E5E5E5" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -372,7 +404,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/mode_of_payment"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -402,7 +434,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/amount_in_patient"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -461,7 +493,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/DiagnosticPrescription"
                                     android:textAlignment="center"
-                                    android:textColor="#3797CF"
+                                    android:textColor="@color/labelColor"
                                     android:textSize="13sp" />
 
                                 <Button
@@ -497,10 +529,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
                                     android:text="payment status process"
                                     android:textAlignment="center"
-                                    android:textColor="#3797CF"
+                                    android:textColor="@color/labelColor"
                                     android:textSize="13sp" />
 
 
@@ -526,11 +557,13 @@
 
                 </LinearLayout>
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
                     android:background="#E5E5E5" />
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/okbutton"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
@@ -548,20 +581,20 @@
     </android.support.v4.widget.NestedScrollView>
 
     <!--<com.jsibbold.zoomage.ZoomageView-->
-        <!--android:id="@+id/myZoomageView"-->
-        <!--android:visibility="gone"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/noimage11"-->
-        <!--app:zoomage_restrictBounds="false"-->
-        <!--app:zoomage_animateOnReset="true"-->
-        <!--app:zoomage_autoResetMode="UNDER"-->
-        <!--app:zoomage_autoCenter="true"-->
-        <!--app:zoomage_zoomable="true"-->
-        <!--app:zoomage_translatable="true"-->
-        <!--app:zoomage_minScale="0.6"-->
-        <!--app:zoomage_maxScale="8"-->
-        <!--/>-->
+    <!--android:id="@+id/myZoomageView"-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/noimage11"-->
+    <!--app:zoomage_restrictBounds="false"-->
+    <!--app:zoomage_animateOnReset="true"-->
+    <!--app:zoomage_autoResetMode="UNDER"-->
+    <!--app:zoomage_autoCenter="true"-->
+    <!--app:zoomage_zoomable="true"-->
+    <!--app:zoomage_translatable="true"-->
+    <!--app:zoomage_minScale="0.6"-->
+    <!--app:zoomage_maxScale="8"-->
+    <!--/>-->
 
     <LinearLayout
         android:id="@+id/layout1"

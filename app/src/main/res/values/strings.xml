@@ -490,7 +490,7 @@
     <string name="status1">Status</string>
     <string name="mode_of_payment">Mode of payment</string>
     <string name="payment_status">Payment Status</string>
-    <string name="test_name1">Tset Name</string>
+    <string name="test_name1">Test Name</string>
 
     <string name="DiagnosticCommentsSuggestions">Diagnostic Comments/Suggestions</string>
     <string name="DiagnosticPrescription"> Diagnostic Prescription</string>

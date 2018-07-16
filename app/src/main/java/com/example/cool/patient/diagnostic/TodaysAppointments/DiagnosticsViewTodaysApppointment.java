@@ -85,7 +85,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     String str,commnt;
     Button submit,history;
     FloatingActionButton camera,gallery;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 100;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
 
     Uri selectedImageUri ;
     Bitmap selectedImageBitmap = null;
@@ -177,6 +177,12 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     }
                 });
 
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
+
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -265,11 +271,11 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",diagnosticId);
-//                    subscript.putExtra("mobile",diagMobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticsViewTodaysApppointment.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagnosticId);
+                    subscript.putExtra("mobile",diagMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -374,6 +380,33 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
             }
         });
+
+    }
+
+
+    private class GetAadharImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetAadharImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            prescription.setImageBitmap(result);
+        }
 
     }
 
@@ -523,7 +556,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     encodedImage = myEncodeImage(selectedImage);
-                    formatDataAsJson();
+//                    formatDataAsJson();
 
                 }
                 catch (IOException e)
@@ -538,6 +571,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
             }
         }
+
         else if(requestCode == REQUEST_CODE_GALLERY2)
         {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -695,8 +729,10 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     private String formatDataAsJson()
     {
         commnt=comments.getText().toString();
+
         System.out.println("comments"+commnt);
         JSONObject data = new JSONObject();
+
         try{
 
             data.put("DiagnosticsAppID", appointmentID);
@@ -820,6 +856,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     private void getDetails(String result) {
         try {
 
+            String myprescription = "",mycomments = "";
             JSONArray jsonArray=new JSONArray(result);
             for(int i=0;i<jsonArray.length();i++)
             {
@@ -833,6 +870,8 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                 centername = (String) js.get("CenterName");
                 eid=(String) js.get("EmailID");
                 mnumer=(String) js.get("MobileNo");
+                myprescription = js.getString("Prescription");
+                mycomments = js.getString("Comments");
                 PatientID=js.getString("PatientID");
 
             }
@@ -841,7 +880,28 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
             mobilenumer.setText(mnumer);
             aadharnumber.setText(aanumber);
             address.setText(addres);
+            comments.setText(mycomments);
+
+            Patientname.setEnabled(false);
+            Patientname.setClickable(false);
+
+            emailid.setEnabled(false);
+            emailid.setClickable(false);
+
+            mobilenumer.setEnabled(false);
+            mobilenumer.setClickable(false);
+
+            aadharnumber.setEnabled(false);
+            aadharnumber.setClickable(false);
+
+            address.setEnabled(false);
+            address.setClickable(false);
+
             testname.setText(ttname);
+
+            new GetAadharImageTask(prescription).execute(baseUrl.getImageUrl()+myprescription);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

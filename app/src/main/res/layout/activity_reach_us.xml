@@ -65,8 +65,7 @@
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
                     app:cardUseCompatPadding="true"
-                    app:cardBackgroundColor="#fff"
-                    android:layout_marginStart="10dp">
+                    app:cardBackgroundColor="#fff">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -231,8 +230,7 @@
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
                     app:cardUseCompatPadding="true"
-                    app:cardBackgroundColor="#fff"
-                    android:layout_marginStart="10dp">
+                    app:cardBackgroundColor="#fff">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -334,7 +332,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:drawableLeft="@drawable/landline_icon"
-                                    android:text="0891-6604879"
+                                    android:text=" 0891-6604879"
                                     android:textSize="17dp" />
                                 <TextView
                                     android:layout_weight="1"
@@ -384,8 +382,7 @@
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
                     app:cardUseCompatPadding="true"
-                    app:cardBackgroundColor="#fff"
-                    android:layout_marginStart="10dp">
+                    app:cardBackgroundColor="#fff">
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -58,8 +58,7 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
 
         builder=new StringBuilder();
 
-        holder.myspeciality.setText(builder.toString());
-        speciality=my_data.get(position).getSpeciality();
+        speciality.add(my_data.get(position).getSpeciality().toString());
 
         for(int i=0;i<speciality.size();i++)
         {
@@ -68,6 +67,10 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
             builder.append(test+"\n");
 
         }
+
+        holder.myspeciality.setText(builder.toString());
+
+        System.out.println("test name.."+holder.myspeciality.getText().toString());
 
 //        Finished, Initiated, In Progress
 

@@ -538,11 +538,11 @@
 
                             <TextView
                                 android:id="@+id/Select_Speciality"
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:layout_weight="1"
+                                android:padding="7dp"
                                 android:layout_marginEnd="20dp"
                                 android:layout_marginStart="20dp"
                                 android:background="@drawable/diag_speciality_link"

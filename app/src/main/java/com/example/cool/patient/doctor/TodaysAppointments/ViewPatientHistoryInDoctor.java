@@ -14,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.cool.patient.common.ApiBaseUrl;
@@ -26,7 +28,8 @@ import java.util.ArrayList;
 
 public class ViewPatientHistoryInDoctor extends AppCompatActivity {
 
-    TextView Doctorname,speciality,patientname,aadharnumber,mobilenumber,appointmentdate,reason,doctorcomment,close;
+    TextView Doctorname,speciality,patientname,aadharnumber,mobilenumber,appointmentdate,reason,close;
+    EditText doctorcomment;
     ZoomageView zoomageView;
     Button prescription,ok;
     String date;
@@ -37,6 +40,13 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
 
     ImageView doctorImage;
 
+    String myId,docMobile,docId,myDoctorname,docspeciality,myname,myaadharnumber,mymobilenumber,myreason,mydoctorcomment,
+            myPrescriptUrl;
+
+    LinearLayout layout;
+    ImageView imageView2;
+    Button ok1;
+    TextView close1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,7 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
         mobilenumber=(TextView)findViewById(R.id.mobileNumber);
         appointmentdate=(TextView)findViewById(R.id.appointmentdate);
         reason=(TextView) findViewById(R.id.Reason);
-        doctorcomment=(TextView)findViewById(R.id.Doctor_comments);
+        doctorcomment = (EditText) findViewById(R.id.Doctor_comments);
 
         prescription=(Button)findViewById(R.id.prescription);
         ok=(Button)findViewById(R.id.ok);
@@ -120,26 +130,124 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
 
         date=getIntent().getStringExtra("date");
 
-        ArrayList<String> aadharnumbers = getIntent().getStringArrayListExtra("aadharnumber");
-        ArrayList<String> patientnames = getIntent().getStringArrayListExtra("patientname");
-        ArrayList<String> mobilenumbers = getIntent().getStringArrayListExtra("mobilenumbers");
-        ArrayList<String> reasonlist = getIntent().getStringArrayListExtra("reason");
-        ArrayList<String> doctorname = getIntent().getStringArrayListExtra("doctorname");
-        ArrayList<String> specialitylist = getIntent().getStringArrayListExtra("speciality");
-        ArrayList<String> dates = getIntent().getStringArrayListExtra("dates");
-        ArrayList<String> comment = getIntent().getStringArrayListExtra("comment");
+        myaadharnumber=getIntent().getStringExtra("aadharnumber");
+        myname=getIntent().getStringExtra("patientname");
+        mymobilenumber=getIntent().getStringExtra("mobilenum");
+        myreason=getIntent().getStringExtra("reason");
+        myDoctorname=getIntent().getStringExtra("doctorName");
+        docspeciality=getIntent().getStringExtra("speciality");
+        mydoctorcomment = getIntent().getStringExtra("doctorcomment");
+        myPrescriptUrl = getIntent().getStringExtra("prescriptUrl");
 
-        int pos = dates.indexOf(date);
-        System.out.println("position"+pos);
-        Doctorname.setText(doctorname.get(pos));
-        speciality.setText(specialitylist.get(pos));
-        patientname.setText(patientnames.get(pos));
-        aadharnumber.setText(aadharnumbers.get(pos));
-        mobilenumber.setText(mobilenumbers.get(pos));
-        appointmentdate.setText(dates.get(pos));
-        reason.setText(reasonlist.get(pos));
-        doctorcomment.setText(comment.get(pos));
+        if(myDoctorname.equals(""))
+        {
+            Doctorname.setText("Not Available");
+        }
+        else
+        {
+            Doctorname.setText(myDoctorname);
+        }
 
+        if(myreason.equals(""))
+        {
+            reason.setText("Not Available");
+        }
+        else
+        {
+            reason.setText(myreason);
+        }
+
+        if(myaadharnumber.equals(""))
+        {
+            aadharnumber.setText("Not Available");
+        }
+        else
+        {
+
+            aadharnumber.setText(myaadharnumber);
+        }
+
+        if(mymobilenumber.equals(""))
+        {
+            mobilenumber.setText("Not Available");
+        }
+        else
+        {
+            mobilenumber.setText(mymobilenumber);
+
+        }
+
+        if(mydoctorcomment.equals(""))
+        {
+            doctorcomment.setText("Not Available");
+        }
+        else
+        {
+
+            doctorcomment.setText(mydoctorcomment);
+        }
+
+        if(myname.equals(""))
+        {
+            patientname.setText("Not Available");
+        }
+
+        else
+        {
+            patientname.setText(myname);
+        }
+
+        if(docspeciality.equals(""))
+        {
+            speciality.setText("Not Available");
+        }
+        else
+        {
+            speciality.setText(docspeciality);
+        }
+
+        close1 = (TextView) findViewById(R.id.close1);
+        close1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setVisibility(View.GONE);
+            }
+        });
+
+        ok1 = (Button) findViewById(R.id.ok1);
+        layout=(LinearLayout) findViewById(R.id.layout1);
+        ok1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setVisibility(View.GONE);
+            }
+        });
+
+        prescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(myPrescriptUrl.equals(""))
+                {
+                    showalert();
+                }
+                else
+                {
+                    layout.setVisibility(View.VISIBLE);
+                    new DownloadPrescription().execute(baseUrl.getImageUrl()+myPrescriptUrl);
+                }
+
+            }
+        });
+
+
+//        if(dates.get(pos).equals(""))
+//        {
+//            appointmentdate.setText("Not Available");
+//        }
+//        else
+//        {
+//            appointmentdate.setText(dates.get(pos));
+//        }
 
     }
 

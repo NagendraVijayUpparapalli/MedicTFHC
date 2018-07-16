@@ -460,11 +460,11 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorUpdateAddress.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",getUserId);
-//                    i.putExtra("mobile",regMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorUpdateAddress.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",getUserId);
+                    i.putExtra("mobile",regMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

@@ -113,6 +113,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     TextView message1;
     LinearLayout oklink;
 
+    TextView toInitiate,toProgress,toFinish;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +137,10 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         prescrption=(ImageView)findViewById(R.id.prescription);
         rippleView = (RippleView) findViewById(R.id.rippleView);
 
+        toInitiate = (TextView)findViewById(R.id.initiate);
+        toProgress = (TextView)findViewById(R.id.progress);
+        toFinish = (TextView)findViewById(R.id.finished);
+
 
         diagmobile = getIntent().getStringExtra("diagmobile");
         diagnosticId = getIntent().getStringExtra("diagnosticId");
@@ -151,6 +157,8 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         rdid=getIntent().getIntExtra("rdid",rdid);
         appointmentDate = getIntent().getStringExtra("date");
 
+        payment="CashOnHand";
+
         System.out.println("appointmentDate....in view data.."+appointmentDate+"..status.."+statuss+"..payment mode..."+payment);
 
         System.out.println("image url....in view data.."+prescription);
@@ -166,33 +174,33 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         statusList.add("In Progress");
         statusList.add("Finished");
 
-        if(statuss.equals("Pending"))
-        {
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-            status.setAdapter(adapter);
-        }
-        else if(statuss.equals("Initiated"))
-        {
-            statusList.add(0,"Initiated");
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-            status.setAdapter(adapter);
-        }
-        else if(statuss.equals("In Progress"))
-        {
-            statusList.add(0,"In Progress");
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-            status.setAdapter(adapter);
-        }
-        else if(statuss.equals("Finished"))
-        {
-            statusList.add(0,"Finished");
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-            status.setAdapter(adapter);
-        }
+//        if(statuss.equals("Pending"))
+//        {
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+//        }
+//        else if(statuss.equals("Initiated"))
+//        {
+//            statusList.add(0,"Initiated");
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+//        }
+//        else if(statuss.equals("In Progress"))
+//        {
+//            statusList.add(0,"In Progress");
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+//        }
+//        else if(statuss.equals("Finished"))
+//        {
+//            statusList.add(0,"Finished");
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+//        }
 
 
 
@@ -232,37 +240,71 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         }
 
 
+
         if(statuss.equals("Pending"))
         {
-            amnt.setText(amount);
-            amnt.setFocusable(true);
-            amnt.setFocusableInTouchMode(true);
-            amnt.setClickable(true);
+
+            toInitiate.setVisibility(View.VISIBLE);
+            toInitiate.setFocusable(true);
+//            toInitiate.setFocusableInTouchMode(true);
+//            toInitiate.setClickable(true);
+
+            toInitiate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(),"Appointment is Initiated",Toast.LENGTH_SHORT).show();
+                    Dstatus=1;
+                }
+            });
+
+//            if(selectedItemText.equals("Initiated"))
+//            {
+//                Dstatus=1;
+//            }
+//            else if(selectedItemText.equals("In Progress"))
+//            {
+//                Dstatus=2;
+//            }
+//            else if(selectedItemText.equals("Finished"))
+//            {
+//                Dstatus=3;
+//            }
+
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+
+
+
+//            amnt.setText(amount);
+//            amnt.setFocusable(true);
+//            amnt.setFocusableInTouchMode(true);
+//            amnt.setClickable(true);
 
             comments.setFocusable(true);
             comments.setFocusableInTouchMode(true);
             comments.setClickable(true);
 
-            status.setFocusable(true);
-            status.setFocusableInTouchMode(true);
-            status.setClickable(true);
+//            status.setFocusable(true);
+//            status.setFocusableInTouchMode(true);
+//            status.setClickable(true);
 
             rippleView.setFocusable(true);
 //            rippleView.setFocusableInTouchMode(true);
 //            rippleView.setClickable(true);
 
             netbanking.setFocusable(true);
-            netbanking.setFocusableInTouchMode(true);
-            netbanking.setClickable(true);
+//            netbanking.setFocusableInTouchMode(true);
+//            netbanking.setClickable(true);
 
             cashonhand.setFocusable(true);
-            cashonhand.setFocusableInTouchMode(true);
-            cashonhand.setClickable(true);
+//            cashonhand.setFocusableInTouchMode(true);
+//            cashonhand.setClickable(true);
             cashonhand.setChecked(true);
 
             swipe_card.setFocusable(true);
-            swipe_card.setFocusableInTouchMode(true);
-            swipe_card.setClickable(true);
+//            swipe_card.setFocusableInTouchMode(true);
+//            swipe_card.setClickable(true);
 
             netbanking.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -271,7 +313,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                     if(netbanking.isChecked())
                     {
                         payment="OnlineBanking";
-                        cashonhand.setEnabled(false);
+//                        cashonhand.setEnabled(false);
                         swipe_card.setEnabled(false);
                     }
                     else
@@ -309,7 +351,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
                     {
                         payment="Debit/CreditcardSwipe";
                         netbanking.setEnabled(false);
-                        cashonhand.setEnabled(false);
+//                        cashonhand.setEnabled(false);
                     }
 
                     else
@@ -322,9 +364,125 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             });
         }
 
+        else if(statuss.equals("Initiated")) {
+
+            toProgress.setVisibility(View.VISIBLE);
+            toProgress.setFocusable(true);
+//            toProgress.setFocusableInTouchMode(true);
+
+            toProgress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(),"Appointment is in Progress",Toast.LENGTH_SHORT).show();
+                    Dstatus=2;
+                }
+            });
+
+//            toProgress.setClickable(true);
+
+//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statusList);
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
+//            status.setAdapter(adapter);
+
+
+            amnt.setText(amount);
+            amnt.setFocusable(false);
+            amnt.setFocusableInTouchMode(false);
+            amnt.setClickable(false);
+            amnt.setEnabled(false);
+
+            comments.setFocusable(true);
+            comments.setFocusableInTouchMode(true);
+            comments.setClickable(true);
+
+//            status.setFocusable(true);
+//            status.setFocusableInTouchMode(true);
+//            status.setClickable(true);
+
+            rippleView.setFocusable(true);
+//            rippleView.setFocusableInTouchMode(true);
+//            rippleView.setClickable(true);
+
+            netbanking.setFocusable(false);
+            netbanking.setFocusableInTouchMode(false);
+            netbanking.setClickable(false);
+            netbanking.setEnabled(false);
+
+            cashonhand.setFocusable(false);
+            cashonhand.setFocusableInTouchMode(false);
+            cashonhand.setClickable(false);
+            cashonhand.setChecked(true);
+            cashonhand.setEnabled(false);
+
+            swipe_card.setFocusable(false);
+            swipe_card.setFocusableInTouchMode(false);
+            swipe_card.setClickable(false);
+            swipe_card.setEnabled(false);
+
+//            netbanking.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    if (netbanking.isChecked()) {
+//                        payment = "OnlineBanking";
+////                        cashonhand.setEnabled(false);
+//                        swipe_card.setEnabled(false);
+//                    } else {
+//                        cashonhand.setEnabled(true);
+//                        swipe_card.setEnabled(true);
+//                    }
+//
+//                }
+//            });
+//
+//            cashonhand.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    if (cashonhand.isChecked()) {
+//                        payment = "CashOnHand";
+//                        swipe_card.setEnabled(false);
+//                        netbanking.setEnabled(false);
+//                    } else {
+//                        swipe_card.setEnabled(true);
+//                        netbanking.setEnabled(true);
+//                    }
+//                }
+//            });
+//
+//
+//            swipe_card.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (swipe_card.isChecked()) {
+//                        payment = "Debit/CreditcardSwipe";
+//                        netbanking.setEnabled(false);
+////                        cashonhand.setEnabled(false);
+//                    } else {
+//                        netbanking.setEnabled(true);
+//                        cashonhand.setEnabled(true);
+//                    }
+//
+//                }
+//            });
+
+        }
 
         else
         {
+            toFinish.setVisibility(View.VISIBLE);
+            toFinish.setFocusable(true);
+//            toFinish.setFocusableInTouchMode(true);
+
+            toFinish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(),"Appointment is Finished",Toast.LENGTH_SHORT).show();
+                    Dstatus=3;
+                }
+            });
+
+
             amnt.setText(amount);
             amnt.setFocusable(false);
             amnt.setFocusableInTouchMode(false);
@@ -375,20 +533,22 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             public void onClick(View view) {
 
 //                System.out.println("js data.getpatient details in diag."+json.toString());
-                if(statuss.equals("Pending"))
-                {
+//                if(statuss.equals("Pending"))
+//                {
+
+//                if(pamode == )
                     comment=comments.getText().toString();
                     ammnt=amnt.getText().toString();
 
                     new SendAppointmentDetailsToUpdate().execute(baseUrl.getUrl()+"DiagnosticUpdateAppointment?DiagAppID="+rdid+"&DStatus="+Dstatus+"&Comment="+comment+"&PaymentMode="+payment+"&amount="+ammnt);
 
-                }
-                else
-                {
-                    timeerroralert();
-
-                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
-                }
+//                }
+//                else
+//                {
+//                    timeerroralert();
+//
+//                    Toast.makeText(getApplicationContext(),"Sorry your time is expired",Toast.LENGTH_SHORT).show();
+//                }
 
 
             }
@@ -503,11 +663,11 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",diagnosticId);
-//                    subscript.putExtra("mobile",diagmobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(GetPatientDetailsTotalDataInDiagnostics.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagnosticId);
+                    subscript.putExtra("mobile",diagmobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

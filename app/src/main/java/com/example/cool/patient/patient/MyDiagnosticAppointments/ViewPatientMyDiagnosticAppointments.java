@@ -127,9 +127,19 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
 
+
+        Calendar cal=Calendar.getInstance();
+        int year1=cal.get(Calendar.YEAR);
+        int month=cal.get(Calendar.MONTH);
+        int day1=cal.get(Calendar.DAY_OF_MONTH);
+
+        String currentDate = month+1+"/"+day1+"/"+year1;
+
+        System.out.println("cur date..."+currentDate);
+
         System.out.println("appoint date in my diag.."+appointmentdate+"....current date..."+formattedDate);
 
-        if(appointmentdate.equals(formattedDate))
+        if(appointmentdate.equals(currentDate))
         {
             cancel.setClickable(true);
             reschedule.setClickable(true);
@@ -246,6 +256,17 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             paymode.setBackgroundColor(getResources().getColor(R.color.initiation));
             paymode.setVisibility(View.VISIBLE);
         }
+        if(diagnoticstatus.equals("Cancel") || diagnoticstatus.equals("Reschedule"))
+        {
+            paymode.setBackgroundColor(getResources().getColor(R.color.reject));
+            cancel.setEnabled(false);
+            reschedule.setEnabled(false);
+            cancel.setFocusable(false);
+            reschedule.setFocusable(false);
+            cancel.setTextColor(getResources().getColor(R.color.cancel_or_reschedule));
+            reschedule.setTextColor(getResources().getColor(R.color.cancel_or_reschedule));
+        }
+
 
 
         //phone call
@@ -525,7 +546,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 500)
+                if(s == 200)
                 {
 
                     showCancelSuccessMessage(js.getString("Message"));
@@ -612,7 +633,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
 
                 //write
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params doc add....."+params[1]);
+                System.out.println("params doc add....."+params[0]);
                 wr.writeBytes(params[0]);
                 wr.flush();
                 wr.close();
@@ -685,7 +706,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 500)
+                if(s == 200)
                 {
 
                     showRescheduleSuccessMessage(js.getString("Message"));

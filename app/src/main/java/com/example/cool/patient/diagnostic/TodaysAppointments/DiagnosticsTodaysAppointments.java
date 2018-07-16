@@ -1,6 +1,7 @@
 package com.example.cool.patient.diagnostic.TodaysAppointments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -40,6 +41,7 @@ import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,10 +90,6 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
 
         baseUrl = new ApiBaseUrl();
 
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        data_list=new ArrayList<>();
-
         diagId = getIntent().getStringExtra("userId");
         diagMobile = getIntent().getStringExtra("mobile");
 
@@ -99,10 +97,14 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
 
         new GetPatientDetails().execute(baseUrl.getUrl()+"DiagnosticGetTodayAppointments"+"?id="+diagId);
 
+        recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        data_list=new ArrayList<>();
+
         layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
         adapter = new DiagnosticsTodaysAppointmentsAdapter(this,data_list);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
 
@@ -184,11 +186,11 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticsTodaysAppointments.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",diagId);
-//                    subscript.putExtra("mobile",diagMobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticsTodaysAppointments.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagId);
+                    subscript.putExtra("mobile",diagMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -460,28 +462,63 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
     private void getDetails(String result) {
         try {
 
-            JSONArray jsonArray=new JSONArray(result);
-            for(int i=0;i<jsonArray.length();i++)
+            Object json = new JSONTokener(result).nextValue();
+            if(json instanceof JSONObject)
             {
-                JSONObject js = jsonArray.getJSONObject(i);
+                JSONObject jsono = new JSONObject(result);
 
-                Dstatus = js.getInt("DStatus");
-                RDTestID=js.getInt("RDID");
-                AppointmentID=js.getInt("AppointmentID");
-                PatientName=(String)js.get("PatientName");
-                CenterName=(String)js.get("CenterName");
-                EmailID = (String) js.get("EmailID");
-                MobileNo=(String) js.get("MobileNo");
-                Aadharnumber=(String)js.get("Aadharnumber");
+                int s = jsono.getInt("Code");
+                String ss = (String) jsono.get("Message");
 
-                PatientDatainDiagnosticsTodaysAppointmentsClass myPatientData=new PatientDatainDiagnosticsTodaysAppointmentsClass(diagId,diagMobile,Dstatus,RDTestID,AppointmentID,PatientName,CenterName,EmailID,MobileNo,Aadharnumber);
+                showNoRecordsFoundAlert();
 
-                data_list.add(myPatientData);
             }
+            else if(json instanceof JSONArray)
+            {
+                JSONArray jsonArray=new JSONArray(result);
+                for(int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject js = jsonArray.getJSONObject(i);
+
+                    Dstatus = js.getInt("DStatus");
+                    RDTestID=js.getInt("RDID");
+                    AppointmentID=js.getInt("AppointmentID");
+                    PatientName=(String)js.get("PatientName");
+                    CenterName=(String)js.get("CenterName");
+                    EmailID = (String) js.get("EmailID");
+                    MobileNo=(String) js.get("MobileNo");
+                    Aadharnumber=(String)js.get("Aadharnumber");
+
+                    PatientDatainDiagnosticsTodaysAppointmentsClass myPatientData=new PatientDatainDiagnosticsTodaysAppointmentsClass(diagId,diagMobile,Dstatus,RDTestID,AppointmentID,PatientName,CenterName,EmailID,MobileNo,Aadharnumber);
+
+                    data_list.add(myPatientData);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showNoRecordsFoundAlert(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(DiagnosticsTodaysAppointments.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Today's date has");
+        alert.show();
     }
 
 

@@ -57,7 +57,7 @@ class PatientMyDiagnosticAppointmentsHistoryAdapter extends RecyclerView.Adapter
         holder.Comment.setText(my_data.get(position).getComment());
         holder.appointmentId.setText(my_data.get(position).getAppointmentID());
         holder.userId.setText(my_data.get(position).getUserId());
-        holder.appointmentdate.setText(my_data.get(position).getRequestDate());
+        holder.appointmentdate.setText(my_data.get(position).getDate());
         mobileNumber = my_data.get(position).getMobileNumber();
         DiagAddressId = my_data.get(position).getDiagAddressId();
 

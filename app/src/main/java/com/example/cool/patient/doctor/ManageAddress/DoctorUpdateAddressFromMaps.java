@@ -85,7 +85,7 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     RippleView rippleView;
     //doc timings alert
-    Button ok_btn,cancel_btn;
+    ImageView ok_btn,cancel_btn;
     EditText appointments;
     Button show;
     Dialog MyDialog;
@@ -445,11 +445,11 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",userId);
-//                    i.putExtra("mobile",regMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",userId);
+                    i.putExtra("mobile",regMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -1376,19 +1376,19 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
         getmUserItemsSunItems = new ArrayList<>();
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(sunPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1510,19 +1510,19 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MyMondayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(monPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1645,19 +1645,19 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MyTuesdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(tuePrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1776,19 +1776,19 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MyWednesdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(wedPrevApointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -1908,8 +1908,8 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MyThursdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1919,8 +1919,8 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
         appointments.setText(thuPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2039,20 +2039,20 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MyFridayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
         appointments.setText(friPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);
@@ -2171,20 +2171,20 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
 
     public void MySaturdayCustomAlertDialog(){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
-        builder1.setTitle("how many appointments want ??");
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorUpdateAddressFromMaps.this);
+//        builder1.setTitle("how many appointments want ??");
 
         MyDialog  = new Dialog(DoctorUpdateAddressFromMaps.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.doctor_insert_timings);
+        MyDialog.setContentView(R.layout.appointment_count_alert);
         MyDialog.setTitle("My Custom Dialog");
 
         appointments = (EditText) MyDialog.findViewById(R.id.appointmentsCount);
 
         appointments.setText(satPrevAppointmentsCount);
 
-        ok_btn = (Button)MyDialog.findViewById(R.id.ok);
-        cancel_btn = (Button)MyDialog.findViewById(R.id.cancel);
+        ok_btn = (ImageView) MyDialog.findViewById(R.id.ok);
+        cancel_btn = (ImageView) MyDialog.findViewById(R.id.cancel);
 
         ok_btn.setEnabled(true);
         cancel_btn.setEnabled(true);

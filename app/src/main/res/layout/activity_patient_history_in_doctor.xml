@@ -120,8 +120,8 @@
                     android:layout_height="wrap_content"
                     android:text="No.of Appointments:-"
                     android:layout_gravity="center_vertical"
-                    android:textColor="#0000FF"
-                    android:textSize="20dp"
+                    android:textColor="@color/labelColor"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -130,8 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:textSize="20dp"
-                    android:textColor="#0000FF"
+                    android:textSize="20sp"
+                    android:textColor="#28ff02"
                     android:textStyle="bold" />
 
             </LinearLayout>

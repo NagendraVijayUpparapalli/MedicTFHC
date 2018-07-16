@@ -206,8 +206,11 @@ public class MedicalChangePassword extends AppCompatActivity
 
                 else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    startActivity(about);
+                    Intent about = new Intent(MedicalChangePassword.this,SubscriptionPlanAlertDialog.class);
+                    about.putExtra("id",getUserId);
+                    about.putExtra("mobile",mobile_number);
+                    about.putExtra("module","medical");
+                    startActivity(about);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

@@ -50,21 +50,25 @@ class DiagnosticsTodaysAppointmentsAdapter extends RecyclerView.Adapter<Diagnost
         if(my_data.get(position).getDstatus() == 0)
         {
             myStatus = "Pending";
+            holder.Status.setText(myStatus);
         }
-        if(my_data.get(position).getDstatus() == 1)
+        else if(my_data.get(position).getDstatus() == 1)
         {
             myStatus = "Initiated";
+            holder.Status.setText(myStatus);
         }
-        if(my_data.get(position).getDstatus() == 2)
+        else if(my_data.get(position).getDstatus() == 2)
         {
             myStatus = "In Progress";
+            holder.Status.setText(myStatus);
         }
-        if(my_data.get(position).getDstatus() == 3)
+        else if(my_data.get(position).getDstatus() == 3)
         {
             myStatus = "Finished";
+            holder.Status.setText(myStatus);
         }
 
-        holder.Status.setText(myStatus);
+
 
         diagnosticId = my_data.get(position).getDiagnosticId();
         diagMobile = my_data.get(position).getDiagMobile();

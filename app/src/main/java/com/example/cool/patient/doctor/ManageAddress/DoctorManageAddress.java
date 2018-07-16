@@ -190,11 +190,11 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorManageAddress.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",getUserId);
-//                    i.putExtra("mobile",regMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorManageAddress.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",getUserId);
+                    i.putExtra("mobile",regMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
