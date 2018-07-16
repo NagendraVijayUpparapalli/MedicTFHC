@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -92,7 +93,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     EditText amnt;
     ImageView prescrption;
     Bitmap mIcon11;
-    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog;
     StringBuilder builder;
     //    Button submit;
     ApiBaseUrl baseUrl;
@@ -104,7 +105,6 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
-    ProgressDialog progressDialog;
 
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
@@ -933,16 +933,23 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Create a progressdialog
-            mProgressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Download Image");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            // Create a progressdialog
+//            mProgressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Download Image");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -967,7 +974,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             // Set the bitmap into ImageView
             prescrption.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 
@@ -978,15 +985,22 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(GetPatientDetailsTotalDataInDiagnostics.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

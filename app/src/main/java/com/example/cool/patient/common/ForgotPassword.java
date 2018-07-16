@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -361,17 +362,24 @@ public class ForgotPassword extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(ForgotPassword.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(ForgotPassword.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//            progressDialog.setCancelable(false);
+//            progressDialog.setCanceledOnTouchOutside(false);
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(ForgotPassword.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
-            progressDialog.setCancelable(false);
-            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
 
