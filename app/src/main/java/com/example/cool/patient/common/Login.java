@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -424,19 +425,26 @@ public class Login extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(Login.this);
+           // progressDialog = new ProgressDialog(Login.this);
             // Set progressdialog title
 //            progressDialog.setTitle("You are logging");
             // Set progressdialog message
-            progressDialog.setMessage("Logging in...");
+          //  progressDialog.setMessage("Logging in...");
 
-            progressDialog.setIndeterminate(false);
+            //progressDialog.setIndeterminate(false);
             // Show progressdialog
 //            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //            progressDialog.setP
+//            progressDialog.show();
+//            progressDialog.setCancelable(false);
+//            progressDialog.setCanceledOnTouchOutside(false);
+
+            progressDialog = new ProgressDialog(Login.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
-            progressDialog.setCancelable(false);
-            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

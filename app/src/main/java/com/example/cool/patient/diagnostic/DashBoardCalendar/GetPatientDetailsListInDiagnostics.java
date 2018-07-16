@@ -2,6 +2,7 @@ package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -76,7 +77,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
     ApiBaseUrl baseUrl;
 
     // expandable list view
-    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -424,15 +425,22 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(GetPatientDetailsListInDiagnostics.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Image");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(GetPatientDetailsListInDiagnostics.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Image");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(GetPatientDetailsListInDiagnostics.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -475,7 +483,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
             getDetails(result);
             adapter.notifyDataSetChanged();
 
