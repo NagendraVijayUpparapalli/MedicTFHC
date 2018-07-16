@@ -170,8 +170,48 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/initiate"
+                            android:layout_weight="1"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:background="@drawable/diag_google_map_link"
+                            android:text="Click to Initiate"/>
+
+                        <TextView
+                            android:id="@+id/progress"
+                            android:layout_weight="1"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:background="@drawable/diag_google_map_link"
+                            android:text="Click to Progress"/>
+
+                        <TextView
+                            android:id="@+id/finished"
+                            android:layout_weight="1"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:background="@drawable/diag_google_map_link"
+                            android:text="Click to Finished"/>
+
                         <Spinner
                             android:id="@+id/status"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
@@ -414,7 +454,7 @@
                                 android:textSize="18sp"
                                 android:gravity="center"
                                 android:text="@string/submit"
-                                android:background="#f938a72f"/>
+                                android:background="@color/rippleButton"/>
 
                         </com.andexert.library.RippleView>
                     </LinearLayout>

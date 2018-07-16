@@ -35,18 +35,18 @@
 
 
                     <!--<RelativeLayout-->
-                        <!--android:id="@+id/close"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content">-->
+                    <!--android:id="@+id/close"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
 
-                        <!--<ImageView-->
-                            <!--android:layout_width="20dp"-->
-                            <!--android:layout_height="20dp"-->
-                            <!--android:layout_marginTop="5dp"-->
-                            <!--android:layout_marginEnd="5dp"-->
-                            <!--android:src="@drawable/cancel_icon"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:textColor="#FFF" />-->
+                    <!--<ImageView-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginEnd="5dp"-->
+                    <!--android:src="@drawable/cancel_icon"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:textColor="#FFF" />-->
 
                     <!--</RelativeLayout>-->
 
@@ -64,129 +64,138 @@
                         android:text="Amudala Prabhakar Raju Udayasri"
                         android:textColor="#ffffff" />
 
-                    <RelativeLayout
-                        android:id="@+id/imgUser"
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_below="@+id/Doctor_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_below="@+id/Doctor_name"
-                        android:background="@drawable/circle_border">
+                        android:orientation="horizontal">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/dummyimage"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_margin="9dp"
-                            android:background="@drawable/circle1"
-                            android:padding="5dp"
-                            android:src="@drawable/noprofile" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/doctor_image"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_margin="9dp"
-                            android:background="@drawable/circle1"
-                            android:padding="5dp"
-                            android:src="@drawable/noprofile" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_below="@+id/Doctor_name"
-                        android:layout_marginStart="165dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/textaddress"
+                        <RelativeLayout
+                            android:id="@+id/imgUser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#fff"
-                            android:drawableLeft="@drawable/home_white" />
+                            android:layout_marginStart="15dp"
+                            android:background="@drawable/circle_border">
 
-                        <TextView
-                            android:id="@+id/hospital_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:text="Akshya Hospital"
-                            android:textColor="#fff" />
-                        <TextView
-                            android:id="@+id/dr_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/hospital_name"
-                            android:layout_marginStart="30dp"
-                            android:textColor="#fff"
-                            android:text="Dr.No:3-30/A,lalitnagar"/>
-                        <TextView
-                            android:id="@+id/city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/dr_no"
-                            android:layout_marginStart="30dp"
-                            android:textColor="#fff"
-                            android:text="kakinada"/>
-                        <TextView
-                            android:id="@+id/state"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/city"
-                            android:layout_marginStart="30dp"
-                            android:textColor="#fff"
-                            android:text="Andhra Pradesh"/>
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/dummyimage"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="9dp"
+                                android:background="@drawable/circle1"
+                                android:padding="5dp"
+                                android:src="@drawable/noprofile" />
 
-                        <TextView
-                            android:id="@+id/textfee"
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/state"
-                            android:textColor="#fff"
-                            android:drawableLeft="@drawable/my_rupee_icon" />
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/doctor_image"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="9dp"
+                                android:background="@drawable/circle1"
+                                android:padding="5dp"
+                                android:src="@drawable/noprofile" />
 
-                        <TextView
-                            android:id="@+id/fee"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/state"
-                            android:layout_marginStart="30dp"
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_below="@+id/Doctor_name"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="3dp"
-                            android:textColor="#fff"
-                            android:text="100"/>
-
-                        <TextView
-                            android:id="@+id/cool"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/state"
-                            android:layout_toRightOf="@+id/fee"
-                            android:textSize="10dp"
-                            android:layout_marginTop="5dp"
-                            android:text="(Consultation Fee)"
-                            android:textColor="#fff" />
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/textaddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:drawableLeft="@drawable/home_white" />
 
-                        <TextView
-                            android:id="@+id/textpayment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/textfee"
-                            android:textColor="#fff"
-                            android:drawableLeft="@drawable/ic_payment_black_24dp"/>
+                            <TextView
+                                android:id="@+id/hospital_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="Akshya Hospital"
+                                android:textColor="#fff" />
+                            <TextView
+                                android:id="@+id/dr_no"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/hospital_name"
+                                android:layout_marginStart="30dp"
+                                android:textColor="#fff"
+                                android:text="Dr.No:3-30/A,lalitnagar"/>
+                            <TextView
+                                android:id="@+id/city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/dr_no"
+                                android:layout_marginStart="30dp"
+                                android:textColor="#fff"
+                                android:text="kakinada"/>
+                            <TextView
+                                android:id="@+id/state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/city"
+                                android:layout_marginStart="30dp"
+                                android:textColor="#fff"
+                                android:text="Andhra Pradesh"/>
 
-                        <TextView
-                            android:id="@+id/payment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/fee"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginTop="3dp"
-                            android:textColor="#fff"
-                            android:textSize="13sp"
-                            android:text="cash on hand"/>
+                            <TextView
+                                android:id="@+id/textfee"
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/state"
+                                android:textColor="#fff"
+                                android:drawableLeft="@drawable/my_rupee_icon" />
+
+                            <TextView
+                                android:id="@+id/fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/state"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="3dp"
+                                android:textColor="#fff"
+                                android:text="100"/>
+
+                            <TextView
+                                android:id="@+id/cool"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/state"
+                                android:layout_toRightOf="@+id/fee"
+                                android:textSize="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="(Consultation Fee)"
+                                android:textColor="#fff" />
+
+                            <TextView
+                                android:id="@+id/textpayment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/textfee"
+                                android:textColor="#fff"
+                                android:drawableLeft="@drawable/ic_payment_black_24dp"/>
+
+                            <TextView
+                                android:id="@+id/payment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/fee"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="3dp"
+                                android:textColor="#fff"
+                                android:textSize="13sp"
+                                android:text="cash on hand"/>
 
 
-                    </RelativeLayout>
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -284,14 +293,14 @@
                 app:layout_collapseMode="parallax">
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/close"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:layout_marginEnd="5dp"-->
-                    <!--android:src="@drawable/cancel_icon"-->
-                    <!--android:layout_gravity="right"-->
-                    <!--android:textColor="#FFF" />-->
+                <!--android:id="@+id/close"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:src="@drawable/cancel_icon"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:textColor="#FFF" />-->
 
                 <TextView
                     android:drawableRight="@drawable/close_white_icon"
@@ -327,57 +336,57 @@
             android:orientation="vertical">
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:text="@string/date_of_appointment"-->
-                    <!--android:textColor="#3797CF"-->
-                    <!--android:textSize="18sp" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:text="@string/date_of_appointment"-->
+            <!--android:textColor="#3797CF"-->
+            <!--android:textSize="18sp" />-->
 
-                <!--<TextView-->
-                    <!--android:id="@+id/bookDate"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="30dp"-->
-                    <!--android:drawableLeft="@drawable/ic_date_range_black_24dp" />-->
+            <!--<TextView-->
+            <!--android:id="@+id/bookDate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp" />-->
 
-                <!--<TextView-->
-                    <!--android:id="@+id/bookDate1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginStart="10dp"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:fontFamily="sans-serif-light"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:id="@+id/bookDate1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:fontFamily="sans-serif-light"-->
+            <!--android:textColor="#000000"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
 
             <!--</LinearLayout>-->
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--android:orientation="horizontal">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:drawablePadding="73dp"-->
-                    <!--android:drawableRight="@drawable/ic_access_time_black_24dp"-->
-                    <!--android:text="@string/select_time"-->
-                    <!--android:textColor="#3797CF"-->
-                    <!--android:textSize="18sp" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawablePadding="73dp"-->
+            <!--android:drawableRight="@drawable/ic_access_time_black_24dp"-->
+            <!--android:text="@string/select_time"-->
+            <!--android:textColor="#3797CF"-->
+            <!--android:textSize="18sp" />-->
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/timings"-->
-                    <!--android:layout_width="120dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingRight="5dp"/>-->
+            <!--<Spinner-->
+            <!--android:id="@+id/timings"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingRight="5dp"/>-->
 
             <!--</LinearLayout>-->
 
@@ -492,8 +501,6 @@
 
                 </RelativeLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -502,7 +509,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -510,9 +516,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_weight="1"
-
-                    android:gravity="left"
-                    >
+                    android:gravity="left">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -524,8 +528,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-
                             android:text="Select Time :"
                             android:textColor="#3797CF"
                             android:textSize="18sp" />
@@ -542,6 +544,7 @@
                     android:gravity="left">
 
                     <LinearLayout
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -552,10 +555,10 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_timer_black_24dp"
                             android:textAllCaps="true"
+                            android:paddingBottom="2dp"
                             android:textStyle="bold"
                             android:textColor="#000"
                             android:textSize="15sp" />
-
 
                         <Spinner
                             android:id="@+id/timings"

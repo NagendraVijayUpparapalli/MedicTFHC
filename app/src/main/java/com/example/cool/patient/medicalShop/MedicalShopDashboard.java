@@ -41,6 +41,7 @@ import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddre
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddressClass;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ReachUs;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,14 +220,17 @@ public class MedicalShopDashboard extends AppCompatActivity
 
                 else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    startActivity(about);
+                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
+                    about.putExtra("id",getUserId);
+                    about.putExtra("mobile",mobile_number);
+                    about.putExtra("module","medical");
+                    startActivity(about);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
                     Intent contact = new Intent(MedicalShopDashboard.this,Offers.class);
                     contact.putExtra("id",getUserId);
-                    contact.putExtra("mobile",regMobile);
+                    contact.putExtra("mobile",mobile_number);
                     contact.putExtra("module","medical");
                     startActivity(contact);
 
@@ -611,7 +615,7 @@ public class MedicalShopDashboard extends AppCompatActivity
 
                 bb.setEmergencyContactNumber(object.getString("EmergencyContact"));
                 bb.setCenterImage(object.getString("ShopImage"));
-                bb.setRegisteredMobileNumber(regMobile);
+                bb.setRegisteredMobileNumber(mobile_number);
                 String cityy = object.getString("CityName");
                 bb.setCityName(object.getString("CityName"));
                 bb.setZipcode(object.getString("PinCode"));

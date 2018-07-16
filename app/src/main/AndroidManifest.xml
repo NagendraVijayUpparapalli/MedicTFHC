@@ -237,6 +237,7 @@
             android:hardwareAccelerated="false"
             android:label="View Appointment"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".patient.MyDoctorAppointments.PatientMyDoctorAppointments"
             android:label="My Doctor Appointments"
@@ -306,7 +307,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.DashBoardCalendar.GetPatientDetailsListInDiagnostics"
-            android:label="Patient"
+            android:label="Appointments"
             android:screenOrientation="portrait" />
         <activity
             android:name=".diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments"

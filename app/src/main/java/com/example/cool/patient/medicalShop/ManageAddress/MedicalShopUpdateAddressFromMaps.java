@@ -56,6 +56,7 @@ import com.example.cool.patient.R;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigatioExpandableSubList;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigationExpandableListAdapter;
+import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -421,8 +422,11 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
                 else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    startActivity(about);
+                    Intent about = new Intent(MedicalShopUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
+                    about.putExtra("id",getUserId);
+                    about.putExtra("mobile",regMobile);
+                    about.putExtra("module","medical");
+                    startActivity(about);
 
                 } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

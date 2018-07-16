@@ -288,11 +288,11 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticEditProfile.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",getUserId);
-//                    subscript.putExtra("mobile",mobile_number);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticEditProfile.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",getUserId);
+                    subscript.putExtra("mobile",mobile_number);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

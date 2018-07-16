@@ -95,7 +95,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         data_list=new ArrayList<>();
-        speciality=new ArrayList<>();
+
 
         date = getIntent().getStringExtra("date");
         diagID = getIntent().getStringExtra("id");
@@ -118,7 +118,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
         setSupportActionBar(toolbar);
 
 //        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-        toolbar.setTitle("Patients");
+        toolbar.setTitle("Appointments");
 //        toolbar.setNavigationOnClickListener(
 //                new View.OnClickListener() {
 //                    @Override
@@ -191,10 +191,11 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(GetPatientDetailsListInDiagnostics.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",diagID);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(GetPatientDetailsListInDiagnostics.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagID);
+                    subscript.putExtra("mobile",diagmobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -489,8 +490,12 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
             {
                 JSONObject js = jsonArray.getJSONObject(i);
 
+
                 if(myStatus == js.getInt("DStatus"))
                 {
+
+                    speciality=new ArrayList<>();
+
                     Dstatus = js.getInt("DStatus");
                     addressId = js.getString("AddressID");
                     Payment = (String) js.get("Payment");
@@ -537,6 +542,8 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                             Amount,Aadharnumber,speciality,status,date);
 
                     data_list.add(myPatientData);
+                    speciality.clear();
+
                 }
 
             }

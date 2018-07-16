@@ -14,6 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -96,6 +98,13 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
     ImageView sidenavDoctorImage;
 
 
+    DoctorPatientHistoryClass doctorPatientHistoryClass;
+    DoctorPatientHistoryAdapter adapter;
+    private List<DoctorPatientHistoryClass> data_list = null;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +115,10 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
         calendarView=(com.prolificinteractive.materialcalendarview.MaterialCalendarView ) findViewById(R.id.calendar);
 
         img=(ImageView) findViewById(R.id.img1);
+
+
+        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+        layoutManager=new LinearLayoutManager(this);
 
         doctorMobile = getIntent().getStringExtra("doctorMobile");
         doctorId = getIntent().getStringExtra("id");
@@ -207,11 +220,11 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(PatientHistoryInDoctor.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",doctorId);
-//                    i.putExtra("mobile",doctorMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(PatientHistoryInDoctor.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",doctorId);
+                    i.putExtra("mobile",doctorMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -348,7 +361,31 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
             }
         });
 
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+
+                System.out.println("Selected Date" + date);
+
+                int m = date.getMonth() + 1;
+                d = m + "/" + date.getDay() + "/" + date.getYear();
+                System.out.println("dateeeee" + d);
+
+                new GetPatientHistoryDetails().execute(baseUrl.getUrl()+"DocPatientHistory"+"?PatientID="+patientId);
+
+                data_list = new ArrayList<>();
+
+                recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+                layoutManager=new LinearLayoutManager(PatientHistoryInDoctor.this);
+
+            }
+        });
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -602,6 +639,8 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
         final List<String> dates = new ArrayList<>();
         final List<String> comment = new ArrayList<>();
 
+        int jsonCount = 0;
+        int length = 0;
 
         try {
             JSONArray jsonArray = new JSONArray(result);
@@ -616,64 +655,73 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
                 speciality = jsonObject.getString("Speciality");
                 appoinmentdate = jsonObject.getString("AppointmentDateStr");
                 doctorcomment = jsonObject.getString("DoctorComment");
+                String prescript = jsonObject.getString("PrescriptionImage");
 
                 String arr[] = appoinmentdate.split(" ");
                 date = arr[0];
                 Date date1 = simpleDateFormat.parse(date);
                 CalendarDay day = CalendarDay.from(date1);
-//                int month=day.getMonth();
-//                System.out.println();
-                aadhar.add(Aaadharnumber);
-                patientnames.add(Patientname);
-                mobilenumbers.add(Mobilenumber);
-                reasonlist.add(reason);
-                doctornames.add(doctorname);
-                specialitylist.add(speciality);
+
+
+                Calendar cal=Calendar.getInstance();
+                int year1=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day1=cal.get(Calendar.DAY_OF_MONTH);
+
+                String currentDate = month+1+"/"+day1+"/"+year1;
+
+                System.out.println("cur date..."+currentDate);
+
+                System.out.println("json date..."+date);
+                System.out.println("cal date..."+d);
+
+                if(date.equals(currentDate) && d == null) {
+
+                    jsonCount = 1;
+
+                    length = length+1;
+                    String l=Integer.toString(length);
+                    count.setText(l);
+
+                    doctorPatientHistoryClass = new DoctorPatientHistoryClass(doctorImageUrl,patientId,doctorId,doctorMobile,
+                            Aaadharnumber,Patientname,Mobilenumber,reason,doctorname,speciality,appoinmentdate,doctorcomment,date,prescript);
+
+                    data_list.add(doctorPatientHistoryClass);
+
+                    adapter=new DoctorPatientHistoryAdapter(getApplicationContext(),data_list,d);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+
+                }
+
+                else if(date.equals(d) && d != null) {
+
+                    jsonCount = 1;
+
+                    length = length+1;
+                    String l=Integer.toString(length);
+                    count.setText(l);
+
+                    doctorPatientHistoryClass = new DoctorPatientHistoryClass(doctorImageUrl,patientId,doctorId,doctorMobile,
+                            Aaadharnumber,Patientname,Mobilenumber,reason,doctorname,speciality,appoinmentdate,doctorcomment,date,prescript);
+
+                    data_list.add(doctorPatientHistoryClass);
+
+                    adapter=new DoctorPatientHistoryAdapter(getApplicationContext(),data_list,d);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+
+                }
+
+
                 dates.add(date);
-                comment.add(doctorcomment);
                 events.add(day);
 
             }
 
-            int length=jsonArray.length();
-            String l=Integer.toString(length);
-            count.setText(l);
-
-            calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-                @Override
-                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
-
-                    System.out.println("Selected Date" + date);
-
-                    int m = date.getMonth() + 1;
-                    d = m + "/" + date.getDay() + "/" + date.getYear();
-                    System.out.println("dateeeee" + d);
-
-                    if (dates.contains(d)) {
-
-
-                        Intent i = new Intent(PatientHistoryInDoctor.this, ViewPatientHistoryInDoctor.class);
-                        i.putExtra("date", d);
-                        i.putExtra("patientId",patientId);
-                        i.putExtra("doctorImageUrl",doctorImageUrl);
-                        i.putExtra("id",doctorId);
-                        i.putExtra("doctorMobile",doctorMobile);
-                        i.putStringArrayListExtra("aadharnumber", (ArrayList<String>) aadhar);
-                        i.putStringArrayListExtra("patientname", (ArrayList<String>) patientnames);
-                        i.putStringArrayListExtra("mobilenumbers", (ArrayList<String>) mobilenumbers);
-                        i.putStringArrayListExtra("reason", (ArrayList<String>) reasonlist);
-                        i.putStringArrayListExtra("doctorname", (ArrayList<String>) doctornames);
-                        i.putStringArrayListExtra("speciality", (ArrayList<String>) specialitylist);
-                        i.putStringArrayListExtra("dates", (ArrayList<String>) dates);
-                        i.putStringArrayListExtra("comment", (ArrayList<String>) comment);
-                        startActivity(i);
-                    } else {
-                        showalert();
-                    }
-
-                }
-            });
+//            int length=jsonArray.length();
+//            String l=Integer.toString(length);
+//            count.setText(l);
 
             EventDecorator eventDecorator = new EventDecorator(this, events);
             calendarView.addDecorator((DayViewDecorator) eventDecorator);
@@ -683,18 +731,46 @@ public class PatientHistoryInDoctor extends AppCompatActivity implements Navigat
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        if(jsonCount == 0)
+        {
+            showCurrentDateNotMatchMessage();
+            recyclerView.setVisibility(View.GONE);
+        }
+        else
+        {
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void showalert() {
+//    private void showalert() {
+//
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientHistoryInDoctor.this);
+//        builder.setMessage("You don't have history today");
+//        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.show();
+//
+//    }
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(PatientHistoryInDoctor.this);
-        builder.setMessage("You don't have history today");
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
+    public void showCurrentDateNotMatchMessage(){
 
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(PatientHistoryInDoctor.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Your current date has");
+        alert.show();
     }
 }

@@ -508,11 +508,11 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",mydiagnosticId);
-//                    subscript.putExtra("mobile",regMobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticUpdateAddressFromMaps.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",mydiagnosticId);
+                    subscript.putExtra("mobile",regMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

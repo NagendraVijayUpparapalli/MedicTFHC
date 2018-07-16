@@ -213,7 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/patient_name"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/mobile_number_patient"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -271,7 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/aadhar_number_in_patient"
-                        android:textColor="#3797CF"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -299,8 +299,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/test_name1"
-                        android:textColor="#3797CF"
+                        android:text="Test Name"
+                        android:textColor="@color/labelColor"
                         android:textSize="13sp" />
 
                     <TextView
@@ -320,33 +320,64 @@
 
                 </LinearLayout>
 
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/DiagnosticCommentsSuggestions"-->
+                <!--android:textColor="#3797CF"-->
+                <!--android:textSize="13sp" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/comments"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textSize="18sp" />-->
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:background="#E5E5E5" />-->
+
+                <!--</LinearLayout>-->
+
                 <LinearLayout
+                    android:weightSum="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/Comments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/DiagnosticCommentsSuggestions"
-                        android:textColor="#3797CF"
-                        android:textSize="13sp" />
+                        android:layout_weight="0.1"
+                        android:text="@string/comments"
+                        android:textColor="@color/labelColor"
+                        android:textSize="16sp" />
 
-                    <TextView
+                    <MultiAutoCompleteTextView
                         android:id="@+id/comments"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/edittext_button"
+                        android:layout_weight="2"
+                        android:textSize="15sp"
+                        />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="10dp"
                         android:background="#E5E5E5" />
-
                 </LinearLayout>
 
                 <!--xmlns:ripple="http://schemas.android.com/apk/res-auto"-->

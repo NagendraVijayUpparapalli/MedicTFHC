@@ -935,7 +935,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         getSelectedSpecialityItemsList = new ArrayList<>();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PatientBookAppointmentToDiagnostics.this);
-        builder.setTitle("Required tests");
+        builder.setTitle("Choose the tests");
 
         builder.setMultiChoiceItems(allDiagSpecialityItems, checkDiagSpecialityItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -976,7 +976,8 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
 
             }
         });
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
@@ -1006,7 +1007,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Addresspopup();
+//                Addresspopup();
                 MyDialog.cancel();
             }
         });
@@ -1220,6 +1221,7 @@ public class PatientBookAppointmentToDiagnostics extends AppCompatActivity {
                 acknowledgedialog.cancel();
             }
         });
+
         ok1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

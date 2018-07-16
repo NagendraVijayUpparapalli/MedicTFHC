@@ -122,7 +122,7 @@ public class Subscription_for_Rural extends AppCompatActivity {
             System.out.print("subscriptionType in urban diag....."+subscriptionType);
         }
 
-        Button button = (Button) findViewById(R.id.sliver);
+        Button button = (Button) findViewById(R.id.silver);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +133,7 @@ public class Subscription_for_Rural extends AppCompatActivity {
 
         });
 
-        Button gold = (Button) findViewById(R.id.Gold);
+        Button gold = (Button) findViewById(R.id.gold);
 
         gold.setOnClickListener(new View.OnClickListener() {
             @Override

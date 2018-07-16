@@ -217,7 +217,6 @@
                         app:passwordToggleTint="#FFF"
                         android:layout_width="wrap_content"
                         android:textColorHint="#fff"
-
                         android:layout_height="wrap_content">
 
                         <EditText
@@ -229,7 +228,6 @@
                             android:backgroundTint="#fff"
                             android:textColor="#fff"
                             android:inputType="textPassword"
-                            android:drawableLeft="@drawable/password"
                             android:layout_marginStart="15dp"
                             android:layout_marginEnd="15dp"
                             />
@@ -253,8 +251,6 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/rePassword"
                             android:inputType="textPassword"
-                            android:drawableLeft="@drawable/ic_star_black_24dp"
-
                             android:backgroundTint="#fff"
                             android:textColor="#fff"
                             android:layout_marginStart="8dp"

@@ -437,10 +437,11 @@ public class Offers extends AppCompatActivity
 
                     else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                         // call some activity here
-//                        Intent i = new Intent(Offers.this,SubscriptionPlanAlertDialog.class);
-//                        i.putExtra("id",getUserId);
-//                        i.putExtra("module","doc");
-//                        startActivity(i);
+                        Intent i = new Intent(Offers.this,SubscriptionPlanAlertDialog.class);
+                        i.putExtra("id",getUserId);
+                        i.putExtra("mobile",mobile_number);
+                        i.putExtra("module","doc");
+                        startActivity(i);
 
                     } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here
@@ -622,8 +623,11 @@ public class Offers extends AppCompatActivity
 
                     else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
                         // call some activity here
-//                    Intent about = new Intent(MedicalShopDashboard.this,SubscriptionPlanAlertDialog.class);
-//                    startActivity(about);
+                    Intent contact = new Intent(Offers.this,SubscriptionPlanAlertDialog.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+                        contact.putExtra("module","medical");
+                        startActivity(contact);
 
                     } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
                         // call some activity here

@@ -362,7 +362,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
                 {
                     if(mySpecialityList.containsValue(prevSpecialityItemsList.get(i)))
                     {
-                        Toast.makeText(getApplicationContext(),prevSpecialityItemsList.get(i),Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),prevSpecialityItemsList.get(i),Toast.LENGTH_SHORT).show();
 
                         int pos = Arrays.asList(ListItems).indexOf(prevSpecialityItemsList.get(i).toString());
                         System.out.println("pos.."+pos);
@@ -507,11 +507,11 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(DiagnosticsUpdateAddress.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",mydiagnosticId);
-//                    subscript.putExtra("mobile",regMobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(DiagnosticsUpdateAddress.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",mydiagnosticId);
+                    subscript.putExtra("mobile",regMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here

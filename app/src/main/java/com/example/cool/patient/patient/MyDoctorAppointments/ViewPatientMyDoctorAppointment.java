@@ -15,6 +15,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -66,10 +69,11 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
-    String mydoctorImage,mydoctormobile,mydctorspeciality;
+    String mydoctorImage,mydoctormobile,mydctorspeciality,mydoctorqualification;
     LinearLayout layout;
     ImageView imageView2;
     Button ok;
+    TextView close1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +132,15 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        close1 = (TextView) findViewById(R.id.close1);
+        close1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setVisibility(View.GONE);
+            }
+        });
+
 
         final Toolbar toolbar=(Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
@@ -263,7 +276,17 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
 
         new GetDoctorAllAddressDetails().execute(baseUrl.getUrl()+"DoctorGetAllAddress?ID="+mydoctorID);
 
-        doctorname.setText(mydoctorname);
+        String docName = "Dr. "+mydoctorname;
+        int docNameLength = docName.length();
+
+        String name_qualification = "Dr. "+mydoctorname+" "+mydoctorqualification;
+//        String arr[] = name_qualification.split(" ");
+        SpannableString spannableString = new SpannableString(name_qualification);
+        spannableString.setSpan(new RelativeSizeSpan(1.35f),0,docNameLength,0);
+        spannableString.setSpan(new ForegroundColorSpan(getApplicationContext().getResources().getColor(R.color.docName)),0,docNameLength,0);
+
+        doctorname.setText(spannableString);
+
         Timeslot.setText(mytimeslot);
         patientname.setText(mypatientname);
         status.setText(mystatus);
@@ -288,6 +311,17 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         {
             paymode.setBackgroundColor(getResources().getColor(R.color.initiation));
             paymode.setVisibility(View.INVISIBLE);
+        }
+
+        if(mystatus.equals("Cancel") || mystatus.equals("Reschedule"))
+        {
+            paymode.setBackgroundColor(getResources().getColor(R.color.reject));
+            cancel.setEnabled(false);
+            reschedule.setEnabled(false);
+            cancel.setFocusable(false);
+            reschedule.setFocusable(false);
+            cancel.setTextColor(getResources().getColor(R.color.cancel_or_reschedule));
+            reschedule.setTextColor(getResources().getColor(R.color.cancel_or_reschedule));
         }
 
         if(mystatus.equals("Reschedule"))
@@ -507,6 +541,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             mydoctormobile = (String) js.get("MobileNumber");
             mydctorspeciality = js.getString("SpecialityName");
             mydoctorImage = (String) js.getString("DoctorImage");
+            mydoctorqualification=js.getString("Qualification");
             System.out.println("image"+mydoctorImage);
             new DownloadImage().execute(baseUrl.getImageUrl()+mydoctorImage);
             phonenumber.setText(mydoctormobile);
@@ -657,7 +692,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 500)
+                if(s == 200)
                 {
 
                     showCancelSuccessMessage(js.getString("Message"));
@@ -743,7 +778,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
 
                 //write
                 DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                System.out.println("params doc add....."+params[1]);
+                System.out.println("params doc add....."+params[0]);
                 wr.writeBytes(params[0]);
                 wr.flush();
                 wr.close();
@@ -816,7 +851,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             try {
                 js= new JSONObject(result);
                 int s = js.getInt("Code");
-                if(s == 500)
+                if(s == 200)
                 {
 
                     showRescheduleSuccessMessage1(js.getString("Message"));

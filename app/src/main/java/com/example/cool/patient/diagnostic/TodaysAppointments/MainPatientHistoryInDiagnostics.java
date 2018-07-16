@@ -94,6 +94,7 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ApiBaseUrl baseUrl;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -240,11 +241,11 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
 
                 else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent subscript = new Intent(MainPatientHistoryInDiagnostics.this,SubscriptionPlanAlertDialog.class);
-//                    subscript.putExtra("id",diagId);
-//                    subscript.putExtra("mobile",diagMobile);
-//                    subscript.putExtra("module","diag");
-//                    startActivity(subscript);
+                    Intent subscript = new Intent(MainPatientHistoryInDiagnostics.this,SubscriptionPlanAlertDialog.class);
+                    subscript.putExtra("id",diagId);
+                    subscript.putExtra("mobile",diagMobile);
+                    subscript.putExtra("module","diag");
+                    startActivity(subscript);
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -490,7 +491,6 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
                             e.printStackTrace();
                         }
 
-
                     }
                 });
 
@@ -504,6 +504,21 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
 
 
     private class GetPatientDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            progressDialog = new ProgressDialog(MainPatientHistoryInDiagnostics.this);
+            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+            // Set progressdialog message
+            progressDialog.setMessage("Loading...");
+
+            progressDialog.setIndeterminate(false);
+            // Show progressdialog
+            progressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -546,6 +561,8 @@ public class MainPatientHistoryInDiagnostics extends AppCompatActivity implement
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
 //            JSONArray jsonArray = new JSONArray(result);
+
+            progressDialog.dismiss();
             getdetails(result);
 
         }

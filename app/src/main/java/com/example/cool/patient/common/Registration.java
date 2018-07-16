@@ -484,23 +484,47 @@ public class Registration extends AppCompatActivity {
 
         if(userType==null)
         {
-            a_builder.setMessage("Please select user type for registration")
+            userType = "Patient";
+
+            a_builder.setMessage("You selected type is"+userType)
                     .setCancelable(false)
                     .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            getUserType();
+                            relativeLayout.setVisibility(View.VISIBLE);
+//                        Intent i2 = new Intent(Registration.this, Login.class);
+//                        startActivity(i2);
                         }
                     });
-//            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int i) {
-//
-//                }
-//            });
+            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    Intent i2 = new Intent(Registration.this, Registration.class);
+                    startActivity(i2);
+//                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
+                }
+            });
             AlertDialog alert = a_builder.create();
             alert.setTitle("Type of Registration");
             alert.show();
+
+//            a_builder.setMessage("Please select user type for registration")
+//                    .setCancelable(false)
+//                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            getUserType();
+//                        }
+//                    });
+////            a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+////                @Override
+////                public void onClick(DialogInterface dialog, int i) {
+////
+////                }
+////            });
+//            AlertDialog alert = a_builder.create();
+//            alert.setTitle("Type of Registration");
+//            alert.show();
         }
         else
         {
@@ -749,7 +773,7 @@ public class Registration extends AppCompatActivity {
         alert.setTitle("Do you want to Register for ?");
 
 
-        alert.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+        alert.setSingleChoiceItems(values, 0, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -992,7 +1016,7 @@ public class Registration extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(Registration.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 

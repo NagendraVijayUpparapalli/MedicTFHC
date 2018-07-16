@@ -36,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -123,6 +124,10 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
     //sidenav fields
     TextView sidenavName,sidenavEmail,sidenavMobile;
     ImageView sidenavDoctorImage;
+
+    Dialog MyDialog1;
+    TextView message;
+    LinearLayout oklink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,11 +307,11 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorTodaysAppointment.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",doctorId);
-//                    i.putExtra("mobile",doctorMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorTodaysAppointment.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",doctorId);
+                    i.putExtra("mobile",doctorMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -775,16 +780,19 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Intent intent = new Intent(DoctorTodaysAppointment.this,DoctorReferDiagnostic.class);
-                        intent.putExtra("refer","No");
-                        intent.putExtra("pid",patientId);
-                        intent.putExtra("aid",appointmentId);
-                        intent.putExtra("name",patientname);
-                        intent.putExtra("reason",myComments);
-                        intent.putExtra("mobile",doctorMobile);
-                        intent.putExtra("id",doctorId);
-                        intent.putExtra("prescription",encodedPrescriptionImage);
-                        startActivity(intent);
+                        String js = formatDoctorTimingsDataAsJson();
+                        new sendDoctorReferDiagnosticDetails().execute(baseUrl.getUrl()+"DoctotUpdateTodaysAppointment",js.toString());
+
+//                        Intent intent = new Intent(DoctorTodaysAppointment.this,DoctorReferDiagnostic.class);
+//                        intent.putExtra("refer","No");
+//                        intent.putExtra("pid",patientId);
+//                        intent.putExtra("aid",appointmentId);
+//                        intent.putExtra("name",patientname);
+//                        intent.putExtra("reason",myComments);
+//                        intent.putExtra("mobile",doctorMobile);
+//                        intent.putExtra("id",doctorId);
+//                        intent.putExtra("prescription",encodedPrescriptionImage);
+//                        startActivity(intent);
                     }
                 });
         AlertDialog alert = a_builder.create();
@@ -809,13 +817,198 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
 
     }
 
-//    public void onClick(View view)
-//    {
-//        if(refer.isChecked())
-//        {
-//            System.out.println("hiii");
-//        }
-//    }
+
+    private String formatDoctorTimingsDataAsJson() {
+
+        // iterate and display values
+//        System.out.println("Fetching Keys and corresponding [Multiple] Values n");
+
+
+
+        JSONObject data = new JSONObject();
+
+        try{
+
+                data.put("AppointmentID",appointmentId);
+                data.put("Comments",myComments);
+                data.put("ReferDiagnostic",0);
+
+                data.put("ReferMedicalShop",0);
+                data.put("Prescription",encodedPrescriptionImage);
+                return data.toString();
+
+
+        }
+        catch (Exception e)
+        {
+            Log.d("JSON","Can't format JSON");
+        }
+
+        return null;
+    }
+
+    //send doctor refer diagnostic center details
+    private class sendDoctorReferDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+//            HttpURLConnection connection=null;
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service","Started");
+                httpURLConnection.connect();
+
+                //write
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                System.out.println("params refer add....."+params[1]);
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+                int statuscode = httpURLConnection.getResponseCode();
+
+                System.out.println("status code....."+statuscode);
+
+                InputStream in = null;
+                if (statuscode == 200) {
+
+                    in = httpURLConnection.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+
+                }
+                else if(statuscode == 404){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+                else if(statuscode == 500){
+                    in = httpURLConnection.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                    int inputStreamData = inputStreamReader.read();
+                    while (inputStreamData != -1) {
+                        char current = (char) inputStreamData;
+                        inputStreamData = inputStreamReader.read();
+                        data += current;
+                    }
+                }
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//
+            Log.e("TAG result docreferdiag", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            JSONObject js;
+
+            try {
+                js= new JSONObject(result);
+                int s = js.getInt("Code");
+                if(s == 200)
+                {
+
+                    showSuccessMessage(js.getString("Message"));
+                }
+                else
+                {
+                    showErrorMessage(js.getString("Message"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    public void showSuccessMessage(String message1){
+
+        MyDialog1  = new Dialog(DoctorTodaysAppointment.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.edit_success_alert);
+
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(message1);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorTodaysAppointment.this,DoctorDashboard.class);
+                intent.putExtra("mobile",doctorMobile);
+                intent.putExtra("id",doctorId);
+                startActivity(intent);
+            }
+        });
+        MyDialog1.show();
+
+    }
+
+    public void showErrorMessage(String message1){
+
+        MyDialog1  = new Dialog(DoctorTodaysAppointment.this);
+        MyDialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog1.setContentView(R.layout.edit_fail_alert);
+
+        message = (TextView) MyDialog1.findViewById(R.id.message);
+        oklink = (LinearLayout) MyDialog1.findViewById(R.id.ok);
+
+        message.setEnabled(true);
+        oklink.setEnabled(true);
+
+        message.setText(message1);
+
+        oklink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog1.cancel();
+            }
+        });
+        MyDialog1.show();
+
+    }
 
 
     //Get all diagnostic specialities from api call

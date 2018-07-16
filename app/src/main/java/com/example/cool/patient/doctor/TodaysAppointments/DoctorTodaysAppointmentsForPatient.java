@@ -1,6 +1,7 @@
 package com.example.cool.patient.doctor.TodaysAppointments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +45,7 @@ import com.example.cool.patient.subscriptionPlan.SubscriptionPlanAlertDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -183,11 +185,11 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
 
                 else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM5) {
                     // call some activity here
-//                    Intent i = new Intent(DoctorTodaysAppointmentsForPatient.this,SubscriptionPlanAlertDialog.class);
-//                    i.putExtra("id",docId);
-//                    i.putExtra("mobile",docMobile);
-//                    i.putExtra("module","doc");
-//                    startActivity(i);
+                    Intent i = new Intent(DoctorTodaysAppointmentsForPatient.this,SubscriptionPlanAlertDialog.class);
+                    i.putExtra("id",docId);
+                    i.putExtra("mobile",docMobile);
+                    i.putExtra("module","doc");
+                    startActivity(i);
 
                 } else if (groupPosition == DoctorSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
@@ -538,48 +540,66 @@ public class DoctorTodaysAppointmentsForPatient  extends AppCompatActivity imple
     private void getDetails(String result) {
         try {
 
-            JSONArray jsonArray=new JSONArray(result);
-            for(int i=0;i<jsonArray.length();i++)
+            Object json = new JSONTokener(result).nextValue();
+            if(json instanceof JSONObject)
             {
-                JSONObject js = jsonArray.getJSONObject(i);
+                JSONObject jsono = new JSONObject(result);
 
-                Dstatus = js.getInt("DStatus");
-                Status1 = (String) js.get("Status");
-                AppointmentID=js.getString("AppointmentID");
-                PatientName=(String)js.get("PatientName");
-                EmailID = (String) js.get("EmailID");
-                MobileNo=(String) js.get("MobileNo");
-                //Prescription=(String) js.get("Prescription");
-                PatientID= js.getString("PatientID");
-                Comments=(String) js.get("Comments");
-                ReasonAppointments=(String) js.get("ReasonAppointments");
-                // AadharNumber=(String) js.get("Aadharnumber");
-                TimeSlots=(String) js.get("TimeSlots");
-                age=(String)js.get("Age");
+                int s = jsono.getInt("Code");
+                String ss = (String) jsono.get("Message");
+
+                showNoRecordsFoundAlert();
+
+            }
+            else if(json instanceof JSONArray)
+            {
+                JSONArray jsonArray=new JSONArray(result);
+                for(int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject js = jsonArray.getJSONObject(i);
+
+                    Dstatus = js.getInt("DStatus");
+                    Status1 = (String) js.get("Status");
+                    AppointmentID=js.getString("AppointmentID");
+                    PatientName=(String)js.get("PatientName");
+                    EmailID = (String) js.get("EmailID");
+                    MobileNo=(String) js.get("MobileNo");
+                    //Prescription=(String) js.get("Prescription");
+                    PatientID= js.getString("PatientID");
+                    Comments=(String) js.get("Comments");
+                    ReasonAppointments=(String) js.get("ReasonAppointments");
+                    // AadharNumber=(String) js.get("Aadharnumber");
+                    TimeSlots=(String) js.get("TimeSlots");
+                    age=(String)js.get("Age");
 
 
-                PatientData_DoctorTodaysAppointmentsClass myPatientData = new
-                        PatientData_DoctorTodaysAppointmentsClass(docId,docMobile,Dstatus,Status1,AppointmentID,PatientName,
-                        EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
+                    PatientData_DoctorTodaysAppointmentsClass myPatientData = new
+                            PatientData_DoctorTodaysAppointmentsClass(docId,docMobile,Dstatus,Status1,AppointmentID,PatientName,
+                            EmailID,MobileNo,PatientID,Comments,ReasonAppointments,TimeSlots,age);
 
-                data_list.add(myPatientData);
+                    data_list.add(myPatientData);
 
-//                System.out.println("DStatus"+Dstatus);
-//                System.out.println("Status1"+Status1);
-//                System.out.println("AppointmentID"+AppointmentID);
-//                System.out.println("EmailID"+EmailID);
-//                System.out.println("MobileNo"+MobileNo);
-//                System.out.println("Prescription"+Prescription);
-//                System.out.println("PatientID"+PatientID);
-//                System.out.println("Comments"+Comments);
-//                System.out.println("ReasonAppointments"+ReasonAppointments);
-//                System.out.println("AadharNumber"+AadharNumber);
-//                System.out.println("TimeSlots"+TimeSlots);
-
+                }
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showNoRecordsFoundAlert(){
+
+        android.support.v7.app.AlertDialog.Builder a_builder = new android.support.v7.app.AlertDialog.Builder(DoctorTodaysAppointmentsForPatient.this);
+        a_builder.setMessage("No records found.")
+                .setCancelable(false)
+                .setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = a_builder.create();
+        alert.setTitle("Today's date has");
+        alert.show();
     }
 }

@@ -102,7 +102,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     RelativeLayout relativeLayout;
 
-
     String user, cur_addressId, doctorId, mydocName, myhospitalName, myaddress, mycity, mystate, myfee,
             mypaymentMode, myphone, myLati, myLongi,selectedCity,selectedClass;
     int selectedRange;
@@ -136,6 +135,10 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     TextView Mymessage;
 
     RelativeLayout noteLayout;
+
+    String myselecteddate = null;
+    String todaysdate=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -338,7 +341,6 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 //                        monthOfYear = monthOfYear;
 
-                        String myselecteddate = null;
                         if(monthOfYear+1<=9)
                         {
                             int mm = monthOfYear+1;
@@ -1186,7 +1188,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 
@@ -1243,6 +1245,46 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     }
 
     private void getPreviousTiming(String result) {
+
+        if(month+1<=9)
+        {
+            int mm = month+1;
+            todaysdate =year1+"/"+0+mm+"/"+day;
+        }
+        else if(month+1>9)
+        {
+            int mm = month+1;
+            todaysdate =year1+"/"+mm+"/"+day;
+        }
+
+        //String todaysdate=year1+"/"+month+1+"/"+day;
+
+        System.out.println("todaysdate"+todaysdate);
+        System.out.println("myselecteddate"+myselecteddate);
+
+        Date currenttime = null;
+        String timefromlist;
+
+        Date date = new Date();
+        date.setHours(date.getHours());
+        System.out.println("time"+date);
+
+        SimpleDateFormat simpDate;
+        simpDate = new SimpleDateFormat("kk:mm");
+        System.out.println("simpletimez"+simpDate.format(date));
+
+
+        String time1=simpDate.format(date);
+        try {
+            currenttime=simpDate.parse(time1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("time string"+time1);
+        System.out.println("current time.."+currenttime);
+
+
         try
         {
             JSONArray jsonArr = new JSONArray(result);
@@ -1271,7 +1313,45 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
 
-                    prevSunTimeSlotsList.add(jsonObj.getString("TimeSlots"));
+//                    if(todaysdate.equals(myselecteddate))
+//                    {
+                        for(int i1=0;i1<prevSunTimeSlotsList.size();i1++)
+                        {
+                            timefromlist=prevSunTimeSlotsList.get(i1);
+                            System.out.println("time from list"+timefromlist);
+
+                            Date TimeToCompare = simpDate.parse(timefromlist);
+                            System.out.println("timetocompare"+TimeToCompare);
+
+                            if(currenttime.before(TimeToCompare))
+                            {
+                                System.out.println("this is before");
+                                //prevSunTimeSlotsList.remove(i1);
+                            }
+                            else if(currenttime.after(TimeToCompare)){
+
+                                System.out.println("this is after");
+                                prevSunTimeSlotsList.remove(i1);
+                            }
+//                            else if(currenttime.after(TimeToCompare) && !todaysdate.equals(myselecteddate)){
+//
+//                                System.out.println("this is after");
+//                                prevSunTimeSlotsList.add(prevSunTimeSlotsList.get(i1));
+//                            }
+//                        else
+//                        {
+//                            prevSunTimeSlotsList.add(prevSunTimeSlotsList.get(i1));
+//                        }
+
+                        }
+//                    }
+//                    else
+//                    {
+//                        prevSunTimeSlotsList.add(jsonObj.getString("TimeSlots"));
+//                    }
+
+//                    prevSunTimeSlotsList.add(jsonObj.getString("TimeSlots"));
+
                     sunAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevSunTimeSlotsList);
                     sunAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
                     timings.setAdapter(sunAdapter); // Apply the adapter to the spinner
@@ -1283,6 +1363,31 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
+
+                    for(int i1=0;i1<prevMonTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevMonTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.before(TimeToCompare))
+                        {
+                            System.out.println("this is before");
+                            //prevSunTimeSlotsList.remove(i1);
+                        }
+                        else if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevMonTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
 
                     prevMonTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     monAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevMonTimeSlotsList);
@@ -1298,6 +1403,32 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     System.out.println("day id.."+dayNameId);
 
                     prevTueTimeSlotsList.add(jsonObj.getString("TimeSlots"));
+
+                    for(int i1=0;i1<prevTueTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevTueTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.before(TimeToCompare))
+                        {
+                            System.out.println("this is before");
+                            //prevSunTimeSlotsList.remove(i1);
+                        }
+                        else if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevTueTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
+
                     tueAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevTueTimeSlotsList);
                     tueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
                     timings.setAdapter(tueAdapter); // Apply the adapter to the spinner
@@ -1309,6 +1440,32 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
+
+                    for(int i1=0;i1<prevWedTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevWedTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.before(TimeToCompare))
+                        {
+                            System.out.println("this is before");
+                            //prevSunTimeSlotsList.remove(i1);
+                        }
+
+                        else if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevWedTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
 
                     prevWedTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     wedAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevWedTimeSlotsList);
@@ -1323,6 +1480,26 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
 
+                    for(int i1=0;i1<prevThurTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevThurTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevThurTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
+
                     prevThurTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     thurAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevThurTimeSlotsList);
                     thurAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -1336,6 +1513,26 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
 
+                    for(int i1=0;i1<prevFriTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevFriTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevFriTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
+
                     prevFriTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     friAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevFriTimeSlotsList);
                     friAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
@@ -1348,6 +1545,26 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
                 {
                     System.out.println("day name.."+myDayName);
                     System.out.println("day id.."+dayNameId);
+
+                    for(int i1=0;i1<prevSatTimeSlotsList.size();i1++)
+                    {
+                        timefromlist = prevSatTimeSlotsList.get(i1);
+                        System.out.println("time from list"+timefromlist);
+
+                        Date TimeToCompare = simpDate.parse(timefromlist);
+                        System.out.println("timetocompare"+TimeToCompare);
+
+                        if(currenttime.after(TimeToCompare) && todaysdate.equals(myselecteddate)){
+
+                            System.out.println("this is after");
+                            prevSatTimeSlotsList.remove(i1);
+                        }
+                        else
+                        {
+                            System.out.println("this is else");
+                        }
+
+                    }
 
                     prevSatTimeSlotsList.add(jsonObj.getString("TimeSlots"));
                     satAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prevSatTimeSlotsList);
@@ -1371,7 +1588,9 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             System.out.println("sat prev.."+prevSatTimeSlotsList);
         }
         catch (JSONException e)
-        {}
+        {} catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     //Get all addresses for doctor list from api call
@@ -1383,7 +1602,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             // Create a progressdialog
             progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
             // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
+//            progressDialog.setTitle("Your searching process is");
             // Set progressdialog message
             progressDialog.setMessage("Loading...");
 
@@ -1739,14 +1958,77 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     public void intialization()
     {
-        appdate = apptdate.getText().toString();
-        myName = patientname.getText().toString();
-        myAge = age.getText().toString();
-        myMobile = patientmobileno.getText().toString();
-        myEmail = mail.getText().toString();
-        myAadhar_num = aadharnum.getText().toString();
-        myreason = reason.getText().toString();
-        myAadhar_num = aadharnum.getText().toString();
+        if(apptdate.getText().toString() == null)
+        {
+            appdate = "";
+        }
+        else
+        {
+            appdate = apptdate.getText().toString();
+        }
+
+        if(patientname.getText().toString() == null)
+        {
+            myName = "";
+        }
+        else
+        {
+            myName = patientname.getText().toString();
+        }
+
+        if(age.getText().toString() == null)
+        {
+            myAge = "";
+        }
+        else
+        {
+            myAge = age.getText().toString();
+        }
+
+        if(patientmobileno.getText().toString() == null)
+        {
+            myMobile = "";
+        }
+        else
+        {
+            myMobile = patientmobileno.getText().toString();
+        }
+
+        if(mail.getText().toString() == null)
+        {
+            myEmail = "";
+        }
+        else
+        {
+            myEmail = mail.getText().toString();
+        }
+
+        if(aadharnum.getText().toString() == null)
+        {
+            myAadhar_num = "";
+        }
+        else
+        {
+            myAadhar_num = aadharnum.getText().toString();
+        }
+
+        if(reason.getText().toString() == null)
+        {
+            myreason = "";
+        }
+        else
+        {
+            myreason = reason.getText().toString();
+        }
+
+        if(aadharnum.getText().toString() == null)
+        {
+            myAadhar_num = "";
+        }
+        else
+        {
+            myAadhar_num = aadharnum.getText().toString();
+        }
 
 
         System.out.println("reason"+myreason);
@@ -1763,6 +2045,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             patientmobileno.setError("please enter the mobile number");
             validate=false;
         }
+
 
         int count = 0, num = Integer.parseInt(myAge);
 
@@ -1821,6 +2104,11 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         if(myreason.isEmpty())
         {
             reason.setError("please enter reason");
+            validate=false;
+        }
+        else if(myAadhar_num.length()<12 || myMobile.length()>12)
+        {
+            aadharnum.setError(" Invalid phone number ");
             validate=false;
         }
         return validate;
