@@ -80,7 +80,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
     String diagmobile,diagnosticId,centerName,addressId,patientname,mobilenumber,Aadharnumber,statuss,comments1,
             prescription,amount,pamode,test,appointmentDate;
     int rdid,Dstatus;
-    List<String> speciality;
+    String[] speciality;
     private String fullScreenInd;
     TextView patintname,aadhar,mobile,testname;
     RippleView rippleView;
@@ -122,7 +122,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         baseUrl = new ApiBaseUrl();
 
-        speciality=new ArrayList<>();
+//        speciality=new ArrayList<>();
         patintname=(TextView)findViewById(R.id.Patient_name);
         aadhar=(TextView)findViewById(R.id.aadhaarNumber);
         mobile=(TextView)findViewById(R.id.mobilenumber);
@@ -560,13 +560,25 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         new GetDiagnosticCenterbyAdressByIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID="+addressId);
 
-        speciality=getIntent().getStringArrayListExtra("testname");
+        String spec=getIntent().getStringExtra("testname");
+        speciality = spec.split(",");
 
-        for(int i=0;i<speciality.size();i++)
+
+        for(int i=0;i<speciality.length;i++)
         {
-            System.out.println("testname"+speciality.get(i));
-            test=speciality.get(i);
-            builder.append(test+"\n");
+            System.out.println("testname"+speciality[i]);
+            if(i == 0)
+            {
+                speciality[i] = speciality[i].substring(0);
+                test = speciality[i];
+                builder.append(i+1+". "+test+"\n");
+            }
+            else
+            {
+                test = speciality[i];
+                builder.append(i+1+". "+test+"\n");
+            }
+
 
         }
 
