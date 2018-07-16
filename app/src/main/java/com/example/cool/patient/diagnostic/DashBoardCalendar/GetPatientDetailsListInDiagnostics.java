@@ -494,7 +494,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                 if(myStatus == js.getInt("DStatus"))
                 {
 
-                    speciality=new ArrayList<>();
+
 
                     Dstatus = js.getInt("DStatus");
                     addressId = js.getString("AddressID");
@@ -529,6 +529,8 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
                     JSONArray jsonArray1=new JSONArray((js.getString("SpecialityLst")));
 
+                    speciality = new ArrayList<>();
+
                     for(int j=0;j<jsonArray1.length();j++)
                     {
                         JSONObject jsonObject=jsonArray1.getJSONObject(j);
@@ -540,9 +542,10 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
                     MyPatientDataClassInDiagnostics myPatientData=new MyPatientDataClassInDiagnostics(diagID,diagmobile,
                             addressId,Dstatus,Payment,RDTestID,PatientName,Comments,CenterName,EmailID,MobileNo,Prescription,
                             Amount,Aadharnumber,speciality,status,date);
+//                    speciality.clear();
 
                     data_list.add(myPatientData);
-                    speciality.clear();
+
 
                 }
 

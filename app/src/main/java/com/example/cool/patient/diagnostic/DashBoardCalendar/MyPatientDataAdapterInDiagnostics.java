@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.cool.patient.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,11 +23,9 @@ import java.util.List;
 public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPatientDataAdapterInDiagnostics.ViewHolder> {
     private List<MyPatientDataClassInDiagnostics> my_data;
     Context context;
-    List<String> speciality=new ArrayList<>();
+    List<String> speciality;
     StringBuilder builder;
-    String test;
 
-    String testname;
     public MyPatientDataAdapterInDiagnostics(Context context, List<MyPatientDataClassInDiagnostics> data_list) {
         this.context=context;
         this.my_data=data_list;
@@ -56,17 +55,50 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
         holder.diagmobile.setText(my_data.get(position).getDiagmobile());
         holder.appointmentDate.setText(my_data.get(position).getAppointmentDate());
 
+
+        String testname;
+
         builder=new StringBuilder();
+        speciality=new ArrayList<>();
 
         speciality.add(my_data.get(position).getSpeciality().toString());
 
-        for(int i=0;i<speciality.size();i++)
-        {
-            System.out.println("testname"+speciality.get(i));
-            test=speciality.get(i);
-            builder.append(test+"\n");
+        System.out.println("spec list...."+speciality.toString());
 
-        }
+//        List myList = new ArrayList<>();
+//        myList.add(speciality.toString());
+
+//        for(int i=0;i<speciality.size();i++)
+//        {
+//            System.out.println("testname"+speciality.get(i));
+//            String test = speciality.get(i).toString();
+
+            String a[] = new String[speciality.size()];
+            for(int j =0;j<a.length;j++)
+            {
+                String lis = speciality.get(j);
+                a = lis.split(",");
+                List mylist = new ArrayList<>();
+                mylist.addAll(Arrays.asList(a));
+                builder.append(mylist.get(j)+"\n");
+            }
+
+//            if(test.startsWith("["))
+//            {
+//                System.out.println("if....");
+//                test.substring(0);
+//                builder.append(test+"\n");
+//            }
+//            else
+//            {
+//                System.out.println("else....");
+//                builder.append(test+"\n");
+//            }
+
+
+//        }
+
+        System.out.println("testnames...."+builder.toString());
 
         holder.myspeciality.setText(builder.toString());
 
@@ -148,7 +180,9 @@ public class MyPatientDataAdapterInDiagnostics extends RecyclerView.Adapter<MyPa
                     i.putExtra("diagmobile",diagmobile.getText().toString());
                     i.putExtra("date",appointmentDate.getText().toString());
                     i.putExtra("rdid",Integer.parseInt(RDID.getText().toString()));
-                    i.putStringArrayListExtra("testname", (ArrayList<String>) speciality);
+                    i.putExtra("testname", myspeciality.getText().toString());
+
+//                    i.putExtra("testname", new String(myspeciality.getText().toString()));
                     itemView.getContext().startActivity(i);
 
                 }
