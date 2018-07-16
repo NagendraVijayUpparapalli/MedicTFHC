@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
@@ -33,7 +34,7 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
     ZoomageView zoomageView;
     Button prescription,ok;
     String date;
-    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog;
 
     Bitmap mIcon11;
     ApiBaseUrl baseUrl;
@@ -214,7 +215,7 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
             }
         });
 
-        ok1 = (Button) findViewById(R.id.ok1);
+        ok1 = (Button) findViewById(R.id.ok11);
         layout=(LinearLayout) findViewById(R.id.layout1);
         ok1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,15 +300,22 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ViewPatientHistoryInDoctor.this);
-            // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(ViewPatientHistoryInDoctor.this);
+//            // Set progressdialog title
+//            mProgressDialog.setTitle("Download Image Tutorial");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(ViewPatientHistoryInDoctor.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -332,7 +340,7 @@ public class ViewPatientHistoryInDoctor extends AppCompatActivity {
             // Set the bitmap into ImageView
             // zoomageView.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 
