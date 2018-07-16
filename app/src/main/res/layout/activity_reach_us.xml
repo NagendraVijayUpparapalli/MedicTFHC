@@ -50,7 +50,7 @@
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:background="#fff"
+                android:background="#000"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -79,7 +79,7 @@
                             android:textAlignment="center"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
-                            android:background="@color/primarydark"
+                            android:background="#000"
                             android:text="Corporate address"
                             android:textColor="#fff"
                             android:padding="10dp"
@@ -93,7 +93,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:text="Medic TFHC Privtae ltd."
-                            android:textColor="@color/primarydark"
+                            android:textColor="#63C9FF"
                             android:textSize="22dp"
                             android:textStyle="bold" />
                         <LinearLayout
@@ -245,7 +245,7 @@
                             android:textAlignment="center"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
-                            android:background="@color/primarydark"
+                            android:background="#000000"
                             android:text="City address"
                             android:textColor="#fff"
                             android:padding="10dp"
@@ -259,7 +259,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:text="Medic TFHC Privtae ltd."
-                            android:textColor="@color/primarydark"
+                            android:textColor="#63C9FF"
                             android:textSize="22dp"
                             android:textStyle="bold" />
                         <LinearLayout
@@ -378,7 +378,6 @@
                 <!--third card-->
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view2"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -399,7 +398,7 @@
                             android:textAlignment="center"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
-                            android:background="@color/primarydark"
+                            android:background="#000"
                             android:text="City address"
                             android:textColor="#fff"
                             android:padding="10dp"
@@ -413,7 +412,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:text="Medic TFHC Privtae ltd."
-                            android:textColor="@color/primarydark"
+                            android:textColor="#63C9FF"
                             android:textSize="22dp"
                             android:textStyle="bold" />
                         <LinearLayout
@@ -521,22 +520,20 @@
     </RelativeLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
+
         <RelativeLayout
             android:id="@+id/relativelayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <LinearLayout
-                android:id="@+id/layoutLinear"
-                xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/layoutLinear"
                 android:background="@drawable/toolbar_gradient"
                 android:gravity="bottom"
                 android:orientation="vertical"
@@ -545,108 +542,46 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
-
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:visibility="gone"
+                    android:src="@drawable/noimage11" />
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/sidenavheading"
+                    android:textColor="#fff"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:layout_marginTop="20dp"
-                    android:text="Amudala Prabhakar Raju Udayasri"
+                    android:layout_marginTop="15dp"
                     android:textAlignment="center"
+                    android:text="--------"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-
                 <TextView
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="-------"
+                    android:id="@+id/mobile"
                     android:textSize="15sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <LinearLayout
-                    android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:id="@+id/linlay1"
-                    android:layout_width="match_parent"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/mobile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/sidenavphoneicon"
-                                android:drawablePadding="5dp"
-                                android:textSize="15sp"
-                                android:textColor="@color/sidenavtext"
-                                android:text=" ----------------"/>
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-
-                                android:id="@+id/bloodgroup"
-                                android:layout_width="wrap_content"
-                                android:drawableLeft="@drawable/bloodgroupicon"
-                                android:drawablePadding="5dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="@color/sidenavtext"
-                                android:text="---"/>
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-
+                    android:layout_marginTop="6dp"
+                    android:drawableLeft="@drawable/sidenavphoneicon"
+                    android:drawablePadding="5dp"
+                    android:text=" ---------"/>
                 <TextView
-                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:layout_marginTop="6dp"
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/sidenavemailicon"
                     android:drawablePadding="5dp"
-                    android:text="---------------"
                     android:textSize="15sp"
-                    android:textColor="@color/sidenavtext"/>
-
+                    android:textColor="#000"
+                    android:text="---------" />
 
             </LinearLayout>
-
-
 
             <ExpandableListView
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -665,7 +600,5 @@
             </ExpandableListView>
         </RelativeLayout>
     </android.support.design.widget.NavigationView>
-
-
 
 </android.support.v4.widget.DrawerLayout>
