@@ -237,50 +237,8 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
         });
 
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        setTitle("For RURAL");
-
-//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-//
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        if(moduleName.equals("doc"))
-//                        {
-//                            Intent intent = new Intent(Subscription_for_Rural.this,DoctorDashboard.class);
-//                            intent.putExtra("id",moduleId);
-//                            intent.putExtra("mobile",moduleMobile);
-//                            startActivity(intent);
-//                        }
-//                        else if(moduleName.equals("diag"))
-//                        {
-//                            Intent intent = new Intent(Subscription_for_Rural.this,DiagnosticDashboard.class);
-//                            intent.putExtra("id",moduleId);
-//                            intent.putExtra("mobile",moduleMobile);
-//                            startActivity(intent);
-//                        }
-//                        else if(moduleName.equals("medical"))
-//                        {
-//                            Intent intent = new Intent(Subscription_for_Rural.this,MedicalShopDashboard.class);
-//                            intent.putExtra("id",moduleId);
-//                            intent.putExtra("mobile",moduleMobile);
-//                            startActivity(intent);
-//                        }
-//
-//
-//                    }
-//                }
-//
-//        );
-
-
         if(moduleName.equals("doc"))
         {
-//            new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+moduleId);
-
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
