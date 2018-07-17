@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -977,15 +978,22 @@ public class ReachUs extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(ReachUs.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading..");
+//            progressDialog = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading..");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(ReachUs.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1072,15 +1080,22 @@ public class ReachUs extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog1 = new ProgressDialog(ReachUs.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog1.setMessage("Loading..");
+//            progressDialog1 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog1.setMessage("Loading..");
+//
+//            progressDialog1.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog1.show();
 
-            progressDialog1.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog1 = new ProgressDialog(ReachUs.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
             progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1193,15 +1208,22 @@ public class ReachUs extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog2 = new ProgressDialog(ReachUs.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog2.setMessage("Loading...");
+//            progressDialog2 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog2.setMessage("Loading...");
+//
+//            progressDialog2.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog2.show();
 
-            progressDialog2.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog2 = new ProgressDialog(ReachUs.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
             progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1285,15 +1307,24 @@ public class ReachUs extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog3 = new ProgressDialog(ReachUs.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog3.setMessage("Loading..");
+//            progressDialog3 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog3.setMessage("Loading..");
+//
+//            progressDialog3.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog3.show();
 
-            progressDialog3.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog3 = new ProgressDialog(ReachUs.this);
+            progressDialog3.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog3.setIndeterminate(true);
+            progressDialog3.setCancelable(true);
             progressDialog3.show();
+            progressDialog3.setContentView(R.layout.myprogress);
+
+
         }
 
         @Override

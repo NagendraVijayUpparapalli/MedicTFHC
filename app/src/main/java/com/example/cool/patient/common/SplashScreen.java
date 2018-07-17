@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -33,7 +34,7 @@ public class SplashScreen extends Activity {
 
 
     private static int SPLASH_TIME_OUT = 4000;
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog2;
     ApiBaseUrl baseUrl;
 
     @Override
@@ -69,17 +70,24 @@ public class SplashScreen extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(SplashScreen.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(SplashScreen.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
+//            progressDialog.setCancelable(false);
+//            progressDialog.setCanceledOnTouchOutside(false);
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog2 = new ProgressDialog(SplashScreen.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
+            progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -173,7 +181,7 @@ public class SplashScreen extends Activity {
             super.onPostExecute(result);
 
             Log.e("TAG token result   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+            progressDialog2.dismiss();
             JSONObject js;
             String token = null;
 

@@ -2703,12 +2703,12 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 //            // Show progressdialog
 //            progressDialog.show();
 
-            progressDialog = new ProgressDialog(DoctorUpdateAddress.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog1 = new ProgressDialog(DoctorUpdateAddress.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
+            progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -2803,7 +2803,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 //
             Log.e("TAG result doc add   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             JSONObject js;
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
 
             try {
                 js= new JSONObject(result);
@@ -2983,7 +2983,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             super.onPostExecute(result);
 
             Log.e("TAG result  cities ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog1.dismiss();
+            progressDialog.dismiss();
             getPreviousTiming(result);
 
         }
