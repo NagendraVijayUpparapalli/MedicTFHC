@@ -361,7 +361,7 @@
                                     app:layout_anchorGravity="bottom|right|end" />
 
                                 <android.support.design.widget.FloatingActionButton
-                                    android:id="@+id/cameraIcon"
+                                    android:id="@+id/addCertificateCameraIcon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
@@ -416,7 +416,7 @@
                                     app:layout_anchorGravity="bottom|right|end" />
 
                                 <android.support.design.widget.FloatingActionButton
-                                    android:id="@+id/cameraIcon1"
+                                    android:id="@+id/addprofileCameraIcon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
@@ -480,7 +480,7 @@
                                     app:layout_anchor="@id/appbar"
                                     app:layout_anchorGravity="bottom|right|end" />
                                 <android.support.design.widget.FloatingActionButton
-                                    android:id="@+id/cameraIcon2"
+                                    android:id="@+id/addAadharCameraIcon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"

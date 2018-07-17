@@ -282,7 +282,7 @@
                                     app:layout_anchorGravity="bottom|right|end" />
 
                                 <android.support.design.widget.FloatingActionButton
-                                    android:id="@+id/cameraIcon1"
+                                    android:id="@+id/Licence_camera_ImageIcon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
@@ -342,7 +342,7 @@
                                 app:layout_anchorGravity="bottom|right|end" />
 
                             <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/cameraIcon"
+                                android:id="@+id/addDiagAadharcameraIcon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"

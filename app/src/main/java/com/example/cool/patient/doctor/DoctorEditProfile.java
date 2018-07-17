@@ -132,7 +132,8 @@ public class DoctorEditProfile extends AppCompatActivity
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor , mycash_on_hand, myswipe_card,
             mynet_banking,mypay_paym;
 
-    FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon;
+    FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon,addCertificateCameraIcon,addAadharCameraIcon,
+            addProfileCameraIcon;
 
 
     //qr code get data fields
@@ -237,18 +238,9 @@ public class DoctorEditProfile extends AppCompatActivity
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addAadharIcon);
         addProfileIcon = (FloatingActionButton) findViewById(R.id.addprofileIcon);
 
-
-//        Speciality.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                specialityList.remove(0);
-//
-////                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-////                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-////                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
-//            }
-//        });
+        addCertificateCameraIcon = (FloatingActionButton) findViewById(R.id.addCertificateCameraIcon);
+        addAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addAadharCameraIcon);
+        addProfileCameraIcon = (FloatingActionButton) findViewById(R.id.addprofileCameraIcon);
 
 
         rippleView = (RippleView) findViewById(R.id.rippleView);
@@ -258,6 +250,8 @@ public class DoctorEditProfile extends AppCompatActivity
                 validateEditProfile();
             }
         });
+
+        
         addCertificateIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

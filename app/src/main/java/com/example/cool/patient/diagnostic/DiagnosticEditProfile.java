@@ -111,8 +111,8 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
     static String newName, mySurname, myName, myEmail, myMobile, mySalutation,mySpeciality,mySpecialityid,myQualification, myAddress1, myAddress2, myGender,
             myLicenceNumber,myuploadLicence,myadharimage,myAadhar_num;
     static boolean mycash_on_hand,myswipe_card ,mynet_banking;
-    FloatingActionButton addLicenceIcon,addAadharIcon;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
+    FloatingActionButton addLicenceIcon,addAadharIcon,Licence_cameraImageIcon,addDiagAadharCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1,REQUEST_CODE_GALLERY4 = 444;
 
     //qr code get data fields
     static String qrName,qrGender,qrDob,qrFullAddress,qrAddress[],qrAddress1,qrAddress2,qrPincode;
@@ -173,6 +173,9 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
         addLicenceIcon = (FloatingActionButton) findViewById(R.id.Licence_ImageIcon);
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharIcon);
 
+        Licence_cameraImageIcon = (FloatingActionButton) findViewById(R.id.Licence_camera_ImageIcon);
+        addDiagAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharcameraIcon);
+
 //        gen_btn = (MagicButton) findViewById(R.id.gen_btn);
         rippleView=(RippleView)findViewById(R.id.rippleView);
         rippleView.setOnClickListener(new View.OnClickListener() {
@@ -207,6 +210,28 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                                 REQUEST_CODE_GALLERY2
                         );
 
+                    }
+                });
+
+        Licence_cameraImageIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY3);
+                        }
+                    }
+                });
+
+        addDiagAadharCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY4);
+                        }
                     }
                 });
 
@@ -847,6 +872,18 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
             return;
         }
 
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY3);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY4);
+        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -952,6 +989,38 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
                 Log.d("hello","I'm in.");
 
             }
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY3)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            licenceImage.setImageBitmap(thumbnail);
+
+            licenceImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) licenceImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedLicenceCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY4)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            adharimage.setImageBitmap(thumbnail);
+
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
 
         else {

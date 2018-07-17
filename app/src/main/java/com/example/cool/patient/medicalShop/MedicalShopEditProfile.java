@@ -100,8 +100,8 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
             myLicenceNumber,myuploadLicence,myadharimage,myAadhar_num;
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor ,mycash_on_hand,myswipe_card ,
             mynet_banking,mypay_paym;
-    FloatingActionButton addLicenceIcon,addAadharIcon;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
+    FloatingActionButton addLicenceIcon,addAadharIcon,Licence_cameraImageIcon,addDiagAadharCameraIcon;;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44, REQUEST_CODE_GALLERY3 = 1,REQUEST_CODE_GALLERY4 = 444;
     //qr code get data fields
     static String qrName,qrGender,qrDob,qrFullAddress,qrAddress[],qrAddress1,qrAddress2,qrPincode;
     String myQrArrayList;
@@ -158,8 +158,13 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         net_banking = (CheckBox) findViewById(R.id.net_banking);
 //        pay_paym = (CheckBox) findViewById(R.id.pay_paym);
         aadhar_num = (EditText) findViewById(R.id.aadhaarNumber);
+
+
         addLicenceIcon = (FloatingActionButton) findViewById(R.id.Licence_ImageIcon);
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharIcon);
+
+        Licence_cameraImageIcon = (FloatingActionButton) findViewById(R.id.Licence_camera_ImageIcon);
+        addDiagAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharcameraIcon);
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
 
@@ -196,6 +201,28 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                                 REQUEST_CODE_GALLERY2
                         );
 
+                    }
+                });
+
+        Licence_cameraImageIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY3);
+                        }
+                    }
+                });
+
+        addDiagAadharCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY4);
+                        }
                     }
                 });
 
@@ -958,6 +985,38 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                 Log.d("hello","I'm in.");
 
             }
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY3)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            licenceImage.setImageBitmap(thumbnail);
+
+            licenceImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) licenceImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedLicenceCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY4)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            adharimage.setImageBitmap(thumbnail);
+
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
 
         else {
