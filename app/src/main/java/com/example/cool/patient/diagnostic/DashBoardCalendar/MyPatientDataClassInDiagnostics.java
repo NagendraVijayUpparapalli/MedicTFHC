@@ -1,5 +1,6 @@
 package com.example.cool.patient.diagnostic.DashBoardCalendar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +12,13 @@ public class MyPatientDataClassInDiagnostics {
     int dstatus,rdTestID;
     String diagnosticId,diagmobile,addressId,payment,patientName,comments,centerName,emailID,mobileNo,prescription,
             amount,aadharnumber,status,appointmentDate;
-    List<String> speciality;
+    ArrayList<String> speciality;
 
     public MyPatientDataClassInDiagnostics(String diagnosticId,String diagmobile,String addressId,int dstatus,
                                            String payment, int rdTestID, String patientName, String comments,
                                            String centerName, String emailID, String mobileNo, String prescription,
-                                           String amount, String aadharnumber, List<String> speciality, String status,String appointmentDate) {
+                                           String amount, String aadharnumber, ArrayList<String> speciality, String status,
+                                           String appointmentDate) {
 
         this.diagnosticId = diagnosticId;
         this.diagmobile = diagmobile;
@@ -166,11 +168,11 @@ public class MyPatientDataClassInDiagnostics {
         this.aadharnumber = aadharnumber;
     }
 
-    public List<String> getSpeciality() {
+    public ArrayList<String> getSpeciality() {
         return speciality;
     }
 
-    public void setSpeciality(List<String> speciality) {
+    public void setSpeciality(ArrayList<String> speciality) {
         this.speciality = speciality;
     }
 
