@@ -75,7 +75,7 @@ public class Registration extends AppCompatActivity {
     String selectedUserType;
     MagicButton register;
     static String uploadServerUrl = null;
-    static int userPosition;
+    static int userPosition = 0;
     RelativeLayout relativeLayout;
 
     //location fields
@@ -85,11 +85,11 @@ public class Registration extends AppCompatActivity {
     List<Address> addresses;
     private static final int REQUEST_LOCATION = 1;
     static String city;
-    int utype;
+
 
     AlertDialog alertDialog1;
     CharSequence[] values = {" Patient ", " Doctor ", " Diagnostic "," Medical Shop"," Blood Bank "," Ambulance "};
-    static String userType;
+    static String userType =null;
     ApiBaseUrl baseUrl;
 
     String smsUrl = null;
@@ -246,6 +246,8 @@ public class Registration extends AppCompatActivity {
 
     private String formatDataAsJson()
     {
+        int utype = 0;
+
         if(userPosition==0)
         {
             utype = 1;
@@ -265,6 +267,7 @@ public class Registration extends AppCompatActivity {
 
 
         JSONObject data = new JSONObject();
+
         try{
             data.put("FirstName",surname.getText().toString());
             data.put("LastName",name.getText().toString());
@@ -494,7 +497,7 @@ public class Registration extends AppCompatActivity {
         {
             userType = "Patient";
 
-            a_builder.setMessage("You selected type is"+userType)
+            a_builder.setMessage("You selected type is "+userType)
                     .setCancelable(false)
                     .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                         @Override
@@ -507,6 +510,7 @@ public class Registration extends AppCompatActivity {
             a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int i) {
+                    userType = null;
                     Intent i2 = new Intent(Registration.this, Registration.class);
                     startActivity(i2);
 //                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
@@ -549,6 +553,7 @@ public class Registration extends AppCompatActivity {
             a_builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int i) {
+                    userType = null;
                     Intent i2 = new Intent(Registration.this, Registration.class);
                     startActivity(i2);
 //                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
@@ -780,6 +785,7 @@ public class Registration extends AppCompatActivity {
 
         alert.setTitle("Do you want to Register for ?");
 
+        userPosition = 0;
         userType = null;
 
         alert.setSingleChoiceItems(values, 0, new DialogInterface.OnClickListener() {
@@ -855,6 +861,7 @@ public class Registration extends AppCompatActivity {
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
+                userType= null;
                 Intent i2 = new Intent(Registration.this, Login.class);
                 startActivity(i2);
 //                Toast.makeText(Registration.this, "Cancel", Toast.LENGTH_SHORT).show();
@@ -876,29 +883,29 @@ public class Registration extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             try
             {
-                String usertype = null;
 
-                if(utype == 1)
+                if(userPosition==0)
                 {
-                    usertype = "Patient";
+                    userType = "Patient";
                 }
-                if(utype == 2)
+                if(userPosition==1)
                 {
-                    usertype = "Doctor";
+                    userType = "Doctor";
                 }
-                if(utype == 3)
+                if(userPosition==2)
                 {
-                    usertype = "Diagnostic";
+                    userType = "Diagnostic";
                 }
-                if(utype == 4)
+                if(userPosition==3)
                 {
-                    usertype = "Medical Shop";
+                    userType = "Medical Shop";
                 }
+
 
                 String phone = mobile.getText().toString();
                 String password1 = password.getText().toString();
 
-                String message="You have successfully registered as a "+usertype+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
+                String message="You have successfully registered as a "+userType+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
                 smsUrl = baseUrl.getSmsUrl();
                 String uname="MedicTr";
                 String password="X!g@c$R2";
@@ -946,29 +953,29 @@ public class Registration extends AppCompatActivity {
     {
         org.json.JSONObject data = new org.json.JSONObject();
 
-        String usertype = null;
+        userType = null;
 
-        if(utype == 1)
+        if(userPosition==0)
         {
-            usertype = "Patient";
+            userType = "Patient";
         }
-        if(utype == 2)
+        if(userPosition==1)
         {
-            usertype = "Doctor";
+            userType = "Doctor";
         }
-        if(utype == 3)
+        if(userPosition==2)
         {
-            usertype = "Diagnostic";
+            userType = "Diagnostic";
         }
-        if(utype == 4)
+        if(userPosition==3)
         {
-            usertype = "Medical Shop";
+            userType = "Medical Shop";
         }
 
         String phone = mobile.getText().toString();
         String password1 = password.getText().toString();
 
-        String message="You have successfully registered as a "+usertype+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
+        String message="You have successfully registered as a "+userType+", "+"and your User ID: "+phone+" and Password: "+password1+". Thank You. "+"Click here to Login: "+baseUrl.getLink();
 
         try
         {

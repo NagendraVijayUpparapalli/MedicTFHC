@@ -91,6 +91,9 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     AlertDialog alertDialog1;
     ProgressDialog progressDialog;
+    ProgressDialog progressDialog1;
+    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog2;
 
     int year1, month, day;
     FloatingActionButton floatingActionButton;
@@ -120,7 +123,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
     static String smsUrl = null;
 
-    ProgressDialog mProgressDialog;
+
     //    String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
     String mydoctorImage, mydoctormobile, mydoctorEmail;
@@ -633,12 +636,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 //            // Show progressdialog
 //            mProgressDialog.show();
 
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog2 = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
+            progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
 
 
         }
@@ -665,7 +668,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             // Set the bitmap into ImageView
             doctorimage.setImageBitmap(result);
             // Close progressdialog
-            progressDialog.dismiss();
+            progressDialog2.dismiss();
         }
 
     }
@@ -767,12 +770,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 //            // Show progressdialog
 //            progressDialog.show();
 
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            mProgressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -846,7 +849,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             super.onPostExecute(result);
 
             Log.e("TAG result current   ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+            mProgressDialog.dismiss();
 
             JSONObject js;
 
@@ -1213,12 +1216,12 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 //            // Show progressdialog
 //            progressDialog.show();
 
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog1 = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
+            progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
 
@@ -1263,7 +1266,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
 
             Log.e("TAG result prev timings", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             getPreviousTiming(result);
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
 
         }
     }
