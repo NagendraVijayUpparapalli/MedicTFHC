@@ -164,8 +164,6 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
         System.out.println("image url....in view data.."+prescription);
 
 
-        builder=new StringBuilder();
-
 //        Finished, Initiated, In Progress
 
         statusList = new ArrayList<>();
@@ -487,10 +485,12 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
             amnt.setFocusable(false);
             amnt.setFocusableInTouchMode(false);
             amnt.setClickable(false);
+            amnt.setEnabled(false);
 
             comments.setFocusable(false);
             comments.setFocusableInTouchMode(false);
             comments.setClickable(false);
+            comments.setEnabled(false);
 
             status.setFocusable(false);
             status.setFocusableInTouchMode(false);
@@ -501,18 +501,21 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 //            rippleView.setFocusableInTouchMode(true);
 //            rippleView.setClickable(true);
 
-            netbanking.setFocusable(false);
+            netbanking.setFocusable(false);  
             netbanking.setFocusableInTouchMode(false);
             netbanking.setClickable(false);
+            netbanking.setEnabled(false);
 
             cashonhand.setFocusable(false);
             cashonhand.setFocusableInTouchMode(false);
             cashonhand.setClickable(false);
             cashonhand.setChecked(false);
+            cashonhand.setEnabled(false);
 
             swipe_card.setFocusable(false);
             swipe_card.setFocusableInTouchMode(false);
             swipe_card.setClickable(false);
+            swipe_card.setEnabled(false);
 
             if(payment.equals("CashonHand"))
             {
@@ -560,26 +563,16 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 
         new GetDiagnosticCenterbyAdressByIDDetails().execute(baseUrl.getUrl()+"DiagnosticCenterbyAdressByID"+"?AddressID="+addressId);
 
-        String spec=getIntent().getStringExtra("testname");
-        speciality = spec.split(",");
 
+        System.out.println("test list in click..."+getIntent().getStringArrayListExtra("testname"));
 
-        for(int i=0;i<speciality.length;i++)
+        builder=new StringBuilder();
+
+        for(int i=0;i<getIntent().getStringArrayListExtra("testname").size();i++)
         {
-            System.out.println("testname"+speciality[i]);
-            if(i == 0)
-            {
-                speciality[i] = speciality[i].substring(0);
-                test = speciality[i];
-                builder.append(i+1+". "+test+"\n");
-            }
-            else
-            {
-                test = speciality[i];
-                builder.append(i+1+". "+test+"\n");
-            }
+            System.out.println("testname....."+i+" "+getIntent().getStringArrayListExtra("testname").get(i));
 
-
+            builder.append(i+1+". "+getIntent().getStringArrayListExtra("testname").get(i)+"\n");
         }
 
         testname.setOnClickListener(new View.OnClickListener() {

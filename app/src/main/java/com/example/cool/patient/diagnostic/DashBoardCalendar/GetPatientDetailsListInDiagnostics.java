@@ -72,7 +72,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
     private MyPatientDataAdapterInDiagnostics adapter;
 
     private List<MyPatientDataClassInDiagnostics> data_list;
-    List<String> speciality;
+
 
     ApiBaseUrl baseUrl;
 
@@ -537,7 +537,7 @@ public class GetPatientDetailsListInDiagnostics extends AppCompatActivity implem
 
                     JSONArray jsonArray1=new JSONArray((js.getString("SpecialityLst")));
 
-                    speciality = new ArrayList<>();
+                    ArrayList<String> speciality = new ArrayList<>();
 
                     for(int j=0;j<jsonArray1.length();j++)
                     {
