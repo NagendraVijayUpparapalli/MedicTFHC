@@ -658,7 +658,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:text="udayasri amudala prabhakar raju" />
+                    android:text="---------------" />
 
                 <TextView
                     android:id="@+id/mobile"
