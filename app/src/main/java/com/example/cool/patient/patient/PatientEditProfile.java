@@ -916,94 +916,92 @@ public class PatientEditProfile extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null){
-            if(result.getContents()==null){
-                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(this, result.getContents(),Toast.LENGTH_LONG).show();
 
-                myQrArrayList = result.getContents();
-                String arr[] = myQrArrayList.split("=");
+        try {
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
 
-                qrName = arr[1].replaceFirst(".$","");
-                qrGender = arr[3].replaceFirst(".$","");
-                qrDob = arr[4].replaceFirst(".$","");
-                qrFullAddress = arr[5].replaceFirst(".$","");
+                    myQrArrayList = result.getContents();
+                    String arr[] = myQrArrayList.split("=");
 
-                qrAddress = qrFullAddress.split(",");
+                    qrName = arr[1].replaceFirst(".$", "");
+                    qrGender = arr[3].replaceFirst(".$", "");
+                    qrDob = arr[4].replaceFirst(".$", "");
+                    qrFullAddress = arr[5].replaceFirst(".$", "");
 
-                qrAddress1 = qrAddress[0]+","+qrAddress[1];
-                qrAddress2 = qrAddress[2]+","+qrAddress[3];
+                    qrAddress = qrFullAddress.split(",");
 
-                qrPincode = qrAddress[7];
+                    qrAddress1 = qrAddress[0] + "," + qrAddress[1];
+                    qrAddress2 = qrAddress[2] + "," + qrAddress[3];
+
+                    qrPincode = qrAddress[7];
 
 
 //                System.out.println("a[0]..."+arr[0]);
-                System.out.println("name..."+arr[1].replaceFirst(".$",""));
-                System.out.println("aadhar..."+arr[2].replaceFirst(".$",""));
-                System.out.println("gender..."+arr[3].replaceFirst(".$",""));
-                System.out.println("dob..."+arr[4].replaceFirst(".$",""));
-                System.out.println("address..."+arr[5].replaceFirst(".$",""));
+                    System.out.println("name..." + arr[1].replaceFirst(".$", ""));
+                    System.out.println("aadhar..." + arr[2].replaceFirst(".$", ""));
+                    System.out.println("gender..." + arr[3].replaceFirst(".$", ""));
+                    System.out.println("dob..." + arr[4].replaceFirst(".$", ""));
+                    System.out.println("address..." + arr[5].replaceFirst(".$", ""));
 
-                System.out.println("qr code data..."+result.getContents());
+                    System.out.println("qr code data..." + result.getContents());
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
 //            onSelectFromGalleryResult(data);
 //             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                Log.d("hello", "I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                    selectedImageUri = data.getData();
+                    BufferedWriter out = null;
+                    try {
+                        selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
 
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
+
+                    } catch (IOException e) {
+                        System.out.println("Exception ");
+
+                    }
+                    aadharimage.setImageBitmap(selectedImageBitmap);
+
+                    Log.d("hello", "I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            } else if (requestCode == REQUEST_CODE_GALLERY2) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                aadharimage.setImageBitmap(thumbnail);
 
-                }
-                aadharimage.setImageBitmap(selectedImageBitmap);
+                aadharimage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) aadharimage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
 
-                Log.d("hello","I'm in.");
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
         }
-
-        else if(requestCode == REQUEST_CODE_GALLERY2)
+        catch (NullPointerException ex)
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            aadharimage.setImageBitmap(thumbnail);
-
-            aadharimage.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) aadharimage.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            ex.printStackTrace();
         }
     }
 

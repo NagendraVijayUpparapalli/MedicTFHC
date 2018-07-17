@@ -240,6 +240,8 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
         if(moduleName.equals("doc"))
         {
 
+            new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+moduleId);
+
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             toolbar.setTitle("For RURAL");
@@ -1320,5 +1322,6 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
         }
 
     }
+
 
 }

@@ -137,6 +137,7 @@
                                     android:layout_height="wrap_content"
                                     android:ems="10"
                                     android:editable="false"
+                                    android:maxLength="10"
                                     android:backgroundTint="@color/green"
                                     android:drawablePadding="5dp"
                                     android:textColor="#000"
@@ -157,7 +158,7 @@
                                     android:id="@+id/emergencymobileNumber"
                                     android:layout_width="match_parent"
                                     android:hint="@string/emergency_number"
-
+                                    android:maxLength="10"
                                     android:drawablePadding="5dp"
                                     android:backgroundTint="@color/green"
                                     android:drawableLeft="@drawable/phone"
@@ -310,6 +311,7 @@
                                 android:textColorHint="#8c8080"
                                 android:drawableLeft="@drawable/ic_date_range_black_24dp"
                                 android:textSize="15dp"
+                                android:maxLength="10"
                                 android:backgroundTint="@color/green"
                                 android:drawablePadding="5dp"
                                 android:hint="Ex: DD/MM/YYYY" />
@@ -409,6 +411,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="20"
+                                    android:maxLength="6"
                                     android:drawableLeft="@drawable/zipcode_icon"
                                     android:inputType="phone"
                                     android:drawablePadding="5dp"

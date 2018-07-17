@@ -423,7 +423,7 @@
                                     android:clickable="true"
                                     app:fabSize="mini"
                                     android:src="@drawable/ic_camera_alt_black_24dp"
-                                    app:layout_anchor="@id/appbar11"
+                                    app:layout_anchor="@id/appbar1"
                                     app:layout_anchorGravity="bottom|left|end" />
 
                             </android.support.design.widget.CoordinatorLayout>
@@ -455,7 +455,6 @@
 
                                 <android.support.design.widget.AppBarLayout
                                     android:id="@+id/appbar"
-
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
@@ -463,7 +462,6 @@
                                         android:id="@+id/doc_aadhar_image"
                                         android:layout_width="match_parent"
                                         android:layout_height="180dp"
-
                                         android:scaleType="fitXY"
                                         android:src="@drawable/noaadhaar" />
 
@@ -479,6 +477,7 @@
                                     app:fabSize="mini"
                                     app:layout_anchor="@id/appbar"
                                     app:layout_anchorGravity="bottom|right|end" />
+
                                 <android.support.design.widget.FloatingActionButton
                                     android:id="@+id/addAadharCameraIcon"
                                     android:layout_width="wrap_content"
@@ -487,7 +486,7 @@
                                     android:clickable="true"
                                     app:fabSize="mini"
                                     android:src="@drawable/ic_camera_alt_black_24dp"
-                                    app:layout_anchor="@id/appbar11"
+                                    app:layout_anchor="@id/appbar"
                                     app:layout_anchorGravity="bottom|left|end" />
 
                             </android.support.design.widget.CoordinatorLayout>
