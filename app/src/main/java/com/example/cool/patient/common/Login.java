@@ -122,7 +122,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         if(!isConnected(Login.this)) buildDialog(Login.this).show();
         else {
-            Toast.makeText(Login.this,"Welcome", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(Login.this,"Welcome", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_login);
         }
 
