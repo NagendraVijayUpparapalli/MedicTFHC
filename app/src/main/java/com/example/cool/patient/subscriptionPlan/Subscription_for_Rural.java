@@ -236,7 +236,6 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
 
         });
 
-
         if(moduleName.equals("doc"))
         {
 

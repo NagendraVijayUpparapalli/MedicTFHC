@@ -1141,53 +1141,53 @@ public class DoctorEditProfile extends AppCompatActivity
         }
 
 
-//        else if(requestCode == REQUEST_CODE_GALLERY4)
-//        {
-//            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//            uploadCertificate.setImageBitmap(thumbnail);
-//
-//            uploadCertificate.buildDrawingCache();
-//            BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
-//            Bitmap bitmap = bitmapDrawable.getBitmap();
-//
-//            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-//            byte[] b1 = baos1.toByteArray();
-//            encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
-//
-//        }
-//
-//        else if(requestCode == REQUEST_CODE_GALLERY5)
-//        {
-//            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//            adharimage.setImageBitmap(thumbnail);
-//
-//            adharimage.buildDrawingCache();
-//            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
-//            Bitmap bitmap = bitmapDrawable.getBitmap();
-//
-//            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-//            byte[] b1 = baos1.toByteArray();
-//            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
-//
-//        }
-//
-//        else if(requestCode == REQUEST_CODE_GALLERY6)
-//        {
-//            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//            DoctorImage.setImageBitmap(thumbnail);
-//
-//            DoctorImage.buildDrawingCache();
-//            BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
-//            Bitmap bitmap = bitmapDrawable.getBitmap();
-//
-//            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-//            byte[] b1 = baos1.toByteArray();
-//            encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
-//
-//        }
+        else if(requestCode == REQUEST_CODE_GALLERY4)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            uploadCertificate.setImageBitmap(thumbnail);
+
+            uploadCertificate.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY5)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            adharimage.setImageBitmap(thumbnail);
+
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY6)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            DoctorImage.setImageBitmap(thumbnail);
+
+            DoctorImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
 
 
 
@@ -1202,6 +1202,7 @@ public class DoctorEditProfile extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             // Create a progressdialog
 //            progressDialog = new ProgressDialog(DoctorEditProfile.this);
 //            // Set progressdialog title
@@ -1637,7 +1638,7 @@ public class DoctorEditProfile extends AppCompatActivity
             validate=false;
         }
 
-        if(myregistrationNumber.isEmpty() || !Patterns.PHONE.matcher(myregistrationNumber).matches())
+        if(myregistrationNumber.isEmpty())
         {
             registrationNumber.setError("please enter reg.no");
             validate=false;
