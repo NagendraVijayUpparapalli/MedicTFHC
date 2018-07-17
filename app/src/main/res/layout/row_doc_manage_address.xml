@@ -230,22 +230,21 @@
 
                 <LinearLayout
                     android:weightSum="2"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
-                    <!--<TextView-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:id="@+id/Comments"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Comments : "-->
-                    <!--android:textColor="#2C5E83"-->
-                    <!--android:textSize="17dp" />-->
+                    <TextView
+                        android:layout_weight="1.2"
+                        android:id="@+id/Comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comments : "
+                        android:textColor="#2C5E83"
+                        android:textSize="17dp" />
 
                     <MultiAutoCompleteTextView
                         android:id="@+id/reason_delete"

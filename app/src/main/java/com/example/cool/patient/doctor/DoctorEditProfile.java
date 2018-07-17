@@ -132,7 +132,8 @@ public class DoctorEditProfile extends AppCompatActivity
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor , mycash_on_hand, myswipe_card,
             mynet_banking,mypay_paym;
 
-    FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon;
+    FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon,addCertificateCameraIcon,addAadharCameraIcon,
+            addProfileCameraIcon;
 
 
     //qr code get data fields
@@ -140,7 +141,8 @@ public class DoctorEditProfile extends AppCompatActivity
     String myQrArrayList;
 
     String encodedAadharImage,encodedCertificateImage,encodedProfileimage;
-    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1,
+            REQUEST_CODE_GALLERY4 = 2,REQUEST_CODE_GALLERY5 = 444,REQUEST_CODE_GALLERY6 = 9;
     Uri selectedCertificateImageUri,selectedAadharImageUri,selectedProfileImageUri;
     Bitmap selectedCertificateImageBitmap = null,selectedAadharImageBitmap = null,selectedProfileImageBitmap = null;
 
@@ -237,18 +239,9 @@ public class DoctorEditProfile extends AppCompatActivity
         addAadharIcon = (FloatingActionButton) findViewById(R.id.addAadharIcon);
         addProfileIcon = (FloatingActionButton) findViewById(R.id.addprofileIcon);
 
-
-//        Speciality.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                specialityList.remove(0);
-//
-////                specialityAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, specialityList);
-////                specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears
-////                Speciality.setAdapter(specialityAdapter); // Apply the adapter to the spinner
-//            }
-//        });
+        addCertificateCameraIcon = (FloatingActionButton) findViewById(R.id.addCertificateCameraIcon);
+        addAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addAadharCameraIcon);
+        addProfileCameraIcon = (FloatingActionButton) findViewById(R.id.addprofileCameraIcon);
 
 
         rippleView = (RippleView) findViewById(R.id.rippleView);
@@ -258,6 +251,8 @@ public class DoctorEditProfile extends AppCompatActivity
                 validateEditProfile();
             }
         });
+
+
         addCertificateIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -297,6 +292,43 @@ public class DoctorEditProfile extends AppCompatActivity
                     }
                 });
 
+//        addCertificateCameraIcon = (FloatingActionButton) findViewById(R.id.addCertificateCameraIcon);
+//        addAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addAadharCameraIcon);
+//        addProfileCameraIcon =
+
+
+        addCertificateCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY4);
+                        }
+                    }
+                });
+
+        addAadharCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY5);
+                        }
+                    }
+                });
+
+        addProfileCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY6);
+                        }
+                    }
+                });
 
         //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -763,8 +795,17 @@ public class DoctorEditProfile extends AppCompatActivity
 
             if(getIntent().getStringExtra("user").equals("old"))
             {
-                aadhar_num.setEnabled(false);
-                aadhar_num.setText(myAadhar_num);
+                if(myAadhar_num.equals(""))
+                {
+                    aadhar_num.setEnabled(true);
+                    aadhar_num.setText(myAadhar_num);
+                }
+                else
+                {
+                    aadhar_num.setEnabled(false);
+                    aadhar_num.setText(myAadhar_num);
+                }
+
             }
             else
             {
@@ -935,6 +976,24 @@ public class DoctorEditProfile extends AppCompatActivity
             return;
         }
 
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY4);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY5);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY6);
+        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -993,6 +1052,8 @@ public class DoctorEditProfile extends AppCompatActivity
                     //certificate base64
                     final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+//                    selectedImage =
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
@@ -1074,6 +1135,57 @@ public class DoctorEditProfile extends AppCompatActivity
 
             }
         }
+
+
+        else if(requestCode == REQUEST_CODE_GALLERY4)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            uploadCertificate.setImageBitmap(thumbnail);
+
+            uploadCertificate.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY5)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            adharimage.setImageBitmap(thumbnail);
+
+            adharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY6)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            DoctorImage.setImageBitmap(thumbnail);
+
+            DoctorImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+        }
+
+
 
         else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -133,7 +133,7 @@ public class PatientEditProfile extends AppCompatActivity
     CheckBox promotion_medical,promotion_diagnostic,donor;
     EditText surname,name,email,mobile,salutation,address1,address2,pincode,dob,emergency_mobile,aadhar_num;
     MagicButton gen_btn;
-    FloatingActionButton addImageFloatingButton;
+    FloatingActionButton addImageFloatingButton,cameraIcon;
 
     SearchableSpinner city,district,state,blood_group;
     List<String> bloodgroupList,districtsList;;
@@ -272,10 +272,38 @@ public class PatientEditProfile extends AppCompatActivity
 //        profile_image = (ImageView) findViewById(R.id.profileimage);
 
         addImageFloatingButton = (FloatingActionButton) findViewById(R.id.addImageIcon);
-//        btn_profile = (Button) findViewById(R.id.btn_profileimage);
-//        gen_btn = (Button) findViewById(R.id.gen_btn);
+        cameraIcon = (FloatingActionButton) findViewById(R.id.cameraIcon);
 
-//        qrImage = (ImageView) findViewById(R.id.image);
+
+        cameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
+                    }
+                });
+
+        addImageFloatingButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(
+                                PatientEditProfile.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                REQUEST_CODE_GALLERY1
+                        );
+
+                    }
+                });
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
 
         promotion_medical = (CheckBox) findViewById(R.id.promotion_medicalstore);
@@ -327,57 +355,6 @@ public class PatientEditProfile extends AppCompatActivity
             }
         });
 
-
-//        blood_group.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bloodgroupList.remove(0);
-////                Set<String> myset = new HashSet<>();
-////                myset.addAll(bloodgroupList);
-////                bloodgroupList.clear();
-////                bloodgroupList.addAll(myset);
-//            }
-//        });
-
-
-//        myQrArrayList = "<QPDA n=\"Amudala Prabhakar Raju Udaya Sri\" u=\"xxxxxxxx1092\" g=\"F\" d=\"29-08-1994\" a=\"3-30/a,balabba vari thopu,Gudipala mandalam,Manchineella Gunta,Naragallu,Chittoor,Andhra Pradesh,517403\" i=\"AAAADGpQICANCocKAAAAFGZ0eXBqcDIgAAAAAGpwMiAAAAAtanAyaAAAABZpaGRyAAAAyAAAAKAAAwcHAAAAAAAPY29scgEAAAAAABAAAAGaanAyY/9P/1EALwAAAAAAoAAAAMgAAAAAAAAAAAAAAKAAAADIAAAAAAAAAAAAAwcBAQcBAQcBAf9SAAwAAAABAQUEBAAA/1wAI0JvGG7qbupuvGcAZwBm4l9MX0xfZEgDSANIRU/ST9JPYf9kACIAAUNyZWF0ZWQgYnk6IEpKMjAwMCB2ZXJzaW9uIDQuMf+QAAoAAAAAAQYAAf9SAAwAAAABAQUEBAAA/5PH0GwgOVnOqMalpgY77jW6GeRm+tdBcV2PoMLaYqPD5SBXnJRTSjysOaRzzQZk56Ftw+UgI1zOxDRWAOa+2Fe4hWFHQMfOTg+E2D4h4CjVdtlfn9ynW65YRsUgmuwcb/YdUyC1cWQ3wqVd3t46Fe9avN53Y/kM9qgYjW+bwEwAH5VtSlOcwEYAI+F6w+FaDqkHS098qXSv7+jjRFeevERQoKFuPgwHKx0qeva/HNHtNhG1eGjTR+wdxy0ZK1ixqRq5OZwAmflQgIDDqUOCAMVCtyIJeecoOR6eSBkDM99xP836gICAgICAgID/2Q==\" x=\"\" s=\"Yhv/nv0BwLVwjIImdEGu/lkEIGDyMMo5uRdUdFpnRCXKRAQeowsIMjP9+De/+eK1O48lzGg+8rhmNXpJT2aq3zKZA3Eh8MgZ2ehKSQ02SISXzKOC34joBSfm9du7hoNWt9ICQoZF/i0LxV3Zme/wvYyAxyhK65fdk0MuQHPUvqM3mxkRSzQ9Md9hp5rouFknPr6B4gqTPB71sWlmgsPfMLO6UnoO6TWEt3CznMW5FCdHbVq6IHs7i61wQ6/0dgxKQqx44qDuxQwGVGPWBlW/3ATQG8hiSMlk0ZiYIq3hfHkN/Nrsqm0OfdPYIfTsvYg0aWMHTC3BPeUFs4LTW+nYsw==\"/>";
-//        String arr[] = myQrArrayList.split("=");
-//
-//        System.out.println("a[0]..."+arr[0]);
-//        System.out.println("name..."+arr[1].replaceFirst(".$",""));
-//        System.out.println("aadhar..."+arr[2].replaceFirst(".$",""));
-//        System.out.println("gender..."+arr[3].replaceFirst(".$",""));
-//        System.out.println("dob..."+arr[4].replaceFirst(".$",""));
-//        System.out.println("address..."+arr[5].replaceFirst(".$",""));
-
-//        init();
-//        setupView();
-
-
-        addImageFloatingButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(
-                                PatientEditProfile.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_CODE_GALLERY1
-                        );
-
-                    }
-                });
-//
-//        btn_profile.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ActivityCompat.requestPermissions(
-//                                PatientEditProfile.this,
-//                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                                REQUEST_CODE_GALLERY2
-//                        );
-//                    }
-//                });
 
        // gen_btn = (MagicButton) findViewById(R.id.gen_btn);
         rippleView=(RippleView) findViewById(R.id.rippleView);
@@ -743,7 +720,13 @@ public class PatientEditProfile extends AppCompatActivity
 
         if(myAadhar_num.isEmpty())
         {
-            aadhar_num.setError("please enter aadhaar number");
+//            aadhar_num.setError("please enter aadhaar number");
+            validate=true;
+        }
+
+        else if(myAadhar_num.length()>12 || myAadhar_num.length()<12)
+        {
+            aadhar_num.setError("please enter valid aadhaar number");
             validate=false;
         }
 
@@ -915,16 +898,16 @@ public class PatientEditProfile extends AppCompatActivity
             return;
         }
 
-        else if (requestCode == REQUEST_CODE_GALLERY2) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_CODE_GALLERY2);
-            } else {
-                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
+//        else if (requestCode == REQUEST_CODE_GALLERY2) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+//            } else {
+//                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
+//            }
+//            return;
+//        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -1001,6 +984,22 @@ public class PatientEditProfile extends AppCompatActivity
                 Log.d("hello","I'm in.");
 
             }
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY2)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            aadharimage.setImageBitmap(thumbnail);
+
+            aadharimage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) aadharimage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
 
         else {
@@ -1299,8 +1298,16 @@ public class PatientEditProfile extends AppCompatActivity
 
             if(getIntent().getStringExtra("user").equals("old"))
             {
-                aadhar_num.setEnabled(false);
-                aadhar_num.setText(myAadhar_num);
+                if(myAadhar_num.equals(""))
+                {
+                    aadhar_num.setEnabled(true);
+                    aadhar_num.setText(myAadhar_num);
+                }
+                else
+                {
+                    aadhar_num.setEnabled(false);
+                    aadhar_num.setText(myAadhar_num);
+                }
             }
             else
             {
