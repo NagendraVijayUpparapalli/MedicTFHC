@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MedicTFHC.iml" filepath="$PROJECT_DIR$/MedicTFHC.iml" />
-      <module fileurl="file://C:\Users\COOL\Desktop\MedicTFHC\Patient.iml" filepath="C:\Users\COOL\Desktop\MedicTFHC\Patient.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
