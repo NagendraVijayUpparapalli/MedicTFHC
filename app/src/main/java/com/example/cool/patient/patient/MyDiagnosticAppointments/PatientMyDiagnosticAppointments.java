@@ -630,12 +630,12 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 //            // Show progressdialog
 //            progressDialog2.show();
 
-            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog2 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
+            progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -678,7 +678,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+            progressDialog2.dismiss();
             getCurrentDateAppointmentdetails(result);
 
         }
@@ -814,12 +814,12 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
 //            // Show progressdialog
 //            progressDialog1.show();
 
-            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog1 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
+            progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -862,7 +862,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
             getdetails(result);
 
         }

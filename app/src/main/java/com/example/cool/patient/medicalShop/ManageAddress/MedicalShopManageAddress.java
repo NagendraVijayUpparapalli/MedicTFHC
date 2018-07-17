@@ -483,7 +483,7 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.e("Api response.....", result);
-            //progressDialog.dismiss();
+            progressDialog.dismiss();
             try
             {
                 JSONObject jsono = new JSONObject(result);

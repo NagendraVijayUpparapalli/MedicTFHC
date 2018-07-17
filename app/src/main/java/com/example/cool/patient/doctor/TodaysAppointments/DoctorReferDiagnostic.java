@@ -517,12 +517,12 @@ public class DoctorReferDiagnostic extends AppCompatActivity implements Navigati
 //            // Show progressdialog
 //            progressDialog1.show();
 
-            progressDialog = new ProgressDialog(DoctorReferDiagnostic.this);
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            progressDialog.setContentView(R.layout.myprogress);
+            progressDialog1 = new ProgressDialog(DoctorReferDiagnostic.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
+            progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
 
