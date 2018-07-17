@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -923,15 +924,22 @@ public class BloodBank1 extends AppCompatActivity implements NavigationView.OnNa
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(BloodBank1.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(BloodBank1.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(BloodBank1.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

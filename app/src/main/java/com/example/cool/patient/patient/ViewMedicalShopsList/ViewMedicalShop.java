@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -250,15 +251,23 @@ public class ViewMedicalShop extends AppCompatActivity {
             super.onPreExecute();
             // Create a progressdialog
             // Create a progressdialog
-            progressDialog = new ProgressDialog(ViewMedicalShop.this);
-            // Set progressdialog title
-            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(ViewMedicalShop.this);
+//            // Set progressdialog title
+//            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+
+            progressDialog = new ProgressDialog(ViewMedicalShop.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

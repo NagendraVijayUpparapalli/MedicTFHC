@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -536,15 +537,22 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1091,15 +1099,22 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading");
+//            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(MedicalShopEditProfile.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

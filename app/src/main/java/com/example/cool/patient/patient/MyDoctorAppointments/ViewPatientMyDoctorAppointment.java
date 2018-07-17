@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -66,7 +67,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
     String  myAppointmentdate,appointmentId,userId,mobileNumber,myappointmentId,mydoctorID,mydoctorname, myappointmentdate, mypatientname, mytimeslot, mystatus, myreason, mycomment,
             myamount, myprescription, mypaymentmode;
 
-    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog;
     String doctorLongitude,doctorLatitude,doctorAddress,doctorHospitalName;
     ZoomageView zoomageView;
     String mydoctorImage,mydoctormobile,mydctorspeciality,mydoctorqualification;
@@ -448,13 +449,20 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -479,7 +487,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             // Set the bitmap into ImageView
              imageView2.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 
@@ -560,15 +568,22 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Download Image Tutorial");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Download Image Tutorial");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(ViewPatientMyDoctorAppointment.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -593,7 +608,7 @@ public class ViewPatientMyDoctorAppointment  extends AppCompatActivity {
             // Set the bitmap into ImageView
             imageView.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
 
     }

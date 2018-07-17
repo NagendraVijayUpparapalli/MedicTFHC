@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -622,15 +623,24 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Image");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Image");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
+
+
         }
 
         @Override
@@ -655,7 +665,7 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
             // Set the bitmap into ImageView
             doctorimage.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
 
     }
@@ -747,15 +757,22 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1185,16 +1202,23 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            // Create a progressdialog
+//            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
 
@@ -1600,15 +1624,22 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(PatientBookAppointmentToDoctor.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override

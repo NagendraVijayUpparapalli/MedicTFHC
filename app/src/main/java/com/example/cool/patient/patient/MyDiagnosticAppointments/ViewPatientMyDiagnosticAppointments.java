@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -58,7 +59,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
     ImageView diagreport;
 
 
-    ProgressDialog mProgressDialog;
+    ProgressDialog progressDialog;
     Button prescription, backButton;
 
     ApiBaseUrl baseUrl;
@@ -367,15 +368,22 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Download Image Tutorial");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Download Image Tutorial");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -400,7 +408,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             // Set the bitmap into ImageView
             centerImage.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 
@@ -410,15 +418,22 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
-            // Set progressdialog title
-//            mProgressDialog.setTitle("Download Image Tutorial");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+//            mProgressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
+//            // Set progressdialog title
+////            mProgressDialog.setTitle("Download Image Tutorial");
+//            // Set progressdialog message
+//            mProgressDialog.setMessage("Loading...");
+//
+//            mProgressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            mProgressDialog.show();
 
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(ViewPatientMyDiagnosticAppointments.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -443,7 +458,7 @@ public class ViewPatientMyDiagnosticAppointments extends AppCompatActivity {
             // Set the bitmap into ImageView
             diagreport.setImageBitmap(result);
             // Close progressdialog
-            mProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 

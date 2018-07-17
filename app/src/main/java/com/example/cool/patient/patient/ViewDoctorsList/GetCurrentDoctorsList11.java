@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -648,15 +649,23 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading...");
+//            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading...");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+
+            progressDialog = new ProgressDialog(GetCurrentDoctorsList11.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -782,15 +791,22 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog2 = new ProgressDialog(GetCurrentDoctorsList11.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog2.setMessage("Loading...");
+//            progressDialog2 = new ProgressDialog(GetCurrentDoctorsList11.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog2.setMessage("Loading...");
+//
+//            progressDialog2.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog2.show();
 
-            progressDialog2.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog2 = new ProgressDialog(GetCurrentDoctorsList11.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
             progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -1020,15 +1036,22 @@ public class GetCurrentDoctorsList11 extends AppCompatActivity implements Naviga
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog1 = new ProgressDialog(GetCurrentDoctorsList11.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog1.setMessage("Loading...");
+//            progressDialog1 = new ProgressDialog(GetCurrentDoctorsList11.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog1.setMessage("Loading...");
+//
+//            progressDialog1.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog1.show();
 
-            progressDialog1.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog1 = new ProgressDialog(GetCurrentDoctorsList11.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
             progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
         }
 
         @Override

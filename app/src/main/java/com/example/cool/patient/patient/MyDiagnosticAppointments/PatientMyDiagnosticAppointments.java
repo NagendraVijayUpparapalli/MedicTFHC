@@ -3,6 +3,7 @@ package com.example.cool.patient.patient.MyDiagnosticAppointments;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -515,15 +516,22 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("You are logging");
-            // Set progressdialog message
-            progressDialog.setMessage("Loading..");
+//            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog.setMessage("Loading..");
+//
+//            progressDialog.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog.show();
 
-            progressDialog.setIndeterminate(false);
-            // Show progressdialog
+            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
             progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -612,15 +620,22 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog2 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog2.setMessage("Loading...");
+//            progressDialog2 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog2.setMessage("Loading...");
+//
+//            progressDialog2.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog2.show();
 
-            progressDialog2.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog2.show();
+            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -663,7 +678,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog2.dismiss();
+            progressDialog.dismiss();
             getCurrentDateAppointmentdetails(result);
 
         }
@@ -789,15 +804,22 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            progressDialog1 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
-            // Set progressdialog title
-//            progressDialog.setTitle("Your searching process is");
-            // Set progressdialog message
-            progressDialog1.setMessage("Loading...");
+//            progressDialog1 = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog1.setMessage("Loading...");
+//
+//            progressDialog1.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog1.show();
 
-            progressDialog1.setIndeterminate(false);
-            // Show progressdialog
-            progressDialog1.show();
+            progressDialog = new ProgressDialog(PatientMyDiagnosticAppointments.this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.myprogress);
         }
 
         @Override
@@ -840,7 +862,7 @@ public class PatientMyDiagnosticAppointments extends AppCompatActivity
             super.onPostExecute(result);
 
             Log.e("TAG result    ", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            progressDialog1.dismiss();
+            progressDialog.dismiss();
             getdetails(result);
 
         }
