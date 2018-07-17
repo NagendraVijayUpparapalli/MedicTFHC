@@ -501,7 +501,7 @@ public class GetPatientDetailsTotalDataInDiagnostics extends AppCompatActivity i
 //            rippleView.setFocusableInTouchMode(true);
 //            rippleView.setClickable(true);
 
-            netbanking.setFocusable(false);  
+            netbanking.setFocusable(false);
             netbanking.setFocusableInTouchMode(false);
             netbanking.setClickable(false);
             netbanking.setEnabled(false);
