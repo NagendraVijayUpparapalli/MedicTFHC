@@ -484,7 +484,13 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
         if(myAadhar_num.isEmpty())
         {
-            aadhar_num.setError("please enter aadhaar number");
+//            aadhar_num.setError("please enter aadhaar number");
+            validate=true;
+        }
+
+        else if(myAadhar_num.length()>12 || myAadhar_num.length()<12)
+        {
+            aadhar_num.setError("please enter valid aadhaar number");
             validate=false;
         }
 
@@ -701,8 +707,16 @@ public class DiagnosticEditProfile extends AppCompatActivity implements Navigati
 
             if(getIntent().getStringExtra("user").equals("old"))
             {
-                aadhar_num.setEnabled(false);
-                aadhar_num.setText(myAadhar_num);
+                if(myAadhar_num.equals(""))
+                {
+                    aadhar_num.setEnabled(true);
+                    aadhar_num.setText(myAadhar_num);
+                }
+                else
+                {
+                    aadhar_num.setEnabled(false);
+                    aadhar_num.setText(myAadhar_num);
+                }
             }
             else
             {

@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -33,6 +35,7 @@ import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -49,6 +52,7 @@ import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
 import com.example.cool.patient.doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
+import com.example.cool.patient.medicalShop.MedicalChangePassword;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigatioExpandableSubList;
@@ -64,6 +68,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -456,335 +462,335 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
             });
         }
 
-//        else if(module.equals("medical"))
-//        {
-//            new ReachUs.GetMedicalDetails().execute(baseUrl.getUrl()+"MedicalShopByID"+"?id="+getUserId);
+        else if(moduleName.equals("medical"))
+        {
+            new GetMedicalDetails().execute(baseUrl.getUrl()+"MedicalShopByID"+"?id="+moduleId);
+
+            //side navigation
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            toolbar.setTitle("For RURAL");
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
+
+            medicalsidenavName = (TextView) navigationView.findViewById(R.id.name);
+            medicalsidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
+            medicalsidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
+//            adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
+
+
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
+            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+            expandableListAdapter = new MedicalShopSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+            expandableListView.setAdapter(expandableListAdapter);
+            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+                @Override
+                public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    boolean retVal = true;
+
+                    if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Services) {
+                        retVal = false;
+                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
+                        retVal = false;
+                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
+                        retVal = false;
+
+                    }
+
+                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM4) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,MedicalShopEditProfile.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("user","old");
+                        startActivity(contact);
+
+                    }
+
+                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,SubscriptionPlanAlertDialog.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("module","medical");
+                        startActivity(contact);
+
+                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,Offers.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("module","medical");
+                        startActivity(contact);
+
+                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
+                        // call some activity here
+
+                        Intent contact = new Intent(Subscription_for_Rural.this,ReachUs.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("module","medical");
+                        startActivity(contact);
+
+                    }
+
+                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM8) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,Login.class);
+                        startActivity(contact);
+
+                    }
+
+                    return retVal;
+                }
+            });
+
+
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v,
+                                            int groupPosition, int childPosition, long id) {
+
+
+                    if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
+
+                        if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                            // call activity here
+
+                            Intent about = new Intent(Subscription_for_Rural.this,MedicalChangePassword.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+                        else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                            // call activity here
+
+                        }
+
+                    } else if(groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
+                        if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+                            Intent about = new Intent(Subscription_for_Rural.this,MedicalShopAddAddress.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+                        else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                            Intent about = new Intent(Subscription_for_Rural.this,MedicalShopManageAddress.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+
+                    }
+                    return true;
+
+                }
+            });
+        }
+
+        else if(moduleName.equals("diag"))
+        {
+
+            new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+moduleId);
+
+            // side navigation
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            toolbar.setTitle("For RURAL");
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+//            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
+
+            diagsidenavName = (TextView) navigationView.findViewById(R.id.name);
+            diagsidenavEmail = (TextView) navigationView.findViewById(R.id.email);
+            diagsidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+
+
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
+            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+            expandableListAdapter = new DiagnosticSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+            expandableListView.setAdapter(expandableListAdapter);
+            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+                @Override
+                public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(getApplicationContext(),
+//                        expandableListTitle.get(groupPosition) + " List Expanded.",
+//                        Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    boolean retVal = true;
+
+                    if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
+                        retVal = false;
+                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
+                        retVal = false;
+                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
+                        retVal = false;
+
+                    }
+
+                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM4) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,DiagnosticEditProfile.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("user","old");
+                        startActivity(contact);
+
+                    }
+
+                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
+                        // call some activity here
+                        Intent subscript = new Intent(Subscription_for_Rural.this,SubscriptionPlanAlertDialog.class);
+                        subscript.putExtra("id",moduleId);
+                        subscript.putExtra("mobile",moduleMobile);
+                        subscript.putExtra("module","diag");
+                        startActivity(subscript);
+
+                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,Offers.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("module","diag");
+                        startActivity(contact);
+
+                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
+                        // call some activity here
+
+                        Intent contact = new Intent(Subscription_for_Rural.this,ReachUs.class);
+                        contact.putExtra("id",moduleId);
+                        contact.putExtra("mobile",moduleMobile);
+                        contact.putExtra("module","diag");
+                        startActivity(contact);
+
+                    }
+
+                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM8) {
+                        // call some activity here
+                        Intent contact = new Intent(Subscription_for_Rural.this,Login.class);
+                        startActivity(contact);
+
+                    }
+
+                    return retVal;
+                }
+            });
+
+
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v,
+                                            int groupPosition, int childPosition, long id) {
+
+
+                    if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
+                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_1) {
+
+                            Intent i = new Intent(Subscription_for_Rural.this,DiagnosticDashboard.class);
+                            i.putExtra("id",moduleId);
+                            i.putExtra("mobile",moduleMobile);
+                            startActivity(i);
+
+                        }
+                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_2) {
+
+                            // call activity here
+
+                            Intent i = new Intent(Subscription_for_Rural.this,DiagnosticsTodaysAppointments.class);
+                            i.putExtra("userId",moduleId);
+                            i.putExtra("mobile",moduleMobile);
+                            startActivity(i);
+
+                        }
+//                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_3) {
 //
-//            //side navigation
-//            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//            setSupportActionBar(toolbar);
-//            toolbar.setTitle("For RURAL");
-//
-//            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//            drawer.addDrawerListener(toggle);
-//            toggle.syncState();
-//
-//            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//            navigationView.setNavigationItemSelectedListener(this);
-//
-////            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
-//
-//            medicalsidenavName = (TextView) navigationView.findViewById(R.id.name);
-//            medicalsidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
-//            medicalsidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
-////            adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
-//
-//
-//            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-//            expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
-//            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-//            expandableListAdapter = new MedicalShopSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-//            expandableListView.setAdapter(expandableListAdapter);
-//            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//
-//                @Override
-//                public void onGroupExpand(int groupPosition) {
-////                Toast.makeText(getApplicationContext(),
-////                        expandableListTitle.get(groupPosition) + " List Expanded.",
-////                        Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                    boolean retVal = true;
-//
-//                    if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Services) {
-//                        retVal = false;
-//                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
-//                        retVal = false;
-//                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
-//                        retVal = false;
+//                        // call activity here
 //
 //                    }
-//
-//                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM4) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,MedicalShopEditProfile.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("user","old");
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM5) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,SubscriptionPlanAlertDialog.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("module","medical");
-//                        startActivity(contact);
-//
-//                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM6) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,Offers.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("module","medical");
-//                        startActivity(contact);
-//
-//                    } else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM7) {
-//                        // call some activity here
-//
-//                        Intent contact = new Intent(ReachUs.this,ReachUs.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("module","medical");
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    else if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM8) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,Login.class);
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    return retVal;
-//                }
-//            });
-//
-//
-//            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//                @Override
-//                public boolean onChildClick(ExpandableListView parent, View v,
-//                                            int groupPosition, int childPosition, long id) {
-//
-//
-//                    if (groupPosition == MedicalShopSideNavigationExpandableListAdapter.ITEM3) {
-//
-//                        if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_1) {
-//
-//                            // call activity here
-//
-//                            Intent about = new Intent(ReachUs.this,ChangePassword.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//                        else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM3_2) {
-//
-//                            // call activity here
-//
-//                        }
-//
-//                    } else if(groupPosition == MedicalShopSideNavigationExpandableListAdapter.Address) {
-//                        if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_1) {
-//
-//                            Intent about = new Intent(ReachUs.this,MedicalShopAddAddress.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//                        else if (childPosition == MedicalShopSideNavigationExpandableListAdapter.SUBITEM2_2) {
-//                            Intent about = new Intent(ReachUs.this,MedicalShopManageAddress.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//
-//                    }
-//                    return true;
-//
-//                }
-//            });
-//        }
-//
-//        else if(module.equals("diag"))
-//        {
-//
-//            new ReachUs.GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
-//
-//            // side navigation
-//
-//            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//            setSupportActionBar(toolbar);
-//            toolbar.setTitle("For RURAL");
-//
-//            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//            drawer.addDrawerListener(toggle);
-//            toggle.syncState();
-//
-//            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//            navigationView.setNavigationItemSelectedListener(this);
-//
-////            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
-//
-//            diagsidenavName = (TextView) navigationView.findViewById(R.id.name);
-//            diagsidenavEmail = (TextView) navigationView.findViewById(R.id.email);
-//            diagsidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
-//
-//
-//            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-//            expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
-//            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-//            expandableListAdapter = new DiagnosticSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-//            expandableListView.setAdapter(expandableListAdapter);
-//            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//
-//                @Override
-//                public void onGroupExpand(int groupPosition) {
-////                Toast.makeText(getApplicationContext(),
-////                        expandableListTitle.get(groupPosition) + " List Expanded.",
-////                        Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                    boolean retVal = true;
-//
-//                    if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
-//                        retVal = false;
-//                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
-//                        retVal = false;
-//                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
-//                        retVal = false;
-//
-//                    }
-//
-//                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM4) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,DiagnosticEditProfile.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("user","old");
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM5) {
-//                        // call some activity here
-//                        Intent subscript = new Intent(ReachUs.this,SubscriptionPlanAlertDialog.class);
-//                        subscript.putExtra("id",getUserId);
-//                        subscript.putExtra("mobile",mobile_number);
-//                        subscript.putExtra("module","diag");
-//                        startActivity(subscript);
-//
-//                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,Offers.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("module","diag");
-//                        startActivity(contact);
-//
-//                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM7) {
-//                        // call some activity here
-//
-//                        Intent contact = new Intent(ReachUs.this,ReachUs.class);
-//                        contact.putExtra("id",getUserId);
-//                        contact.putExtra("mobile",mobile_number);
-//                        contact.putExtra("module","diag");
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM8) {
-//                        // call some activity here
-//                        Intent contact = new Intent(ReachUs.this,Login.class);
-//                        startActivity(contact);
-//
-//                    }
-//
-//                    return retVal;
-//                }
-//            });
-//
-//
-//            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//                @Override
-//                public boolean onChildClick(ExpandableListView parent, View v,
-//                                            int groupPosition, int childPosition, long id) {
-//
-//
-//                    if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.Services) {
-//                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_1) {
-//
-//                            Intent i = new Intent(ReachUs.this,DiagnosticDashboard.class);
-//                            i.putExtra("id",getUserId);
-//                            i.putExtra("mobile",mobile_number);
-//                            startActivity(i);
-//
-//                        }
-//                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_2) {
-//
-//                            // call activity here
-//
-//                            Intent i = new Intent(ReachUs.this,DiagnosticsTodaysAppointments.class);
-//                            i.putExtra("userId",getUserId);
-//                            i.putExtra("mobile",mobile_number);
-//                            startActivity(i);
-//
-//                        }
-////                    else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM1_3) {
-////
-////                        // call activity here
-////
-////                    }
-//
-//
-//                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
-//
-//                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_1) {
-//
-//                            // call activity here
-//
-//                            Intent about = new Intent(ReachUs.this,ChangePassword.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_2) {
-//
-//                            // call activity here
-//
-//                        }
-//
-//                    } else if(groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
-//                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_1) {
-//
-//
-//                            Intent about = new Intent(ReachUs.this,DiagnosticAddAddress.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_2) {
-//                            Intent about = new Intent(ReachUs.this,DiagnosticManageAddress.class);
-//                            about.putExtra("id",getUserId);
-//                            about.putExtra("mobile",mobile_number);
-//                            startActivity(about);
-//
-//                        }
-//
-//                    }
-//                    return true;
-//
-//                }
-//            });
-//        }
+
+
+                    } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM3) {
+
+                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_1) {
+
+                            // call activity here
+
+                            Intent about = new Intent(Subscription_for_Rural.this,DiagnosticChangePassword.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM3_2) {
+
+                            // call activity here
+
+                        }
+
+                    } else if(groupPosition == DiagnosticSideNavigationExpandableListAdapter.Address) {
+                        if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_1) {
+
+
+                            Intent about = new Intent(Subscription_for_Rural.this,DiagnosticAddAddress.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+                        else if (childPosition == DiagnosticSideNavigationExpandableListAdapter.SUBITEM2_2) {
+                            Intent about = new Intent(Subscription_for_Rural.this,DiagnosticManageAddress.class);
+                            about.putExtra("id",moduleId);
+                            about.putExtra("mobile",moduleMobile);
+                            startActivity(about);
+
+                        }
+
+                    }
+                    return true;
+
+                }
+            });
+        }
 
 
     }
@@ -846,30 +852,35 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_EditProfile) {
-//            Intent i = new Intent(PatientDashBoard.this,EditProfile.class);
-//            startActivity(i);
-//            overridePendingTransition(R.anim.goup, R.anim.godown);
-//            return true;
-//        }
-//        if(id == R.id.Language_options) {
-//            Intent i1 = new Intent(PatientDashBoard.this,Language_Optional.class);
+        if(id==R.id.qricon)
+        {
+            if(moduleName.equals("doc"))
+            {
+                Intent intent = new Intent(Subscription_for_Rural.this,DoctorDashboard.class);
+                intent.putExtra("id",moduleId);
+                intent.putExtra("mobile",moduleMobile);
+                startActivity(intent);
+            }
+            if(moduleName.equals("diag"))
+            {
+                Intent intent = new Intent(Subscription_for_Rural.this,DiagnosticDashboard.class);
+                intent.putExtra("id",moduleId);
+                intent.putExtra("mobile",moduleMobile);
+                startActivity(intent);
+            }
+            if(moduleName.equals("medical"))
+            {
+                Intent intent = new Intent(Subscription_for_Rural.this,MedicalShopDashboard.class);
+                intent.putExtra("id",moduleId);
+                intent.putExtra("mobile",moduleMobile);
+                startActivity(intent);
+            }
 
-
-//            startActivity(i1);
-//            overridePendingTransition(R.anim.goup, R.anim.godown);
-//            return true;
-//        }
-//        if(id == R.id.Logout) {
-//           Intent i1 = new Intent(PatientDashBoard.this,Login.class);
-//           startActivity(i1);
-//            overridePendingTransition(R.anim.goup, R.anim.godown);
-//            return true;
-//        }
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private String formatDataAsJson()
     {
@@ -1029,62 +1040,327 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
             Log.e("TAG result diag profile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
             JSONObject js;
 
-//            try {
-//                js= new JSONObject(result);
-//                int s = js.getInt("Code");
-//                if(s == 1017)
-//                {
-//                    showSuccessMessage(js.getString("Message"));
-//                }
-//                else
-//                {
-//                    showErrorMessage(js.getString("Message"));
-//                }
+        }
+    }
+
+    //get doctor details based on id from api call
+    private class GetDoctorDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+//            progressDialog1 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog1.setMessage("Loading..");
 //
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+//            progressDialog1.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog1.show();
+
+            progressDialog1 = new ProgressDialog(Subscription_for_Rural.this);
+            progressDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog1.setIndeterminate(true);
+            progressDialog1.setCancelable(true);
+            progressDialog1.show();
+            progressDialog1.setContentView(R.layout.myprogress);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...." + params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result docprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog1.dismiss();
+            getDocProfileDetails(result);
+        }
+
+    }
+
+    private void getDocProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+            String myEmail = (String) js.get("EmailID");
+            String myFirstName = (String) js.get("FirstName");
+            String myLastName = (String) js.get("LastName");
+            String mydoctorImage = (String) js.get("DoctorImage");
+            String myMobile = (String) js.get("MobileNumber");
+
+            System.out.println("name.."+myFirstName+".."+myLastName+".."+myEmail+".."+mydoctorImage);
+
+            docname.setText(myFirstName+" "+myLastName);
+            docemail.setText(myEmail);
+            docmobile.setText(myMobile);
+
+            new GetProfileImageTask(profileImage).execute(baseUrl.getImageUrl()+mydoctorImage);
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private class GetProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public GetProfileImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            profileImage.setImageBitmap(result);
+        }
+
+    }
+
+
+    //get medical details based on id from api call
+
+    private class GetMedicalDetails extends AsyncTask<String, Void, String> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+//            progressDialog2 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("Your searching process is");
+//            // Set progressdialog message
+//            progressDialog2.setMessage("Loading...");
+//
+//            progressDialog2.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog2.show();
+
+            progressDialog2 = new ProgressDialog(Subscription_for_Rural.this);
+            progressDialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog2.setIndeterminate(true);
+            progressDialog2.setCancelable(true);
+            progressDialog2.show();
+            progressDialog2.setContentView(R.layout.myprogress);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+
+//                httpURLConnection.setDoOutput(true);
+                System.out.println("u...." + params[0]);
+                System.out.println("dsfafssss....");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result medicprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog2.dismiss();
+            getMedicalProfileDetails(result);
+        }
+
+    }
+
+    private void getMedicalProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+
+            medicalsidenavName.setText(myName+" "+mySurname);
+            medicalsidenavEmail.setText(myEmail);
+            medicalsidenavMobile.setText(myMobile);
 
 
         }
-    }
-//    public void showSuccessMessage(String message){
-//
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        dialog.cancel();
-//                        Intent intent = new Intent(Subscription_for_Rural.this,DiagnosticDashboard.class);
-//                        intent.putExtra("id",moduleId);
-//                        startActivity(intent);
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
-//    }
-//
-//    public void showErrorMessage(String message){
-//
-//        AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
-//
-//        a_builder.setMessage(message)
-//                .setCancelable(false)
-//                .setNegativeButton("OK",new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = a_builder.create();
-//        alert.setTitle("Edit Profile");
-//        alert.show();
-//
-//    }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
+    }
+
+
+    //    new GetDiagnosticDetails().execute(baseUrl.getUrl()+"DiagnosticByID"+"?id="+getUserId);
+
+    //get diagnostic details based on id from api call
+    private class GetDiagnosticDetails extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+//            progressDialog3 = new ProgressDialog(ReachUs.this);
+//            // Set progressdialog title
+////            progressDialog.setTitle("You are logging");
+//            // Set progressdialog message
+//            progressDialog3.setMessage("Loading..");
+//
+//            progressDialog3.setIndeterminate(false);
+//            // Show progressdialog
+//            progressDialog3.show();
+
+            progressDialog3 = new ProgressDialog(Subscription_for_Rural.this);
+            progressDialog3.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog3.setIndeterminate(true);
+            progressDialog3.setCancelable(true);
+            progressDialog3.show();
+            progressDialog3.setContentView(R.layout.myprogress);
+
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+            HttpURLConnection httpURLConnection = null;
+            try {
+                System.out.println("dsfafssss....");
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                Log.d("Service", "Started");
+                httpURLConnection.setRequestMethod("GET");
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.e("TAG result diagprofile", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            progressDialog3.dismiss();
+            getDiagProfileDetails(result);
+        }
+
+    }
+
+    private void getDiagProfileDetails(String result) {
+        try
+        {
+            JSONObject js = new JSONObject(result);
+
+
+            String myMobile = (String) js.get("MobileNumber");
+            String myEmail = (String) js.get("EmailID");
+            String myName = (String) js.get("FirstName");
+            String mySurname = (String) js.get("LastName");
+
+            diagsidenavName.setText(myName+" "+mySurname);
+            diagsidenavMobile.setText(myMobile);
+            diagsidenavEmail.setText(myEmail);
+
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 
 }
