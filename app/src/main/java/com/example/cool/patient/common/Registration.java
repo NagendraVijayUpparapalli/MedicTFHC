@@ -780,6 +780,7 @@ public class Registration extends AppCompatActivity {
 
         alert.setTitle("Do you want to Register for ?");
 
+        userType = null;
 
         alert.setSingleChoiceItems(values, 0, new DialogInterface.OnClickListener() {
 
