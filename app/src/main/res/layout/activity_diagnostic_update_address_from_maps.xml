@@ -594,7 +594,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
                                 android:clickable="true"
-                                android:src="@drawable/ic_camera_alt_black_24dp"
+                                android:src="@drawable/ic_camera_black_24dp"
                                 app:fabSize="mini"
                                 app:layout_anchor="@id/appbar"
                                 app:layout_anchorGravity="bottom|right|end" />
