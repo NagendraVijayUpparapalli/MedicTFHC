@@ -251,7 +251,7 @@ public class DoctorEditProfile extends AppCompatActivity
             }
         });
 
-        
+
         addCertificateIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
