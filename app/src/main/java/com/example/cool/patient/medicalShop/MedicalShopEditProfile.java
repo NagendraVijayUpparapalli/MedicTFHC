@@ -100,7 +100,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
             myLicenceNumber,myuploadLicence,myadharimage,myAadhar_num;
     static boolean myMedicalPromotion,myDiagnosticPromotion,myBloodDonor ,mycash_on_hand,myswipe_card ,
             mynet_banking,mypay_paym;
-    FloatingActionButton addLicenceIcon,addAadharIcon,Licence_cameraImageIcon,addDiagAadharCameraIcon;;
+    FloatingActionButton addLicenceIcon,addAadharIcon,Licence_cameraImageIcon,addAadharCameraIcon;;
     final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44, REQUEST_CODE_GALLERY3 = 1,REQUEST_CODE_GALLERY4 = 444;
     //qr code get data fields
     static String qrName,qrGender,qrDob,qrFullAddress,qrAddress[],qrAddress1,qrAddress2,qrPincode;
@@ -161,10 +161,10 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
 
 
         addLicenceIcon = (FloatingActionButton) findViewById(R.id.Licence_ImageIcon);
-        addAadharIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharIcon);
+        addAadharIcon = (FloatingActionButton) findViewById(R.id.addAadharIcon);
 
         Licence_cameraImageIcon = (FloatingActionButton) findViewById(R.id.Licence_camera_ImageIcon);
-        addDiagAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagAadharcameraIcon);
+        addAadharCameraIcon = (FloatingActionButton) findViewById(R.id.addAadharCameraIcon);
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
 
@@ -215,7 +215,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                     }
                 });
 
-        addDiagAadharCameraIcon.setOnClickListener(
+        addAadharCameraIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -875,6 +875,18 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
                 Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
             }
             return;
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY3);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY4);
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
