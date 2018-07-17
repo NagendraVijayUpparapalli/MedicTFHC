@@ -763,8 +763,17 @@ public class DoctorEditProfile extends AppCompatActivity
 
             if(getIntent().getStringExtra("user").equals("old"))
             {
-                aadhar_num.setEnabled(false);
-                aadhar_num.setText(myAadhar_num);
+                if(myAadhar_num.equals(""))
+                {
+                    aadhar_num.setEnabled(true);
+                    aadhar_num.setText(myAadhar_num);
+                }
+                else
+                {
+                    aadhar_num.setEnabled(false);
+                    aadhar_num.setText(myAadhar_num);
+                }
+
             }
             else
             {
@@ -993,6 +1002,8 @@ public class DoctorEditProfile extends AppCompatActivity
                     //certificate base64
                     final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+//                    selectedImage =
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);

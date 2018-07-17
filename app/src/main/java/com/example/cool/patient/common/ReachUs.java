@@ -32,6 +32,7 @@ import com.example.cool.patient.R;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
 import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
+import com.example.cool.patient.diagnostic.DiagnosticChangePassword;
 import com.example.cool.patient.diagnostic.DiagnosticEditProfile;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableListAdapter;
 import com.example.cool.patient.diagnostic.DiagnosticSideNavigationExpandableSubList;
@@ -39,6 +40,7 @@ import com.example.cool.patient.diagnostic.ManageAddress.DiagnosticManageAddress
 import com.example.cool.patient.diagnostic.TodaysAppointments.DiagnosticsTodaysAppointments;
 import com.example.cool.patient.doctor.AddAddress.DoctorAddAddress;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
+import com.example.cool.patient.doctor.DoctorChangePassword;
 import com.example.cool.patient.doctor.DoctorEditProfile;
 import com.example.cool.patient.doctor.DoctorSideNavigatioExpandableSubList;
 import com.example.cool.patient.doctor.DoctorSideNavigationExpandableListAdapter;
@@ -46,6 +48,7 @@ import com.example.cool.patient.doctor.ManageAddress.DoctorManageAddress;
 import com.example.cool.patient.doctor.TodaysAppointments.DoctorTodaysAppointmentsForPatient;
 import com.example.cool.patient.medicalShop.AddAddress.MedicalShopAddAddress;
 import com.example.cool.patient.medicalShop.ManageAddress.MedicalShopManageAddress;
+import com.example.cool.patient.medicalShop.MedicalChangePassword;
 import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 import com.example.cool.patient.medicalShop.MedicalShopEditProfile;
 import com.example.cool.patient.medicalShop.MedicalShopSideNavigatioExpandableSubList;
@@ -550,7 +553,7 @@ public class ReachUs extends AppCompatActivity
 
                             // call activity here
 
-                            Intent about = new Intent(ReachUs.this,ChangePassword.class);
+                            Intent about = new Intent(ReachUs.this,DoctorChangePassword.class);
                             about.putExtra("id",getUserId);
                             about.putExtra("mobile",mobile_number);
                             startActivity(about);
@@ -702,7 +705,7 @@ public class ReachUs extends AppCompatActivity
 
                             // call activity here
 
-                            Intent about = new Intent(ReachUs.this,ChangePassword.class);
+                            Intent about = new Intent(ReachUs.this,MedicalChangePassword.class);
                             about.putExtra("id",getUserId);
                             about.putExtra("mobile",mobile_number);
                             startActivity(about);
@@ -879,7 +882,7 @@ public class ReachUs extends AppCompatActivity
 
                             // call activity here
 
-                            Intent about = new Intent(ReachUs.this,ChangePassword.class);
+                            Intent about = new Intent(ReachUs.this,DiagnosticChangePassword.class);
                             about.putExtra("id",getUserId);
                             about.putExtra("mobile",mobile_number);
                             startActivity(about);
