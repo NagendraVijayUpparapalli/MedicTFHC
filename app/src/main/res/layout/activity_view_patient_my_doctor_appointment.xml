@@ -464,6 +464,7 @@
                         android:layout_width="200dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="20dp"
+                        android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:paddingLeft="5dp"
                         android:background="@drawable/edittext_button"
