@@ -11,8 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cool.patient.common.ApiBaseUrl;
+import com.example.cool.patient.diagnostic.DashBoardCalendar.DiagnosticDashboard;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
 import com.example.cool.patient.R;
+import com.example.cool.patient.medicalShop.MedicalShopDashboard;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -154,8 +156,27 @@ public class SubscriptionPlanAlertDialog extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i) {
 //                Toast.makeText(alert_dilog.this, "cancle", Toast.LENGTH_SHORT).show();
-                Intent cancel =  new Intent(SubscriptionPlanAlertDialog.this,DoctorDashboard.class);
-                startActivity(cancel);
+                if(moduleName.equals("doc"))
+                {
+                    Intent intent = new Intent(SubscriptionPlanAlertDialog.this,DoctorDashboard.class);
+                    intent.putExtra("id",moduleId);
+                    intent.putExtra("mobile",moduleMobile);
+                    startActivity(intent);
+                }
+                if(moduleName.equals("diag"))
+                {
+                    Intent intent = new Intent(SubscriptionPlanAlertDialog.this,DiagnosticDashboard.class);
+                    intent.putExtra("id",moduleId);
+                    intent.putExtra("mobile",moduleMobile);
+                    startActivity(intent);
+                }
+                if(moduleName.equals("medical"))
+                {
+                    Intent intent = new Intent(SubscriptionPlanAlertDialog.this,MedicalShopDashboard.class);
+                    intent.putExtra("id",moduleId);
+                    intent.putExtra("mobile",moduleMobile);
+                    startActivity(intent);
+                }
             }
         });
         alert.show();

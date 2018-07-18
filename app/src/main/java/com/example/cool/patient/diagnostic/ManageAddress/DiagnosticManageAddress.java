@@ -529,7 +529,16 @@ public class DiagnosticManageAddress extends AppCompatActivity implements Naviga
                 bb.setFromTime(object.getString("FromTime"));
                 bb.setToTime(object.getString("ToTime"));
                 bb.setDeleteReason("Test");
-                bb.setEmergencyservice(true);/////
+
+                if(object.has("EmergencyService"))
+                {
+                    bb.setEmergencyservice(object.getBoolean("EmergencyService"));///
+                }
+                else
+                {
+                    bb.setEmergencyservice(false);///
+                }
+
                 bb.setRegisterdMobileNumber(regMobile);
 
                 myList.add(bb);

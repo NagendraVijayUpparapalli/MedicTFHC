@@ -679,7 +679,26 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
             }else{
 
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+                a_builder.setMessage("Unable to Trace your location once check location settings or Restart your Mobile")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Location");
+                alert.show();
+
+//                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -800,10 +819,19 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            fromTime.setText("00:00 AM");
+            fromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            fromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 

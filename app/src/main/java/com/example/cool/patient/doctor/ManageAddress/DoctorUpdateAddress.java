@@ -161,7 +161,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
 
     static String myAddressId,myHospitalName,myAddress,myPincode,myContactPerson,myFee,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict,myEmergencyContact;
-    boolean myAvailableService;
+    boolean myAvailableService = false;
 
     ApiBaseUrl baseUrl;
 
@@ -607,6 +607,7 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+            emergencyContactNumber.setText(myEmergencyContact);
         }
         else if(availableService.isChecked()==false)
         {

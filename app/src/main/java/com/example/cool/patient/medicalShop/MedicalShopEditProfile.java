@@ -488,7 +488,7 @@ public class MedicalShopEditProfile extends AppCompatActivity implements Navigat
             validate=true;
         }
 
-        else if(myAadhar_num.length()>12 || myAadhar_num.length()<12)
+        else if(pt_aadhar_num.length()>12 || pt_aadhar_num.length()<12)
         {
             aadhar_num.setError("please enter valid aadhaar number");
             validate=false;

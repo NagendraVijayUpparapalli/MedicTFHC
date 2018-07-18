@@ -552,11 +552,19 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            fromTime.setText("00:00 AM");
+            fromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
-            Emeregency_contact.setText("");
+            fromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 

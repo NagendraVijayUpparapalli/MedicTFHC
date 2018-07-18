@@ -254,16 +254,13 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
 
         Emeregency_contact = (EditText) findViewById(R.id.Emergency_Contact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
+
         availableService.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                emergencyContactLayout.setVisibility(View.VISIBLE);
+            public void onClick(View view) {
+                viewEmergencyContactField();
             }
         });
-
-
-
-
 
         final RippleView rippleView = (RippleView) findViewById(R.id.rippleView);
 
@@ -272,8 +269,8 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
             public void onClick(View v) {
 
                 validateFullAddress();
-                String js = formatDataAsJson();
-                System.out.println("data get"+js.toString());
+//                String js = formatDataAsJson();
+//                System.out.println("data get"+js.toString());
 
             }
 
@@ -664,8 +661,28 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
         {
             String js = formatDataAsJson();
 //            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
-//            new sendEditProfileDetails().execute(baseUrl.getUrl()+"MSAddAddress",js.toString());
+            new sendEditProfileDetails().execute(baseUrl.getUrl()+"MSAddAddress",js.toString());
 
+        }
+    }
+
+    private void viewEmergencyContactField() {
+        if(availableService.isChecked()==true)
+        {
+            emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            fromTime.setText("00:00 AM");
+            fromTime.setEnabled(false);
+
+            toTime.setText("00:00 PM");
+            toTime.setEnabled(false);
+
+        }
+        else if(availableService.isChecked()==false)
+        {
+            emergencyContactLayout.setVisibility(View.GONE);
+            fromTime.setEnabled(true);
+            toTime.setEnabled(true);
         }
     }
 

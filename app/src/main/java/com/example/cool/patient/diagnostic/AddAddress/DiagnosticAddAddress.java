@@ -110,7 +110,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
     static String uploadServerUrl = null,addressId ;
     static String myDiagnosticName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,
-            myLati,myLngi,myCity,myState,myDistrict,myFromTime,myToTime;
+            myLati,myLngi,myCity,myState,myDistrict,myFromTime,myToTime,myemergencyContactNumber;
     boolean myAvailableService;
 
     static String getUserId,regMobile;
@@ -232,6 +232,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         lng = (EditText) findViewById(R.id.Longitude);
         availableService = (CheckBox) findViewById(R.id.serviceAvailable);
         speciality = (TextView) findViewById(R.id.Select_Speciality);
+
         chooseTime = findViewById(R.id.From);
         ToTime = findViewById(R.id.To_Timing);
 
@@ -754,7 +755,26 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
             }else{
 
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+                a_builder.setMessage("Unable to Trace your location once check location settings or Restart your Mobile")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Location");
+                alert.show();
+
+//                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -862,10 +882,19 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            chooseTime.setText("00:00 AM");
+            chooseTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            chooseTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 
@@ -1485,6 +1514,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
         myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
+
         myComments = comments.getText().toString().trim();
         myLati = lat.getText().toString().trim();
         myLngi = lng.getText().toString().trim();
@@ -1494,6 +1524,17 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         myDistrict= district.getSelectedItem().toString();
         myFromTime = chooseTime.getText().toString();
         myToTime = ToTime.getText().toString();
+
+        if(availableService.isChecked()){
+            myAvailableService = true;
+            myemergencyContactNumber = emergencyContactNumber.getText().toString().trim();
+        }
+        else if(!availableService.isChecked())
+        {
+            myAvailableService = false;
+            myemergencyContactNumber = "";
+        }
+
 
 
         if(encodedCenterImage == null)
@@ -1557,7 +1598,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 data.put("LandlineNo",myLandlineMobileNumber);
                 data.put("ContactPerson",myContactPerson);
                 data.put("MobileNumber",myMobile);
-                data.put("EmergencyContact", emergencyContactNumber.getText().toString());
+                data.put("EmergencyContact", myemergencyContactNumber);
                 data.put("Comment", myComments);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
@@ -1585,7 +1626,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 data.put("LandlineNo",myLandlineMobileNumber);
                 data.put("ContactPerson",myContactPerson);
                 data.put("MobileNumber",myMobile);
-                data.put("EmergencyContact", "");
+                data.put("EmergencyContact", myemergencyContactNumber);
                 data.put("Comment", myComments);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
