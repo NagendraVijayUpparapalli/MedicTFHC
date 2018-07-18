@@ -52,6 +52,7 @@
 
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_below="@+id/toolappbar"
                 android:layout_height="match_parent">
                 <LinearLayout
@@ -547,7 +548,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/toolappbar"
-                android:visibility="gone"
+
                 android:orientation="vertical">
 
 
@@ -631,11 +632,9 @@
                                 android:id="@+id/Sunday"
                                 android:layout_width="100dp"
                                 android:layout_height="80dp"
-
-
                                 app:cardUseCompatPadding="true"
                                 android:foreground="#1C00ffff"
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true">
 
 
@@ -643,17 +642,17 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-
                                     android:orientation="vertical">
 
 
 
                                     <TextView
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/sunday_icon_xml"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
                                         android:text="Sunday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -710,7 +709,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
 
@@ -723,10 +722,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/monady_icon_xml"
 
-                                        android:text="monday"
-                                        android:textColor="#fff"
+                                        android:text="Monday"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -748,7 +749,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-
                         android:gravity="center"
 
                         >
@@ -757,9 +757,7 @@
                             android:id="@+id/l2_animation4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
-                            android:gravity="right"
+                              android:gravity="right"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.CardView
@@ -768,8 +766,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -788,10 +785,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/tuesday_icon_xml"
 
                                         android:text="Tuesday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -848,7 +847,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -863,10 +862,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/wed_icon_xml"
                                         android:text="Wednesday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -909,7 +909,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -927,10 +927,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/tursday_icon_xml"
 
                                         android:text="Thursday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -950,13 +952,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-
-
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rellay1"
-
                     android:orientation="horizontal">
 
 
@@ -986,9 +984,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
 
@@ -1001,10 +997,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/friday_icon_xml"
                                         android:text="Friday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -1026,10 +1023,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation10"
@@ -1047,7 +1041,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -1065,10 +1059,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:layout_height="80dp"
+                                        android:paddingTop="20dp"
+                                        android:drawableTop="@drawable/satday_icon_xml"
                                         android:text="Saturday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -1174,100 +1169,100 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true">
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:fitsSystemWindows="true">-->
 
-        <RelativeLayout
-            android:id="@+id/relativelayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/relativelayout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/layoutLinear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/toolbar_gradient"
-                android:gravity="bottom"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+            <!--<LinearLayout-->
+                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                <!--android:id="@+id/layoutLinear"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/toolbar_gradient"-->
+                <!--android:gravity="bottom"-->
+                <!--android:orientation="vertical"-->
+                <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
+                <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
+                <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
+                <!--android:paddingTop="@dimen/activity_vertical_margin"-->
+                <!--android:theme="@style/ThemeOverlay.AppCompat.Dark">-->
 
-                <android.support.v4.widget.Space
-                    android:id="@+id/spaceId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp" />
+                <!--<android.support.v4.widget.Space-->
+                    <!--android:id="@+id/spaceId"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="5dp" />-->
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImageId"
-                    android:layout_width="110dp"
-                    android:layout_gravity="center"
-                    android:layout_below="@+id/spaceId"
-                    android:layout_height="110dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/noprofile" />
+                <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                    <!--android:id="@+id/profileImageId"-->
+                    <!--android:layout_width="110dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_below="@+id/spaceId"-->
+                    <!--android:layout_height="110dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:src="@drawable/noprofile" />-->
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/sidenavheading"
-                    android:layout_below="@id/profileImageId"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:text="udayasri amudala prabhakar raju" />
+                <!--<TextView-->
+                    <!--android:id="@+id/name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textColor="@color/sidenavheading"-->
+                    <!--android:layout_below="@id/profileImageId"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:text="udayasri amudala prabhakar raju" />-->
 
-                <TextView
-                    android:id="@+id/mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/sidenavphoneicon"
-                    android:drawablePadding="5dp"
-                    android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:text="-----------"
-                    android:textSize="15dp"
-                    android:textColor="@color/sidenavtext"
-                    android:layout_below="@+id/name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                <!--<TextView-->
+                    <!--android:id="@+id/mobile"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawableLeft="@drawable/sidenavphoneicon"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+                    <!--android:text="-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:textColor="@color/sidenavtext"-->
+                    <!--android:layout_below="@+id/name"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1" />-->
 
-                <TextView
-                    android:id="@+id/emailId"
-                    android:layout_below="@+id/mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:textColor="@color/sidenavtext"
-                    android:textSize="15dp"
-                    android:drawableLeft="@drawable/sidenavemailicon"
-                    android:drawablePadding="5dp"
-                    android:text="-----------" />
+                <!--<TextView-->
+                    <!--android:id="@+id/emailId"-->
+                    <!--android:layout_below="@+id/mobile"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+                    <!--android:textColor="@color/sidenavtext"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:drawableLeft="@drawable/sidenavemailicon"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:text="-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;" />-->
 
-            </LinearLayout>
-            <ExpandableListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/expandableListView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_below="@+id/layoutLinear"
-                android:choiceMode="singleChoice"
-                android:divider="#000"
-                android:dividerHeight="0.2dp"
-                android:groupIndicator="@null"
-                android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
-            </ExpandableListView>
-        </RelativeLayout>
-    </android.support.design.widget.NavigationView>
+            <!--</LinearLayout>-->
+            <!--<ExpandableListView-->
+                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--android:id="@+id/expandableListView1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_below="@+id/layoutLinear"-->
+                <!--android:choiceMode="singleChoice"-->
+                <!--android:divider="#000"-->
+                <!--android:dividerHeight="0.2dp"-->
+                <!--android:groupIndicator="@null"-->
+                <!--android:alpha="255"-->
+                <!--android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"-->
+                <!--&gt;-->
+            <!--</ExpandableListView>-->
+        <!--</RelativeLayout>-->
+    <!--</android.support.design.widget.NavigationView>-->
 
 </android.support.v4.widget.DrawerLayout>
