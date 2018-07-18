@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
@@ -143,6 +144,8 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
     String myselecteddate = null;
     String todaysdate=null;
 
+    NestedScrollView nestedScrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,10 +197,19 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         reason = (EditText) findViewById(R.id.reason_for_Appointment);
         relativeLayout=(RelativeLayout) findViewById(R.id.rellay1);
         noteLayout = (RelativeLayout) findViewById(R.id.noteLayout);
+        nestedScrollView=(NestedScrollView) findViewById(R.id.nestedsrcoll);
 
         myview1=findViewById(R.id.rellay1);
 
         mydocName = getIntent().getStringExtra("doctorName");
+
+//        reason.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                focusOnView();
+//            }
+//        });
 
 //        String arr[] = mydocName.split(" ");
 //
@@ -438,6 +450,15 @@ public class PatientBookAppointmentToDoctor extends AppCompatActivity {
         });
 
 
+    }
+    private final void focusOnView(){
+        nestedScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("scrolling edittext");
+                nestedScrollView.scrollTo(0, reason.getBottom());
+            }
+        });
     }
 
     private void showalertdialog() {

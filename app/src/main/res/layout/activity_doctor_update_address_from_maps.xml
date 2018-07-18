@@ -457,16 +457,35 @@
                             android:textStyle="bold" />
 
 
-                        <MultiAutoCompleteTextView
+                        <!--<MultiAutoCompleteTextView-->
+                            <!--android:id="@+id/Comments_Others"-->
+                            <!--android:textColor="#000"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="50dp"-->
+                            <!--android:layout_marginEnd="20dp"-->
+                            <!--android:inputType="text"-->
+                            <!--android:background="@drawable/edittext_button"-->
+                            <!--android:layout_weight="2"-->
+                            <!--android:textSize="15sp" />-->
+
+
+                        <EditText
                             android:id="@+id/Comments_Others"
-                            android:textColor="#000"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginEnd="20dp"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
+                            android:lines="8"
+                            android:minLines="6"
                             android:background="@drawable/edittext_button"
+                            android:gravity="top|left"
+                            android:maxLines="10"
+                            android:padding="10dp"
+                            android:singleLine="false"
+                            android:layout_height="50dp"
                             android:layout_weight="2"
-                            android:textSize="15sp" />
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollbarStyle="insideInset"
+                            android:overScrollMode="always"/>
 
                     </LinearLayout>
 
@@ -554,8 +573,8 @@
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/toolappbar"
                 android:visibility="gone"
+                android:layout_below="@id/toolappbar"
                 android:orientation="vertical">
 
 
@@ -564,9 +583,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -581,10 +598,9 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textSize="16sp"
-
                             android:textStyle="bold"
                             android:textColor="#2c5e83"
-
+                            android:paddingTop="20dp"
                             android:text="@string/select_the_day_for_choose_timings" />
 
                         <TextView
@@ -594,12 +610,8 @@
                             android:textAlignment="center"
                             android:textSize="16sp"
                             android:layout_margin="10dp"
-
                             android:textColor="#ff0000"
                             android:text="@string/note_in_every_slot_of_30min_the_maximum_appointments_that_can_be_4" />
-
-
-
 
                     </LinearLayout>
 
@@ -612,15 +624,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-
-                    android:gravity="center"
-
-                    >
+                    android:gravity="center">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -628,7 +636,6 @@
                         <LinearLayout
                             android:id="@+id/l2_animation1"
                             android:layout_width="match_parent"
-
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
                             android:gravity="center"
@@ -639,36 +646,9 @@
                                 android:layout_width="100dp"
                                 android:layout_height="80dp"
                                 app:cardUseCompatPadding="true"
-                                android:foreground="#1C00ffff"
-                                card_view:cardBackgroundColor="#125688"
+                                android:foreground="@drawable/sunday_icon1"
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true">
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-
-                                    android:orientation="vertical">
-
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Sunday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#FFF" />
-
-
-                                </LinearLayout>
                             </android.support.v7.widget.CardView>
 
 
@@ -683,33 +663,22 @@
 
 
                 <LinearLayout
-
-
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-
                     android:orientation="horizontal">
-
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-
                             android:gravity="left"
                             android:orientation="horizontal">
 
@@ -719,36 +688,8 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-
-                                card_view:cardBackgroundColor="#125688"
-
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-                                >
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="monday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/mondayicon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
@@ -756,11 +697,10 @@
 
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-
                         android:gravity="center"
 
                         >
@@ -769,8 +709,6 @@
                             android:id="@+id/l2_animation4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
                             android:gravity="right"
                             android:orientation="horizontal">
 
@@ -780,76 +718,26 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-
-                                >
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Tuesday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/tuesday_icon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
                     </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-
-
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rellay1"
-
-                    android:orientation="horizontal">
-
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-
                             android:gravity="left"
                             android:orientation="horizontal">
 
@@ -859,59 +747,36 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-
-                                >
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Wednesday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/wedensday_icon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
                     </RelativeLayout>
 
 
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-
-                            android:gravity="right"
+                            android:gravity="left"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.CardView
@@ -920,76 +785,24 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-                                >
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Thursday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/thursday_icon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
                     </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-
-
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rellay1"
-
-                    android:orientation="horizontal">
-
-
-
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="right"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation7"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-
-                            android:gravity="left"
+                            android:gravity="right"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.CardView
@@ -998,58 +811,27 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-                                >
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Friday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/friday_icon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
                     </RelativeLayout>
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation10"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-
-                            android:gravity="right"
+                            android:gravity="left"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.CardView
@@ -1058,44 +840,13 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-                                >
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Saturday"
-                                        android:textColor="#fff"
-                                        android:textStyle="bold" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_margin="10dp"
-                                        android:background="#fff" />
-
-
-                                </LinearLayout>
+                                android:foreground="@drawable/saturday_icon1">
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
 
                     </RelativeLayout>
-
 
                 </LinearLayout>
 
@@ -1104,37 +855,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-
-
-                    <!--<RelativeLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:gravity="bottom">-->
-
-                        <!--<LinearLayout-->
-                            <!--android:id="@+id/arroleft_give_this_id"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-
-                            <!--android:layout_margin="10dp"-->
-                            <!--android:orientation="horizontal">-->
-
-
-                            <!--<TextView-->
-                                <!--android:id="@+id/arroleft"-->
-                                <!--android:layout_width="100dp"-->
-                                <!--android:layout_height="50dp"-->
-                                <!--android:layout_centerInParent="true"-->
-                                <!--android:textColor="#fff"-->
-                                <!--android:textSize="18sp"-->
-                                <!--android:drawableLeft="@drawable/ic_arrow_back"-->
-                                <!--android:gravity="center" />-->
-                            <!---->
-                        <!--</LinearLayout>-->
-
-                    <!--</RelativeLayout>-->
-
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -1164,10 +884,16 @@
                                     android:text="@string/submit"
                                     android:background="@color/rippleButton"/>
                             </com.andexert.library.RippleView>
+
+
                         </LinearLayout>
+
                     </RelativeLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
+
 
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>

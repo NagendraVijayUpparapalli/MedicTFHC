@@ -236,17 +236,36 @@
                             android:textStyle="bold" />
 
 
-                        <MultiAutoCompleteTextView
+                        <!--<MultiAutoCompleteTextView-->
 
+                            <!--android:id="@+id/Comments"-->
+                            <!--android:textColor="#000"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="50dp"-->
+                            <!--android:layout_marginEnd="30dp"-->
+                            <!--android:background="@drawable/edittext_button"-->
+                            <!--android:layout_weight="2"-->
+                            <!--android:textSize="15sp"-->
+                            <!--/>-->
+
+                        <EditText
                             android:id="@+id/Comments"
-                            android:textColor="#000"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginEnd="30dp"
+                            android:inputType="textMultiLine"
+                            android:lines="8"
+                            android:minLines="6"
                             android:background="@drawable/edittext_button"
+                            android:gravity="top|left"
+                            android:maxLines="10"
                             android:layout_weight="2"
-                            android:textSize="15sp"
-                            />
+                            android:padding="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:singleLine="false"
+                            android:layout_height="80dp"
+                            android:layout_width="250dp"
+                            android:scrollbars="vertical"
+                            android:scrollbarStyle="insideInset"
+                            android:overScrollMode="always"/>
 
                     </LinearLayout>
 

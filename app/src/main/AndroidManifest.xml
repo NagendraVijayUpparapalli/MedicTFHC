@@ -16,7 +16,8 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@mipmap/symb"
+        android:icon="@drawable/symb"
+        android:logo="@drawable/symb"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"

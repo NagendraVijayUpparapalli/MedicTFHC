@@ -249,16 +249,34 @@
                         android:text="@string/comments"
                         android:textColor="@color/labelColor"/>
 
-                    <MultiAutoCompleteTextView
+                    <!--<MultiAutoCompleteTextView-->
+                        <!--android:id="@+id/Comments"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="120dp"-->
+                        <!--android:inputType="text"-->
+                        <!--android:background="@drawable/edittext_button"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="15sp" />-->
+
+                    <EditText
                         android:id="@+id/Comments"
-                        android:textColor="#000"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:layout_height="120dp"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:minLines="6"
                         android:background="@drawable/edittext_button"
+                        android:gravity="top|left"
+                        android:maxLines="10"
+                        android:padding="10dp"
+                        android:singleLine="false"
+                        android:layout_height="120dp"
                         android:layout_weight="1"
-                        android:textSize="15sp" />
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:scrollbars="vertical"
+                        android:scrollbarStyle="insideInset"
+                        android:overScrollMode="always"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -275,16 +293,12 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-
-                        >
+                        android:layout_marginTop="10dp">
 
                         <android.support.design.widget.AppBarLayout
                             android:id="@+id/appbar"
                             android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-
-                            >
+                            android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/prescription"
                                 android:layout_width="200dp"

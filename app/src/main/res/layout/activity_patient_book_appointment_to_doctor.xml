@@ -320,6 +320,7 @@
 
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedsrcoll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_vertical"
@@ -749,16 +750,32 @@
                     android:textColor="#3797CF"
                     android:textSize="18sp" />
 
-                <MultiAutoCompleteTextView
+                <!--<MultiAutoCompleteTextView-->
+                    <!--android:id="@+id/reason_for_Appointment"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="60dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:inputType="text"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/edittext_button"-->
+                    <!--android:textColor="#000"-->
+                    <!--android:textSize="15dp" />-->
+
+                <EditText
                     android:id="@+id/reason_for_Appointment"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="5dp"
-                    android:inputType="text"
-                    android:layout_weight="1"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:minLines="6"
                     android:background="@drawable/edittext_button"
-                    android:textColor="#000"
-                    android:textSize="15dp" />
+                    android:gravity="top|left"
+                    android:maxLines="10"
+                    android:padding="10dp"
+                    android:singleLine="false"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical"
+                    android:scrollbarStyle="insideInset"
+                    android:overScrollMode="always"/>
 
             </LinearLayout>
             <LinearLayout
