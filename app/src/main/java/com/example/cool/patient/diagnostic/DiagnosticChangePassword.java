@@ -45,6 +45,7 @@ import com.example.cool.patient.R;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.diagnostic.AddAddress.DiagnosticAddAddress;
@@ -208,7 +209,7 @@ public class DiagnosticChangePassword extends AppCompatActivity
 
                 } else if (groupPosition == DiagnosticSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
-                    Intent contact = new Intent(DiagnosticChangePassword.this,AboutUs.class);
+                    Intent contact = new Intent(DiagnosticChangePassword.this,Offers.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
                     contact.putExtra("module","diag");

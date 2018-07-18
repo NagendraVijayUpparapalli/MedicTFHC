@@ -1,0 +1,7 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/wedensday_icon"
+        android:width="40dp"
+        android:height="40dp"
+        />
+</layer-list>

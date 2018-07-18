@@ -98,10 +98,11 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
     SearchableSpinner city,state,district,Pharmacy_type;
     CheckBox availableService;
     ImageView centerImage;
-    FloatingActionButton addCenterIcon;
+
     MagicButton btn_AddAddress;
     static String uploadServerUrl = null,addressId ;
-    static String  myEmergencyContact,myExperience,myFromTime,myToTime,mypharmacytype,myMedicalName,myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
+    static String  myEmergencyContact,myExperience,myFromTime,myToTime,mypharmacytype,myMedicalName,
+            myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
     boolean myAvailableService;
     static String medicalId,medicalMobile;
     TextView speciality;
@@ -130,7 +131,8 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
     LinearLayout emergencyContactLayout;
 
-    final int REQUEST_CODE_GALLERY1 = 999;
+    FloatingActionButton addCenterIcon,addMedicalCenterCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
     String encodedCenterImage;
@@ -273,6 +275,19 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
                                 REQUEST_CODE_GALLERY1
                         );
 
+                    }
+                });
+
+        addMedicalCenterCameraIcon = (FloatingActionButton) findViewById(R.id.addMedicalCenterCameraIcon);
+
+        addMedicalCenterCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
                     }
                 });
 
@@ -664,7 +679,26 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
             }else{
 
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+                a_builder.setMessage("Unable to Trace your location once check location settings or Restart your Mobile")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Location");
+                alert.show();
+
+//                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -785,10 +819,19 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            fromTime.setText("00:00 AM");
+            fromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            fromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 
@@ -983,7 +1026,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -1207,6 +1250,12 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             return;
         }
 
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -1215,41 +1264,66 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        try
+        {
 
-                selectedCenterImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                    //certificate base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
+                    selectedCenterImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+    //            encodedImage = myEncodeImage(selectedImage);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    centerImage.setImageBitmap(selectedCenterImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                centerImage.setImageBitmap(selectedCenterImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                centerImage.setImageBitmap(thumbnail);
+
+                centerImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
     }
 
@@ -1271,6 +1345,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         myCity= city.getSelectedItem().toString();
         myState= state.getSelectedItem().toString();
         mypharmacytype = Pharmacy_type.getSelectedItem().toString();
+        myExperience = Experence.getText().toString();
 
 //        mySpeciality = speciality.///////////
         myDistrict= district.getSelectedItem().toString();

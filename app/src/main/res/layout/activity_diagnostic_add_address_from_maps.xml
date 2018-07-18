@@ -216,6 +216,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="10"
+                                    android:maxLength="10"
                                     android:drawableLeft="@drawable/phone"
                                     android:drawablePadding="5dp"
                                     android:hint="@string/mobile_number"
@@ -241,6 +242,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
+                                    android:maxLength="6"
                                     android:textSize="15sp"
                                     android:drawableLeft="@drawable/zipcode_icon"
                                     android:drawablePadding="5dp"
@@ -293,6 +295,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
+                                    android:maxLength="11"
                                     android:textSize="15sp"
                                     android:drawableLeft="@drawable/phone"
                                     android:hint="@string/landline_no"
@@ -394,8 +397,9 @@
                                     android:layout_height="wrap_content"
                                     android:ems="10"
                                     android:hint="@string/latitude"
+                                    android:maxLength="10"
                                     android:textSize="15sp"
-                                    android:inputType="phone" />
+                                    android:inputType="numberDecimal" />
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
@@ -412,9 +416,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
+                                    android:maxLength="10"
                                     android:textSize="15sp"
                                     android:hint="@string/longitude"
-                                    android:inputType="phone" />
+                                    android:inputType="numberDecimal" />
                             </android.support.design.widget.TextInputLayout>
 
                         </LinearLayout>
@@ -562,29 +567,24 @@
                             android:layout_marginTop="15dp"
                             android:textSize="16sp"/>
                         <android.support.design.widget.CoordinatorLayout
-
                             android:id="@+id/main"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-
-                            >
+                            android:layout_marginTop="10dp">
 
                             <android.support.design.widget.AppBarLayout
                                 android:id="@+id/appbar"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                >
+                                android:layout_height="wrap_content">
 
                                 <ImageView
                                     android:id="@+id/diag_center_image"
                                     android:layout_width="match_parent"
                                     android:layout_height="180dp"
                                     android:scaleType="fitXY"
-                                    android:src="@drawable/nodiagcenter"
-                                    />
+                                    android:src="@drawable/nodiagcenter" />
 
                             </android.support.design.widget.AppBarLayout>
 
@@ -598,6 +598,17 @@
                                 app:fabSize="mini"
                                 app:layout_anchor="@id/appbar"
                                 app:layout_anchorGravity="bottom|right|end" />
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/addDiagCenterCameraIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:clickable="true"
+                                android:src="@drawable/ic_camera_alt_black_24dp"
+                                app:fabSize="mini"
+                                app:layout_anchor="@id/appbar"
+                                app:layout_anchorGravity="bottom|left|end" />
 
                         </android.support.design.widget.CoordinatorLayout>
 
@@ -615,9 +626,7 @@
                                 android:layout_marginTop="15dp"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-
-                                android:text="@string/are_you_available_for_emergency"
-
+                                android:text="@string/are_you_available_for_24_7_emeregncy_services"
                                 android:textColor="#ff0000"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -646,6 +655,7 @@
                                     android:layout_height="wrap_content"
                                     android:ems="20"
                                     android:textSize="15sp"
+                                    android:maxLength="10"
                                     android:drawablePadding="5dp"
                                     android:drawableLeft="@drawable/phone"
                                     android:hint="@string/emergency_number"

@@ -229,6 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:hint="@string/mobile_number"
@@ -252,6 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="6"
                                 android:textSize="15dp"
                                 android:drawableLeft="@drawable/zipcode_icon"
                                 android:drawablePadding="5sp"
@@ -406,7 +408,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
+                                android:maxLength="10"
                                 android:hint="@string/latitude"
                                 android:textSize="15sp"
                                 android:inputType="phone" />
@@ -426,6 +428,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:textSize="15sp"
                                 android:hint="@string/longitude"
                                 android:inputType="phone" />
@@ -450,7 +453,6 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-
                         <MultiAutoCompleteTextView
                             android:id="@+id/Comments_Others"
                             android:textColor="#000"
@@ -459,8 +461,7 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/edittext_button"
                             android:layout_weight="2"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -530,7 +531,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableRight="@drawable/ic_arrow_forward"
-                            android:background="#1faa00"
+                            android:background="@color/rippleButton"
                             android:text="@string/next"
                             android:textColor="#fff" />
                     </LinearLayout>
@@ -631,11 +632,9 @@
                                 android:id="@+id/Sunday"
                                 android:layout_width="100dp"
                                 android:layout_height="80dp"
-
-
                                 app:cardUseCompatPadding="true"
                                 android:foreground="#1C00ffff"
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true">
 
 
@@ -643,17 +642,17 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-
                                     android:orientation="vertical">
 
 
 
                                     <TextView
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/sunday_icon_xml"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
                                         android:text="Sunday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -710,7 +709,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
 
@@ -723,10 +722,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/monady_icon_xml"
 
-                                        android:text="monday"
-                                        android:textColor="#fff"
+                                        android:text="Monday"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -748,7 +749,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-
                         android:gravity="center"
 
                         >
@@ -757,9 +757,7 @@
                             android:id="@+id/l2_animation4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
-                            android:gravity="right"
+                              android:gravity="right"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.CardView
@@ -768,8 +766,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -788,10 +785,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/tuesday_icon_xml"
 
                                         android:text="Tuesday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -848,7 +847,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -863,10 +862,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/wed_icon_xml"
                                         android:text="Wednesday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -909,7 +909,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -927,10 +927,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/tursday_icon_xml"
 
                                         android:text="Thursday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -950,13 +952,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-
-
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rellay1"
-
                     android:orientation="horizontal">
 
 
@@ -986,9 +984,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-                                card_view:cardBackgroundColor="#125688"
-
+                                card_view:cardBackgroundColor="#fff"
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
 
@@ -1001,10 +997,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:paddingTop="20dp"
+                                        android:layout_height="80dp"
+                                        android:drawableTop="@drawable/friday_icon_xml"
                                         android:text="Friday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -1026,10 +1023,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation10"
@@ -1047,7 +1041,7 @@
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
 
-                                card_view:cardBackgroundColor="#125688"
+                                card_view:cardBackgroundColor="#fff"
 
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
@@ -1065,10 +1059,11 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
+                                        android:layout_height="80dp"
+                                        android:paddingTop="20dp"
+                                        android:drawableTop="@drawable/satday_icon_xml"
                                         android:text="Saturday"
-                                        android:textColor="#fff"
+                                        android:textColor="#000"
                                         android:textStyle="bold" />
 
                                     <View
@@ -1154,7 +1149,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
 
@@ -1162,9 +1157,6 @@
                         </LinearLayout>
 
                     </RelativeLayout>
-
-
-
 
                 </LinearLayout>
 
@@ -1224,7 +1216,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:text="udayasri amudala prabhakar raju" />
+                    android:text="---------" />
 
                 <TextView
                     android:id="@+id/mobile"

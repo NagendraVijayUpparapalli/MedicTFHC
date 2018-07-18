@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -102,7 +103,6 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
     SearchableSpinner city,state,district;
     CheckBox availableService;
     ImageView centerImage;
-    FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
     RippleView rippleView;
     LinearLayout emergencyContactLayout;
@@ -110,7 +110,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
     static String uploadServerUrl = null,addressId ;
     static String myDiagnosticName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,
-            myLati,myLngi,myCity,myState,myDistrict,myFromTime,myToTime;
+            myLati,myLngi,myCity,myState,myDistrict,myFromTime,myToTime,myemergencyContactNumber;
     boolean myAvailableService;
 
     static String getUserId,regMobile;
@@ -141,7 +141,8 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
 
     // base64 image variables
-    final int REQUEST_CODE_GALLERY1 = 999;
+    FloatingActionButton addCenterIcon,addCenterCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
     String encodedCenterImage;
@@ -231,6 +232,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         lng = (EditText) findViewById(R.id.Longitude);
         availableService = (CheckBox) findViewById(R.id.serviceAvailable);
         speciality = (TextView) findViewById(R.id.Select_Speciality);
+
         chooseTime = findViewById(R.id.From);
         ToTime = findViewById(R.id.To_Timing);
 
@@ -277,6 +279,19 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                                 REQUEST_CODE_GALLERY1
                         );
 
+                    }
+                });
+
+        addCenterCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterCameraIcon);
+
+        addCenterCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
                     }
                 });
 
@@ -740,7 +755,26 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
             }else{
 
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_LIGHT);
+                a_builder.setMessage("Unable to Trace your location once check location settings or Restart your Mobile")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Location");
+                alert.show();
+
+//                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -848,10 +882,19 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            chooseTime.setText("00:00 AM");
+            chooseTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            chooseTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 
@@ -869,6 +912,11 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             }
             return;
         }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -878,31 +926,66 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        try
+        {
 
-                selectedCenterImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+                    selectedCenterImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+    //            encodedImage = myEncodeImage(selectedImage);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    centerImage.setImageBitmap(selectedCenterImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                centerImage.setImageBitmap(selectedCenterImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                centerImage.setImageBitmap(thumbnail);
+
+                centerImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
     }
 
@@ -976,7 +1059,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -995,7 +1078,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         else
         {
             String js = formatDataAsJson();
-            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
+            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DiagnosticAddAddress",js.toString());
 //            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
         }
     }
@@ -1063,21 +1146,31 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
 
-        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
-        {
-            emergencyContactNumber.setError("please enter emergency contact");
-            validate=false;
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -1421,6 +1514,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
         myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
+
         myComments = comments.getText().toString().trim();
         myLati = lat.getText().toString().trim();
         myLngi = lng.getText().toString().trim();
@@ -1430,6 +1524,28 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         myDistrict= district.getSelectedItem().toString();
         myFromTime = chooseTime.getText().toString();
         myToTime = ToTime.getText().toString();
+
+        if(availableService.isChecked()){
+            myAvailableService = true;
+            myemergencyContactNumber = emergencyContactNumber.getText().toString().trim();
+        }
+        else if(!availableService.isChecked())
+        {
+            myAvailableService = false;
+            myemergencyContactNumber = "";
+        }
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+        }
 
         try{
 
@@ -1463,15 +1579,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 }
             }
 
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
             System.out.println("js diag Array.."+allDataArray.toJSONString());
 
@@ -1488,7 +1596,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 data.put("LandlineNo",myLandlineMobileNumber);
                 data.put("ContactPerson",myContactPerson);
                 data.put("MobileNumber",myMobile);
-                data.put("EmergencyContact", emergencyContactNumber.getText().toString());
+                data.put("EmergencyContact", myemergencyContactNumber);
                 data.put("Comment", myComments);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
@@ -1516,9 +1624,9 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 data.put("LandlineNo",myLandlineMobileNumber);
                 data.put("ContactPerson",myContactPerson);
                 data.put("MobileNumber",myMobile);
-                data.put("EmergencyContact", "");
+                data.put("EmergencyContact", myemergencyContactNumber);
                 data.put("Comment", myComments);
-                data.put("EmergencyService", false);
+                data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
                 data.put("FromTime", myFromTime);

@@ -480,7 +480,7 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
                 {
                     JSONObject js = jsonArray.getJSONObject(i);
 
-                    Dstatus = js.getInt("DStatus");
+//                    Dstatus = js.getInt("DStatus");
                     RDTestID=js.getInt("RDID");
                     AppointmentID=js.getInt("AppointmentID");
                     PatientName=(String)js.get("PatientName");
@@ -489,7 +489,17 @@ public class DiagnosticsTodaysAppointments extends AppCompatActivity implements 
                     MobileNo=(String) js.get("MobileNo");
                     Aadharnumber=(String)js.get("Aadharnumber");
 
-                    PatientDatainDiagnosticsTodaysAppointmentsClass myPatientData=new PatientDatainDiagnosticsTodaysAppointmentsClass(diagId,diagMobile,Dstatus,RDTestID,AppointmentID,PatientName,CenterName,EmailID,MobileNo,Aadharnumber);
+                    if(js.has("DiagnosticStatus"))
+                    {
+                        Dstatus = js.getInt("DiagnosticStatus");
+                    }
+                    else
+                    {
+                        Dstatus = js.getInt("DStatus");
+                    }
+
+                    PatientDatainDiagnosticsTodaysAppointmentsClass myPatientData=new
+                            PatientDatainDiagnosticsTodaysAppointmentsClass(diagId,diagMobile,Dstatus,RDTestID,AppointmentID,PatientName,CenterName,EmailID,MobileNo,Aadharnumber);
 
                     data_list.add(myPatientData);
 

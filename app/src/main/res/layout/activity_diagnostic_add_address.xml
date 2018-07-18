@@ -293,6 +293,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
+                                    android:maxLength="11"
                                     android:textSize="15sp"
                                     android:drawableLeft="@drawable/phone"
                                     android:hint="@string/landline_no"
@@ -395,10 +396,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="10"
-                                    android:maxLength="9"
+                                    android:maxLength="10"
                                     android:hint="@string/latitude"
                                     android:textSize="15sp"
-                                    android:inputType="phone" />
+                                    android:inputType="numberDecimal" />
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
@@ -415,10 +416,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
-                                    android:maxLength="9"
+                                    android:maxLength="10"
                                     android:textSize="15sp"
                                     android:hint="@string/longitude"
-                                    android:inputType="phone" />
+                                    android:inputType="numberDecimal" />
                             </android.support.design.widget.TextInputLayout>
 
                         </LinearLayout>
@@ -604,7 +605,7 @@
                                 app:layout_anchorGravity="bottom|right|end" />
 
                             <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/cameraIcon"
+                                android:id="@+id/addDiagCenterCameraIcon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
@@ -631,7 +632,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
 
-                                android:text="@string/are_you_available_for_emergency"
+                                android:text="@string/are_you_available_for_24_7_emeregncy_services"
 
                                 android:textColor="#ff0000"
                                 android:textSize="16sp"

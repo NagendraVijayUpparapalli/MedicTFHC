@@ -229,6 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:hint="@string/mobile_number"
@@ -252,6 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="6"
                                 android:textSize="15dp"
                                 android:drawableLeft="@drawable/zipcode_icon"
                                 android:drawablePadding="5sp"
@@ -308,7 +310,8 @@
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:textSize="15sp"
-                                android:drawableLeft="@drawable/rupeeicon_xml"
+                                android:drawablePadding="5dp"
+                                android:drawableLeft="@drawable/my_rupee_icon"
                                 android:hint="@string/cconsultation_fee"
                                 android:inputType="number" />
 
@@ -406,10 +409,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
+                                android:maxLength="10"
                                 android:hint="@string/latitude"
                                 android:textSize="15sp"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
+
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -426,9 +430,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:textSize="15sp"
                                 android:hint="@string/longitude"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -459,9 +464,7 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/edittext_button"
                             android:layout_weight="2"
-                            android:textStyle="bold"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -505,11 +508,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="20"
+                                android:maxLength="10"
                                 android:textSize="15sp"
                                 android:drawablePadding="5dp"
                                 android:drawableLeft="@drawable/phone"
                                 android:hint="@string/emergency_number"
-                                android:inputType="number" />
+                                android:inputType="phone" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -531,7 +535,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableRight="@drawable/ic_arrow_forward"
-                            android:background="#1faa00"
+                            android:background="@color/rippleButton"
                             android:text="@string/next"
                             android:textColor="#fff" />
                     </LinearLayout>
@@ -1142,8 +1146,6 @@
                             <com.andexert.library.RippleView
                                 android:id="@+id/rippleView"
                                 android:layout_width="wrap_content"
-
-
                                 android:layout_height="wrap_content"
                                 ripple:rv_type="rectangle"
                                 ripple:rv_zoom="true">
@@ -1157,27 +1159,14 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
-
-
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
-
-
                         </LinearLayout>
-
                     </RelativeLayout>
 
-
-
-
                 </LinearLayout>
-
-
-
             </LinearLayout>
-
-
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView

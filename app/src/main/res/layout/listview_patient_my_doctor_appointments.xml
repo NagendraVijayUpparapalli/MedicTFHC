@@ -6,8 +6,6 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:background="#FFF"
-
-
     android:layout_height="wrap_content">
 
 
@@ -94,7 +92,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="#000"
+                        android:textColor="@color/labelColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"

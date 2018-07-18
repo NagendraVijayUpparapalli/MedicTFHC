@@ -1071,53 +1071,61 @@ public class GetPatientDetailsTotalDataInDoctor extends AppCompatActivity implem
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == MY_CAMERA_REQUEST_CODE)
+        try
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            image.setImageBitmap(thumbnail);
+            if(requestCode == MY_CAMERA_REQUEST_CODE)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                image.setImageBitmap(thumbnail);
 
-            image.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) image.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
+                image.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) image.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
 
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedLicenceImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-        else if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-                selectedLicenceImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedLicenceImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedLicenceImageUri);
-
-                    //licence base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedLicenceImage = Base64.encodeToString(b, Base64.DEFAULT);
-                }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
-
-                }
-                image.setImageBitmap(selectedLicenceImageBitmap);
-                Log.d("hello","I'm in.");
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedLicenceImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
+            else if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+                    selectedLicenceImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedLicenceImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedLicenceImageUri);
+
+                        //licence base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedLicenceImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedLicenceImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    image.setImageBitmap(selectedLicenceImageBitmap);
+                    Log.d("hello","I'm in.");
+
+                }
+            }
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
         }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
 
     }

@@ -1167,7 +1167,26 @@ public class BloodBank extends AppCompatActivity implements NavigationView.OnNav
 
             }else{
 
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                android.app.AlertDialog.Builder a_builder = new android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_HOLO_LIGHT);
+                a_builder.setMessage("Unable to Trace your location once check location settings or Restart your Mobile")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                android.app.AlertDialog alert = a_builder.create();
+                alert.setTitle("Location");
+                alert.show();
+
+//                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
         }

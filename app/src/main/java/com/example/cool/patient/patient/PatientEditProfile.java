@@ -87,6 +87,7 @@ import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
 import com.example.cool.patient.common.Login;
+import com.example.cool.patient.common.Offers;
 import com.example.cool.patient.common.ReachUs;
 import com.example.cool.patient.common.aboutUs.AboutUs;
 import com.example.cool.patient.doctor.DashBoardCalendar.DoctorDashboard;
@@ -97,14 +98,19 @@ import com.example.cool.patient.patient.ViewBloodBanksList.BloodBank;
 import com.example.cool.patient.patient.ViewDiagnosticsList.GetCurrentDiagnosticsList;
 import com.example.cool.patient.patient.ViewDoctorsList.GetCurrentDoctorsList;
 import com.example.cool.patient.patient.ViewMedicalShopsList.GetCurrentMedicalShopsList;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import br.com.bloder.magic.view.MagicButton;
 
 public class PatientEditProfile extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     //animation
     ImageView Image;
@@ -118,9 +124,9 @@ public class PatientEditProfile extends AppCompatActivity
     Calendar mCurrentDate;
     int day,month,year;
 
-    private ImageView imageView;
-    private Button btnShare;
-    private Button btnSave;
+
+    private FloatingActionButton btnShare;
+    private FloatingActionButton btnSave;
     private AlertDialog dialog;
 
     ProgressDialog progressDialog;
@@ -192,6 +198,12 @@ public class PatientEditProfile extends AppCompatActivity
     TextView message;
     LinearLayout oklink;
 
+    //view qrcode image fields
+    LinearLayout imageLayout;
+    TextView ok,qrcodeId;
+    ImageView qrcode;
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,25 +230,32 @@ public class PatientEditProfile extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        toolbar.setNavigationIcon(R.drawable.ic_toolbar_arrow);
-//        toolbar.setTitle("Edit Profile");
-//        toolbar.setNavigationOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(PatientEditProfile.this, "clicking the Back!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
-//                        intent.putExtra("id",getUserId);
-//                        intent.putExtra("mobile",mobile_number);
-//                        startActivity(intent);
-//
-//                    }
-//                }
-//
-//        );
 
+        ok = (TextView) findViewById(R.id.close1);
+        imageLayout =(LinearLayout) findViewById(R.id.layout1);
+        qrcode = (ImageView) findViewById(R.id.qrcode);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLayout.setVisibility(View.GONE);
+
+                Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
+                intent.putExtra("id",getUserId);
+                intent.putExtra("mobile",mobile_number);
+                startActivity(intent);
+            }
+        });
+
+
+        qrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imageLayout.setVisibility(View.VISIBLE);
+
+            }
+        });
 
         //qr code
 //        surname = (EditText) findViewById(R.id.surname);
@@ -274,6 +293,9 @@ public class PatientEditProfile extends AppCompatActivity
         addImageFloatingButton = (FloatingActionButton) findViewById(R.id.addImageIcon);
         cameraIcon = (FloatingActionButton) findViewById(R.id.cameraIcon);
 
+        qrcodeId = (TextView) findViewById(R.id.qrcodeId);
+
+
 
         cameraIcon.setOnClickListener(
                 new View.OnClickListener() {
@@ -299,11 +321,7 @@ public class PatientEditProfile extends AppCompatActivity
                     }
                 });
 
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY2);
-        }
+
 
 
         promotion_medical = (CheckBox) findViewById(R.id.promotion_medicalstore);
@@ -315,6 +333,12 @@ public class PatientEditProfile extends AppCompatActivity
         month =mCurrentDate.get(Calendar.MONTH);
         year = mCurrentDate.get(Calendar.YEAR);
         month = month+1;
+
+
+        //qr code save or share
+
+        init();
+        setupView();
 
 
 //                if(blood_group.isClickable())
@@ -441,7 +465,7 @@ public class PatientEditProfile extends AppCompatActivity
                 } else if (groupPosition == PatientSideNavigationExpandableListAdapter.ITEM6) {
                     // call some activity here
 
-                    Intent contact = new Intent(PatientEditProfile.this,AboutUs.class);
+                    Intent contact = new Intent(PatientEditProfile.this,Offers.class);
                     contact.putExtra("id",getUserId);
                     contact.putExtra("mobile",mobile_number);
                     contact.putExtra("module","patient");
@@ -471,25 +495,6 @@ public class PatientEditProfile extends AppCompatActivity
             }
         });
 
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupClickListener() {
-//
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                boolean retVal = true;
-//
-//                if (groupPosition == CustomExpandableListAdapter.ITEM1) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM2) {
-//                    retVal = false;
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM3) {
-//
-//                    // call some activity here
-//                } else if (groupPosition == CustomExpandableListAdapter.ITEM4) {
-//                    // call some activity here
-//
-//                }
-//                return retVal;
-//            }
-//        });
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -527,7 +532,10 @@ public class PatientEditProfile extends AppCompatActivity
 
                         // call activity here
                         // call activity here
-                        Intent contact = new Intent(PatientEditProfile.this,AboutUs.class);
+                        Intent contact = new Intent(PatientEditProfile.this,FindHospitals.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+//                        contact.putExtra("module","patient");
                         startActivity(contact);
 
                     }
@@ -543,7 +551,10 @@ public class PatientEditProfile extends AppCompatActivity
                     else if (childPosition == PatientSideNavigationExpandableListAdapter.SUBITEM1_6) {
 
                         // call activity here
-                        Intent contact = new Intent(PatientEditProfile.this,AboutUs.class);
+                        Intent contact = new Intent(PatientEditProfile.this,AmbulanceServices.class);
+                        contact.putExtra("id",getUserId);
+                        contact.putExtra("mobile",mobile_number);
+//                        contact.putExtra("module","patient");
                         startActivity(contact);
 
                     }
@@ -615,7 +626,108 @@ public class PatientEditProfile extends AppCompatActivity
 
     }
 
+    //qr code methods
+    public void setupView() {
+        btnShare.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
+    }
 
+    public void init() {
+        imageView = (ImageView) findViewById(R.id.image);
+        btnShare = (FloatingActionButton) findViewById(R.id.btn_share);
+        btnSave  = (FloatingActionButton) findViewById(R.id.btn_save);
+    }
+
+
+    private void Toast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    public byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
+
+    public static Bitmap viewToBitmap(View view,int width,int height){
+        Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_share: {
+                startShare();
+                break;
+            }
+            case R.id.btn_save: {
+                dialog = new AlertDialog.Builder(this).create();
+                dialog.setTitle("Save image");
+                dialog.setMessage("Are you sure to want to save the QRCode?");
+                dialog.setButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startSave();
+                    }
+                });
+
+                dialog.setButton2("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+
+            }
+        }
+    }
+
+    public void startSave() {
+        FileOutputStream fileOutputStream = null;
+        File file = getDisc();
+        if (!file.exists() && !file.mkdirs()){
+            Toast.makeText(this,"can't create directory to save image",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmssssshhmmmsss");
+        String date = simpleDateFormat.format(new Date());
+        String name ="Img"+date+".jpg";
+        String file_name = file.getAbsolutePath()+"/"+name;
+        File new_file = new File(file_name);
+        try {
+            fileOutputStream=new FileOutputStream(new_file);
+            Bitmap bitmap = viewToBitmap(imageView,imageView.getWidth(),imageView.getHeight());
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
+            Toast.makeText(this,"save image success",Toast.LENGTH_SHORT).show();
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        refreshGallery(new_file);
+    }
+    public void refreshGallery(File file){
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        sendBroadcast(intent);
+
+    }
+    private File getDisc() {
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        return  new File(file,"Image Demo");
+    }
 
     @Override
     public void onBackPressed() {
@@ -637,6 +749,7 @@ public class PatientEditProfile extends AppCompatActivity
         }
         else
         {
+
             String json = formatDataAsJson();
             System.out.println("json..."+json.toString());
 
@@ -898,16 +1011,11 @@ public class PatientEditProfile extends AppCompatActivity
             return;
         }
 
-//        else if (requestCode == REQUEST_CODE_GALLERY2) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, REQUEST_CODE_GALLERY2);
-//            } else {
-//                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
-//            }
-//            return;
-//        }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -1003,53 +1111,6 @@ public class PatientEditProfile extends AppCompatActivity
         {
             ex.printStackTrace();
         }
-    }
-
-    public static Bitmap viewToBitmap(View view,int width,int height){
-        Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
-
-
-
-    public void startSave() {
-        FileOutputStream fileOutputStream = null;
-        File file = getDisc();
-        if (!file.exists() && !file.mkdirs()){
-            Toast.makeText(this,"can't create directory to save image",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-        String date = simpleDateFormat.format(new Date());
-        String name ="Img"+date+".jpg";
-        String file_name = file.getAbsolutePath()+"/"+name;
-        File new_file = new File(file_name);
-        try {
-            fileOutputStream=new FileOutputStream(new_file);
-            Bitmap bitmap = viewToBitmap(imageView,imageView.getWidth(),imageView.getHeight());
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
-            Toast.makeText(this,"save image success",Toast.LENGTH_SHORT).show();
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        refreshGallery(new_file);
-    }
-    public void refreshGallery(File file){
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(file));
-        sendBroadcast(intent);
-
-    }
-    private File getDisc() {
-        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        return  new File(file,"QR Code");
     }
 
     public void startShare()
@@ -2132,11 +2193,37 @@ public class PatientEditProfile extends AppCompatActivity
         oklink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(!myAadhar_num.isEmpty())
+                {
+
+                    String text5qr = " 'Name:-' " + mySurname+" "+myName +"\n"+" 'Email:-' " + myEmail +"\n"+ " 'Mobile_number:-' " + myMobile +"\n"+ " 'Address:-' " + myAddress1+","+myAddress2+"\n"+ " 'City:-' " +getCityKeyFromValue(myCitiesList,City)+"\n"+" 'District:-' " +myDistrict+"\n"+ " 'State:-' " +getStateKeyFromValue(myStatesList,State)+"\n"+" 'Pincode:-' " + Pincode +"\n"+ " 'BloodGroup:-' " +"\n"+ Blood_group+ " 'Emergency Contact Number:-' " + Emergency_mobile+"\n"+" 'Aadhaar_number:-' " + aadhar_num.getText().toString() +"\n"+ " 'date_of_birth:-' " + Dob;
+                    MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+
+                    try {
+                        BitMatrix bitMatrix = multiFormatWriter.encode(text5qr, BarcodeFormat.QR_CODE, 200, 200);
+
+                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
+
+                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
+                        imageView.setImageBitmap(bitmap);
+
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 new Mytask().execute();
-                Intent intent = new Intent(PatientEditProfile.this,PatientDashBoard.class);
-                intent.putExtra("id",getUserId);
-                intent.putExtra("mobile",mobile_number);
-                startActivity(intent);
+
+                MyDialog.cancel();
+
+                qrcodeId.setText("MEDIC - "+getUserId);
+
+                imageLayout.setVisibility(View.VISIBLE);
+
             }
         });
         MyDialog.show();

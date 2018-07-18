@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:focusable="true"
+        xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:focusableInTouchMode="true"
         android:focusedByDefault="false"
         android:keyboardNavigationCluster="true"
@@ -104,11 +105,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/green"
-                                android:drawableLeft="@drawable/ic_person_black_24dp"
+                                android:drawableLeft="@drawable/ic_mail_black_24dp"
                                 android:drawablePadding="5dp"
                                 android:ems="20"
                                 android:hint="@string/email_id"
-                                android:inputType="textPersonName"
+                                android:inputType="textEmailAddress"
                                 android:textSize="15sp"
                                 android:textColor="#000"/>
                         </android.support.design.widget.TextInputLayout>
@@ -131,11 +132,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/green"
-                                android:drawableLeft="@drawable/ic_mail_black_24dp"
+                                android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:ems="20"
                                 android:hint="@string/mobile_number"
-                                android:inputType="textPersonName"
+                                android:inputType="phone"
                                 android:textColor="#000"
                                 android:textSize="15sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -158,11 +159,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/green"
-                                android:drawableLeft="@drawable/ic_person_black_24dp"
+                                android:drawableLeft="@drawable/aadhar_icon"
                                 android:drawablePadding="5dp"
                                 android:ems="20"
                                 android:hint="@string/aadhar_number"
-                                android:inputType="textPersonName"
+                                android:inputType="phone"
                                 android:textColor="#000"
                                 android:textSize="15sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -254,10 +255,10 @@
                         android:layout_width="match_parent"
                         android:layout_marginTop="5dp"
                         android:layout_height="120dp"
+                        android:inputType="text"
                         android:background="@drawable/edittext_button"
                         android:layout_weight="1"
-                        android:textSize="15sp"
-                        />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -333,21 +334,51 @@
                             android:layout_marginTop="20dp"
                             />
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_height="match_parent">
 
-                        <Button
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.andexert.library.RippleView
                             android:id="@+id/submit"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="center"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/round_button"
-                            android:text="@string/submit"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginTop="20dp" />
+                            ripple:rv_type="rectangle"
+                            ripple:rv_zoom="true">
+
+                            <TextView
+                                android:id="@+id/rect_child"
+                                android:layout_width="150dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:textColor="#fff"
+                                android:textSize="18sp"
+                                android:gravity="center"
+                                android:text="@string/submit"
+                                android:background="@color/rippleButton"/>
+
+                        </com.andexert.library.RippleView>
                     </LinearLayout>
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:layout_height="match_parent">-->
+
+                        <!--<Button-->
+                            <!--android:id="@+id/submit"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginBottom="5dp"-->
+                            <!--android:background="@drawable/round_button"-->
+                            <!--android:text="@string/submit"-->
+                            <!--android:textColor="#FFFFFF"-->
+                            <!--android:layout_marginTop="20dp" />-->
+                    <!--</LinearLayout>-->
                 </LinearLayout>
             </RelativeLayout>
 

@@ -96,8 +96,6 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
     SearchableSpinner city,state,district;
     CheckBox availableService;
     ImageView centerImage;
-    FloatingActionButton addCenterIcon;
-    MagicButton btn_AddAddress;
 
     RippleView rippleView;
     LinearLayout emergencyContactLayout;
@@ -153,7 +151,9 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
     List<String> prevSpecialityItemsList;
 
     // base64 image variables
-    final int REQUEST_CODE_GALLERY1 = 999;
+    FloatingActionButton addCenterIcon,addCenterCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
+
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
     String encodedCenterImage;
@@ -258,6 +258,13 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
 
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
+
 
         if(availableService.isChecked()==true)
         {
@@ -297,6 +304,19 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
                                 REQUEST_CODE_GALLERY1
                         );
 
+                    }
+                });
+
+        addCenterCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterCameraIcon);
+
+        addCenterCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
                     }
                 });
 
@@ -733,10 +753,21 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+            emergencyContactNumber.setText(myemergencyContactNumber);
+
+            FromTime.setText("00:00 AM");
+            FromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            emergencyContactNumber.setText("");
+            FromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 
@@ -816,7 +847,7 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -902,20 +933,31 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
-        {
-            emergencyContactNumber.setError("please enter emergency contact");
-            validate=false;
+
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -937,6 +979,11 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
             }
             return;
         }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -945,42 +992,64 @@ public class DiagnosticUpdateAddressFromMaps extends AppCompatActivity implement
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        try
+        {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                    selectedCenterImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
-                selectedCenterImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+    //            encodedImage = myEncodeImage(selectedImage);
 
-                    //certificate base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    centerImage.setImageBitmap(selectedCenterImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                centerImage.setImageBitmap(selectedCenterImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                centerImage.setImageBitmap(thumbnail);
+
+                centerImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
     }
 

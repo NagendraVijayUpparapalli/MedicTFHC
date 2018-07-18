@@ -810,21 +810,34 @@ public class DoctorAddAddressFromMaps extends AppCompatActivity implements Navig
             mobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(mobileNumber.getText().toString().trim().length()<10 || mobileNumber.getText().toString().trim().length()>10)
+
+        else if(mobileNumber.getText().toString().trim().length()<10 || mobileNumber.getText().toString().trim().length()>11)
         {
             mobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
-        {
-            emergencyContactNumber.setError("please enter valid number");
-            validate=false;
+
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().length()<10 || emergencyContactNumber.getText().toString().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
+
 
         return validate;
     }

@@ -92,7 +92,6 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     SearchableSpinner city,state,district,Pharmacy_type;
     CheckBox availableService;
     ImageView centerImage;
-    FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
     static String uploadServerUrl = null,addressId ;
     static String  myEmergencyContact,myExperience,myFromTime,myToTime,mypharmacytype,myDiagnosticName,myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
@@ -121,7 +120,10 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
     HashMap<Long, String> myPmTimeSlotsList = new HashMap<Long, String>();
     List<String> myDistrictsList = new ArrayList<String>();
     LinearLayout emergencyContactLayout;
-    final int REQUEST_CODE_GALLERY1 = 999;
+
+    FloatingActionButton addCenterIcon,addMedicalCenterCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
+
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
     String encodedCenterImage;
@@ -294,6 +296,19 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
                                 REQUEST_CODE_GALLERY1
                         );
 
+                    }
+                });
+
+        addMedicalCenterCameraIcon = (FloatingActionButton) findViewById(R.id.addMedicalCenterCameraIcon);
+
+        addMedicalCenterCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
                     }
                 });
 
@@ -537,11 +552,19 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+
+            fromTime.setText("00:00 AM");
+            fromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
-            Emeregency_contact.setText("");
+            fromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 
@@ -1025,6 +1048,11 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
             }
             return;
         }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -1034,40 +1062,63 @@ public class MedicalShopUpdateAddressFromMaps extends AppCompatActivity implemen
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        try
+        {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedCenterImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
-                    //certificate base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
+                    selectedCenterImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+    //            encodedImage = myEncodeImage(selectedImage);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    centerImage.setImageBitmap(selectedCenterImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                centerImage.setImageBitmap(selectedCenterImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                centerImage.setImageBitmap(thumbnail);
+
+                centerImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
     }
 
