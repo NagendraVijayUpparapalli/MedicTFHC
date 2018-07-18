@@ -632,7 +632,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
 
-                                android:text="@string/are_you_available_for_emergency"
+                                android:text="@string/are_you_available_for_24_7_emeregncy_services"
 
                                 android:textColor="#ff0000"
                                 android:textSize="16sp"

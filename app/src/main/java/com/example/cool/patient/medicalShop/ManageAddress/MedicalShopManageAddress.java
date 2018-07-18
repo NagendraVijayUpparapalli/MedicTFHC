@@ -540,7 +540,16 @@ public class MedicalShopManageAddress extends AppCompatActivity implements Navig
                 bb.setContactPerson(object.getString("ContactPerson"));
                 bb.setLatitude((object.getString("Latitude")));
                 bb.setLongitude((object.getString("Longitude")));
-                bb.setEmergencyservice(object.getBoolean("EmergencyService"));////
+
+                if(object.has("EmergencyService"))
+                {
+                    bb.setEmergencyservice(object.getBoolean("EmergencyService"));///
+                }
+                else
+                {
+                    bb.setEmergencyservice(false);///
+                }
+
                 bb.setComment(object.getString("Comment"));
 //                bb.setDeleteReason();
                 bb.setDistrict(object.getString("District"));

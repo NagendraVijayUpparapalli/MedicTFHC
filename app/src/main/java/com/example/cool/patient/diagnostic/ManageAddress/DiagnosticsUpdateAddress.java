@@ -259,6 +259,13 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         emergencyContactNumber = (EditText) findViewById(R.id.emergencyContact);
         emergencyContactLayout = (LinearLayout)findViewById(R.id.emergencyContactLayout);
 
+        availableService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEmergencyContactField();
+            }
+        });
+
 
         if(availableService.isChecked()==true)
         {
@@ -1420,10 +1427,21 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+            emergencyContactNumber.setText(myemergencyContactNumber);
+
+            FromTime.setText("00:00 AM");
+            FromTime.setEnabled(false);
+
+            ToTime.setText("00:00 PM");
+            ToTime.setEnabled(false);
+
         }
         else if(availableService.isChecked()==false)
         {
             emergencyContactLayout.setVisibility(View.GONE);
+            emergencyContactNumber.setText("");
+            FromTime.setEnabled(true);
+            ToTime.setEnabled(true);
         }
     }
 

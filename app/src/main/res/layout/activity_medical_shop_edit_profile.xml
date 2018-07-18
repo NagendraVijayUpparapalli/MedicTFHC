@@ -357,13 +357,13 @@
                             android:textColorHint="#8c8080">
 
                             <EditText
-
                                 android:id="@+id/aadhaarNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
                                 android:ems="20"
                                 android:textSize="15sp"
+                                android:maxLength="12"
                                 android:textColor="#000"
                                 android:drawableLeft="@drawable/aadhar_icon"
                                 android:drawablePadding="5dp"

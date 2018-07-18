@@ -30,8 +30,8 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
 
     List<DoctorManageAddressClass> doctorManageAddressClassArrayList;
     Context context;
-    String lati,longi,consultationFee,comments,emergencyContact,addressId,district;
-    boolean emergencyService;
+//    String lati,longi,consultationFee,comments,emergencyContact,addressId,district;
+    boolean myemergencyService = false;
 
     ProgressDialog progressDialog;
 
@@ -56,9 +56,10 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;
-        public ImageView profileImage;
-        public TextView hospitalName,address,city,state,pincode,district,mobile,contactPerson,regMobile;
 
+        public ImageView profileImage;
+        public TextView hospitalName,address,city,state,pincode,district,mobile,contactPerson,regMobile,
+                consultationFee,emergencyContact,lati,longi,comments,emergencyService,addressId;
 
         public Button edit,inactive;
 
@@ -82,11 +83,21 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
             edit = (Button) itemView.findViewById(R.id.Edit);
             inactive = (Button) itemView.findViewById(R.id.InActive);
 
+//            consultationFee,emergencyContact,lati,longi,comments,emergencyService,addressId;
+
+            consultationFee = (TextView)itemView.findViewById(R.id.consultationFee);
+            emergencyContact = (TextView)itemView.findViewById(R.id.emergencyContact);
+            lati = (TextView)itemView.findViewById(R.id.lati);
+            longi = (TextView)itemView.findViewById(R.id.longi);
+            comments = (TextView)itemView.findViewById(R.id.comments);
+            emergencyService = (TextView)itemView.findViewById(R.id.emergencyService);
+            addressId = (TextView)itemView.findViewById(R.id.addressId);
+
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(),DoctorUpdateAddress.class);
-                    intent.putExtra("addressId",addressId);
+                    intent.putExtra("addressId",addressId.getText().toString());
                     intent.putExtra("hospitalName",hospitalName.getText().toString());
                     intent.putExtra("address",address.getText().toString());
                     intent.putExtra("city",city.getText().toString());
@@ -96,14 +107,16 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
                     intent.putExtra("contactName",contactPerson.getText().toString());
                     intent.putExtra("mobile",mobile.getText().toString());
 
-                    intent.putExtra("fee",consultationFee);
-                    intent.putExtra("emergencyContact",emergencyContact);
+//                    consultationFee,emergencyContact,lati,longi,comments,emergencyService,addressId
+
+                    intent.putExtra("fee",consultationFee.getText().toString());
+                    intent.putExtra("emergencyContact",emergencyContact.getText().toString());
 
                     intent.putExtra("id",docId);
-                    intent.putExtra("lati",lati);
-                    intent.putExtra("longi",longi);
-                    intent.putExtra("comments",comments);
-                    intent.putExtra("emergencyService",emergencyService);
+                    intent.putExtra("lati",lati.getText().toString());
+                    intent.putExtra("longi",longi.getText().toString());
+                    intent.putExtra("comments",comments.getText().toString());
+                    intent.putExtra("emergencyService",myemergencyService);
                     intent.putExtra("regMobile",regMobile.getText().toString());
 
                     itemView.getContext().startActivity(intent);
@@ -146,6 +159,17 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         viewHolder.mobile.setText(doctorManageAddressClassArrayList.get(i).getLandLineNo());
         viewHolder.regMobile.setText(doctorManageAddressClassArrayList.get(i).getRegisteredMobileNumber());
 
+    //                    consultationFee,emergencyContact,lati,longi,comments,emergencyService,addressId
+
+        viewHolder.consultationFee.setText(doctorManageAddressClassArrayList.get(i).getConsultationFee());
+        viewHolder.emergencyContact.setText(doctorManageAddressClassArrayList.get(i).getEmergencyContactNumber());
+        viewHolder.lati.setText(doctorManageAddressClassArrayList.get(i).getLatitude());
+        viewHolder.longi.setText(doctorManageAddressClassArrayList.get(i).getLongitude());
+        viewHolder.comments.setText(doctorManageAddressClassArrayList.get(i).getComment());
+//        viewHolder.emergencyService.setText(doctorManageAddressClassArrayList.get(i).getEmergencyservice());
+        viewHolder.addressId.setText(doctorManageAddressClassArrayList.get(i).getAddressId());
+
+        myemergencyService = doctorManageAddressClassArrayList.get(i).getEmergencyservice();
 
         final int pos = i;
 
@@ -154,6 +178,8 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         docId = doctorManageAddressClassArrayList.get(pos).getDoctorId();
         addId = doctorManageAddressClassArrayList.get(pos).getAddressId();
         comment = doctorManageAddressClassArrayList.get(pos).getDeleteReason();
+
+
 
         System.out.println("doc id in manage adapter.."+docId);
 
@@ -186,17 +212,17 @@ public class DoctorManageAddressAdapter extends RecyclerView.Adapter<DoctorManag
         new GetProfileImageTask(viewHolder.profileImage).execute(baseUrl.getImageUrl()+doctorManageAddressClassArrayList.get(i).getProfileImage());
 
 
-        district = doctorManageAddressClassArrayList.get(i).getDistrict();
-        addressId = doctorManageAddressClassArrayList.get(i).getAddressId();
-
-        lati = doctorManageAddressClassArrayList.get(i).getLatitude();
-        longi= doctorManageAddressClassArrayList.get(i).getLongitude();
-
-        consultationFee = doctorManageAddressClassArrayList.get(i).getConsultationFee();
-        emergencyContact = doctorManageAddressClassArrayList.get(i).getEmergencyContactNumber();
-
-        comments = doctorManageAddressClassArrayList.get(i).getComment();
-        emergencyService = doctorManageAddressClassArrayList.get(i).getEmergencyservice();
+//        district = doctorManageAddressClassArrayList.get(i).getDistrict();
+//        addressId = doctorManageAddressClassArrayList.get(i).getAddressId();
+//
+//        lati = doctorManageAddressClassArrayList.get(i).getLatitude();
+//        longi= doctorManageAddressClassArrayList.get(i).getLongitude();
+//
+//        consultationFee = doctorManageAddressClassArrayList.get(i).getConsultationFee();
+//        emergencyContact = doctorManageAddressClassArrayList.get(i).getEmergencyContactNumber();
+//
+//        comments = doctorManageAddressClassArrayList.get(i).getComment();
+//        emergencyService = doctorManageAddressClassArrayList.get(i).getEmergencyservice();
 
 
 //        viewHolder.itemImage.setImageResource(images[i]);

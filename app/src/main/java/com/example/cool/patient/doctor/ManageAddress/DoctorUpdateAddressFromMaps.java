@@ -592,6 +592,7 @@ public class DoctorUpdateAddressFromMaps extends AppCompatActivity implements Na
         if(availableService.isChecked()==true)
         {
             emergencyContactLayout.setVisibility(View.VISIBLE);
+            emergencyContactNumber.setText(myEmergencyContact);
         }
         else if(availableService.isChecked()==false)
         {
