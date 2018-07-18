@@ -376,7 +376,6 @@
                         android:paddingLeft="5dp"
                         android:background="@drawable/edittext_button"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:textSize="15dp"/>
 
                 </LinearLayout>

@@ -803,7 +803,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -999,7 +999,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
                 data.put("LandlineNo",mylandLineNo);
                 data.put("ContactPerson",mycontactPerson);
                 data.put("MobileNumber",mymobileNumber);
-                data.put("EmergencyContact",mymobileNumber);
+                data.put("EmergencyContact",myemergencyContactNumber);
                 data.put("Comment",mycomment);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",mylatitude);
@@ -1025,7 +1025,7 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
                 data.put("LandlineNo",mylandLineNo);
                 data.put("ContactPerson",mycontactPerson);
                 data.put("MobileNumber",mymobileNumber);
-                data.put("EmergencyContact",mymobileNumber);
+                data.put("EmergencyContact",myemergencyContactNumber);
                 data.put("Comment",mycomment);
                 data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",mylatitude);
@@ -1343,21 +1343,31 @@ public class DiagnosticsUpdateAddress extends AppCompatActivity implements Navig
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
 
-        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
-        {
-            emergencyContactNumber.setError("please enter emergency contact");
-            validate=false;
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;

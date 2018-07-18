@@ -144,7 +144,7 @@ public class DoctorManageAddress extends AppCompatActivity implements Navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
+//        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_doctor_dashboard);
 
         sidenavName = (TextView) navigationView.findViewById(R.id.name);
         sidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);

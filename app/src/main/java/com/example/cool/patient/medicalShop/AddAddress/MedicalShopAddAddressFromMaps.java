@@ -830,6 +830,7 @@ public class MedicalShopAddAddressFromMaps extends AppCompatActivity implements 
         myPincode = pincode.getText().toString().trim();
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
+        myExperience = Experence.getText().toString();
 
         if(availableService.isChecked()==true)
         {

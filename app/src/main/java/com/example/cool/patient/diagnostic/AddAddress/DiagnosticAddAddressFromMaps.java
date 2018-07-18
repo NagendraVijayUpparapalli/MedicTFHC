@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -147,7 +148,8 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
     //get lat,lng on touch map
 
-    static String myDiagnosticName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,mySpeciality,myCity,myState,myDistrict,myFromTime,myToTime;
+    static String myDiagnosticName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,
+            myemergencyContactNumber,myLati,myLngi,mySpeciality,myCity,myState,myDistrict,myFromTime,myToTime;
     boolean myAvailableService;
 
     String myLatitude,myLongitude;
@@ -756,11 +758,34 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
-            landlineMobileNumber.setError(" Invalid phone number ");
+            landlineMobileNumber.setError(" Invalid number ");
             validate=false;
         }
+
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
+        }
+
+        else
+        {
+
+            validate = true;
+
+        }
+
+
         return validate;
     }
 
@@ -896,6 +921,16 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
                 try {
                     selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -938,6 +973,7 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         myContactPerson = contactPerson.getText().toString();
         myMobile = mobile.getText().toString();
         myLandlineMobileNumber = landlineMobileNumber.getText().toString().trim();
+        myemergencyContactNumber = emergencyContactNumber.getText().toString().trim();
         myComments = comments.getText().toString().trim();
         myLati = lat.getText().toString().trim();
         myLngi = lng.getText().toString().trim();
@@ -954,6 +990,19 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
         else if(!availableService.isChecked())
         {
             myAvailableService = false;
+        }
+
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
         }
 
         try{
@@ -992,38 +1041,91 @@ public class DiagnosticAddAddressFromMaps extends AppCompatActivity implements N
 
             System.out.println("js diag Array.."+allDataArray.toJSONString());
 
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-            data.put("DiagnosticsID",getUserId);
-            data.put("CenterName",myDiagnosticName);
-            data.put("Address1",myAddress);
-            data.put("StateID",getStateKeyFromValue(myStatesList,myState));
-            data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
 
-            data.put("PinCode",myPincode);
-            data.put("LandlineNo",myLandlineMobileNumber);
-            data.put("ContactPerson",myContactPerson);
-            data.put("MobileNumber",myMobile);
-            data.put("EmergencyContact", myMobile);
-            data.put("Comment", myComments);
-            data.put("EmergencyService", true);
-            data.put("Latitude",myLati);
-            data.put("Longitude", myLngi);
-            data.put("FromTime", myFromTime);
-            data.put("ToTime", myToTime);
-            data.put("CenterImage", encodedCenterImage);
-            data.put("District",myDistrict);
-            data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+            if(availableService.isChecked()==true){
+                myAvailableService = true;
 
-            System.out.println("js obj..."+data);
+                data.put("DiagnosticsID",getUserId);
+                data.put("CenterName",myDiagnosticName);
+                data.put("Address1",myAddress);
+                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+
+                data.put("PinCode",myPincode);
+                data.put("LandlineNo",myLandlineMobileNumber);
+                data.put("ContactPerson",myContactPerson);
+                data.put("MobileNumber",myMobile);
+                data.put("EmergencyContact", emergencyContactNumber.getText().toString());
+                data.put("Comment", myComments);
+                data.put("EmergencyService", myAvailableService);
+                data.put("Latitude",myLati);
+                data.put("Longitude", myLngi);
+                data.put("FromTime", myFromTime);
+                data.put("ToTime", myToTime);
+                data.put("CenterImage", encodedCenterImage);
+                data.put("District",myDistrict);
+                data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+
+                System.out.println("js obj..."+data);
+
+                return data.toString();
+            }
+            else if(availableService.isChecked()==false)
+            {
+                myAvailableService = false;
+                data.put("DiagnosticsID",getUserId);
+                data.put("CenterName",myDiagnosticName);
+                data.put("Address1",myAddress);
+                data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+                data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+
+                data.put("PinCode",myPincode);
+                data.put("LandlineNo",myLandlineMobileNumber);
+                data.put("ContactPerson",myContactPerson);
+                data.put("MobileNumber",myMobile);
+                data.put("EmergencyContact", "");
+                data.put("Comment", myComments);
+                data.put("EmergencyService", false);
+                data.put("Latitude",myLati);
+                data.put("Longitude", myLngi);
+                data.put("FromTime", myFromTime);
+                data.put("ToTime", myToTime);
+                data.put("CenterImage", encodedCenterImage);
+                data.put("District",myDistrict);
+                data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+
+                System.out.println("js obj..."+data);
+
+                return data.toString();
+            }
+
+
+//            System.out.println("js obj..."+data);
+//
+//            data.put("DiagnosticsID",getUserId);
+//            data.put("CenterName",myDiagnosticName);
+//            data.put("Address1",myAddress);
+//            data.put("StateID",getStateKeyFromValue(myStatesList,myState));
+//            data.put("CityID",getCityKeyFromValue(myCitiesList,myCity));
+//
+//            data.put("PinCode",myPincode);
+//            data.put("LandlineNo",myLandlineMobileNumber);
+//            data.put("ContactPerson",myContactPerson);
+//            data.put("MobileNumber",myMobile);
+//            data.put("EmergencyContact", myMobile);
+//            data.put("Comment", myComments);
+//            data.put("EmergencyService", true);
+//            data.put("Latitude",myLati);
+//            data.put("Longitude", myLngi);
+//            data.put("FromTime", myFromTime);
+//            data.put("ToTime", myToTime);
+//            data.put("CenterImage", encodedCenterImage);
+//            data.put("District",myDistrict);
+//            data.accumulate("SpecialityLst",new JSONArray(allDataArray.toJSONString()));
+//
+//            System.out.println("js obj..."+data);
 
 //            for(int j =0;j<allDataArray.size();j++)
 //            {

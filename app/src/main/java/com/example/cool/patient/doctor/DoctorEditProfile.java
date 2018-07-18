@@ -135,14 +135,13 @@ public class DoctorEditProfile extends AppCompatActivity
     FloatingActionButton addCertificateIcon,addAadharIcon,addProfileIcon,addCertificateCameraIcon,addAadharCameraIcon,
             addProfileCameraIcon;
 
-
     //qr code get data fields
     static String qrName,qrGender,qrDob,qrFullAddress,qrAddress[],qrAddress1,qrAddress2,qrPincode;
     String myQrArrayList;
 
     String encodedAadharImage,encodedCertificateImage,encodedProfileimage;
     final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44,REQUEST_CODE_GALLERY3 = 1,
-            REQUEST_CODE_GALLERY4 = 2,REQUEST_CODE_GALLERY5 = 444,REQUEST_CODE_GALLERY6 = 9;
+            REQUEST_CODE_GALLERY4 = 100,REQUEST_CODE_GALLERY5 = 4,REQUEST_CODE_GALLERY6 = 22;
     Uri selectedCertificateImageUri,selectedAadharImageUri,selectedProfileImageUri;
     Bitmap selectedCertificateImageBitmap = null,selectedAadharImageBitmap = null,selectedProfileImageBitmap = null;
 
@@ -252,7 +251,6 @@ public class DoctorEditProfile extends AppCompatActivity
             }
         });
 
-
         addCertificateIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -265,6 +263,7 @@ public class DoctorEditProfile extends AppCompatActivity
 
                     }
                 });
+
 
         addAadharIcon.setOnClickListener(
                 new View.OnClickListener() {
@@ -329,6 +328,24 @@ public class DoctorEditProfile extends AppCompatActivity
                         }
                     }
                 });
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY4);
+        }
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY5);
+        }
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY6);
+        }
 
         //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -976,23 +993,6 @@ public class DoctorEditProfile extends AppCompatActivity
             return;
         }
 
-        else if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY4);
-        }
-
-        else if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY5);
-        }
-
-        else if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY6);
-        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -1042,7 +1042,7 @@ public class DoctorEditProfile extends AppCompatActivity
 //            onSelectFromGalleryResult(data);
 //             Make sure the request was successful
             Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null ) {
 
                 selectedCertificateImageUri = data.getData();
                 BufferedWriter out=null;
@@ -1067,6 +1067,10 @@ public class DoctorEditProfile extends AppCompatActivity
                 }
                 uploadCertificate.setImageBitmap(selectedCertificateImageBitmap);
                 Log.d("hello","I'm in.");
+
+            }
+            else if(resultCode == RESULT_CANCELED)
+            {
 
             }
         }
@@ -1198,6 +1202,7 @@ public class DoctorEditProfile extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             // Create a progressdialog
 //            progressDialog = new ProgressDialog(DoctorEditProfile.this);
 //            // Set progressdialog title
@@ -1633,7 +1638,7 @@ public class DoctorEditProfile extends AppCompatActivity
             validate=false;
         }
 
-        if(myregistrationNumber.isEmpty() || !Patterns.PHONE.matcher(myregistrationNumber).matches())
+        if(myregistrationNumber.isEmpty())
         {
             registrationNumber.setError("please enter reg.no");
             validate=false;

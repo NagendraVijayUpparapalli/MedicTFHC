@@ -40,6 +40,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.cool.patient.common.ApiBaseUrl;
 import com.example.cool.patient.R;
 import com.example.cool.patient.common.ChangePassword;
@@ -84,7 +85,8 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
     int appointmentID,Dstatus,RDID;
     String PatientID,diagnosticId,diagMobile;
     String str,commnt;
-    Button submit,history;
+    Button history;
+    RippleView submit;
     FloatingActionButton camera,gallery;
     final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 1;
 
@@ -130,7 +132,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
         camera=(FloatingActionButton) findViewById(R.id.camera_icon);
         gallery=(FloatingActionButton)findViewById(R.id.gallery_icon);
 
-        submit=(Button)findViewById(R.id.submit);
+        submit=(RippleView) findViewById(R.id.submit);
         history=(Button)findViewById(R.id.click);
 
         aanumber=getIntent().getStringExtra("Aadharnum");
@@ -557,7 +559,6 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
                     final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     encodedImage = myEncodeImage(selectedImage);
-//                    formatDataAsJson();
 
                 }
                 catch (IOException e)
@@ -736,7 +737,7 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
     private String formatDataAsJson()
     {
-        commnt=comments.getText().toString();
+        commnt = comments.getText().toString();
 
         System.out.println("comments"+commnt);
         JSONObject data = new JSONObject();

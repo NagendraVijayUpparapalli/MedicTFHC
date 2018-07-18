@@ -1203,7 +1203,7 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
             mobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(mobileNumber.getText().toString().trim().length()<10 || mobileNumber.getText().toString().trim().length()>10)
+        else if(mobileNumber.getText().toString().trim().length()<10 || mobileNumber.getText().toString().trim().length()>11)
         {
             mobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -1223,7 +1223,8 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
         else
         {
             String js = formatDataAsJson();
-//            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
+
             new sendDoctorAddAdressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
 
             timingLayout.setVisibility(View.VISIBLE);
@@ -1283,6 +1284,17 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
 
         }
 
+//        if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
+//        {
+//            landlineMobileNumber.setError("please enter the mobile number");
+//            validate=false;
+//        }
+//        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
+//        {
+//            landlineMobileNumber.setError(" Invalid phone number ");
+//            validate=false;
+//        }
+
         if(mobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(mobileNumber.getText().toString().trim()).matches())
         {
             mobileNumber.setError("please enter the mobile number");
@@ -1293,15 +1305,26 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
             mobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
-        {
-            emergencyContactNumber.setError("please enter valid number");
-            validate=false;
+
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().length()<10 || emergencyContactNumber.getText().toString().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -2211,20 +2234,22 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
         myState= state.getSelectedItem().toString();
         myDistrict= district.getSelectedItem().toString();
 
-        myEmergencyContact = emergencyContactNumber.getText().toString().trim();
+
 
         if(availableService.isChecked()){
             myAvailableService = true;
+            myEmergencyContact = emergencyContactNumber.getText().toString().trim();
         }
         else if(!availableService.isChecked())
         {
             myAvailableService = false;
+            myEmergencyContact = "";
         }
 
         try{
             if(availableService.isChecked())
             {
-                data.put("DoctorID",userId);
+                data.put("DoctorID",getUserId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -2247,7 +2272,7 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
             }
             else if(!availableService.isChecked())
             {
-                data.put("DoctorID",userId);
+                data.put("DoctorID",getUserId);
                 data.put("Address1",myAddress);
                 data.put("HospitalName",myHospitalName);
 
@@ -2257,7 +2282,7 @@ public class DoctorAddAddress extends AppCompatActivity implements NavigationVie
                 data.put("ZipCode",myPincode);
                 data.put("LandlineNo",myMobile);
 
-//                data.put("EmergencyContact",myEmergencyContact);
+                data.put("EmergencyContact",myEmergencyContact);
 
                 data.put("District",myDistrict);
                 data.put("FrontofficeContactPerson",myContactPerson);

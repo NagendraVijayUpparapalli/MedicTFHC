@@ -161,12 +161,12 @@
                         <EditText
                             android:id="@+id/mobileNumber"
                             android:textSize="15dp"
-
                             android:layout_width="match_parent"
                             android:backgroundTint="#fff"
                             android:layout_height="wrap_content"
                             android:hint="@string/mobileNumber"
                             android:inputType="phone"
+                            android:maxLength="10"
                             android:textColor="#fff"
                             android:drawableLeft="@drawable/phone1"
                             android:drawablePadding="5dp"

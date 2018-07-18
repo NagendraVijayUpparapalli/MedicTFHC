@@ -863,25 +863,14 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
 
         if(landlineMobileNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(landlineMobileNumber.getText().toString().trim()).matches())
         {
-            landlineMobileNumber.setError("please enter the mobile number");
+            landlineMobileNumber.setError("please fill landline or mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-//        if(emergencyContactNo.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNo.getText().toString()).matches())
-//        {
-//            emergencyContactNo.setError("please enter emergency number");
-//            validate=false;
-//        }
-//        else if(emergencyContactNo.getText().toString().length()<10 || emergencyContactNo.getText().toString().length()>10)
-//        {
-//            emergencyContactNo.setError(" Invalid phone number ");
-//            validate=false;
-//        }
-
 
 
         return validate;
@@ -961,20 +950,24 @@ public class DoctorUpdateAddress extends AppCompatActivity implements Navigation
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
-        if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
-        {
-            emergencyContactNumber.setError("please enter valid number");
-            validate=false;
-        }
-        else if(emergencyContactNumber.getText().toString().length()<10 || emergencyContactNumber.getText().toString().length()>10)
-        {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
 
         return validate;

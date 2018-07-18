@@ -229,6 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:hint="@string/mobile_number"
@@ -252,6 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="6"
                                 android:textSize="15dp"
                                 android:drawableLeft="@drawable/zipcode_icon"
                                 android:drawablePadding="5sp"
@@ -308,7 +310,7 @@
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:textSize="15sp"
-                                android:drawableLeft="@drawable/rupeeicon_xml"
+                                android:drawableLeft="@drawable/my_rupee_icon"
                                 android:hint="@string/cconsultation_fee"
                                 android:inputType="number" />
 
@@ -401,15 +403,16 @@
                             android:textColorHint="#8c8080"
                             android:editable="false"
                             android:layout_gravity="center">
+
                             <EditText
                                 android:id="@+id/Latitude"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
+                                android:maxLength="9"
                                 android:hint="@string/latitude"
                                 android:textSize="15sp"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -426,9 +429,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="9"
                                 android:textSize="15sp"
                                 android:hint="@string/longitude"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -459,9 +463,7 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/edittext_button"
                             android:layout_weight="2"
-                            android:textStyle="bold"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -472,7 +474,6 @@
                         android:layout_gravity="center"
                         android:layout_height="wrap_content">
                         <CheckBox
-
                             android:id="@+id/serviceAvailable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -500,16 +501,19 @@
                             android:textColorHint="#8c8080"
                             android:editable="false"
                             android:layout_gravity="center">
+
                             <EditText
                                 android:id="@+id/emergencyContact"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="20"
+                                android:maxLength="10"
                                 android:textSize="15sp"
                                 android:drawablePadding="5dp"
                                 android:drawableLeft="@drawable/phone"
                                 android:hint="@string/emergency_number"
-                                android:inputType="number" />
+                                android:inputType="phone" />
+
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -531,7 +535,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableRight="@drawable/ic_arrow_forward"
-                            android:background="#1faa00"
+                            android:background="@color/rippleButton"
                             android:text="@string/next"
                             android:textColor="#fff" />
                     </LinearLayout>
@@ -712,10 +716,7 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
-
                                 card_view:cardBackgroundColor="#125688"
-
                                 android:clickable="true"
                                 android:foreground="#1C00ffff"
 
@@ -730,7 +731,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
 
-                                        android:text="monday"
+                                        android:text="Monday"
                                         android:textColor="#fff"
                                         android:textStyle="bold" />
 
@@ -762,8 +763,6 @@
                             android:id="@+id/l2_animation4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
                             android:gravity="right"
                             android:orientation="horizontal">
 
@@ -773,14 +772,9 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
                                 card_view:cardBackgroundColor="#125688"
-
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-
-                                >
+                                android:foreground="#1C00ffff">
 
 
                                 <LinearLayout
@@ -816,33 +810,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-
-
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rellay1"
-
                     android:orientation="horizontal">
-
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-
-                        android:gravity="center"
-
-                        >
+                        android:gravity="center">
 
                         <LinearLayout
                             android:id="@+id/l2_animation5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-
                             android:gravity="left"
                             android:orientation="horizontal">
 
@@ -991,13 +975,9 @@
                                 android:layout_height="80dp"
                                 android:layout_margin="10dp"
                                 app:cardUseCompatPadding="true"
-
                                 card_view:cardBackgroundColor="#125688"
-
                                 android:clickable="true"
-                                android:foreground="#1C00ffff"
-
-                                >
+                                android:foreground="#1C00ffff">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -1071,7 +1051,6 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-
                                         android:text="Saturday"
                                         android:textColor="#fff"
                                         android:textStyle="bold" />
@@ -1154,29 +1133,23 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/rippleButton"/>
 
 
 
                             </com.andexert.library.RippleView>
 
-
                         </LinearLayout>
 
                     </RelativeLayout>
 
-
-
-
                 </LinearLayout>
-
-
 
             </LinearLayout>
 
-
         </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
 
@@ -1227,7 +1200,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:text="udayasri amudala prabhakar raju" />
+                    android:text="---------------" />
 
                 <TextView
                     android:id="@+id/mobile"
