@@ -1078,7 +1078,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         else
         {
             String js = formatDataAsJson();
-            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DoctorAddAddress",js.toString());
+            new sendAddAddressDetails().execute(baseUrl.getUrl()+"DiagnosticAddAddress",js.toString());
 //            Toast.makeText(this,"Succesfully field" , Toast.LENGTH_SHORT).show();
         }
     }
@@ -1534,8 +1534,6 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             myAvailableService = false;
             myemergencyContactNumber = "";
         }
-
-
 
         if(encodedCenterImage == null)
         {
