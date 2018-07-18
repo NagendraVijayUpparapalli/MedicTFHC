@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -889,6 +890,16 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 try {
                     selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
+                    //certificate base64
+                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//            encodedImage = myEncodeImage(selectedImage);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    byte[] b = baos.toByteArray();
+                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
                 }
                 catch (IOException e)
                 {
@@ -976,7 +987,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -1063,21 +1074,31 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
         }
 
-        if(emergencyContactNumber.getText().toString().trim().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString().trim()).matches())
-        {
-            emergencyContactNumber.setError("please enter emergency contact");
-            validate=false;
+        if(availableService.isChecked() == true) {
+
+            if(emergencyContactNumber.getText().toString().isEmpty() || !Patterns.PHONE.matcher(emergencyContactNumber.getText().toString()).matches())
+            {
+                emergencyContactNumber.setError("please fill emeregency number");
+                validate=false;
+            }
+
+            else if (emergencyContactNumber.getText().toString().length() < 10 || emergencyContactNumber.getText().toString().length() > 10) {
+                emergencyContactNumber.setError(" Invalid contact number ");
+                validate = false;
+            }
         }
-        else if(emergencyContactNumber.getText().toString().trim().length()<10 || emergencyContactNumber.getText().toString().trim().length()>10)
+
+        else
         {
-            emergencyContactNumber.setError(" Invalid phone number ");
-            validate=false;
+
+            validate = true;
+
         }
 
         return validate;
@@ -1431,6 +1452,19 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
         myFromTime = chooseTime.getText().toString();
         myToTime = ToTime.getText().toString();
 
+
+        if(encodedCenterImage == null)
+        {
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+        }
+
         try{
 
             org.json.simple.JSONArray allDataArray = new org.json.simple.JSONArray();
@@ -1463,15 +1497,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 }
             }
 
-            //certificate base64
-            final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] b = baos.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
 
             System.out.println("js diag Array.."+allDataArray.toJSONString());
 
@@ -1518,7 +1544,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 data.put("MobileNumber",myMobile);
                 data.put("EmergencyContact", "");
                 data.put("Comment", myComments);
-                data.put("EmergencyService", false);
+                data.put("EmergencyService", myAvailableService);
                 data.put("Latitude",myLati);
                 data.put("Longitude", myLngi);
                 data.put("FromTime", myFromTime);

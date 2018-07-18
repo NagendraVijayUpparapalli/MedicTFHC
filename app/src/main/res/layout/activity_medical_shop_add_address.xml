@@ -203,6 +203,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:hint="Mobile number"
@@ -228,6 +229,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="6"
                                 android:textSize="15dp"
                                 android:drawableLeft="@drawable/zipcode_icon"
                                 android:drawablePadding="5dp"
@@ -279,11 +281,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:ems="10"
-                                android:textSize="15dp"
                                 android:drawableLeft="@drawable/phone"
+                                android:ems="10"
+                                android:maxLength="11"
                                 android:hint="Landline no"
-                                android:inputType="number" />
+                                android:inputType="number"
+                                android:textSize="15dp" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -309,7 +312,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="20"
-
                                 android:drawableLeft="@drawable/experience_icon"
                                 android:drawablePadding="5dp"
                                 android:hint="Chemist Since (Experience)"
@@ -411,10 +413,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
                                 android:hint="Latitude"
                                 android:textSize="15dp"
-                                android:inputType="phone" />
+                                android:maxLength="9"
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -615,6 +617,17 @@
                             app:layout_anchor="@id/appbar"
                             app:layout_anchorGravity="bottom|right|end" />
 
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/addMedicalCenterCameraIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:clickable="true"
+                            android:src="@drawable/ic_camera_alt_black_24dp"
+                            app:fabSize="mini"
+                            app:layout_anchor="@id/appbar"
+                            app:layout_anchorGravity="bottom|left|end" />
+
                     </android.support.design.widget.CoordinatorLayout>
 
                     <LinearLayout
@@ -631,9 +644,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-
                             android:text="Are you available for emergency."
-
                             android:textColor="#ff0000"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -661,6 +672,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="20"
+                                android:maxLength="10"
                                 android:textSize="15dp"
                                 android:drawablePadding="5dp"
                                 android:drawableLeft="@drawable/phone"
@@ -703,9 +715,6 @@
         </ScrollView>
 
     </RelativeLayout>
-
-
-
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

@@ -329,23 +329,6 @@ public class DoctorEditProfile extends AppCompatActivity
                     }
                 });
 
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY4);
-        }
-
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY5);
-        }
-
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY6);
-        }
 
         //side navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -993,6 +976,24 @@ public class DoctorEditProfile extends AppCompatActivity
             return;
         }
 
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY4);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY5);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY6);
+        }
+
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -1001,198 +1002,174 @@ public class DoctorEditProfile extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null){
-            if(result.getContents()==null){
-                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(this, result.getContents(),Toast.LENGTH_LONG).show();
+        try {
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
 
-                myQrArrayList = result.getContents();
-                String arr[] = myQrArrayList.split("=");
+                    myQrArrayList = result.getContents();
+                    String arr[] = myQrArrayList.split("=");
 
-                qrName = arr[1].replaceFirst(".$","");
-                qrGender = arr[3].replaceFirst(".$","");
-                qrDob = arr[4].replaceFirst(".$","");
-                qrFullAddress = arr[5].replaceFirst(".$","");
+                    qrName = arr[1].replaceFirst(".$", "");
+                    qrGender = arr[3].replaceFirst(".$", "");
+                    qrDob = arr[4].replaceFirst(".$", "");
+                    qrFullAddress = arr[5].replaceFirst(".$", "");
 
-                qrAddress = qrFullAddress.split(",");
+                    qrAddress = qrFullAddress.split(",");
 
-                qrAddress1 = qrAddress[0]+","+qrAddress[1];
-                qrAddress2 = qrAddress[2]+","+qrAddress[3];
+                    qrAddress1 = qrAddress[0] + "," + qrAddress[1];
+                    qrAddress2 = qrAddress[2] + "," + qrAddress[3];
 
-                qrPincode = qrAddress[7];
+                    qrPincode = qrAddress[7];
 
 
 //                System.out.println("a[0]..."+arr[0]);
-                System.out.println("name..."+arr[1].replaceFirst(".$",""));
-                System.out.println("aadhar..."+arr[2].replaceFirst(".$",""));
-                System.out.println("gender..."+arr[3].replaceFirst(".$",""));
-                System.out.println("dob..."+arr[4].replaceFirst(".$",""));
-                System.out.println("address..."+arr[5].replaceFirst(".$",""));
+                    System.out.println("name..." + arr[1].replaceFirst(".$", ""));
+                    System.out.println("aadhar..." + arr[2].replaceFirst(".$", ""));
+                    System.out.println("gender..." + arr[3].replaceFirst(".$", ""));
+                    System.out.println("dob..." + arr[4].replaceFirst(".$", ""));
+                    System.out.println("address..." + arr[5].replaceFirst(".$", ""));
 
-                System.out.println("qr code data..."+result.getContents());
+                    System.out.println("qr code data..." + result.getContents());
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
 //            onSelectFromGalleryResult(data);
 //             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null ) {
+                Log.d("hello", "I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedCertificateImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCertificateImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCertificateImageUri);
+                    selectedCertificateImageUri = data.getData();
+                    BufferedWriter out = null;
+                    try {
+                        selectedCertificateImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCertificateImageUri);
 
-                    //certificate base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCertificateImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
 //                    selectedImage =
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
-                }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCertificateImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    } catch (IOException e) {
+                        System.out.println("Exception ");
+
+                    }
+                    uploadCertificate.setImageBitmap(selectedCertificateImageBitmap);
+                    Log.d("hello", "I'm in.");
+
+                } else if (resultCode == RESULT_CANCELED) {
 
                 }
-                uploadCertificate.setImageBitmap(selectedCertificateImageBitmap);
-                Log.d("hello","I'm in.");
-
-            }
-            else if(resultCode == RESULT_CANCELED)
-            {
-
-            }
-        }
-
-
-        else if (requestCode == REQUEST_CODE_GALLERY2) {
+            } else if (requestCode == REQUEST_CODE_GALLERY2) {
 //            onSelectFromGalleryResult(data);
 //             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                Log.d("hello", "I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedAadharImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedAadharImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedAadharImageUri);
+                    selectedAadharImageUri = data.getData();
+                    BufferedWriter out = null;
+                    try {
+                        selectedAadharImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedAadharImageUri);
 
-                    //aadhar base64
-                    final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
-                    final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
+                        //aadhar base64
+                        final InputStream imageStream1 = getContentResolver().openInputStream(selectedAadharImageUri);
+                        final Bitmap selectedImage1 = BitmapFactory.decodeStream(imageStream1);
 
-                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-                    selectedImage1.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-                    byte[] b1 = baos1.toByteArray();
-                    encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+                        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                        selectedImage1.compress(Bitmap.CompressFormat.JPEG, 100, baos1);
+                        byte[] b1 = baos1.toByteArray();
+                        encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+                    } catch (IOException e) {
+                        System.out.println("Exception ");
+
+                    }
+                    adharimage.setImageBitmap(selectedAadharImageBitmap);
+                    Log.d("hello", "I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
-
-                }
-                adharimage.setImageBitmap(selectedAadharImageBitmap);
-                Log.d("hello","I'm in.");
-
-            }
-        }
-
-
-        else if (requestCode == REQUEST_CODE_GALLERY3) {
+            } else if (requestCode == REQUEST_CODE_GALLERY3) {
 //            onSelectFromGalleryResult(data);
 //             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                Log.d("hello", "I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedProfileImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedProfileImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedProfileImageUri);
+                    selectedProfileImageUri = data.getData();
+                    BufferedWriter out = null;
+                    try {
+                        selectedProfileImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedProfileImageUri);
 
-                    //profile base64
-                    final InputStream imageStream3 = getContentResolver().openInputStream(selectedProfileImageUri);
-                    final Bitmap selectedImage3 = BitmapFactory.decodeStream(imageStream3);
-                    ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
-                    selectedImage3.compress(Bitmap.CompressFormat.JPEG,100,baos3);
-                    byte[] b3 = baos3.toByteArray();
-                    encodedProfileimage = Base64.encodeToString(b3, Base64.DEFAULT);
+                        //profile base64
+                        final InputStream imageStream3 = getContentResolver().openInputStream(selectedProfileImageUri);
+                        final Bitmap selectedImage3 = BitmapFactory.decodeStream(imageStream3);
+                        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+                        selectedImage3.compress(Bitmap.CompressFormat.JPEG, 100, baos3);
+                        byte[] b3 = baos3.toByteArray();
+                        encodedProfileimage = Base64.encodeToString(b3, Base64.DEFAULT);
+
+                    } catch (IOException e) {
+                        System.out.println("Exception ");
+
+                    }
+                    DoctorImage.setImageBitmap(selectedProfileImageBitmap);
+                    Log.d("hello", "I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            } else if (requestCode == REQUEST_CODE_GALLERY4) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                uploadCertificate.setImageBitmap(thumbnail);
 
-                }
-                DoctorImage.setImageBitmap(selectedProfileImageBitmap);
-                Log.d("hello","I'm in.");
+                uploadCertificate.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
 
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+            } else if (requestCode == REQUEST_CODE_GALLERY5) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                adharimage.setImageBitmap(thumbnail);
+
+                adharimage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+            } else if (requestCode == REQUEST_CODE_GALLERY6) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                DoctorImage.setImageBitmap(thumbnail);
+
+                DoctorImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
+
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
         }
-
-
-        else if(requestCode == REQUEST_CODE_GALLERY4)
+        catch (NullPointerException ex)
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            uploadCertificate.setImageBitmap(thumbnail);
-
-            uploadCertificate.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadCertificate.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedCertificateImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-        else if(requestCode == REQUEST_CODE_GALLERY5)
-        {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            adharimage.setImageBitmap(thumbnail);
-
-            adharimage.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) adharimage.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedAadharImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-        else if(requestCode == REQUEST_CODE_GALLERY6)
-        {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            DoctorImage.setImageBitmap(thumbnail);
-
-            DoctorImage.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) DoctorImage.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedProfileimage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-
-
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            ex.printStackTrace();
         }
     }
 

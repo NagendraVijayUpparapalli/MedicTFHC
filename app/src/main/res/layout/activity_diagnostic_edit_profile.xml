@@ -149,6 +149,7 @@
                                     android:drawableLeft="@drawable/phone"
                                     android:drawablePadding="5dp"
                                     android:ems="20"
+                                    android:maxLength="10"
                                     android:hint="@string/mobile_number"
                                     android:inputType="phone"
                                     android:textColor="#000"
@@ -246,6 +247,7 @@
                                 android:id="@+id/licenceNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="195dp"
+                                android:inputType="text"
                                 android:textSize="15sp"
                                 android:textStyle="normal"
                                 android:background="@drawable/edittext_button"/>
@@ -374,6 +376,7 @@
                                     android:layout_marginTop="20dp"
                                     android:ems="20"
                                     android:textSize="15sp"
+                                    android:maxLength="12"
                                     android:textColor="#000"
                                     android:drawableLeft="@drawable/aadhar_icon"
                                     android:drawablePadding="5dp"
@@ -570,8 +573,8 @@
                 android:dividerHeight="0.2dp"
                 android:groupIndicator="@null"
                 android:alpha="255"
-                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                >
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft">
+
             </ExpandableListView>
         </RelativeLayout>
     </android.support.design.widget.NavigationView>

@@ -101,7 +101,8 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
     FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
     static String uploadServerUrl = null,addressId ;
-    static String  myEmergencyContact,myExperience,myFromTime,myToTime,mypharmacytype,myMedicalName,myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
+    static String  myEmergencyContact,myExperience,myFromTime,myToTime,mypharmacytype,myMedicalName,
+            myHospitalName,myAddress,myPincode,myContactPerson,myMobile,myLandlineMobileNumber,myComments,myLati,myLngi,myCity,myState,myDistrict;
     boolean myAvailableService;
     static String medicalId,medicalMobile;
     TextView speciality;
@@ -983,7 +984,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
             landlineMobileNumber.setError("please enter the mobile number");
             validate=false;
         }
-        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>10)
+        else if(landlineMobileNumber.getText().toString().trim().length()<10 || landlineMobileNumber.getText().toString().trim().length()>11)
         {
             landlineMobileNumber.setError(" Invalid phone number ");
             validate=false;
@@ -1271,6 +1272,7 @@ public class MedicalShopAddAddress extends AppCompatActivity implements Navigati
         myCity= city.getSelectedItem().toString();
         myState= state.getSelectedItem().toString();
         mypharmacytype = Pharmacy_type.getSelectedItem().toString();
+        myExperience = Experence.getText().toString();
 
 //        mySpeciality = speciality.///////////
         myDistrict= district.getSelectedItem().toString();

@@ -467,9 +467,9 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:paddingLeft="5dp"
+                        android:inputType="text"
                         android:background="@drawable/edittext_button"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:textSize="15dp"
                         />
 
