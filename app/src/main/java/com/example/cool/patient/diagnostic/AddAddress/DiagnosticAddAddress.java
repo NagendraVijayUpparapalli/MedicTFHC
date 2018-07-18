@@ -1534,7 +1534,7 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             myAvailableService = false;
             myemergencyContactNumber = "";
         }
-        
+
         if(encodedCenterImage == null)
         {
             centerImage.buildDrawingCache();
