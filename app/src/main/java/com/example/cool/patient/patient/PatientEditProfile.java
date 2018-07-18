@@ -299,11 +299,7 @@ public class PatientEditProfile extends AppCompatActivity
                     }
                 });
 
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CODE_GALLERY2);
-        }
+
 
 
         promotion_medical = (CheckBox) findViewById(R.id.promotion_medicalstore);
@@ -898,16 +894,11 @@ public class PatientEditProfile extends AppCompatActivity
             return;
         }
 
-//        else if (requestCode == REQUEST_CODE_GALLERY2) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, REQUEST_CODE_GALLERY2);
-//            } else {
-//                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
-//            }
-//            return;
-//        }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

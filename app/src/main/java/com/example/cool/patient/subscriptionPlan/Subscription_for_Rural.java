@@ -263,7 +263,7 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
             profileImage = (ImageView) navigationView.findViewById(R.id.profileImageId);
 
             //side navigation
-            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
             expandableListDetail = DoctorSideNavigatioExpandableSubList.getData();
             expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
             expandableListAdapter = new DoctorSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
@@ -441,13 +441,13 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
 
 //            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_medical_shop_dashboard);
 
-            medicalsidenavName = (TextView) navigationView.findViewById(R.id.name);
-            medicalsidenavEmail = (TextView) navigationView.findViewById(R.id.emailId);
-            medicalsidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile);
+            medicalsidenavName = (TextView) navigationView.findViewById(R.id.name1);
+            medicalsidenavEmail = (TextView) navigationView.findViewById(R.id.emailId1);
+            medicalsidenavMobile  = (TextView) navigationView.findViewById(R.id.mobile1);
 //            adharimage = (ImageView) headerLayout.findViewById(R.id.profileImageId);
 
 
-            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
             expandableListDetail = MedicalShopSideNavigatioExpandableSubList.getData();
             expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
             expandableListAdapter = new MedicalShopSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);
@@ -594,12 +594,12 @@ public class Subscription_for_Rural extends AppCompatActivity implements Navigat
 
 //            View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_diagnostic_dashboard);
 
-            diagsidenavName = (TextView) navigationView.findViewById(R.id.name);
-            diagsidenavEmail = (TextView) navigationView.findViewById(R.id.email);
-            diagsidenavMobile = (TextView) navigationView.findViewById(R.id.mobile);
+            diagsidenavName = (TextView) navigationView.findViewById(R.id.name1);
+            diagsidenavEmail = (TextView) navigationView.findViewById(R.id.email1);
+            diagsidenavMobile = (TextView) navigationView.findViewById(R.id.mobile1);
 
 
-            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView1);
             expandableListDetail = DiagnosticSideNavigationExpandableSubList.getData();
             expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
             expandableListAdapter = new DiagnosticSideNavigationExpandableListAdapter(this, expandableListTitle, expandableListDetail);

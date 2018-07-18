@@ -548,52 +548,61 @@ public class DiagnosticsViewTodaysApppointment extends AppCompatActivity impleme
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    encodedImage = myEncodeImage(selectedImage);
+        try
+        {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+                    selectedImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        encodedImage = myEncodeImage(selectedImage);
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+
+                    prescription.setImageBitmap(selectedImageBitmap);
+
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                prescription.setImageBitmap(thumbnail);
 
-                prescription.setImageBitmap(selectedImageBitmap);
+                prescription.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
 
-                Log.d("hello","I'm in.");
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else if(requestCode == REQUEST_CODE_GALLERY2)
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+        catch (NullPointerException ex)
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            prescription.setImageBitmap(thumbnail);
-
-            prescription.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            ex.printStackTrace();
         }
     }
+
     private String myEncodeImage(Bitmap bm)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

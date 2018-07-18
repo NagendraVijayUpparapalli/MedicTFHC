@@ -266,6 +266,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".subscriptionPlan.Subscription_for_Rural"
+            android:label="@string/Subscription"
             android:screenOrientation="portrait" />
         <activity
             android:name=".subscriptionPlan.SubscriptionPlanAlertDialog"

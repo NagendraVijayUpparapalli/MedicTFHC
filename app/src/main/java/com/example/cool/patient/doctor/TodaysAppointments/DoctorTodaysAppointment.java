@@ -565,54 +565,61 @@ public class DoctorTodaysAppointment extends AppCompatActivity implements Naviga
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        try
+        {
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                selectedImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                    selectedImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
 
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedPrescriptionImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedPrescriptionImage = Base64.encodeToString(b, Base64.DEFAULT);
 
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    prescription.setImageBitmap(selectedImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                prescription.setImageBitmap(selectedImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == MY_CAMERA_REQUEST_CODE)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                prescription.setImageBitmap(thumbnail);
 
+                prescription.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedPrescriptionImage = Base64.encodeToString(b1, Base64.DEFAULT);
+            }
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
         }
-
-        else if(requestCode == MY_CAMERA_REQUEST_CODE)
+        catch (NullPointerException ex)
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            prescription.setImageBitmap(thumbnail);
-
-            prescription.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) prescription.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedPrescriptionImage = Base64.encodeToString(b1, Base64.DEFAULT);
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            ex.printStackTrace();
         }
     }
 

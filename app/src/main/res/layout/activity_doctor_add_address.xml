@@ -229,6 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:drawableLeft="@drawable/phone"
                                 android:drawablePadding="5dp"
                                 android:hint="@string/mobile_number"
@@ -252,6 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="6"
                                 android:textSize="15dp"
                                 android:drawableLeft="@drawable/zipcode_icon"
                                 android:drawablePadding="5sp"
@@ -406,7 +408,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
+                                android:maxLength="10"
                                 android:hint="@string/latitude"
                                 android:textSize="15sp"
                                 android:inputType="phone" />
@@ -426,6 +428,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:textSize="15sp"
                                 android:hint="@string/longitude"
                                 android:inputType="phone" />
@@ -450,7 +453,6 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-
                         <MultiAutoCompleteTextView
                             android:id="@+id/Comments_Others"
                             android:textColor="#000"
@@ -459,8 +461,7 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/edittext_button"
                             android:layout_weight="2"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -530,7 +531,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableRight="@drawable/ic_arrow_forward"
-                            android:background="#1faa00"
+                            android:background="@color/rippleButton"
                             android:text="@string/next"
                             android:textColor="#fff" />
                     </LinearLayout>
@@ -1148,7 +1149,7 @@
                                     android:textSize="18sp"
                                     android:gravity="center"
                                     android:text="@string/submit"
-                                    android:background="#f938a72f"/>
+                                    android:background="@color/rippleButton"/>
 
                             </com.andexert.library.RippleView>
 
@@ -1156,9 +1157,6 @@
                         </LinearLayout>
 
                     </RelativeLayout>
-
-
-
 
                 </LinearLayout>
 
@@ -1218,7 +1216,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:text="udayasri amudala prabhakar raju" />
+                    android:text="---------" />
 
                 <TextView
                     android:id="@+id/mobile"

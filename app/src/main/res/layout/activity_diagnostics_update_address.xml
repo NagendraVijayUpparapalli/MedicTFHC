@@ -396,7 +396,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="10"
-                                    android:maxLength="9"
+                                    android:maxLength="10"
                                     android:hint="@string/latitude"
                                     android:textSize="15sp"
                                     android:inputType="numberDecimal" />
@@ -416,6 +416,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:ems="10"
+                                    android:maxLength="10"
                                     android:textSize="15sp"
                                     android:hint="@string/longitude"
                                     android:inputType="phone" />

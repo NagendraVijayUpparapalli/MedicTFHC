@@ -415,10 +415,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-
+                                android:maxLength="10"
                                 android:hint="Latitude"
                                 android:textSize="15dp"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -435,9 +435,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
+                                android:maxLength="10"
                                 android:textSize="15dp"
                                 android:hint="Longitude"
-                                android:inputType="phone" />
+                                android:inputType="numberDecimal" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>

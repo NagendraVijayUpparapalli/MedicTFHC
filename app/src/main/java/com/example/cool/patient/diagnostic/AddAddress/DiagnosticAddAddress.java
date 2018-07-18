@@ -897,57 +897,66 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GALLERY1) {
-//            onSelectFromGalleryResult(data);
-//             Make sure the request was successful
-            Log.d("hello","I'm out.");
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        try
+        {
 
-                selectedCenterImageUri = data.getData();
-                BufferedWriter out=null;
-                try {
-                    selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
+            if (requestCode == REQUEST_CODE_GALLERY1) {
+    //            onSelectFromGalleryResult(data);
+    //             Make sure the request was successful
+                Log.d("hello","I'm out.");
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                    //certificate base64
-                    final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//            encodedImage = myEncodeImage(selectedImage);
+                    selectedCenterImageUri = data.getData();
+                    BufferedWriter out=null;
+                    try {
+                        selectedCenterImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedCenterImageUri);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    byte[] b = baos.toByteArray();
-                    encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        //certificate base64
+                        final InputStream imageStream = getContentResolver().openInputStream(selectedCenterImageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+    //            encodedImage = myEncodeImage(selectedImage);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] b = baos.toByteArray();
+                        encodedCenterImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception ");
+
+                    }
+                    centerImage.setImageBitmap(selectedCenterImageBitmap);
+                    Log.d("hello","I'm in.");
 
                 }
-                catch (IOException e)
-                {
-                    System.out.println("Exception ");
+            }
 
-                }
-                centerImage.setImageBitmap(selectedCenterImageBitmap);
-                Log.d("hello","I'm in.");
+            else if(requestCode == REQUEST_CODE_GALLERY2)
+            {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                centerImage.setImageBitmap(thumbnail);
+
+                centerImage.buildDrawingCache();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+                byte[] b1 = baos1.toByteArray();
+                encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
 
             }
-        }
 
-        else if(requestCode == REQUEST_CODE_GALLERY2)
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        }
+        catch (NullPointerException ex)
         {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            centerImage.setImageBitmap(thumbnail);
-
-            centerImage.buildDrawingCache();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-
-            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
-            byte[] b1 = baos1.toByteArray();
-            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
-
-        }
-
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+            ex.printStackTrace();
         }
     }
 

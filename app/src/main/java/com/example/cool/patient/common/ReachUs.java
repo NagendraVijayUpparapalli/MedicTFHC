@@ -403,6 +403,7 @@ public class ReachUs extends AppCompatActivity
                 }
             });
         }
+        
         else if(module.equals("doc"))
         {
             new GetDoctorDetails().execute(baseUrl.getUrl()+"GetDoctorByID"+"?id="+getUserId);

@@ -397,7 +397,7 @@
                                     android:layout_height="wrap_content"
                                     android:ems="10"
                                     android:hint="@string/latitude"
-                                    android:maxLength="9"
+                                    android:maxLength="10"
                                     android:textSize="15sp"
                                     android:inputType="numberDecimal" />
                             </android.support.design.widget.TextInputLayout>
