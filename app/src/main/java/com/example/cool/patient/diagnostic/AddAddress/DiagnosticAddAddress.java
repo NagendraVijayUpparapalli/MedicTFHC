@@ -103,7 +103,6 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
     SearchableSpinner city,state,district;
     CheckBox availableService;
     ImageView centerImage;
-    FloatingActionButton addCenterIcon;
     MagicButton btn_AddAddress;
     RippleView rippleView;
     LinearLayout emergencyContactLayout;
@@ -142,7 +141,8 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
 
 
     // base64 image variables
-    final int REQUEST_CODE_GALLERY1 = 999;
+    FloatingActionButton addCenterIcon,addCenterCameraIcon;
+    final int REQUEST_CODE_GALLERY1 = 999,REQUEST_CODE_GALLERY2 = 44;
     Uri selectedCenterImageUri;
     Bitmap selectedCenterImageBitmap = null;
     String encodedCenterImage;
@@ -278,6 +278,19 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                                 REQUEST_CODE_GALLERY1
                         );
 
+                    }
+                });
+
+        addCenterCameraIcon = (FloatingActionButton) findViewById(R.id.addDiagCenterCameraIcon);
+
+        addCenterCameraIcon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_CODE_GALLERY2);
+                        }
                     }
                 });
 
@@ -870,6 +883,11 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
             }
             return;
         }
+        else if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_GALLERY2);
+        }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -910,6 +928,22 @@ public class DiagnosticAddAddress extends AppCompatActivity implements Navigatio
                 Log.d("hello","I'm in.");
 
             }
+        }
+
+        else if(requestCode == REQUEST_CODE_GALLERY2)
+        {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            centerImage.setImageBitmap(thumbnail);
+
+            centerImage.buildDrawingCache();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) centerImage.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos1);
+            byte[] b1 = baos1.toByteArray();
+            encodedCenterImage = Base64.encodeToString(b1, Base64.DEFAULT);
+
         }
 
         else {
