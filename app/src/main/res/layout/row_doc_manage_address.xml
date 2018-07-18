@@ -324,6 +324,7 @@
                         android:textColor="#FFFFFF"
                         android:textStyle="bold" />
                 </LinearLayout>
+
                 <android.support.v4.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
