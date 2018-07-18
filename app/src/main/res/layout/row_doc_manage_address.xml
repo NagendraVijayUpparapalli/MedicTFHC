@@ -230,6 +230,15 @@
 
 
                 </LinearLayout>
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/Comments"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Comments"
+                    android:textColor="#2C5E83"
+                    android:textSize="17dp" />
 
 
                 <LinearLayout
@@ -241,26 +250,39 @@
                     android:layout_marginEnd="15dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_weight="1.2"
-                        android:id="@+id/Comments"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Comments : "
-                        android:textColor="#2C5E83"
-                        android:textSize="17dp" />
 
-                    <MultiAutoCompleteTextView
+
+                    <!--<MultiAutoCompleteTextView-->
+                        <!--android:id="@+id/reason_delete"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:hint="Comment for Reason"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:background="@drawable/edittext_button"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="15dp"-->
+                        <!--/>-->
+
+                    <EditText
                         android:id="@+id/reason_delete"
-                        android:textColor="#000"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:hint="Comment for Reason"
-                        android:paddingLeft="5dp"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:minLines="6"
                         android:background="@drawable/edittext_button"
+                        android:gravity="top|left"
+                        android:maxLines="10"
+                        android:padding="10dp"
+                        android:singleLine="false"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:textSize="15dp"
-                        />
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:scrollbars="vertical"
+                        android:scrollbarStyle="insideInset"
+                        android:overScrollMode="always"/>
+
+
 
                 </LinearLayout>
 

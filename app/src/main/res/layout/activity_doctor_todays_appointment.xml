@@ -184,17 +184,35 @@
                                 android:text="@string/comments"
                                 android:textColor="@color/labelColor"/>
 
-                            <MultiAutoCompleteTextView
+                            <!--<MultiAutoCompleteTextView-->
+                                <!--android:id="@+id/Comments"-->
+                                <!--android:textColor="#000"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_marginTop="5dp"-->
+                                <!--android:layout_height="120dp"-->
+                                <!--android:inputType="text"-->
+                                <!--android:background="@drawable/edittext_button"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:textSize="15sp"-->
+                                <!--/>-->
+
+                            <EditText
                                 android:id="@+id/Comments"
-                                android:textColor="#000"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="5dp"
-                                android:layout_height="120dp"
-                                android:inputType="text"
+                                android:inputType="textMultiLine"
+                                android:lines="8"
+                                android:minLines="6"
                                 android:background="@drawable/edittext_button"
+                                android:gravity="top|left"
+                                android:maxLines="10"
+                                android:padding="10dp"
+                                android:singleLine="false"
+                                android:layout_height="120dp"
                                 android:layout_weight="1"
-                                android:textSize="15sp"
-                                />
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:scrollbars="vertical"
+                                android:scrollbarStyle="insideInset"
+                                android:overScrollMode="always"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"

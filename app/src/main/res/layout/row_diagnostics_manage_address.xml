@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:focusedByDefault="false"
-    android:keyboardNavigationCluster="true">
+    android:layout_height="wrap_content">
 
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -248,14 +244,30 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:weightSum="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/contact_person_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amudula"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:textColor="#202bce"
+                        android:textSize="17dp" />
 
 
 
-
-
+                </LinearLayout>
                 <LinearLayout
                     android:weightSum="3"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -275,10 +287,60 @@
 
                 </LinearLayout>
 
-
-
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/Comments"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Comments"
+                    android:textColor="#2C5E83"
+                    android:textSize="17dp" />
 
                 <LinearLayout
+                    android:weightSum="2"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <!--<MultiAutoCompleteTextView-->
+                        <!--android:id="@+id/reason_delete"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:hint="Comment for Reason"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:background="@drawable/edittext_button"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="15dp"-->
+                        <!--/>-->
+
+                    <EditText
+                        android:id="@+id/reason_delete"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:minLines="6"
+                        android:background="@drawable/edittext_button"
+                        android:gravity="top|left"
+                        android:maxLines="10"
+                        android:padding="10dp"
+                        android:singleLine="false"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:scrollbars="vertical"
+                        android:scrollbarStyle="insideInset"
+                        android:overScrollMode="always"/>
+
+                </LinearLayout>
+
+                 <LinearLayout
                     android:weightSum="3"
                     android:layout_width="match_parent"
                     android:layout_marginTop="15dp"

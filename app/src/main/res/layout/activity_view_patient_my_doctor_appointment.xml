@@ -458,20 +458,31 @@
                         android:textStyle="bold" />
 
 
-                    <MultiAutoCompleteTextView
+                    <!--<MultiAutoCompleteTextView-->
+                        <!--android:id="@+id/Doctor_comments"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:layout_width="200dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginStart="20dp"-->
+                        <!--android:paddingTop="10dp"-->
+                        <!--android:paddingBottom="10dp"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:inputType="text"-->
+                        <!--android:background="@drawable/edittext_button"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textSize="15dp"-->
+                        <!--/>-->
+
+                    <TextView
                         android:id="@+id/Doctor_comments"
-                        android:textColor="#000"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="5dp"
-                        android:inputType="text"
-                        android:background="@drawable/edittext_button"
-                        android:layout_weight="1"
-                        android:textSize="15dp"
-                        />
+                        android:layout_width="280dp"
+                        android:inputType="textMultiLine"
+                        android:padding="10dp"
+                        android:text="hi you have to come after one week as per your health condition"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
                 <LinearLayout
